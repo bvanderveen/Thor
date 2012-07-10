@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
+		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
+		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
+		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
+		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
 		F32F9754154908CB002CCF27 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F32F9752154908CB002CCF27 /* Credits.rtf */; };
-		F32F9757154908CC002CCF27 /* t3ossAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */; };
-		F32F975A154908CC002CCF27 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F32F9758154908CC002CCF27 /* MainMenu.xib */; };
+		F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F9756154908CC002CCF27 /* AppDelegate.m */; };
 		F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */; };
 		F32F9765154908CC002CCF27 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
 		F32F9766154908CC002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
@@ -31,6 +35,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
+		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
+		417FEFA915ACC5C000E64503 /* AppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsController.h; path = Classes/AppsController.h; sourceTree = "<group>"; };
+		417FEFAA15ACC5C000E64503 /* AppsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsController.m; path = Classes/AppsController.m; sourceTree = "<group>"; };
+		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
+		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
+		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
+		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
+		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,9 +54,8 @@
 		F32F974F154908CB002CCF27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F32F9751154908CB002CCF27 /* Thor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Thor-Prefix.pch"; sourceTree = "<group>"; };
 		F32F9753154908CB002CCF27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		F32F9755154908CB002CCF27 /* t3ossAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t3ossAppDelegate.h; sourceTree = "<group>"; };
-		F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = t3ossAppDelegate.m; sourceTree = "<group>"; };
-		F32F9759154908CC002CCF27 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F32F9755154908CB002CCF27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F32F9756154908CC002CCF27 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F32F975C154908CC002CCF27 /* Thor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Thor.xcdatamodel; sourceTree = "<group>"; };
 		F32F9763154908CC002CCF27 /* ThorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9764154908CC002CCF27 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -74,6 +86,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		412DA0F915AB86EF00087F6B /* Navigation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFA415ACBFE300E64503 /* ToolbarTabController.h */,
+				417FEFA515ACBFE300E64503 /* ToolbarTabController.m */,
+				417FEFB015ACD93F00E64503 /* BreadcrumbController.h */,
+				417FEFB115ACD93F00E64503 /* BreadcrumbController.m */,
+			);
+			name = "Navigation Controllers";
+			sourceTree = "<group>";
+		};
+		417FEFA815ACC59800E64503 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFA915ACC5C000E64503 /* AppsController.h */,
+				417FEFAA15ACC5C000E64503 /* AppsController.m */,
+			);
+			name = Apps;
+			sourceTree = "<group>";
+		};
+		417FEFAC15ACC96600E64503 /* Clouds */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFAD15ACC99800E64503 /* CloudsController.h */,
+				417FEFAE15ACC99800E64503 /* CloudsController.m */,
+			);
+			name = Clouds;
+			sourceTree = "<group>";
+		};
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
@@ -116,9 +157,11 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
-				F32F9755154908CB002CCF27 /* t3ossAppDelegate.h */,
-				F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */,
-				F32F9758154908CC002CCF27 /* MainMenu.xib */,
+				417FEFAC15ACC96600E64503 /* Clouds */,
+				417FEFA815ACC59800E64503 /* Apps */,
+				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
+				F32F9755154908CB002CCF27 /* AppDelegate.h */,
+				F32F9756154908CC002CCF27 /* AppDelegate.m */,
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
 				F32F974A154908CB002CCF27 /* Supporting Files */,
 			);
@@ -128,6 +171,7 @@
 		F32F974A154908CB002CCF27 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4188EB3915ACB6800064206C /* MainMenu.xib */,
 				F32F974B154908CB002CCF27 /* Thor-Info.plist */,
 				F32F974C154908CB002CCF27 /* InfoPlist.strings */,
 				F32F974F154908CB002CCF27 /* main.m */,
@@ -230,7 +274,7 @@
 			files = (
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
-				F32F975A154908CC002CCF27 /* MainMenu.xib in Resources */,
+				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,8 +310,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F32F9750154908CB002CCF27 /* main.m in Sources */,
-				F32F9757154908CC002CCF27 /* t3ossAppDelegate.m in Sources */,
+				F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */,
 				F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */,
+				417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */,
+				417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */,
+				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
+				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +338,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4188EB3915ACB6800064206C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4188EB3A15ACB6800064206C /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		F32F974C154908CB002CCF27 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -304,14 +360,6 @@
 				F32F9753154908CB002CCF27 /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		F32F9758154908CC002CCF27 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F32F9759154908CC002CCF27 /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		F32F976C154908CC002CCF27 /* InfoPlist.strings */ = {
@@ -441,6 +489,7 @@
 				F32F9776154908CC002CCF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F32F9777154908CC002CCF27 /* Build configuration list for PBXNativeTarget "ThorTests" */ = {
 			isa = XCConfigurationList;
@@ -449,6 +498,7 @@
 				F32F9779154908CC002CCF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

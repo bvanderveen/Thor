@@ -1,0 +1,4 @@
+
+@interface CloudsController : NSViewController
+
+@end
