@@ -1,13 +1,34 @@
 #import "BreadcrumbBar.h"
 
-@interface BreadcrumbBackItemView : NSButton
+@interface BreadcrumbItemView : NSButton
+
+@property (nonatomic, strong) id<BreadcrumbItem> item;
+
+- (id)initWithItem:(id<BreadcrumbItem>)item;
+
+@end
+
+@implementation BreadcrumbItemView
+
+@synthesize item;
+
+- (id)initWithItem:(id<BreadcrumbItem>)leItem {
+    if (self = [super initWithFrame:NSZeroRect]) {
+        self.item = leItem;
+    }
+    return self;
+}
+
+@end
+
+@interface BreadcrumbBackItemView : BreadcrumbItemView
 
 @end
 
 @implementation BreadcrumbBackItemView
 
-- (id)init {
-    if (self = [super initWithFrame:NSZeroRect]) {
+- (id)initWithItem:(id<BreadcrumbItem>)item {
+    if (self = [super initWithItem:item]) {
         [self setTitle:@"Back"];
     }
     return self;
@@ -21,15 +42,15 @@
 
 @end
 
-@interface BreadcrumbTitleItemView : NSButton
+@interface BreadcrumbTitleItemView : BreadcrumbItemView
 
 @end
 
 @implementation BreadcrumbTitleItemView
 
-- (id)initWithTitle:(NSString *)title {
-    if (self = [super initWithFrame:NSZeroRect]) {
-        [self setTitle:title];
+- (id)initWithItem:(id<BreadcrumbItem>)item {
+    if (self = [super initWithItem:item]) {
+        [self setTitle:item.title];
     }
     return self;
 }
@@ -38,16 +59,11 @@
     return CGSizeMake(100, NSViewNoInstrinsicMetric);
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor yellowColor] set];
-    NSRectFill(dirtyRect);
-}
-
 @end
 
 @implementation BreadcrumbBar
 
-@synthesize stack, crumbViews;
+@synthesize stack, crumbViews, delegate;
 
 - (id)initWithFrame:(NSRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -59,9 +75,12 @@
 }
 
 - (void)pushItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
-    NSView *itemView = self.stack.count > 0 ?
-        [[BreadcrumbTitleItemView alloc] initWithTitle:item.title] :
-        [[BreadcrumbBackItemView alloc] init];
+    BreadcrumbItemView *itemView = self.stack.count > 0 ?
+        [[BreadcrumbTitleItemView alloc] initWithItem:item] :
+        [[BreadcrumbBackItemView alloc] initWithItem:item];
+    
+    itemView.target = self;
+    itemView.action = @selector(itemViewClicked:);
     
     self.stack = [self.stack arrayByAddingObject:item];
     self.crumbViews = [self.crumbViews arrayByAddingObject:itemView];
@@ -95,11 +114,26 @@
 - (void)layout {
     CGFloat x = 0;
     for (NSControl *view in crumbViews) {
-        view.frame = NSMakeRect(x, 0, [view intrinsicContentSize].width, self.bounds.size.height);
+        CGFloat w = [view intrinsicContentSize].width;
+        view.frame = NSMakeRect(x, 0, w, self.bounds.size.height);
         NSLog(@"laid out crumb with frame %@", NSStringFromRect(view.frame));
         [view setNeedsLayout:YES];
+        x += w + 2;
     }
     [super layout];
+}
+
+- (void)itemViewClicked:(BreadcrumbItemView *)itemView {
+    NSUInteger index = [stack indexOfObject:itemView.item];
+    if (stack.count == 1) return;
+    NSUInteger currentIndex = stack.count - 1;
+    while (currentIndex > index) {
+        id<BreadcrumbItem> itemAtIndex = [stack objectAtIndex:currentIndex];
+        [delegate breadcrumbBar:self willPopItem:itemAtIndex];
+        [self popItemAnimated:NO];
+        [delegate breadcrumbBar:self didPopItem:itemAtIndex];
+        currentIndex--;
+    }
 }
 
 @end

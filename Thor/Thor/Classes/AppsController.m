@@ -1,24 +1,34 @@
 #import "AppsController.h"
+#import "AppsView.h"
+#import "App.h"
 
 @implementation AppsController
 
-@synthesize title;
+@synthesize title, breadcrumbController;
 
 - (id)init {
+    return [self initWithTitle:@"Apps"];
+}
+
+- (id)initWithTitle:(NSString *)leTitle {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        self.title = @"Apps";
+        self.title = leTitle;
     }
     return self;
 }
 
+- (id<BreadcrumbItem>)breadcrumbItem {
+    return self;
+}
+
 - (void)loadView {
-    self.view = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 100, 100)];
-    NSTextField *label = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 100, 100)];
-    label.editable = NO;
-    label.stringValue = @"Apps";
-    [label sizeToFit];
-    [self.view addSubview:label];
-    self.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    AppsView *appsView = [[AppsView alloc] initWithApps:[App fakeApps]];
+    appsView.delegate = self;
+    self.view = appsView;
+}
+
+- (void)clickedAppNamed:(NSString *)name {
+    [self.breadcrumbController pushViewController:[[AppsController alloc] initWithTitle:name] animated:YES];
 }
 
 @end

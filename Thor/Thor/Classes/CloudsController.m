@@ -2,10 +2,16 @@
 
 @implementation CloudsController
 
+@synthesize title, breadcrumbController;
+
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Apps";
     }
+    return self;
+}
+
+- (id<BreadcrumbItem>)breadcrumbItem {
     return self;
 }
 

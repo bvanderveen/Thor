@@ -16,9 +16,6 @@
         
         self.bar = [[BreadcrumbBar alloc] initWithFrame:NSZeroRect];
         [self addSubview:bar];
-        
-        self.contentView = [[NSView alloc] initWithFrame:NSZeroRect];
-        self.contentView.autoresizesSubviews = YES;
     }
     return self;
 }
@@ -26,12 +23,14 @@
 - (void)pushToView:(NSView *)view animated:(BOOL)animated {
     [contentView removeFromSuperview];
     self.contentView = view;
+    [self addSubview:contentView];
     [self setNeedsLayout:YES];
 }
 
 - (void)popToView:(NSView *)view animated:(BOOL)animated {
     [contentView removeFromSuperview];
     self.contentView = view;
+    [self addSubview:contentView];
     [self setNeedsLayout:YES];
 }
 
@@ -46,7 +45,7 @@
     self.bar.frame = NSMakeRect(0, self.bounds.size.height - barHeight, self.bounds.size.width, barHeight);
     NSLog(@"breadcrumb container set bar frame to %@", NSStringFromRect(self.bar.frame));
     self.contentView.frame = NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - barHeight);
-    NSLog(@"breadcrumb container set content frame to %@", NSStringFromRect(self.contentView.frame));
+    NSLog(@"breadcrumb container set content view (%@) frame to %@", self.contentView, NSStringFromRect(self.contentView.frame));
     [super layout];
 }
 
@@ -55,7 +54,7 @@
 @interface BreadcrumbController ()
 
 @property (nonatomic, strong) BreadcrumbControllerView *breadcrumbView;
-@property (nonatomic, strong) NSViewController<BreadcrumbItem> *rootController;
+@property (nonatomic, strong) NSViewController<BreadcrumbControllerAware> *rootController;
 
 @end
 
@@ -63,7 +62,7 @@
 
 @synthesize breadcrumbView, rootController;
 
-- (id)initWithRootViewController:(NSViewController<BreadcrumbItem> *)leRootController {
+- (id)initWithRootViewController:(NSViewController<BreadcrumbControllerAware> *)leRootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.rootController = leRootController;
     }
@@ -72,12 +71,14 @@
 
 - (void)loadView {
     self.breadcrumbView = [[BreadcrumbControllerView alloc] initWithFrame:NSZeroRect];
+    self.breadcrumbView.bar.delegate = self;
     [self pushViewController:rootController animated:NO];
     self.view = breadcrumbView;
 }
 
-- (void)pushViewController:(NSViewController<BreadcrumbItem> *)controller animated:(BOOL)animated {
-    [self.breadcrumbView.bar pushItem:controller animated:animated];
+- (void)pushViewController:(NSViewController<BreadcrumbControllerAware> *)controller animated:(BOOL)animated {
+    controller.breadcrumbController = self;
+    [self.breadcrumbView.bar pushItem:controller.breadcrumbItem animated:animated];
     [self.breadcrumbView pushToView:controller.view animated:animated];
 }
 
@@ -86,6 +87,22 @@
     NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack lastObject];
     [self.breadcrumbView popToView:controller.view animated:animated];
 }
+
+- (void)breadcrumbBar:(BreadcrumbBar *)bar willPopItem:(id<BreadcrumbItem>)item {
+    NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
+    [self.breadcrumbView popToView:controller.view animated:NO];
+}
+
+- (void)breadcrumbBar:(BreadcrumbBar *)bar didPopItem:(id<BreadcrumbItem>)item {
+    
+}
+- (void)breadcrumbBar:(BreadcrumbBar *)bar willPushItem:(id<BreadcrumbItem>)item {
+    
+}
+- (void)breadcrumbBar:(BreadcrumbBar *)bar didPushItem:(id<BreadcrumbItem>)item {
+    
+}
+
 
 
 @end
