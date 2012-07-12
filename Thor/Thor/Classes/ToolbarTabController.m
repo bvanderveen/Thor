@@ -98,7 +98,6 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 }
 
 - (void)itemClicked:(NSToolbarItem *)item {
-    NSLog(@"item clicked %@", item.itemIdentifier);
     self.activeController = [item.itemIdentifier isEqual:ToolbarAppsItemIdentifier] ? appsController : cloudsController;
 }
 

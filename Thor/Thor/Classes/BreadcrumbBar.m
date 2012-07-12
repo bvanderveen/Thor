@@ -116,7 +116,6 @@
     for (NSControl *view in crumbViews) {
         CGFloat w = [view intrinsicContentSize].width;
         view.frame = NSMakeRect(x, 0, w, self.bounds.size.height);
-        NSLog(@"laid out crumb with frame %@", NSStringFromRect(view.frame));
         [view setNeedsLayout:YES];
         x += w + 2;
     }

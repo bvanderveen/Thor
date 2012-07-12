@@ -43,9 +43,7 @@
 - (void)layout {
     CGFloat barHeight = [self.bar intrinsicContentSize].height;
     self.bar.frame = NSMakeRect(0, self.bounds.size.height - barHeight, self.bounds.size.width, barHeight);
-    NSLog(@"breadcrumb container set bar frame to %@", NSStringFromRect(self.bar.frame));
     self.contentView.frame = NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - barHeight);
-    NSLog(@"breadcrumb container set content view (%@) frame to %@", self.contentView, NSStringFromRect(self.contentView.frame));
     [super layout];
 }
 
