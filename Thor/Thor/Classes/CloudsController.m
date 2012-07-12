@@ -2,6 +2,13 @@
 
 @implementation CloudsController
 
+- (id)init {
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.title = @"Apps";
+    }
+    return self;
+}
+
 - (void)loadView {
     self.view = [[NSView alloc] initWithFrame:NSZeroRect];
     NSTextField *label = [[NSTextField alloc] initWithFrame:NSZeroRect];

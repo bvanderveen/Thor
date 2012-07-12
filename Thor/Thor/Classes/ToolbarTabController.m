@@ -1,34 +1,66 @@
 #import "ToolbarTabController.h"
 #import "AppsController.h"
 #import "CloudsController.h"
+#import "BreadcrumbController.h"
 
 NSString *ToolbarCloudsItemIdentifier = @"ToolbarCloudsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 
+@interface TabView : NSView
+
+@end
+
+@implementation TabView
+
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
+- (id)initWithFrame:(NSRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    }
+    return self;
+}
+
+- (void)didAddSubview:(NSView *)subview {
+    [self setNeedsLayout:YES];
+}
+
+- (void)layout {
+    NSView *subview = [self.subviews objectAtIndex:0];
+    subview.frame = self.bounds;
+    [super layout];
+}
+
+@end
+
 @interface ToolbarTabController ()
 
-@property (nonatomic, strong) NSView *view;
 @property (nonatomic, strong) NSViewController *appsController, *cloudsController, *activeController;
 
 @end
 
 @implementation ToolbarTabController
 
-@synthesize toolbar, view, appsController, cloudsController, activeController = _activeController;
+@synthesize toolbar, appsController, cloudsController, activeController = _activeController;
 
 - (id)init {
-    if (self = [super init]) {
+    if (self = [super initWithNibName:nil bundle:nil]) {
         self.toolbar = [[NSToolbar alloc] initWithIdentifier:@"TabToolbar"];
-        toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         toolbar.delegate = self;
-        self.view = [[NSView alloc] initWithFrame:CGRectZero];
-        self.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+        toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         
-        self.appsController = [[AppsController alloc] init];
-        self.cloudsController = [[CloudsController alloc] init];
-        self.activeController = appsController;
+        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:[[AppsController alloc] init]];
+        self.cloudsController = [[BreadcrumbController alloc] initWithRootViewController:[[CloudsController alloc] init]];
     }
     return self;
+}
+
+- (void)loadView {
+    self.view = [[TabView alloc] initWithFrame:CGRectZero];
+    
+    self.activeController = appsController;
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
@@ -66,15 +98,16 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 }
 
 - (void)itemClicked:(NSToolbarItem *)item {
-    
+    NSLog(@"item clicked %@", item.itemIdentifier);
     self.activeController = [item.itemIdentifier isEqual:ToolbarAppsItemIdentifier] ? appsController : cloudsController;
 }
 
 - (void)setActiveController:(NSViewController *)value {
     _activeController = value;
-    if (view.subviews.count) [[view.subviews objectAtIndex:0] removeFromSuperview];
-    value.view.frame = view.bounds;
-    [view addSubview:value.view];
+    if (self.view.subviews.count) 
+        [[self.view.subviews objectAtIndex:0] removeFromSuperview];
+    
+    [self.view addSubview:value.view];
 }
 
 @end

@@ -11,7 +11,9 @@
 		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
+		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
+		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -43,7 +45,11 @@
 		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
+		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
+		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		41F9028D15AF257000550870 /* AppsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsView.h; path = Classes/AppsView.h; sourceTree = "<group>"; };
+		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -93,6 +99,8 @@
 				417FEFA515ACBFE300E64503 /* ToolbarTabController.m */,
 				417FEFB015ACD93F00E64503 /* BreadcrumbController.h */,
 				417FEFB115ACD93F00E64503 /* BreadcrumbController.m */,
+				417FEFB315AD211800E64503 /* BreadcrumbBar.h */,
+				417FEFB415AD211800E64503 /* BreadcrumbBar.m */,
 			);
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
@@ -102,6 +110,8 @@
 			children = (
 				417FEFA915ACC5C000E64503 /* AppsController.h */,
 				417FEFAA15ACC5C000E64503 /* AppsController.m */,
+				41F9028D15AF257000550870 /* AppsView.h */,
+				41F9028E15AF257000550870 /* AppsView.m */,
 			);
 			name = Apps;
 			sourceTree = "<group>";
@@ -113,6 +123,13 @@
 				417FEFAE15ACC99800E64503 /* CloudsController.m */,
 			);
 			name = Clouds;
+			sourceTree = "<group>";
+		};
+		41F9029115AF25FB00550870 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		F32F9734154908CB002CCF27 = {
@@ -157,6 +174,7 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
+				41F9029115AF25FB00550870 /* Models */,
 				417FEFAC15ACC96600E64503 /* Clouds */,
 				417FEFA815ACC59800E64503 /* Apps */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
@@ -316,6 +334,8 @@
 				417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */,
 				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
 				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
+				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
+				41F9028F15AF257000550870 /* AppsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,8 +20,8 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     window.toolbar = toolbarTabController.toolbar;
-    toolbarTabController.view.frame = view.bounds;
     [view addSubview:toolbarTabController.view];
+    toolbarTabController.view.frame = view.bounds;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
