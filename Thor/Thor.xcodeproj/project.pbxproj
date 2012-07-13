@@ -15,6 +15,14 @@
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
 		41F9029415AF268D00550870 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9029315AF268D00550870 /* App.m */; };
+		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
+		41F902A115AF592A00550870 /* ThorCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorCore.m */; };
+		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
+		41F902AA15AF592A00550870 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F902A915AF592A00550870 /* UIKit.framework */; };
+		41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
+		41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
+		41F902B415AF592A00550870 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41F902B215AF592A00550870 /* InfoPlist.strings */; };
+		41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902B615AF592A00550870 /* ThorCoreTests.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -28,6 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		41F902AC15AF592A00550870 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F9029815AF592A00550870;
+			remoteInfo = ThorCore;
+		};
 		F32F9767154908CC002CCF27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
@@ -53,6 +68,17 @@
 		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
 		41F9029215AF268D00550870 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = Classes/App.h; sourceTree = "<group>"; };
 		41F9029315AF268D00550870 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = App.m; path = Classes/App.m; sourceTree = "<group>"; };
+		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
+		41F9029F15AF592A00550870 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
+		41F902A015AF592A00550870 /* ThorCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCore.m; sourceTree = "<group>"; };
+		41F902A715AF592A00550870 /* ThorCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		41F902A915AF592A00550870 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThorCoreTests-Info.plist"; sourceTree = "<group>"; };
+		41F902B315AF592A00550870 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		41F902B515AF592A00550870 /* ThorCoreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCoreTests.h; sourceTree = "<group>"; };
+		41F902B615AF592A00550870 /* ThorCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCoreTests.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -75,6 +101,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		41F9029615AF592A00550870 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41F902A315AF592A00550870 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */,
+				41F902AA15AF592A00550870 /* UIKit.framework in Frameworks */,
+				41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */,
+				41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973C154908CB002CCF27 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,11 +182,50 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		41F9029C15AF592A00550870 /* ThorCore */ = {
+			isa = PBXGroup;
+			children = (
+				41F9029F15AF592A00550870 /* ThorCore.h */,
+				41F902A015AF592A00550870 /* ThorCore.m */,
+				41F9029D15AF592A00550870 /* Supporting Files */,
+			);
+			path = ThorCore;
+			sourceTree = "<group>";
+		};
+		41F9029D15AF592A00550870 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		41F902AF15AF592A00550870 /* ThorCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				41F902B515AF592A00550870 /* ThorCoreTests.h */,
+				41F902B615AF592A00550870 /* ThorCoreTests.m */,
+				41F902B015AF592A00550870 /* Supporting Files */,
+			);
+			path = ThorCoreTests;
+			sourceTree = "<group>";
+		};
+		41F902B015AF592A00550870 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */,
+				41F902B215AF592A00550870 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
+				41F9029C15AF592A00550870 /* ThorCore */,
+				41F902AF15AF592A00550870 /* ThorCoreTests */,
 				F32F9742154908CB002CCF27 /* Frameworks */,
 				F32F9740154908CB002CCF27 /* Products */,
 			);
@@ -152,6 +236,8 @@
 			children = (
 				F32F973F154908CB002CCF27 /* Thor.app */,
 				F32F9763154908CC002CCF27 /* ThorTests.octest */,
+				41F9029915AF592A00550870 /* libThorCore.a */,
+				41F902A715AF592A00550870 /* ThorCoreTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,6 +247,8 @@
 			children = (
 				F32F9743154908CB002CCF27 /* Cocoa.framework */,
 				F32F9764154908CC002CCF27 /* SenTestingKit.framework */,
+				41F9029A15AF592A00550870 /* Foundation.framework */,
+				41F902A915AF592A00550870 /* UIKit.framework */,
 				F32F9745154908CB002CCF27 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -225,7 +313,53 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		41F9029715AF592A00550870 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		41F9029815AF592A00550870 /* ThorCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41F902B815AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCore" */;
+			buildPhases = (
+				41F9029515AF592A00550870 /* Sources */,
+				41F9029615AF592A00550870 /* Frameworks */,
+				41F9029715AF592A00550870 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThorCore;
+			productName = ThorCore;
+			productReference = 41F9029915AF592A00550870 /* libThorCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		41F902A615AF592A00550870 /* ThorCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41F902BB15AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCoreTests" */;
+			buildPhases = (
+				41F902A215AF592A00550870 /* Sources */,
+				41F902A315AF592A00550870 /* Frameworks */,
+				41F902A415AF592A00550870 /* Resources */,
+				41F902A515AF592A00550870 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				41F902AD15AF592A00550870 /* PBXTargetDependency */,
+			);
+			name = ThorCoreTests;
+			productName = ThorCoreTests;
+			productReference = 41F902A715AF592A00550870 /* ThorCoreTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		F32F973E154908CB002CCF27 /* Thor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F32F9774154908CC002CCF27 /* Build configuration list for PBXNativeTarget "Thor" */;
@@ -286,11 +420,21 @@
 			targets = (
 				F32F973E154908CB002CCF27 /* Thor */,
 				F32F9762154908CC002CCF27 /* ThorTests */,
+				41F9029815AF592A00550870 /* ThorCore */,
+				41F902A615AF592A00550870 /* ThorCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		41F902A415AF592A00550870 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902B415AF592A00550870 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973D154908CB002CCF27 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -312,6 +456,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		41F902A515AF592A00550870 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		F32F9761154908CC002CCF27 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,6 +485,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		41F9029515AF592A00550870 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902A115AF592A00550870 /* ThorCore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41F902A215AF592A00550870 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973B154908CB002CCF27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -356,6 +529,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		41F902AD15AF592A00550870 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F9029815AF592A00550870 /* ThorCore */;
+			targetProxy = 41F902AC15AF592A00550870 /* PBXContainerItemProxy */;
+		};
 		F32F9768154908CC002CCF27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F32F973E154908CB002CCF27 /* Thor */;
@@ -370,6 +548,14 @@
 				4188EB3A15ACB6800064206C /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		41F902B215AF592A00550870 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41F902B315AF592A00550870 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		F32F974C154908CB002CCF27 /* InfoPlist.strings */ = {
@@ -399,6 +585,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		41F902B915AF592A00550870 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/ThorCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		41F902BA15AF592A00550870 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/ThorCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		41F902BC15AF592A00550870 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		41F902BD15AF592A00550870 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		F32F9772154908CC002CCF27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -499,6 +753,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		41F902B815AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41F902B915AF592A00550870 /* Debug */,
+				41F902BA15AF592A00550870 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		41F902BB15AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41F902BC15AF592A00550870 /* Debug */,
+				41F902BD15AF592A00550870 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F32F9739154908CB002CCF27 /* Build configuration list for PBXProject "Thor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
