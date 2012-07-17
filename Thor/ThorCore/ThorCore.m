@@ -242,8 +242,9 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
-- (void)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error {
-    
+- (Target *)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error {
+    Target *target = [Target targetWithDictionary:targetDict insertIntoManagedObjectContext:self.context];
+    return [self.context save:error] ? target : nil;
 }
 
 @end

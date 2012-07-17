@@ -52,7 +52,7 @@ static NSInteger AppLocalRootInvalid = 1;
 
 
 - (NSArray *)getConfiguredTargets:(NSError **)error;
-- (void)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error;
+- (Target *)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error;
 
 //- (NSArray *)getDeploymentsForApp:(App *)app;
 //- (void)createDeploymentForApp:(App *)app target:(Target *)target;

@@ -64,7 +64,7 @@
 @interface ThorBackendTests (Assertions)
 
 - (void)assertActualObjects:(NSArray *)actualObjects equalExpectedObjects:(NSArray *)expectedObjects;
-- (void)assertAppExistsInLocalConfiguration:(NSDictionary *)appDict;
+- (void)assertObjectExistsInLocalConfiguration:(NSDictionary *)dict fetchRequest:(NSFetchRequest *)request;
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code;
 
 @end
@@ -79,18 +79,17 @@
         
 }
 
-- (void)assertAppExistsInLocalConfiguration:(NSDictionary *)appDict {
-    NSFetchRequest *request = [App fetchRequest];
+- (void)assertObjectExistsInLocalConfiguration:(NSDictionary *)dict fetchRequest:(NSFetchRequest *)request {
     NSError *error = nil;
-    NSArray *apps = [self.context executeFetchRequest:request error:&error];
+    NSArray *objects = [self.context executeFetchRequest:request error:&error];
     STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
     
     BOOL found = NO;
-    for (App *a in apps)
-        if ([[a dictionaryRepresentation] isEqual:appDict])
+    for (id o in objects)
+        if ([[o dictionaryRepresentation] isEqual:dict])
             found = YES;
     
-    STAssertTrue(found, @"did not find app %@", appDict);
+    STAssertTrue(found, @"did not find object %@", dict);
 }
 
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code {
@@ -157,7 +156,7 @@
     STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
     STAssertNotNil(app, @"Expected result");
     STAssertEqualObjects([app dictionaryRepresentation], appDict, @"Returned app and given app differ");
-    [self assertAppExistsInLocalConfiguration:appDict];
+    [self assertObjectExistsInLocalConfiguration:appDict fetchRequest:[App fetchRequest]];
 }
 
 - (void)testCreateConfiguredAppReturnsErrorIfAppLocalPathIsPreviouslyUsed {
@@ -238,10 +237,18 @@
     [self assertActualObjects:actualTargets equalExpectedObjects:expectedTargets];
 }
 
-
-//
-//- (void)testCreateConfiguredTargetAmendsLocalConfiguration {
-//}
+- (void)testCreateConfiguredTargetAmendsLocalConfiguration {
+    NSDictionary *targetDict = [self createTarget];
+    
+    NSError *error = nil;
+    Target *target = [self.backend createConfiguredTarget:targetDict error:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    STAssertNotNil(target, @"Expected result");
+    STAssertEqualObjects([target dictionaryRepresentation], targetDict, @"Returned target and given target differ");
+    [self assertObjectExistsInLocalConfiguration:targetDict fetchRequest:[Target fetchRequest]];
+    
+}
 //
 //- (void)testCreateConfiguredTargetThrowsExceptionIfCredentialsAreInvalid {
 //}
