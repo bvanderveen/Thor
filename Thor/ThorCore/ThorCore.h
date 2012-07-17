@@ -1,8 +1,18 @@
 #import <CoreData/CoreData.h>
 
+@interface NSObject (DictionaryRepresentation)
+
+- (NSDictionary *)dictionaryRepresentation;
+
+@end
+
 @interface Target : NSManagedObject
 
 @property (copy) NSString *displayName, *hostname, *email, *password;
+
++ (NSFetchRequest *)fetchRequest;
+
++ (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
 
@@ -14,7 +24,6 @@
 + (NSFetchRequest *)fetchRequest;
 
 + (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end
 
@@ -40,10 +49,11 @@ static NSInteger AppLocalRootInvalid = 1;
 - (NSArray *)getConfiguredApps:(NSError **)error;
 - (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error;
 //- (void)updateConfiguredApp:(App *)app error:(NSError **)error;
-//
-//- (NSArray *)getConfiguredTargets;
-//- (void)createConfiguredTarget:(Target *)target;
-//
+
+
+- (NSArray *)getConfiguredTargets:(NSError **)error;
+- (void)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error;
+
 //- (NSArray *)getDeploymentsForApp:(App *)app;
 //- (void)createDeploymentForApp:(App *)app target:(Target *)target;
 

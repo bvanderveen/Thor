@@ -1,4 +1,28 @@
 #import "ThorCore.h"
+#import <objc/runtime.h>
+
+@implementation NSObject (DictionaryRepresentation)
+
+
+- (NSDictionary *)dictionaryRepresentation {
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    
+    unsigned int propertyCount;
+    objc_property_t *properties = class_copyPropertyList([self class], &propertyCount);
+    for (int i = 0; i < propertyCount; i++) {
+        objc_property_t property = properties[i];
+        NSString *name = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];
+        id value = [self valueForKey:name];
+        [result setObject:value forKey:name];
+    }
+    
+    free(properties);
+    
+    return [result copy];
+}
+
+@end
 
 NSString *ThorErrorDomain = @"com.tier3.thor.ErrorDomain";
 static NSString *ThorDataStoreFile = @"ThorDataStore";
@@ -9,7 +33,6 @@ NSURL *ThorGetStoreURL(NSError **error) {
 }
 
 NSEntityDescription *getAppEntity() {
-    
     static NSEntityDescription *entity = nil;
     
     if (!entity) {
@@ -48,6 +71,41 @@ NSEntityDescription *getAppEntity() {
     return entity;
 }
 
+
+NSEntityDescription *getTargetEntity() {
+    static NSEntityDescription *entity = nil;
+    
+    if (!entity) {
+        entity = [NSEntityDescription new];
+        entity.name = @"Target";
+        entity.managedObjectClassName = @"Target";
+        
+        NSAttributeDescription *displayName = [NSAttributeDescription new];
+        displayName.name = @"displayName";
+        displayName.attributeType = NSStringAttributeType;
+        displayName.optional = NO;
+        
+        NSAttributeDescription *hostname = [NSAttributeDescription new];
+        hostname.name = @"hostname";
+        hostname.attributeType = NSStringAttributeType;
+        hostname.optional = NO;
+        
+        NSAttributeDescription *email = [NSAttributeDescription new];
+        email.name = @"email";
+        email.attributeType = NSStringAttributeType;
+        email.optional = NO;
+        
+        NSAttributeDescription *password = [NSAttributeDescription new];
+        password.name = @"password";
+        password.attributeType = NSStringAttributeType;
+        password.optional = NO;
+        
+        entity.properties = [NSArray arrayWithObjects:displayName, hostname, email, password, nil];
+    }
+    
+    return entity;
+}
+
 NSManagedObjectModel *getManagedObjectModel() {
     static NSManagedObjectModel *model = nil;
     
@@ -55,6 +113,7 @@ NSManagedObjectModel *getManagedObjectModel() {
         model = [[NSManagedObjectModel alloc] init];
         model.entities = [NSArray arrayWithObjects:
                         getAppEntity(),
+                        getTargetEntity(),
                         nil];
     }
     
@@ -98,19 +157,32 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return app;
 }
 
++ (NSFetchRequest *)fetchRequest {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.entity = getAppEntity();
+    return request;
+}
 
-- (NSDictionary *)dictionaryRepresentation {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            self.localRoot, @"localRoot",
-            self.displayName, @"displayName",
-            self.defaultMemory, @"defaultMemory",
-            self.defaultInstances, @"defaultInstances",
-            nil];
+@end
+
+@implementation Target
+
+@dynamic displayName, hostname, email, password;
+
+
++ (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
+    Target *target = (Target *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"Target"] insertIntoManagedObjectContext:context];
+    
+    target.displayName = [dictionary objectForKey:@"displayName"];
+    target.hostname = [dictionary objectForKey:@"hostname"];
+    target.email = [dictionary objectForKey:@"email"];
+    target.password = [dictionary objectForKey:@"password"];
+    return target;
 }
 
 + (NSFetchRequest *)fetchRequest {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    request.entity = getAppEntity();
+    request.entity = getTargetEntity();
     return request;
 }
 
@@ -161,6 +233,17 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     
     App *app = [App appWithDictionary:appDict insertIntoManagedObjectContext:self.context];
     return [self.context save:error] ? app : nil;
+}
+
+
+- (NSArray *)getConfiguredTargets:(NSError **)error {
+    NSFetchRequest *request = [Target fetchRequest];
+    request.sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
+    return [self.context executeFetchRequest:request error:error];
+}
+
+- (void)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error {
+    
 }
 
 @end

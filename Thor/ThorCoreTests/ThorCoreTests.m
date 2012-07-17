@@ -24,13 +24,11 @@
             [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
             [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
             [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
-            nil]
-            ;
+            nil];
 }
 
 - (NSDictionary *)createApp {
     static int counter = 0;
-    
     counter++;
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -41,11 +39,31 @@
             nil];
 }
 
+- (NSArray *)createConfiguredTargets {
+    return [NSArray arrayWithObjects:
+            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
+            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
+            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
+            nil];
+}
+
+- (NSDictionary *)createTarget {
+    static int counter = 0;
+    counter++;
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSString stringWithFormat:@"Target %d", counter], @"displayName",
+            [NSString stringWithFormat:@"api.target%d.foo.com", counter], @"hostname",
+            [NSString stringWithFormat:@"user%d@foo.com", counter], @"email",
+            [NSString stringWithFormat:@"password%d", counter], @"password",
+            nil];
+}
+
 @end
 
 @interface ThorBackendTests (Assertions)
 
-- (void)assertActualApps:(NSArray *)actualApps equalExpectedApps:(NSArray *)expectedApps;
+- (void)assertActualObjects:(NSArray *)actualObjects equalExpectedObjects:(NSArray *)expectedObjects;
 - (void)assertAppExistsInLocalConfiguration:(NSDictionary *)appDict;
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code;
 
@@ -53,11 +71,11 @@
 
 @implementation ThorBackendTests (Assertions)
 
-- (void)assertActualApps:(NSArray *)actualApps equalExpectedApps:(NSArray *)expectedApps {
-    for (int i = 0; i < expectedApps.count; i++)
-        STAssertEqualObjects([actualApps objectAtIndex:i], [expectedApps objectAtIndex:i], @"Apps differed at index %d", i);
+- (void)assertActualObjects:(NSArray *)actualObjects equalExpectedObjects:(NSArray *)expectedObjects {
+    for (int i = 0; i < actualObjects.count; i++)
+        STAssertEqualObjects([actualObjects objectAtIndex:i], [expectedObjects objectAtIndex:i], @"objects differed at index %d", i);
     
-    STAssertEquals(expectedApps.count, actualApps.count, @"app count mismatch");
+    STAssertEquals(expectedObjects.count, actualObjects.count, @"object count mismatch");
         
 }
 
@@ -127,7 +145,7 @@
     NSArray *actualApps = [self.backend getConfiguredApps:&error];
     
     STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
-    [self assertActualApps:actualApps equalExpectedApps:expectedApps];
+    [self assertActualObjects:actualApps equalExpectedObjects:expectedApps];
 }
 
 - (void)testCreateConfiguredAppAmendsLocalConfiguration {
@@ -209,9 +227,18 @@
 //
 //- (void)testUpdateConfiguredAppThrowsExceptionIfAppDefaultInstancesIsOutOfRange {
 //}
-//
-//- (void)testGetConfiguredTargetsReadsLocalConfiguration {
-//}
+
+- (void)testGetConfiguredTargetsReadsLocalConfiguration {
+    NSArray *expectedTargets = [self createConfiguredTargets];
+    
+    NSError *error = nil;
+    NSArray *actualTargets = [self.backend getConfiguredTargets:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    [self assertActualObjects:actualTargets equalExpectedObjects:expectedTargets];
+}
+
+
 //
 //- (void)testCreateConfiguredTargetAmendsLocalConfiguration {
 //}
