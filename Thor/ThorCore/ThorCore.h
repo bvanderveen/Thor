@@ -11,6 +11,8 @@
 @property (strong) NSString *displayName, *localRoot;
 @property (strong) NSNumber *defaultMemory, *defaultInstances;
 
++ (NSFetchRequest *)fetchRequest;
+
 + (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 - (NSDictionary *)dictionaryRepresentation;
 
@@ -25,10 +27,11 @@
 
 NSURL *ThorGetStoreURL(NSError **error);
 NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error);
+void ThorEjectObjectContext();
 
-//static NSString *ThorErrorDomain;
-//
-//static NSInteger AppLocalRootInvalid = 1;
+extern NSString *ThorErrorDomain;
+
+static NSInteger AppLocalRootInvalid = 1;
 //static NSInteger AppMemoryOutOfRange = 2;
 //static NSInteger AppInstancesOutOfRange = 3;
 

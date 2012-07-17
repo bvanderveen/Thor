@@ -1,6 +1,6 @@
 #import "ThorCore.h"
 
-static NSString *ThorErrorDomain = @"com.tier3.thor.ErrorDomain";
+NSString *ThorErrorDomain = @"com.tier3.thor.ErrorDomain";
 static NSString *ThorDataStoreFile = @"ThorDataStore";
 
 NSURL *ThorGetStoreURL(NSError **error) {
@@ -26,6 +26,7 @@ NSEntityDescription *getAppEntity() {
         localRoot.name = @"localRoot";
         localRoot.attributeType = NSStringAttributeType;
         localRoot.optional = NO;
+        
         
         NSAttributeDescription *defaultMemory = [NSAttributeDescription new];
         defaultMemory.name = @"defaultMemory";
@@ -59,10 +60,11 @@ NSManagedObjectModel *getManagedObjectModel() {
     
     return model;
 }
-
+static NSManagedObjectContext *context = nil;
+void ThorEjectObjectContext() {
+    context = nil;
+}
 NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
-    static NSManagedObjectContext *context = nil;
-    
     if (!context) {
         NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:getManagedObjectModel()];
         
@@ -98,7 +100,12 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 
 - (NSDictionary *)dictionaryRepresentation {
-    return nil;
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            self.localRoot, @"localRoot",
+            self.displayName, @"displayName",
+            self.defaultMemory, @"defaultMemory",
+            self.defaultInstances, @"defaultInstances",
+            nil];
 }
 
 + (NSFetchRequest *)fetchRequest {
@@ -135,6 +142,23 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 }
 
 - (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error {
+    NSFetchRequest *request = [App fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@", [appDict objectForKey:@"localRoot"]];
+    
+    NSError *fetchWithLocalRootError = nil;
+    NSArray *withSameLocalRoot = [self.context executeFetchRequest:request error:&fetchWithLocalRootError];
+    
+    if (fetchWithLocalRootError) {
+        *error = fetchWithLocalRootError;
+        return nil;
+    }
+    
+    if (withSameLocalRoot.count) {
+        *error = [NSError errorWithDomain:ThorErrorDomain code:AppLocalRootInvalid userInfo:nil];
+        return nil;
+    }
+    
+    
     App *app = [App appWithDictionary:appDict insertIntoManagedObjectContext:self.context];
     return [self.context save:error] ? app : nil;
 }
