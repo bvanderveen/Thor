@@ -1,54 +1,4 @@
-#import "Target.h"
-
-@interface ThorUserData : NSObject
-
-- (void)createTarget:(Target *)target;
-- (NSArray *)getTargets;
-
-@end
-
-
-
-// all operations are considered long-running.
-// objects should not be accessed from the UI thread.
-@protocol VMCOperations <NSObject>
-
-@property (nonatomic, copy) NSString *target;
-@property (nonatomic, strong) Credentials *credentials;
-
-- (NSArray *)getApps;
-
-
-
-@end
-
-
-@interface Credentials : NSObject
-
-@property (nonatomic, copy) NSString *email, *password;
-
-@end
-
-@interface Target : NSObject
-
-@property (nonatomic, copy) NSString *displayName, *hostname;
-@property (nonatomic, strong) Credentials *credentials;
-
-@end
-
-@interface App : NSObject
-
-@property (nonatomic, copy) NSString *displayName, *localRoot;
-@property (nonatomic, assign) NSInteger defaultMemory, defaultInstances;
-
-@end
-
-@interface Deployment : NSObject
-
-@property (nonatomic, copy) NSString *displayName, *hostname, *appName;
-@property (nonatomic, assign) NSInteger memory, instances;
-
-@end
+#import <CoreData/CoreData.h>
 
 @interface DeploymentInfo : NSObject 
 
@@ -56,24 +6,71 @@
 
 @end
 
+// all operations are considered long-running.
+// objects should not be accessed from the UI thread.
+@protocol VMCOperations <NSObject>
+
+@property (nonatomic, copy) NSString *target, *email, *password;
+
+- (NSArray *)getApps;
+- (DeploymentInfo *)getInfoForAppName:(NSString *)appName;
+
+@end
+
+
+@interface VMCOperationsImpl : NSObject <VMCOperations>
+
+@end
+
+
+@interface Target : NSManagedObject
+
+@property (copy) NSString *displayName, *hostname, *email, *password;
+
+@end
+
+@interface App : NSManagedObject
+
+@property (strong) NSString *displayName, *localRoot;
+@property (strong) NSNumber *defaultMemory, *defaultInstances;
+
++ (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end
+
+@interface Deployment : NSManagedObject
+
+@property (copy) NSString *displayName, *hostname, *appName;
+@property (strong) NSNumber *memory, *instances;
+
+@end
+
+NSURL *ThorGetStoreURL(NSError **error);
+NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error);
+
+//static NSString *ThorErrorDomain;
+//
+//static NSInteger AppLocalRootInvalid = 1;
+//static NSInteger AppMemoryOutOfRange = 2;
+//static NSInteger AppInstancesOutOfRange = 3;
+
 @protocol ThorBackend <NSObject>
 
-- (NSArray *)getConfiguredApps;
-- (void)createConfiguredApp:(App *)app;
-- (void)updateConfiguredApp:(App *)app;
-
-- (NSArray *)getConfiguredTargets;
-- (void)createConfiguredTarget:(Target *)target;
-
-- (NSArray *)getDeploymentsForApp:(App *)app;
-- (void)createDeploymentForApp:(App *)app target:(Target *)target;
-
-@end
-
-@interface TargetOperations : NSObject
+- (NSArray *)getConfiguredApps:(NSError **)error;
+- (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error;
+//- (void)updateConfiguredApp:(App *)app error:(NSError **)error;
+//
+//- (NSArray *)getConfiguredTargets;
+//- (void)createConfiguredTarget:(Target *)target;
+//
+//- (NSArray *)getDeploymentsForApp:(App *)app;
+//- (void)createDeploymentForApp:(App *)app target:(Target *)target;
 
 @end
 
-@interface ThorCore : NSObject
+@interface ThorBackendImpl : NSObject <ThorBackend>
+
+- (id)initWithObjectContext:(NSManagedObjectContext *)leContext;
 
 @end

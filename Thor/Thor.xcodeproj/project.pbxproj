@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4131290215B5F6C9005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9747154908CB002CCF27 /* CoreData.framework */; };
+		4131290415B5F6E7005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290315B5F6E7005F6D54 /* CoreData.framework */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
@@ -18,7 +20,6 @@
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorCore.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
-		41F902AA15AF592A00550870 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F902A915AF592A00550870 /* UIKit.framework */; };
 		41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41F902B415AF592A00550870 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41F902B215AF592A00550870 /* InfoPlist.strings */; };
@@ -43,6 +44,13 @@
 			remoteGlobalIDString = 41F9029815AF592A00550870;
 			remoteInfo = ThorCore;
 		};
+		41F902D715B5EFF500550870 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F9029815AF592A00550870;
+			remoteInfo = ThorCore;
+		};
 		F32F9767154908CC002CCF27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
@@ -53,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4131290315B5F6E7005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFA915ACC5C000E64503 /* AppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsController.h; path = Classes/AppsController.h; sourceTree = "<group>"; };
@@ -105,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4131290215B5F6C9005F6D54 /* CoreData.framework in Frameworks */,
 				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,8 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4131290415B5F6E7005F6D54 /* CoreData.framework in Frameworks */,
 				41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */,
-				41F902AA15AF592A00550870 /* UIKit.framework in Frameworks */,
 				41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */,
 				41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */,
 			);
@@ -222,6 +232,7 @@
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
+				4131290315B5F6E7005F6D54 /* CoreData.framework */,
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
 				41F9029C15AF592A00550870 /* ThorCore */,
@@ -371,6 +382,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				41F902D815B5EFF500550870 /* PBXTargetDependency */,
 			);
 			name = Thor;
 			productName = Thor;
@@ -534,6 +546,11 @@
 			target = 41F9029815AF592A00550870 /* ThorCore */;
 			targetProxy = 41F902AC15AF592A00550870 /* PBXContainerItemProxy */;
 		};
+		41F902D815B5EFF500550870 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F9029815AF592A00550870 /* ThorCore */;
+			targetProxy = 41F902D715B5EFF500550870 /* PBXContainerItemProxy */;
+		};
 		F32F9768154908CC002CCF27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F32F973E154908CB002CCF27 /* Thor */;
@@ -588,14 +605,15 @@
 		41F902B915AF592A00550870 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				DSTROOT = /tmp/ThorCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				GCC_VERSION = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -603,14 +621,15 @@
 		41F902BA15AF592A00550870 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				DSTROOT = /tmp/ThorCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				GCC_VERSION = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -619,7 +638,7 @@
 		41F902BC15AF592A00550870 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -629,7 +648,7 @@
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = "";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -637,7 +656,7 @@
 		41F902BD15AF592A00550870 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -647,7 +666,7 @@
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -760,6 +779,7 @@
 				41F902BA15AF592A00550870 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		41F902BB15AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCoreTests" */ = {
 			isa = XCConfigurationList;
@@ -768,6 +788,7 @@
 				41F902BD15AF592A00550870 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F32F9739154908CB002CCF27 /* Build configuration list for PBXProject "Thor" */ = {
 			isa = XCConfigurationList;
