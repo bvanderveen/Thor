@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4131290215B5F6C9005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9747154908CB002CCF27 /* CoreData.framework */; };
 		4131290415B5F6E7005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290315B5F6E7005F6D54 /* CoreData.framework */; };
+		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
+		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
@@ -62,6 +64,8 @@
 
 /* Begin PBXFileReference section */
 		4131290315B5F6E7005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		4131290515B6113E005F6D54 /* VMCOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperations.h; sourceTree = "<group>"; };
+		4131290615B6113E005F6D54 /* VMCOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperations.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFA915ACC5C000E64503 /* AppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsController.h; path = Classes/AppsController.h; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 		41F9029C15AF592A00550870 /* ThorCore */ = {
 			isa = PBXGroup;
 			children = (
+				4131290515B6113E005F6D54 /* VMCOperations.h */,
+				4131290615B6113E005F6D54 /* VMCOperations.m */,
 				41F9029F15AF592A00550870 /* ThorCore.h */,
 				41F902A015AF592A00550870 /* ThorCore.m */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
@@ -329,6 +335,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F902A115AF592A00550870 /* ThorCore.m in Sources */,
+				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
