@@ -7,12 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4131290215B5F6C9005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9747154908CB002CCF27 /* CoreData.framework */; };
+		4131290415B5F6E7005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290315B5F6E7005F6D54 /* CoreData.framework */; };
+		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
+		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
+		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
+		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
+		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
+		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
+		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
+		41F9029415AF268D00550870 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9029315AF268D00550870 /* App.m */; };
+		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
+		41F902A115AF592A00550870 /* ThorCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorCore.m */; };
+		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
+		41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
+		41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
+		41F902B415AF592A00550870 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41F902B215AF592A00550870 /* InfoPlist.strings */; };
+		41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902B615AF592A00550870 /* ThorCoreTests.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
 		F32F9754154908CB002CCF27 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F32F9752154908CB002CCF27 /* Credits.rtf */; };
-		F32F9757154908CC002CCF27 /* t3ossAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */; };
-		F32F975A154908CC002CCF27 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F32F9758154908CC002CCF27 /* MainMenu.xib */; };
+		F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F9756154908CC002CCF27 /* AppDelegate.m */; };
 		F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */; };
 		F32F9765154908CC002CCF27 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
 		F32F9766154908CC002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
@@ -21,6 +37,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		41F902AC15AF592A00550870 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F9029815AF592A00550870;
+			remoteInfo = ThorCore;
+		};
+		41F902D715B5EFF500550870 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F9029815AF592A00550870;
+			remoteInfo = ThorCore;
+		};
 		F32F9767154908CC002CCF27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
@@ -31,6 +61,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4131290315B5F6E7005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
+		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
+		417FEFA915ACC5C000E64503 /* AppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsController.h; path = Classes/AppsController.h; sourceTree = "<group>"; };
+		417FEFAA15ACC5C000E64503 /* AppsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsController.m; path = Classes/AppsController.m; sourceTree = "<group>"; };
+		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
+		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
+		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
+		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
+		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
+		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
+		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		41F9028D15AF257000550870 /* AppsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsView.h; path = Classes/AppsView.h; sourceTree = "<group>"; };
+		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
+		41F9029215AF268D00550870 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = Classes/App.h; sourceTree = "<group>"; };
+		41F9029315AF268D00550870 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = App.m; path = Classes/App.m; sourceTree = "<group>"; };
+		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
+		41F9029F15AF592A00550870 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
+		41F902A015AF592A00550870 /* ThorCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCore.m; sourceTree = "<group>"; };
+		41F902A715AF592A00550870 /* ThorCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		41F902A915AF592A00550870 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThorCoreTests-Info.plist"; sourceTree = "<group>"; };
+		41F902B315AF592A00550870 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		41F902B515AF592A00550870 /* ThorCoreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCoreTests.h; sourceTree = "<group>"; };
+		41F902B615AF592A00550870 /* ThorCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCoreTests.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,9 +98,8 @@
 		F32F974F154908CB002CCF27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F32F9751154908CB002CCF27 /* Thor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Thor-Prefix.pch"; sourceTree = "<group>"; };
 		F32F9753154908CB002CCF27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		F32F9755154908CB002CCF27 /* t3ossAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t3ossAppDelegate.h; sourceTree = "<group>"; };
-		F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = t3ossAppDelegate.m; sourceTree = "<group>"; };
-		F32F9759154908CC002CCF27 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F32F9755154908CB002CCF27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F32F9756154908CC002CCF27 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F32F975C154908CC002CCF27 /* Thor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Thor.xcdatamodel; sourceTree = "<group>"; };
 		F32F9763154908CC002CCF27 /* ThorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9764154908CC002CCF27 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -54,6 +110,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		41F9029615AF592A00550870 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4131290215B5F6C9005F6D54 /* CoreData.framework in Frameworks */,
+				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41F902A315AF592A00550870 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4131290415B5F6E7005F6D54 /* CoreData.framework in Frameworks */,
+				41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */,
+				41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */,
+				41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973C154908CB002CCF27 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,11 +150,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		412DA0F915AB86EF00087F6B /* Navigation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFA415ACBFE300E64503 /* ToolbarTabController.h */,
+				417FEFA515ACBFE300E64503 /* ToolbarTabController.m */,
+				417FEFB015ACD93F00E64503 /* BreadcrumbController.h */,
+				417FEFB115ACD93F00E64503 /* BreadcrumbController.m */,
+				417FEFB315AD211800E64503 /* BreadcrumbBar.h */,
+				417FEFB415AD211800E64503 /* BreadcrumbBar.m */,
+			);
+			name = "Navigation Controllers";
+			sourceTree = "<group>";
+		};
+		417FEFA815ACC59800E64503 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFA915ACC5C000E64503 /* AppsController.h */,
+				417FEFAA15ACC5C000E64503 /* AppsController.m */,
+				41F9028D15AF257000550870 /* AppsView.h */,
+				41F9028E15AF257000550870 /* AppsView.m */,
+			);
+			name = Apps;
+			sourceTree = "<group>";
+		};
+		417FEFAC15ACC96600E64503 /* Clouds */ = {
+			isa = PBXGroup;
+			children = (
+				417FEFAD15ACC99800E64503 /* CloudsController.h */,
+				417FEFAE15ACC99800E64503 /* CloudsController.m */,
+			);
+			name = Clouds;
+			sourceTree = "<group>";
+		};
+		41F9029115AF25FB00550870 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				41F9029215AF268D00550870 /* App.h */,
+				41F9029315AF268D00550870 /* App.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		41F9029C15AF592A00550870 /* ThorCore */ = {
+			isa = PBXGroup;
+			children = (
+				41F9029F15AF592A00550870 /* ThorCore.h */,
+				41F902A015AF592A00550870 /* ThorCore.m */,
+				41F9029D15AF592A00550870 /* Supporting Files */,
+			);
+			path = ThorCore;
+			sourceTree = "<group>";
+		};
+		41F9029D15AF592A00550870 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		41F902AF15AF592A00550870 /* ThorCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				41F902B515AF592A00550870 /* ThorCoreTests.h */,
+				41F902B615AF592A00550870 /* ThorCoreTests.m */,
+				41F902B015AF592A00550870 /* Supporting Files */,
+			);
+			path = ThorCoreTests;
+			sourceTree = "<group>";
+		};
+		41F902B015AF592A00550870 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */,
+				41F902B215AF592A00550870 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
+				4131290315B5F6E7005F6D54 /* CoreData.framework */,
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
+				41F9029C15AF592A00550870 /* ThorCore */,
+				41F902AF15AF592A00550870 /* ThorCoreTests */,
 				F32F9742154908CB002CCF27 /* Frameworks */,
 				F32F9740154908CB002CCF27 /* Products */,
 			);
@@ -89,6 +247,8 @@
 			children = (
 				F32F973F154908CB002CCF27 /* Thor.app */,
 				F32F9763154908CC002CCF27 /* ThorTests.octest */,
+				41F9029915AF592A00550870 /* libThorCore.a */,
+				41F902A715AF592A00550870 /* ThorCoreTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +258,8 @@
 			children = (
 				F32F9743154908CB002CCF27 /* Cocoa.framework */,
 				F32F9764154908CC002CCF27 /* SenTestingKit.framework */,
+				41F9029A15AF592A00550870 /* Foundation.framework */,
+				41F902A915AF592A00550870 /* UIKit.framework */,
 				F32F9745154908CB002CCF27 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -116,9 +278,12 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
-				F32F9755154908CB002CCF27 /* t3ossAppDelegate.h */,
-				F32F9756154908CC002CCF27 /* t3ossAppDelegate.m */,
-				F32F9758154908CC002CCF27 /* MainMenu.xib */,
+				41F9029115AF25FB00550870 /* Models */,
+				417FEFAC15ACC96600E64503 /* Clouds */,
+				417FEFA815ACC59800E64503 /* Apps */,
+				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
+				F32F9755154908CB002CCF27 /* AppDelegate.h */,
+				F32F9756154908CC002CCF27 /* AppDelegate.m */,
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
 				F32F974A154908CB002CCF27 /* Supporting Files */,
 			);
@@ -128,6 +293,7 @@
 		F32F974A154908CB002CCF27 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4188EB3915ACB6800064206C /* MainMenu.xib */,
 				F32F974B154908CB002CCF27 /* Thor-Info.plist */,
 				F32F974C154908CB002CCF27 /* InfoPlist.strings */,
 				F32F974F154908CB002CCF27 /* main.m */,
@@ -158,7 +324,53 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		41F9029715AF592A00550870 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		41F9029815AF592A00550870 /* ThorCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41F902B815AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCore" */;
+			buildPhases = (
+				41F9029515AF592A00550870 /* Sources */,
+				41F9029615AF592A00550870 /* Frameworks */,
+				41F9029715AF592A00550870 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThorCore;
+			productName = ThorCore;
+			productReference = 41F9029915AF592A00550870 /* libThorCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		41F902A615AF592A00550870 /* ThorCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41F902BB15AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCoreTests" */;
+			buildPhases = (
+				41F902A215AF592A00550870 /* Sources */,
+				41F902A315AF592A00550870 /* Frameworks */,
+				41F902A415AF592A00550870 /* Resources */,
+				41F902A515AF592A00550870 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				41F902AD15AF592A00550870 /* PBXTargetDependency */,
+			);
+			name = ThorCoreTests;
+			productName = ThorCoreTests;
+			productReference = 41F902A715AF592A00550870 /* ThorCoreTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		F32F973E154908CB002CCF27 /* Thor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F32F9774154908CC002CCF27 /* Build configuration list for PBXNativeTarget "Thor" */;
@@ -170,6 +382,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				41F902D815B5EFF500550870 /* PBXTargetDependency */,
 			);
 			name = Thor;
 			productName = Thor;
@@ -219,18 +432,28 @@
 			targets = (
 				F32F973E154908CB002CCF27 /* Thor */,
 				F32F9762154908CC002CCF27 /* ThorTests */,
+				41F9029815AF592A00550870 /* ThorCore */,
+				41F902A615AF592A00550870 /* ThorCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		41F902A415AF592A00550870 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902B415AF592A00550870 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973D154908CB002CCF27 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
-				F32F975A154908CC002CCF27 /* MainMenu.xib in Resources */,
+				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +468,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		41F902A515AF592A00550870 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		F32F9761154908CC002CCF27 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -261,13 +497,36 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		41F9029515AF592A00550870 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902A115AF592A00550870 /* ThorCore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41F902A215AF592A00550870 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F32F973B154908CB002CCF27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F32F9750154908CB002CCF27 /* main.m in Sources */,
-				F32F9757154908CC002CCF27 /* t3ossAppDelegate.m in Sources */,
+				F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */,
 				F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */,
+				417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */,
+				417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */,
+				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
+				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
+				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
+				41F9028F15AF257000550870 /* AppsView.m in Sources */,
+				41F9029415AF268D00550870 /* App.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +541,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		41F902AD15AF592A00550870 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F9029815AF592A00550870 /* ThorCore */;
+			targetProxy = 41F902AC15AF592A00550870 /* PBXContainerItemProxy */;
+		};
+		41F902D815B5EFF500550870 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F9029815AF592A00550870 /* ThorCore */;
+			targetProxy = 41F902D715B5EFF500550870 /* PBXContainerItemProxy */;
+		};
 		F32F9768154908CC002CCF27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F32F973E154908CB002CCF27 /* Thor */;
@@ -290,6 +559,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4188EB3915ACB6800064206C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4188EB3A15ACB6800064206C /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		41F902B215AF592A00550870 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41F902B315AF592A00550870 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F32F974C154908CB002CCF27 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -306,14 +591,6 @@
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
-		F32F9758154908CC002CCF27 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F32F9759154908CC002CCF27 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
 		F32F976C154908CC002CCF27 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -325,6 +602,76 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		41F902B915AF592A00550870 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				DSTROOT = /tmp/ThorCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				GCC_VERSION = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		41F902BA15AF592A00550870 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				DSTROOT = /tmp/ThorCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				GCC_VERSION = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		41F902BC15AF592A00550870 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		41F902BD15AF592A00550870 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
+				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		F32F9772154908CC002CCF27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -425,6 +772,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		41F902B815AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41F902B915AF592A00550870 /* Debug */,
+				41F902BA15AF592A00550870 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41F902BB15AF592A00550870 /* Build configuration list for PBXNativeTarget "ThorCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41F902BC15AF592A00550870 /* Debug */,
+				41F902BD15AF592A00550870 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F32F9739154908CB002CCF27 /* Build configuration list for PBXProject "Thor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -441,6 +806,7 @@
 				F32F9776154908CC002CCF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F32F9777154908CC002CCF27 /* Build configuration list for PBXNativeTarget "ThorTests" */ = {
 			isa = XCConfigurationList;
@@ -449,6 +815,7 @@
 				F32F9779154908CC002CCF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
