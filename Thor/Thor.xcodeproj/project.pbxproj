@@ -16,6 +16,7 @@
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
+		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
 		41F9029415AF268D00550870 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9029315AF268D00550870 /* App.m */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
@@ -76,6 +77,8 @@
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
+		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41F9028D15AF257000550870 /* AppsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsView.h; path = Classes/AppsView.h; sourceTree = "<group>"; };
 		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
 		41F9029215AF268D00550870 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = Classes/App.h; sourceTree = "<group>"; };
@@ -216,6 +219,8 @@
 			children = (
 				41F902B515AF592A00550870 /* ThorCoreTests.h */,
 				41F902B615AF592A00550870 /* ThorCoreTests.m */,
+				41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */,
+				41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCoreTests;
@@ -502,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */,
+				41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
