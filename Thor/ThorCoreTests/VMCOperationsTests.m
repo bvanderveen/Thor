@@ -68,7 +68,7 @@
 }
 
 - (void)testTargetHostnameReturnsTrueOnSuccess {
-    self.mockShell.resultStrings = [NSArray arrayWithObject:@"Successfully targeted to [http://api.host.name]"];
+    self.mockShell.resultStrings = [NSArray arrayWithObject:@"Successfully targeted to [http://api.host.name]\n\n"];
     
     BOOL result =[self.impl targetHostname:@"api.host.name"];
     
@@ -76,11 +76,11 @@
 }
 
 - (void)testTargetHostnameReturnsFalseOnFailure {
-    self.mockShell.resultStrings = [NSArray arrayWithObject:@"Successfully targeted to [http://api.host.name]"];
+    self.mockShell.resultStrings = [NSArray arrayWithObject:@"\n\n"];
     
-    BOOL result =[self.impl targetHostname:@"api.host.name"];
+    BOOL result = [self.impl targetHostname:@"api.host.name"];
     
-    STAssertTrue(result, @"unexpected result");
+    STAssertFalse(result, @"unexpected result");
 }
 
 @end
