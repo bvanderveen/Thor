@@ -20,12 +20,12 @@
 		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
 		41F9029415AF268D00550870 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9029315AF268D00550870 /* App.m */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
-		41F902A115AF592A00550870 /* ThorCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorCore.m */; };
+		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
 		41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41F902B415AF592A00550870 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41F902B215AF592A00550870 /* InfoPlist.strings */; };
-		41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902B615AF592A00550870 /* ThorCoreTests.m */; };
+		41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902B615AF592A00550870 /* ThorBackendTests.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -86,13 +86,13 @@
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
-		41F9029F15AF592A00550870 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
-		41F902A015AF592A00550870 /* ThorCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCore.m; sourceTree = "<group>"; };
+		41F9029F15AF592A00550870 /* ThorBackend.h */ = {isa = PBXFileReference; path = ThorBackend.h; sourceTree = "<group>"; };
+		41F902A015AF592A00550870 /* ThorBackend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorBackend.m; sourceTree = "<group>"; };
 		41F902A715AF592A00550870 /* ThorCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThorCoreTests-Info.plist"; sourceTree = "<group>"; };
 		41F902B315AF592A00550870 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		41F902B515AF592A00550870 /* ThorCoreTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCoreTests.h; sourceTree = "<group>"; };
-		41F902B615AF592A00550870 /* ThorCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorCoreTests.m; sourceTree = "<group>"; };
+		41F902B515AF592A00550870 /* ThorBackendTests.h */ = {isa = PBXFileReference; path = ThorBackendTests.h; sourceTree = "<group>"; };
+		41F902B615AF592A00550870 /* ThorBackendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorBackendTests.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -199,8 +199,8 @@
 			children = (
 				4131290515B6113E005F6D54 /* VMCOperations.h */,
 				4131290615B6113E005F6D54 /* VMCOperations.m */,
-				41F9029F15AF592A00550870 /* ThorCore.h */,
-				41F902A015AF592A00550870 /* ThorCore.m */,
+				41F9029F15AF592A00550870 /* ThorBackend.h */,
+				41F902A015AF592A00550870 /* ThorBackend.m */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCore;
@@ -217,8 +217,8 @@
 		41F902AF15AF592A00550870 /* ThorCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				41F902B515AF592A00550870 /* ThorCoreTests.h */,
-				41F902B615AF592A00550870 /* ThorCoreTests.m */,
+				41F902B515AF592A00550870 /* ThorBackendTests.h */,
+				41F902B615AF592A00550870 /* ThorBackendTests.m */,
 				41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */,
 				41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
@@ -497,7 +497,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41F902A115AF592A00550870 /* ThorCore.m in Sources */,
+				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
 				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -506,7 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41F902B715AF592A00550870 /* ThorCoreTests.m in Sources */,
+				41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */,
 				41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
