@@ -41,8 +41,7 @@ void ThorEjectObjectContext();
 extern NSString *ThorErrorDomain;
 
 static NSInteger AppLocalRootInvalid = 1;
-//static NSInteger AppMemoryOutOfRange = 2;
-//static NSInteger AppInstancesOutOfRange = 3;
+static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 2;
 
 @protocol ThorBackend <NSObject>
 

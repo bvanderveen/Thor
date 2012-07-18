@@ -249,12 +249,25 @@
     [self assertObjectExistsInLocalConfiguration:targetDict fetchRequest:[Target fetchRequest]];
     
 }
+
+- (void)testCreateConfiguredTargetThrowsExceptionIfEmailAndHostnameArePreviouslyUsed {
+    NSDictionary *targetDict0 = [self createApp];
+    NSDictionary *targetDict1 = [[self createApp] mutableCopy];
+    [targetDict1 setValue:[targetDict0 objectForKey:@"email"] forKey:@"email"];
+    [targetDict1 setValue:[targetDict0 objectForKey:@"hostname"] forKey:@"hostname"];
+    
+    NSError *error = nil;
+    [self.backend createConfiguredTarget:targetDict0 error:&error];
+    Target *target1 = [self.backend createConfiguredTarget:targetDict1 error:&error];
+    
+    STAssertNil(target1, @"Expected no result");
+    [self assertError:error hasDomain:ThorErrorDomain andCode:TargetHostnameAndEmailPreviouslyConfigured];
+}
+
 //
 //- (void)testCreateConfiguredTargetThrowsExceptionIfCredentialsAreInvalid {
 //}
 //
-//- (void)testCreateConfiguredTargetThrowsExceptionIfHostnameIsPreviouslyUsed {
-//}
 //
 //- (void)testCreateConfiguredTargetThrowsExceptionIfHostnameIsInvalid {
 //    

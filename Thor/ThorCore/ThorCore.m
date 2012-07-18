@@ -213,23 +213,32 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
-- (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error {
-    NSFetchRequest *request = [App fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@", [appDict objectForKey:@"localRoot"]];
-    
+- (BOOL)anyInRequest:(NSFetchRequest *)request error:(NSError **)error result:(BOOL*)result {
     NSError *fetchWithLocalRootError = nil;
     NSArray *withSameLocalRoot = [self.context executeFetchRequest:request error:&fetchWithLocalRootError];
     
     if (fetchWithLocalRootError) {
         *error = fetchWithLocalRootError;
-        return nil;
+        return NO;
     }
     
-    if (withSameLocalRoot.count) {
+    *result = withSameLocalRoot.count;
+    return YES;
+}
+
+- (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error {
+    NSFetchRequest *request = [App fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@", [appDict objectForKey:@"localRoot"]];
+    
+    BOOL any = NO;
+    
+    if (![self anyInRequest:request error:error result:&any])
+        return nil;
+    
+    if (any) {
         *error = [NSError errorWithDomain:ThorErrorDomain code:AppLocalRootInvalid userInfo:nil];
         return nil;
     }
-    
     
     App *app = [App appWithDictionary:appDict insertIntoManagedObjectContext:self.context];
     return [self.context save:error] ? app : nil;
@@ -243,6 +252,19 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 }
 
 - (Target *)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error {
+    NSFetchRequest *request = [Target fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostname == %@", [targetDict objectForKey:@"email"], [targetDict objectForKey:@"hostname"]];
+    
+    BOOL any = NO;
+    
+    if (![self anyInRequest:request error:error result:&any])
+        return nil;
+    
+    if (any) {
+        *error = [NSError errorWithDomain:ThorErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:nil];
+        return nil;
+    }
+    
     Target *target = [Target targetWithDictionary:targetDict insertIntoManagedObjectContext:self.context];
     return [self.context save:error] ? target : nil;
 }
