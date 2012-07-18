@@ -5,8 +5,8 @@
 
 @end
 
-// all operations are considered long-running.
-// objects should not be accessed from the UI thread.
+// all operations are considered long-running
+// and should not be performed on the UI thread.
 @protocol VMCOperations <NSObject>
 
 - (BOOL)targetHostname:(NSString *)target;

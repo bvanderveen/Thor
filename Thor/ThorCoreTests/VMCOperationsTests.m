@@ -70,13 +70,40 @@
 - (void)testTargetHostnameReturnsTrueOnSuccess {
     self.mockShell.resultStrings = [NSArray arrayWithObject:@"Successfully targeted to [http://api.host.name]\n\n"];
     
-    BOOL result =[self.impl targetHostname:@"api.host.name"];
+    BOOL result = [self.impl targetHostname:@"api.host.name"];
     
     STAssertTrue(result, @"unexpected result");
 }
 
 - (void)testTargetHostnameReturnsFalseOnFailure {
     self.mockShell.resultStrings = [NSArray arrayWithObject:@"\n\n"];
+    
+    BOOL result = [self.impl targetHostname:@"api.host.name"];
+    
+    STAssertFalse(result, @"unexpected result");
+}
+
+- (void)testLoginGeneragesCommand {
+    [self.impl loginWithEmail:@"foo@bar.com" password:@"secret"];
+    
+    NSArray *expectedCalls = [NSArray arrayWithObject:[NSArray arrayWithObjects:@"vmc", @"login", 
+                                                       @"--email", @"foo@bar.com",
+                                                       @"--password", @"secret", 
+                                                       @"--non-interactive", nil]];
+    
+    STAssertEqualObjects(self.mockShell.calls, expectedCalls, @"shell got unexpected command");
+}
+
+- (void)testLoginReturnsTrueOnSuccess {
+    self.mockShell.resultStrings = [NSArray arrayWithObject:@"Successfully logged into [http://api.host.name]\n\n"];
+    
+    BOOL result = [self.impl loginWithEmail:@"foo@bar.com" password:@"secret"];
+    
+    STAssertTrue(result, @"unexpected result");
+}
+
+- (void)testLoginReturnsFalseOnFailure {
+    self.mockShell.resultStrings = [NSArray arrayWithObject:@"Problem with login, invalid account or password when attempting to login to 'http://api.host.name'\n"];
     
     BOOL result = [self.impl targetHostname:@"api.host.name"];
     
