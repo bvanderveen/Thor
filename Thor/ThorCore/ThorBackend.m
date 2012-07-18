@@ -1,4 +1,4 @@
-#import "ThorCore.h"
+#import "ThorBackend.h"
 #import <objc/runtime.h>
 
 @implementation NSObject (DictionaryRepresentation)

@@ -9,14 +9,19 @@
 // objects should not be accessed from the UI thread.
 @protocol VMCOperations <NSObject>
 
-@property (nonatomic, copy) NSString *target, *email, *password;
-
+- (BOOL)targetHostname:(NSString *)target;
+- (BOOL)loginWithEmail:(NSString *)username password:(NSString *)password;
 - (NSArray *)getApps;
 - (DeploymentInfo *)getInfoForAppName:(NSString *)appName;
 
 @end
 
+typedef NSString * (^SynchronousExecuteShellBlock)(NSString *, NSArray *);
+
+SynchronousExecuteShellBlock SynchronousExecuteShell;
 
 @interface VMCOperationsImpl : NSObject <VMCOperations>
+
+- (id)initWithShellBlock:(SynchronousExecuteShellBlock)shellBlock;
 
 @end

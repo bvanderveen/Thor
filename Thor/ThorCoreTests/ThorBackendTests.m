@@ -1,5 +1,5 @@
-#import "ThorCoreTests.h"
-#import "ThorCore.h"
+#import "ThorBackendTests.h"
+#import "ThorBackend.h"
 
 @interface ThorBackendTests ()
 

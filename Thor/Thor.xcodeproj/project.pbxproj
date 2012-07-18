@@ -86,12 +86,12 @@
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
-		41F9029F15AF592A00550870 /* ThorBackend.h */ = {isa = PBXFileReference; path = ThorBackend.h; sourceTree = "<group>"; };
+		41F9029F15AF592A00550870 /* ThorBackend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorBackend.h; sourceTree = "<group>"; };
 		41F902A015AF592A00550870 /* ThorBackend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorBackend.m; sourceTree = "<group>"; };
 		41F902A715AF592A00550870 /* ThorCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThorCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F902B115AF592A00550870 /* ThorCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThorCoreTests-Info.plist"; sourceTree = "<group>"; };
 		41F902B315AF592A00550870 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		41F902B515AF592A00550870 /* ThorBackendTests.h */ = {isa = PBXFileReference; path = ThorBackendTests.h; sourceTree = "<group>"; };
+		41F902B515AF592A00550870 /* ThorBackendTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorBackendTests.h; sourceTree = "<group>"; };
 		41F902B615AF592A00550870 /* ThorBackendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorBackendTests.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -217,10 +217,10 @@
 		41F902AF15AF592A00550870 /* ThorCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				41F902B515AF592A00550870 /* ThorBackendTests.h */,
-				41F902B615AF592A00550870 /* ThorBackendTests.m */,
 				41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */,
 				41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */,
+				41F902B515AF592A00550870 /* ThorBackendTests.h */,
+				41F902B615AF592A00550870 /* ThorBackendTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCoreTests;
