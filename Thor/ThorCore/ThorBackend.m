@@ -1,6 +1,20 @@
 #import "ThorBackend.h"
 #import <objc/runtime.h>
 
+static id<ThorBackend> sharedBackend = nil;
+@implementation ThorBackend
+
++ (id<ThorBackend>)shared {
+    if (!sharedBackend) {
+        // TODO handle errors in initialization
+        NSError *error = nil;
+        sharedBackend = [[ThorBackendImpl alloc] initWithObjectContext:ThorGetObjectContext(ThorGetStoreURL(&error), &error)];
+    }
+    return sharedBackend;
+}
+
+@end
+
 @implementation NSObject (DictionaryRepresentation)
 
 

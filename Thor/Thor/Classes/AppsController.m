@@ -1,6 +1,5 @@
 #import "AppsController.h"
 #import "AppsView.h"
-#import "App.h"
 
 @implementation AppsController
 
@@ -22,7 +21,10 @@
 }
 
 - (void)loadView {
-    AppsView *appsView = [[AppsView alloc] initWithApps:[App fakeApps]];
+    NSError *error = nil;
+    NSArray *apps = [[ThorBackend shared] getConfiguredApps:&error];
+    
+    AppsView *appsView = [[AppsView alloc] initWithApps:apps];
     appsView.delegate = self;
     self.view = appsView;
 }

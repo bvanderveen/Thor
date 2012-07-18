@@ -1,6 +1,4 @@
 #import "AppsView.h"
-#import "App.h"
-
 
 @implementation AppsView
 
@@ -12,7 +10,7 @@
         
         for (App *app in lesApps) {
             NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
-            [button setTitle:app.name];
+            [button setTitle:app.displayName];
             [apps addObject:button];
             [self addSubview:button];
             button.target = self;

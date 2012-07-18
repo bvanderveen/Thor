@@ -63,3 +63,10 @@ static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 2;
 - (id)initWithObjectContext:(NSManagedObjectContext *)leContext;
 
 @end
+
+
+@interface ThorBackend : NSObject
+
++ (id<ThorBackend>)shared;
+
+@end
