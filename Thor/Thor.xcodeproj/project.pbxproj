@@ -18,6 +18,9 @@
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
+		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
+		41C7FE7115B8BCF7006B3468 /* AddAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7015B8BCF7006B3468 /* AddAppController.m */; };
+		41C7FE7415B8BF89006B3468 /* AddAppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* AddAppView.m */; };
 		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
@@ -80,6 +83,12 @@
 		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
 		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
+		41C7FE6B15B89281006B3468 /* BottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomBar.h; path = Classes/BottomBar.h; sourceTree = "<group>"; };
+		41C7FE6C15B89281006B3468 /* BottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomBar.m; path = Classes/BottomBar.m; sourceTree = "<group>"; };
+		41C7FE6F15B8BCF7006B3468 /* AddAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddAppController.h; path = Classes/AddAppController.h; sourceTree = "<group>"; };
+		41C7FE7015B8BCF7006B3468 /* AddAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddAppController.m; path = Classes/AddAppController.m; sourceTree = "<group>"; };
+		41C7FE7215B8BF89006B3468 /* AddAppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddAppView.h; path = Classes/AddAppView.h; sourceTree = "<group>"; };
+		41C7FE7315B8BF89006B3468 /* AddAppView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddAppView.m; path = Classes/AddAppView.m; sourceTree = "<group>"; };
 		41F9028D15AF257000550870 /* AppsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsView.h; path = Classes/AppsView.h; sourceTree = "<group>"; };
 		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +170,8 @@
 				417FEFB115ACD93F00E64503 /* BreadcrumbController.m */,
 				417FEFB315AD211800E64503 /* BreadcrumbBar.h */,
 				417FEFB415AD211800E64503 /* BreadcrumbBar.m */,
+				41C7FE6B15B89281006B3468 /* BottomBar.h */,
+				41C7FE6C15B89281006B3468 /* BottomBar.m */,
 			);
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
@@ -168,6 +179,7 @@
 		417FEFA815ACC59800E64503 /* Apps */ = {
 			isa = PBXGroup;
 			children = (
+				41C7FE6E15B8BCBD006B3468 /* Add App Dialog */,
 				417FEFA915ACC5C000E64503 /* AppsController.h */,
 				417FEFAA15ACC5C000E64503 /* AppsController.m */,
 				41F9028D15AF257000550870 /* AppsView.h */,
@@ -183,6 +195,17 @@
 				417FEFAE15ACC99800E64503 /* CloudsController.m */,
 			);
 			name = Clouds;
+			sourceTree = "<group>";
+		};
+		41C7FE6E15B8BCBD006B3468 /* Add App Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				41C7FE6F15B8BCF7006B3468 /* AddAppController.h */,
+				41C7FE7015B8BCF7006B3468 /* AddAppController.m */,
+				41C7FE7215B8BF89006B3468 /* AddAppView.h */,
+				41C7FE7315B8BF89006B3468 /* AddAppView.m */,
+			);
+			name = "Add App Dialog";
 			sourceTree = "<group>";
 		};
 		41F9029C15AF592A00550870 /* ThorCore */ = {
@@ -515,6 +538,9 @@
 				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
 				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
 				41F9028F15AF257000550870 /* AppsView.m in Sources */,
+				41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */,
+				41C7FE7115B8BCF7006B3468 /* AddAppController.m in Sources */,
+				41C7FE7415B8BF89006B3468 /* AddAppView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,5 @@
+
+@interface AddAppController : NSViewController
+
+
+@end
