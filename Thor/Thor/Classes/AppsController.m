@@ -1,6 +1,6 @@
 #import "AppsController.h"
 #import "AppsView.h"
-#import "AddAppController.h"
+#import "AddTargetController.h"
 
 @implementation AppsController
 
@@ -41,7 +41,7 @@
     
     NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,500,500) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     
-    AddAppController *addApp = [[AddAppController alloc] init];
+    AddTargetController *addApp = [[AddTargetController alloc] init];
     window.contentView = addApp.view;
     
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:nil didEndSelector:NULL contextInfo:NULL];

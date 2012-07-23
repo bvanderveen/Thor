@@ -1,6 +1,6 @@
-#import "AddAppView.h"
+#import "AddTargetView.h"
 
-@implementation AddAppView
+@implementation AddTargetView
 
 @synthesize displayNameLabel, displayNameField, hostnameLabel, hostnameField, emailLabel, emailField, passwordLabel, passwordField;
 
