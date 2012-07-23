@@ -2,9 +2,27 @@
 #import "AppsView.h"
 #import "AddTargetController.h"
 
+@interface CustomWindow : NSWindow
+
+@end
+
+@implementation CustomWindow
+
+- (BOOL)canBecomeKeyWindow {
+    return YES;
+}
+
+@end
+
+@interface AppsController ()
+
+@property (nonatomic, strong) AddTargetController *addTargetController;
+
+@end
+
 @implementation AppsController
 
-@synthesize title, breadcrumbController;
+@synthesize title, breadcrumbController, addTargetController;
 
 - (id)init {
     return [self initWithTitle:@"Apps"];
@@ -38,15 +56,19 @@
 }
 
 - (void)addCloudClicked {
+    self.addTargetController = [[AddTargetController alloc] init];
     
-    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,500,500) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *window = [[CustomWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.addTargetController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     
-    AddTargetController *addApp = [[AddTargetController alloc] init];
-    window.contentView = addApp.view;
+    window.contentView = addTargetController.view;
     
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
-    
-    
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    NSLog(@"sheet did end");
+    self.addTargetController = nil;
+    [sheet orderOut:self];
 }
 
 @end

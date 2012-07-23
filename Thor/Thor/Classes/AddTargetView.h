@@ -11,4 +11,7 @@
     *passwordLabel,
     *passwordField;
 
+@property (nonatomic, strong) NSButton *confirmButton, *cancelButton;
+@property (nonatomic, strong) NSView *fieldContainer, *buttonContainer;
+
 @end
