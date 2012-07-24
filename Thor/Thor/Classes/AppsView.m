@@ -1,10 +1,8 @@
 #import "AppsView.h"
-#import "App.h"
-
 
 @implementation AppsView
 
-@synthesize apps, delegate;
+@synthesize apps, delegate, bar;
 
 - (id)initWithApps:(NSArray *)lesApps {
     if (self = [super initWithFrame:NSZeroRect]) {
@@ -12,12 +10,17 @@
         
         for (App *app in lesApps) {
             NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
-            [button setTitle:app.name];
+            [button setTitle:app.displayName];
             [apps addObject:button];
             [self addSubview:button];
             button.target = self;
             button.action = @selector(buttonClicked:);
         }
+        
+        self.bar = [[BottomBar alloc] initWithFrame:NSZeroRect];
+        [bar.barButton setTitle:@"Add cloud…"];
+        [self addSubview:bar];
+        
         [self setNeedsLayout:YES];
     }
     return self;
@@ -29,6 +32,8 @@
         b.frame = NSMakeRect(x, self.bounds.size.height - 10 - 100, 100, 100);
         x += 120;
     }
+    
+    bar.frame = NSMakeRect(0, 0, self.bounds.size.width, bar.intrinsicContentSize.height);
     [super layout];
 }
 
