@@ -1,5 +1,5 @@
-#import "AppsController.h"
-#import "AppsView.h"
+#import "TargetsController.h"
+#import "TargetsView.h"
 #import "AddTargetController.h"
 
 @interface CustomWindow : NSWindow
@@ -14,13 +14,13 @@
 
 @end
 
-@interface AppsController ()
+@interface TargetsController ()
 
 @property (nonatomic, strong) AddTargetController *addTargetController;
 
 @end
 
-@implementation AppsController
+@implementation TargetsController
 
 @synthesize title, breadcrumbController, addTargetController;
 
@@ -41,21 +41,21 @@
 
 - (void)loadView {
     NSError *error = nil;
-    NSArray *apps = [[ThorBackend shared] getConfiguredApps:&error];
+    NSArray *targets = [[ThorBackend shared] getConfiguredTargets:&error];
     
-    AppsView *appsView = [[AppsView alloc] initWithApps:apps];
+    TargetsView *targetsView = [[TargetsView alloc] initWithTargets:targets];
     
-    appsView.bar.barButton.target = self;
-    appsView.bar.barButton.action = @selector(addCloudClicked);
-    appsView.delegate = self;
-    self.view = appsView;
+    targetsView.bar.barButton.target = self;
+    targetsView.bar.barButton.action = @selector(addTargetClicked);
+    targetsView.delegate = self;
+    self.view = targetsView;
 }
 
-- (void)clickedAppNamed:(NSString *)name {
-    [self.breadcrumbController pushViewController:[[AppsController alloc] initWithTitle:name] animated:YES];
+- (void)clickedTargetNamed:(NSString *)name {
+    [self.breadcrumbController pushViewController:[[TargetsController alloc] initWithTitle:name] animated:YES];
 }
 
-- (void)addCloudClicked {
+- (void)addTargetClicked {
     self.addTargetController = [[AddTargetController alloc] init];
     
     NSWindow *window = [[CustomWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.addTargetController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
@@ -66,7 +66,11 @@
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    NSLog(@"sheet did end");
+    if (returnCode == NSOKButton) {
+        NSError *error = nil;
+        [[ThorBackend shared] createConfiguredTarget:addTargetController.target error:&error];
+    }
+    
     self.addTargetController = nil;
     [sheet orderOut:self];
 }

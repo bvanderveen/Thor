@@ -1,17 +1,17 @@
-#import "AppsView.h"
+#import "TargetsView.h"
 
-@implementation AppsView
+@implementation TargetsView
 
-@synthesize apps, delegate, bar;
+@synthesize targets, delegate, bar;
 
-- (id)initWithApps:(NSArray *)lesApps {
+- (id)initWithTargets:(NSArray *)lesTargets {
     if (self = [super initWithFrame:NSZeroRect]) {
-        self.apps = [NSMutableArray array];
+        self.targets = [NSMutableArray array];
         
-        for (App *app in lesApps) {
+        for (Target *t in lesTargets) {
             NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
-            [button setTitle:app.displayName];
-            [apps addObject:button];
+            button.title = t.displayName;
+            [targets addObject:button];
             [self addSubview:button];
             button.target = self;
             button.action = @selector(buttonClicked:);
@@ -28,7 +28,7 @@
 
 - (void)layout {
     CGFloat x = 10;
-    for (NSButton *b in apps) {
+    for (NSButton *b in targets) {
         b.frame = NSMakeRect(x, self.bounds.size.height - 10 - 100, 100, 100);
         x += 120;
     }
@@ -38,7 +38,7 @@
 }
 
 - (void)buttonClicked:(NSButton *)button {
-    [delegate performSelector:@selector(clickedAppNamed:) withObject:button.title];
+    [delegate performSelector:@selector(clickedTargetNamed:) withObject:button.title];
 }
 
 

@@ -1,11 +1,11 @@
 #import "BottomBar.h"
 
-@interface AppsView : NSView
+@interface TargetsView : NSView
 
 @property (nonatomic, strong) BottomBar *bar;
 @property (nonatomic, unsafe_unretained) id delegate;
-@property (nonatomic, strong) NSMutableArray *apps;
+@property (nonatomic, strong) NSMutableArray *targets;
 
-- (id)initWithApps:(NSArray *)lesApps;
+- (id)initWithTargets:(NSArray *)lesTargets;
 
 @end

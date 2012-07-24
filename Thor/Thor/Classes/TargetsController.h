@@ -1,5 +1,5 @@
 #import "BreadcrumbController.h"
 
-@interface AppsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
+@interface TargetsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
 
 @end

@@ -11,6 +11,15 @@
 
 @synthesize addTargetView;
 
+- (NSDictionary *)target {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            addTargetView.displayNameField.stringValue, @"displayName", 
+            addTargetView.hostnameField.stringValue, @"hostname",
+            addTargetView.emailField.stringValue, @"email",
+            addTargetView.passwordField.stringValue, @"password",
+            nil];
+}
+
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         
@@ -20,22 +29,17 @@
 
 - (void)loadView {
     self.addTargetView = [[AddTargetView alloc] initWithFrame:NSZeroRect];
-    self.addTargetView.cancelButton.target = self;
-    self.addTargetView.cancelButton.action = @selector(cancel);
-    self.addTargetView.confirmButton.target = self;
-    self.addTargetView.confirmButton.action = @selector(confirm);
+    addTargetView.cancelButton.target = self;
+    addTargetView.cancelButton.action = @selector(buttonClicked:);
+    addTargetView.confirmButton.target = self;
+    addTargetView.confirmButton.action = @selector(buttonClicked:);
     
     self.view = addTargetView;
 }
 
-- (void)cancel {
-    NSLog(@"Cancelled add target");
-    [NSApp endSheet:self.view.window];
-}
-
-- (void)confirm {
-    NSLog(@"Confirmed add target");
-    [NSApp endSheet:self.view.window];
+- (void)buttonClicked:(NSButton *)button {
+    [NSApp endSheet:self.view.window returnCode:
+        button == self.addTargetView.confirmButton ? NSOKButton : NSCancelButton];
 }
 
 @end
