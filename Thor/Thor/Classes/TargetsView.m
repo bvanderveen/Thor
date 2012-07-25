@@ -16,16 +16,6 @@
     return self;
 }
 
-- (void)setFrame:(NSRect)frameRect {
-    NSLog(@"frame being set to %@", NSStringFromRect(frameRect));
-    [super setFrame:frameRect];
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor redColor] set];
-    NSRectFill(self.bounds);
-}
-
 - (void)updateConstraints {
     NSDictionary *views = NSDictionaryOfVariableBindings(collectionView, bar);
     

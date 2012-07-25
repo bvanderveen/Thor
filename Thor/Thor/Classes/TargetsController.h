@@ -4,4 +4,6 @@
 
 @property (nonatomic, strong) IBOutlet NSMutableArray *targets;
 
+- (IBAction)targetClicked:(id)sender;
+
 @end

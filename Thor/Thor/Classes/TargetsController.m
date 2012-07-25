@@ -66,8 +66,13 @@
     [targets removeObjectAtIndex:index];
 }
 
-- (void)clickedTargetNamed:(NSString *)name {
-    [self.breadcrumbController pushViewController:[[TargetsController alloc] initWithTitle:name] animated:YES];
+- (void)targetClicked:(NSButton *)sender {
+    // heinous!
+    NSUInteger index = [[[[sender superview] superview] subviews] indexOfObject:[sender superview]];
+    Target *target = [targets objectAtIndex:index];
+    
+    NSLog(@"Clicked target %@", target.displayName);
+    //[self.breadcrumbController pushViewController:[[TargetsController alloc] initWithTitle:name] animated:YES];
 }
 
 - (void)addTargetClicked {

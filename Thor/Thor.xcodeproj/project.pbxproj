@@ -10,6 +10,8 @@
 		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
 		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
+		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
+		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
@@ -70,6 +72,9 @@
 		4131290515B6113E005F6D54 /* VMCOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperations.h; sourceTree = "<group>"; };
 		4131290615B6113E005F6D54 /* VMCOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperations.m; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
+		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
+		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
@@ -178,15 +183,40 @@
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
 		};
+		414779E515C0865B00B733EF /* Target View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Target View";
+			sourceTree = "<group>";
+		};
+		414779E615C0B1AD00B733EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				414779E715C0B1C000B733EF /* CollectionViewBackground.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		414E184E15C0B4F1007C9508 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				414E185015C0B55F007C9508 /* CollectionView.h */,
+				414E185115C0B55F007C9508 /* CollectionView.m */,
+			);
+			name = "Custom Views";
+			sourceTree = "<group>";
+		};
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
+				418BF29515BF279E00E313C7 /* TargetsView.xib */,
 				418BF29715BF43B600E313C7 /* TargetsView.h */,
 				418BF29815BF43B600E313C7 /* TargetsView.m */,
 				418BF28F15BF16CE00E313C7 /* TargetsController.h */,
 				418BF29015BF16CE00E313C7 /* TargetsController.m */,
 				41C7FE6E15B8BCBD006B3468 /* Add Target Dialog */,
-				418BF29515BF279E00E313C7 /* TargetsView.xib */,
+				414779E515C0865B00B733EF /* Target View */,
 			);
 			name = Targets;
 			sourceTree = "<group>";
@@ -294,9 +324,11 @@
 				417FEFAC15ACC96600E64503 /* Clouds */,
 				417FEFA815ACC59800E64503 /* Targets */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
+				414E184E15C0B4F1007C9508 /* Custom Views */,
 				F32F9755154908CB002CCF27 /* AppDelegate.h */,
 				F32F9756154908CC002CCF27 /* AppDelegate.m */,
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
+				414779E615C0B1AD00B733EF /* Resources */,
 				F32F974A154908CB002CCF27 /* Supporting Files */,
 			);
 			path = Thor;
@@ -468,6 +500,7 @@
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
 				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
 				418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */,
+				414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +578,7 @@
 				41C7FE7415B8BF89006B3468 /* AddTargetView.m in Sources */,
 				418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */,
 				418BF29915BF43B700E313C7 /* TargetsView.m in Sources */,
+				414E185215C0B55F007C9508 /* CollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
