@@ -81,11 +81,7 @@
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSOKButton) {
-        NSError *error = nil;
-        [[ThorBackend shared] createConfiguredTarget:addTargetController.target error:&error];
-    }
-    
+    [self updateTargets];
     self.addTargetController = nil;
     [sheet orderOut:self];
 }

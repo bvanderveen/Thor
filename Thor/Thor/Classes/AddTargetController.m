@@ -11,15 +11,6 @@
 
 @synthesize addTargetView;
 
-- (NSDictionary *)target {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            addTargetView.displayNameField.stringValue, @"displayName", 
-            addTargetView.hostnameField.stringValue, @"hostname",
-            addTargetView.emailField.stringValue, @"email",
-            addTargetView.passwordField.stringValue, @"password",
-            nil];
-}
-
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         
@@ -38,8 +29,23 @@
 }
 
 - (void)buttonClicked:(NSButton *)button {
-    [NSApp endSheet:self.view.window returnCode:
-        button == self.addTargetView.confirmButton ? NSOKButton : NSCancelButton];
+    if (button == addTargetView.confirmButton)
+    {
+        // TODO some validation
+        
+        NSError *error = nil;
+        
+        NSDictionary *target = [NSDictionary dictionaryWithObjectsAndKeys:
+         addTargetView.displayNameField.stringValue, @"displayName", 
+         addTargetView.hostnameField.stringValue, @"hostname",
+         addTargetView.emailField.stringValue, @"email",
+         addTargetView.passwordField.stringValue, @"password",
+         nil];
+        
+        [[ThorBackend shared] createConfiguredTarget:target error:&error];
+    }
+    
+    [NSApp endSheet:self.view.window];
 }
 
 @end
