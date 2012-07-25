@@ -16,7 +16,8 @@
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* TargetsController.m */; };
-		418BF29415BF16F500E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29315BF16F500E313C7 /* TargetsView.m */; };
+		418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* TargetsView.xib */; };
+		418BF29915BF43B700E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* TargetsView.m */; };
 		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
@@ -80,8 +81,9 @@
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		418BF28F15BF16CE00E313C7 /* TargetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsController.h; path = Classes/TargetsController.h; sourceTree = "<group>"; };
 		418BF29015BF16CE00E313C7 /* TargetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsController.m; path = Classes/TargetsController.m; sourceTree = "<group>"; };
-		418BF29215BF16F400E313C7 /* TargetsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsView.h; path = Classes/TargetsView.h; sourceTree = "<group>"; };
-		418BF29315BF16F500E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
+		418BF29515BF279E00E313C7 /* TargetsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetsView.xib; sourceTree = "<group>"; };
+		418BF29715BF43B600E313C7 /* TargetsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsView.h; path = Classes/TargetsView.h; sourceTree = "<group>"; };
+		418BF29815BF43B600E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
 		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
 		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
@@ -179,11 +181,12 @@
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
+				418BF29715BF43B600E313C7 /* TargetsView.h */,
+				418BF29815BF43B600E313C7 /* TargetsView.m */,
 				418BF28F15BF16CE00E313C7 /* TargetsController.h */,
 				418BF29015BF16CE00E313C7 /* TargetsController.m */,
-				418BF29215BF16F400E313C7 /* TargetsView.h */,
-				418BF29315BF16F500E313C7 /* TargetsView.m */,
 				41C7FE6E15B8BCBD006B3468 /* Add Target Dialog */,
+				418BF29515BF279E00E313C7 /* TargetsView.xib */,
 			);
 			name = Targets;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
 				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
+				418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +544,7 @@
 				41C7FE7115B8BCF7006B3468 /* AddTargetController.m in Sources */,
 				41C7FE7415B8BF89006B3468 /* AddTargetView.m in Sources */,
 				418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */,
-				418BF29415BF16F500E313C7 /* TargetsView.m in Sources */,
+				418BF29915BF43B700E313C7 /* TargetsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

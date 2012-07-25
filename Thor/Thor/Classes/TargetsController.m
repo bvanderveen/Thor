@@ -1,6 +1,6 @@
 #import "TargetsController.h"
-#import "TargetsView.h"
 #import "AddTargetController.h"
+#import "TargetsView.h"
 
 @interface CustomWindow : NSWindow
 
@@ -17,19 +17,24 @@
 @interface TargetsController ()
 
 @property (nonatomic, strong) AddTargetController *addTargetController;
+@property (nonatomic, readonly) TargetsView *targetsView;
 
 @end
 
 @implementation TargetsController
 
-@synthesize title, breadcrumbController, addTargetController;
+@synthesize title, breadcrumbController, addTargetController, targets;
+
+- (TargetsView *)targetsView {
+    return (TargetsView *)self.view;
+}
 
 - (id)init {
     return [self initWithTitle:@"Apps"];
 }
 
 - (id)initWithTitle:(NSString *)leTitle {
-    if (self = [super initWithNibName:nil bundle:nil]) {
+    if (self = [super initWithNibName:@"TargetsView" bundle:[NSBundle mainBundle]]) {
         self.title = leTitle;
     }
     return self;
@@ -39,16 +44,26 @@
     return self;
 }
 
-- (void)loadView {
+- (void)updateTargets {
     NSError *error = nil;
-    NSArray *targets = [[ThorBackend shared] getConfiguredTargets:&error];
+    self.targets = [[[ThorBackend shared] getConfiguredTargets:&error] mutableCopy];
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
     
-    TargetsView *targetsView = [[TargetsView alloc] initWithTargets:targets];
-    
-    targetsView.bar.barButton.target = self;
-    targetsView.bar.barButton.action = @selector(addTargetClicked);
-    targetsView.delegate = self;
-    self.view = targetsView;
+    [self updateTargets];
+    self.targetsView.bar.barButton.target = self;
+    self.targetsView.bar.barButton.action = @selector(addTargetClicked);
+    self.targetsView.delegate = self;
+}
+
+-(void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {
+    [targets insertObject:t atIndex:index];
+}
+
+-(void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
+    [targets removeObjectAtIndex:index];
 }
 
 - (void)clickedTargetNamed:(NSString *)name {

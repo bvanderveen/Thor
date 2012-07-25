@@ -2,39 +2,41 @@
 
 @implementation TargetsView
 
-@synthesize targets, delegate, bar;
+@synthesize collectionView, delegate, bar;
 
-- (id)initWithTargets:(NSArray *)lesTargets {
-    if (self = [super initWithFrame:NSZeroRect]) {
-        self.targets = [NSMutableArray array];
-        
-        for (Target *t in lesTargets) {
-            NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
-            button.title = t.displayName;
-            [targets addObject:button];
-            [self addSubview:button];
-            button.target = self;
-            button.action = @selector(buttonClicked:);
-        }
+- (id)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
         self.bar = [[BottomBar alloc] initWithFrame:NSZeroRect];
+        self.bar.translatesAutoresizingMaskIntoConstraints = NO;
         [bar.barButton setTitle:@"Add cloud…"];
         [self addSubview:bar];
-        
-        [self setNeedsLayout:YES];
     }
     return self;
 }
 
-- (void)layout {
-    CGFloat x = 10;
-    for (NSButton *b in targets) {
-        b.frame = NSMakeRect(x, self.bounds.size.height - 10 - 100, 100, 100);
-        x += 120;
-    }
+- (void)setFrame:(NSRect)frameRect {
+    NSLog(@"frame being set to %@", NSStringFromRect(frameRect));
+    [super setFrame:frameRect];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor redColor] set];
+    NSRectFill(self.bounds);
+}
+
+- (void)updateConstraints {
+    NSDictionary *views = NSDictionaryOfVariableBindings(collectionView, bar);
     
-    bar.frame = NSMakeRect(0, 0, self.bounds.size.width, bar.intrinsicContentSize.height);
-    [super layout];
+    [self removeConstraints:self.constraints];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[collectionView]|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bar]|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[collectionView][bar]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    
+    
+    [super updateConstraints];
 }
 
 - (void)buttonClicked:(NSButton *)button {
