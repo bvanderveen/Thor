@@ -1,16 +1,12 @@
 #import "AddTargetView.h"
+#import "CollectionView.h"
 
 @implementation AddTargetView
 
 @synthesize displayNameLabel, displayNameField, hostnameLabel, hostnameField, emailLabel, emailField, passwordLabel, passwordField, confirmButton, cancelButton, fieldContainer, buttonContainer;
 
 - (NSTextField *)createLabel {
-    NSTextField *result = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    result.editable = NO;
-    result.bordered = NO;
-    result.translatesAutoresizingMaskIntoConstraints = NO;
-    result.drawsBackground = NO;
-    result.alignment = NSRightTextAlignment;
+    NSTextField *result = [Label label];
     [fieldContainer addSubview:result];
     return result;
 }
@@ -22,7 +18,7 @@
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         //self.autoresizingMask = NSViewWidthSizable;
-        //        self.autoresizesSubviews = NO;
+        //self.autoresizesSubviews = NO;
         //self.translatesAutoresizingMaskIntoConstraints = NO;
         
         self.fieldContainer = [[NSView alloc] initWithFrame:NSZeroRect];

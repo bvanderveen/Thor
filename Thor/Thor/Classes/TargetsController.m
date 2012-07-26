@@ -1,6 +1,7 @@
 #import "TargetsController.h"
 #import "AddTargetController.h"
 #import "TargetsView.h"
+#import "TargetController.h"
 
 @interface CustomWindow : NSWindow
 
@@ -71,8 +72,7 @@
     NSUInteger index = [[[[sender superview] superview] subviews] indexOfObject:[sender superview]];
     Target *target = [targets objectAtIndex:index];
     
-    NSLog(@"Clicked target %@", target.displayName);
-    //[self.breadcrumbController pushViewController:[[TargetsController alloc] initWithTitle:name] animated:YES];
+    [self.breadcrumbController pushViewController:[[TargetController alloc] initWithTarget:target] animated:YES];
 }
 
 - (void)addTargetClicked {
