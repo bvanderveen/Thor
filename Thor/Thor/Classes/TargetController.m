@@ -78,7 +78,13 @@
 
 @end
 
+static NSArray *deploymentColumns = nil;
+
 @implementation TargetController
+
++ (void)initialize {
+    deploymentColumns = [NSArray arrayWithObjects:@"Name", @"CPU", @"Memory", @"Disk", nil];
+}
 
 @synthesize target, targetView, breadcrumbController, title, deployments;
 
@@ -106,11 +112,11 @@
 }
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
-    return 4;
+    return deploymentColumns.count;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex {
-    return [[NSArray arrayWithObjects:@"Name", @"CPU", @"Memory", @"Disk", nil] objectAtIndex:columnIndex];
+    return [deploymentColumns objectAtIndex:columnIndex];
 }
 
 - (NSUInteger)numberOfRowsForGridView:(GridView *)gridView {
