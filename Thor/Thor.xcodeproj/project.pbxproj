@@ -14,6 +14,8 @@
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
 		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
+		414E185D15C226DF007C9508 /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185B15C226DF007C9508 /* Sequence.h */; };
+		414E185E15C226DF007C9508 /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185C15C226DF007C9508 /* Sequence.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
@@ -81,6 +83,8 @@
 		414E185415C0BF63007C9508 /* TargetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetController.m; path = Classes/TargetController.m; sourceTree = "<group>"; };
 		414E185815C1BC0E007C9508 /* GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridView.h; path = Classes/GridView.h; sourceTree = "<group>"; };
 		414E185915C1BC0E007C9508 /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridView.m; path = Classes/GridView.m; sourceTree = "<group>"; };
+		414E185B15C226DF007C9508 /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
+		414E185C15C226DF007C9508 /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 				41F902A015AF592A00550870 /* ThorBackend.m */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
+				414E185B15C226DF007C9508 /* Sequence.h */,
+				414E185C15C226DF007C9508 /* Sequence.m */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
+				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +567,7 @@
 			files = (
 				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
 				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
+				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +716,10 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 				WRAPPER_EXTENSION = octest;
@@ -723,6 +735,10 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 				VALIDATE_PRODUCT = YES;
@@ -783,6 +799,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -794,6 +814,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

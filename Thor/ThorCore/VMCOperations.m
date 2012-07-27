@@ -1,4 +1,5 @@
 #import "VMCOperations.h"
+#import "Sequence.h"
 
 SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *command, NSArray *arguments) {
     NSTask *task = [NSTask new];
@@ -55,7 +56,20 @@ SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *c
 }
 
 - (NSArray *)getApps {
-    return nil;
+    NSString *result = self.shellBlock([NSArray arrayWithObjects:@"apps", nil]);
+    
+    if ([result rangeOfString:@"No Applications"].location != NSNotFound)
+        return [NSArray array];
+    
+    NSArray *lines = [result componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    return [[[lines filter:^ BOOL (id line) { 
+        return [line length] && ![[line substringToIndex:1] isEqual:@"+"];
+    }] skip:1] map:^ id (id line) {
+        NSLog(@"line %@", line);
+        NSString *nameCellValue = [[line componentsSeparatedByString:@"|"] objectAtIndex:1];
+        return [nameCellValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }];
+    
 }
 
 - (DeploymentInfo *)getStatsForApp:(NSString *)app {

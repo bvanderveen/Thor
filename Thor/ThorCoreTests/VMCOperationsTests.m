@@ -125,24 +125,27 @@
     
     NSArray *result = [self.impl getApps];
     
-    STAssertEquals(result.count, 0, @"Expected empty result");
+    NSInteger actualCount = result.count;
+    STAssertTrue(actualCount == 0, @"Expected empty result");
 }
 
 - (void)testGetAppsParsesAppList {
-    NSString *outputString = @" \
-    \
-    +-------------+----+---------+--------------------------------------+----------+ \
-    | Application | #  | Health  | URLS                                 | Services | \
-    +-------------+----+---------+--------------------------------------+----------+ \
-    | gm          | 1  | RUNNING | gm.robotech.wa1.wfabric.com          |          | \
-    | nodejs_test | 1  | 0%      | nodejs_test.robotech.wa1.wfabric.com |          | \
-    +-------------+----+---------+--------------------------------------+----------+ \
-    \
-    ";
+    NSString *outputString = @"\n"
+"\n"    
+"+-------------+----+---------+--------------------------------------+----------+\n"
+"| Application | #  | Health  | URLS                                 | Services |\n"
+"+-------------+----+---------+--------------------------------------+----------+\n"
+"| gm          | 1  | RUNNING | gm.robotech.wa1.wfabric.com          |          |\n"
+"| nodejs_test | 1  | 0%      | nodejs_test.robotech.wa1.wfabric.com |          |\n"
+"+-------------+----+---------+--------------------------------------+----------+\n"
+"\n"
+"\n";
     self.mockShell.resultStrings = [NSArray arrayWithObject:outputString];
     
     NSArray *result = [self.impl getApps];
     
+    NSInteger actualCount = result.count;
+    STAssertTrue(actualCount == 2, @"Expected 2 results");
     NSArray *expectedResult = [NSArray arrayWithObjects:@"gm", @"nodejs_test", nil];
     STAssertEqualObjects(result, expectedResult, @"unexpected result from getApps");
 }
