@@ -12,7 +12,7 @@
 - (BOOL)targetHostname:(NSString *)target;
 - (BOOL)loginWithEmail:(NSString *)username password:(NSString *)password;
 - (NSArray *)getApps;
-- (DeploymentInfo *)getInfoForAppName:(NSString *)appName;
+- (DeploymentInfo *)getStatsForApp:(NSString *)app;
 
 @end
 

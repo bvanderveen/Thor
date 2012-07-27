@@ -83,7 +83,7 @@
     STAssertFalse(result, @"unexpected result");
 }
 
-- (void)testLoginGeneragesCommand {
+- (void)testLoginGeneratesCommand {
     [self.impl loginWithEmail:@"foo@bar.com" password:@"secret"];
     
     NSArray *expectedCalls = [NSArray arrayWithObject:[NSArray arrayWithObjects:@"vmc", @"login", 
@@ -108,6 +108,43 @@
     BOOL result = [self.impl targetHostname:@"api.host.name"];
     
     STAssertFalse(result, @"unexpected result");
+}
+
+- (void)testGetAppsGeneratesCommand {
+    [self.impl getApps];
+    
+    
+    NSArray *expectedCalls = [NSArray arrayWithObject:[NSArray arrayWithObjects:@"vmc", @"apps",
+                                                       @"--non-interactive", nil]];
+    
+    STAssertEqualObjects(self.mockShell.calls, expectedCalls, @"shell got unexpected command");
+}
+
+- (void)testGetAppsReturnsEmptyArrayIfNoApps {
+    self.mockShell.resultStrings = [NSArray arrayWithObject:@"\n\nNo Applications\n\n"];
+    
+    NSArray *result = [self.impl getApps];
+    
+    STAssertEquals(result.count, 0, @"Expected empty result");
+}
+
+- (void)testGetAppsParsesAppList {
+    NSString *outputString = @" \
+    \
+    +-------------+----+---------+--------------------------------------+----------+ \
+    | Application | #  | Health  | URLS                                 | Services | \
+    +-------------+----+---------+--------------------------------------+----------+ \
+    | gm          | 1  | RUNNING | gm.robotech.wa1.wfabric.com          |          | \
+    | nodejs_test | 1  | 0%      | nodejs_test.robotech.wa1.wfabric.com |          | \
+    +-------------+----+---------+--------------------------------------+----------+ \
+    \
+    ";
+    self.mockShell.resultStrings = [NSArray arrayWithObject:outputString];
+    
+    NSArray *result = [self.impl getApps];
+    
+    NSArray *expectedResult = [NSArray arrayWithObjects:@"gm", @"nodejs_test", nil];
+    STAssertEqualObjects(result, expectedResult, @"unexpected result from getApps");
 }
 
 @end

@@ -58,7 +58,7 @@ SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *c
     return nil;
 }
 
-- (DeploymentInfo *)getInfoForAppName:(NSString *)appName {
+- (DeploymentInfo *)getStatsForApp:(NSString *)app {
     return nil;
 }
 
