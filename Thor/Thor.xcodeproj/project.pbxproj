@@ -16,6 +16,8 @@
 		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
 		414E185D15C226DF007C9508 /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185B15C226DF007C9508 /* Sequence.h */; };
 		414E185E15C226DF007C9508 /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185C15C226DF007C9508 /* Sequence.m */; };
+		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
+		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
@@ -85,6 +87,8 @@
 		414E185915C1BC0E007C9508 /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridView.m; path = Classes/GridView.m; sourceTree = "<group>"; };
 		414E185B15C226DF007C9508 /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
 		414E185C15C226DF007C9508 /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
+		414E185F15C350B7007C9508 /* VMCService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCService.h; sourceTree = "<group>"; };
+		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
 				414E185B15C226DF007C9508 /* Sequence.h */,
 				414E185C15C226DF007C9508 /* Sequence.m */,
+				414E185F15C350B7007C9508 /* VMCService.h */,
+				414E186015C350B7007C9508 /* VMCService.m */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -391,6 +397,7 @@
 			files = (
 				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
 				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
+				414E186115C350B7007C9508 /* VMCService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +575,7 @@
 				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
 				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
 				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
+				414E186215C350B7007C9508 /* VMCService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

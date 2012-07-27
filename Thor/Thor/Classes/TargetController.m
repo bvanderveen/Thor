@@ -74,12 +74,13 @@
 
 @property (nonatomic, strong) Target *target;
 @property (nonatomic, strong) TargetView *targetView;
+@property (nonatomic, strong) NSArray *deployments;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title;
+@synthesize target, targetView, breadcrumbController, title, deployments;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -95,6 +96,8 @@
 }
 
 - (void)loadView {
+    self.deployments = [[FixtureVMCService new] getDeploymentsForTarget:target];
+    
     self.targetView = [[TargetView alloc] initWithTarget:target];
     self.targetView.deploymentsGrid.dataSource = self;
     [targetView.deploymentsGrid reloadData];
@@ -111,14 +114,26 @@
 }
 
 - (NSUInteger)numberOfRowsForGridView:(GridView *)gridView {
-    return 2;
+    return deployments.count;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    return [[[NSArray arrayWithObjects:
-               [NSArray arrayWithObjects:@"Soap Store", @"33%", @"2 GB", @"600MB", nil],
-               [NSArray arrayWithObjects:@"Project Mayhem", @"25%", @"512 MB", @"250MB", nil], 
-               nil] objectAtIndex:row] objectAtIndex:columnIndex]; 
+    VMCDeployment *deployment = [deployments objectAtIndex:row];
+    
+    switch (columnIndex) {
+        case 0:
+            return deployment.name;
+        case 1:
+            return deployment.cpu;
+        case 2:
+            return deployment.memory;
+        case 3:
+            return deployment.disk;
+    }
+    
+    BOOL columnIndexIsValid = NO;
+    assert(columnIndexIsValid);
+    return nil;
 }
 
 @end
