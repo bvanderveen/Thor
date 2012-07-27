@@ -1,15 +1,15 @@
-#import "AddTargetController.h"
-#import "AddTargetView.h"
+#import "TargetPropertiesController.h"
+#import "TargetPropertiesView.h"
 
-@interface AddTargetController ()
+@interface TargetPropertiesController ()
 
-@property (nonatomic, strong) AddTargetView *addTargetView;
+@property (nonatomic, strong) TargetPropertiesView *targetPropertiesView;
 
 @end
 
-@implementation AddTargetController
+@implementation TargetPropertiesController
 
-@synthesize addTargetView;
+@synthesize targetPropertiesView;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -19,27 +19,27 @@
 }
 
 - (void)loadView {
-    self.addTargetView = [[AddTargetView alloc] initWithFrame:NSZeroRect];
-    addTargetView.cancelButton.target = self;
-    addTargetView.cancelButton.action = @selector(buttonClicked:);
-    addTargetView.confirmButton.target = self;
-    addTargetView.confirmButton.action = @selector(buttonClicked:);
+    self.targetPropertiesView = [[TargetPropertiesView alloc] initWithFrame:NSZeroRect];
+    targetPropertiesView.cancelButton.target = self;
+    targetPropertiesView.cancelButton.action = @selector(buttonClicked:);
+    targetPropertiesView.confirmButton.target = self;
+    targetPropertiesView.confirmButton.action = @selector(buttonClicked:);
     
-    self.view = addTargetView;
+    self.view = targetPropertiesView;
 }
 
 - (void)buttonClicked:(NSButton *)button {
-    if (button == addTargetView.confirmButton)
+    if (button == targetPropertiesView.confirmButton)
     {
         // TODO some validation
         
         NSError *error = nil;
         
         NSDictionary *target = [NSDictionary dictionaryWithObjectsAndKeys:
-         addTargetView.displayNameField.stringValue, @"displayName", 
-         addTargetView.hostnameField.stringValue, @"hostname",
-         addTargetView.emailField.stringValue, @"email",
-         addTargetView.passwordField.stringValue, @"password",
+         targetPropertiesView.displayNameField.stringValue, @"displayName", 
+         targetPropertiesView.hostnameField.stringValue, @"hostname",
+         targetPropertiesView.emailField.stringValue, @"email",
+         targetPropertiesView.passwordField.stringValue, @"password",
          nil];
         
         [[ThorBackend shared] createConfiguredTarget:target error:&error];

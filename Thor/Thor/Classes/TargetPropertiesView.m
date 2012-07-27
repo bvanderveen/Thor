@@ -1,7 +1,7 @@
-#import "AddTargetView.h"
+#import "TargetPropertiesView.h"
 #import "CollectionView.h"
 
-@implementation AddTargetView
+@implementation TargetPropertiesView
 
 @synthesize displayNameLabel, displayNameField, hostnameLabel, hostnameField, emailLabel, emailField, passwordLabel, passwordField, confirmButton, cancelButton, fieldContainer, buttonContainer;
 

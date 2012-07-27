@@ -1,5 +1,5 @@
 #import "TargetsController.h"
-#import "AddTargetController.h"
+#import "TargetPropertiesController.h"
 #import "TargetsView.h"
 #import "TargetController.h"
 
@@ -17,14 +17,14 @@
 
 @interface TargetsController ()
 
-@property (nonatomic, strong) AddTargetController *addTargetController;
+@property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 @property (nonatomic, readonly) TargetsView *targetsView;
 
 @end
 
 @implementation TargetsController
 
-@synthesize title, breadcrumbController, addTargetController, targets;
+@synthesize title, breadcrumbController, targetPropertiesController, targets;
 
 - (TargetsView *)targetsView {
     return (TargetsView *)self.view;
@@ -76,18 +76,18 @@
 }
 
 - (void)addTargetClicked {
-    self.addTargetController = [[AddTargetController alloc] init];
+    self.targetPropertiesController = [[TargetPropertiesController alloc] init];
     
-    NSWindow *window = [[CustomWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.addTargetController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *window = [[CustomWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     
-    window.contentView = addTargetController.view;
+    window.contentView = targetPropertiesController.view;
     
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     [self updateTargets];
-    self.addTargetController = nil;
+    self.targetPropertiesController = nil;
     [sheet orderOut:self];
 }
 

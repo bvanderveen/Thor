@@ -1,4 +1,4 @@
 
-@interface AddTargetController : NSViewController
+@interface TargetPropertiesController : NSViewController
 
 @end

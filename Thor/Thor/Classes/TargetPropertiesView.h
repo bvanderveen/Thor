@@ -1,5 +1,5 @@
 
-@interface AddTargetView : NSView
+@interface TargetPropertiesView : NSView
 
 @property (nonatomic, strong) NSTextField 
     *displayNameLabel,
