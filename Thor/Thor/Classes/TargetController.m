@@ -6,12 +6,13 @@
 @property (nonatomic, strong) NSBox *infoBox, *deploymentsBox;
 @property (nonatomic, strong) NSTextField *hostnameLabel, *hostnameValueLabel, *emailLabel, *emailValueLabel;
 @property (nonatomic, strong) GridView *deploymentsGrid;
+@property (nonatomic, strong) NSButton *editButton;
 
 @end
 
 @implementation TargetView
 
-@synthesize infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid;
+@synthesize infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid, editButton;
 
 - (id)initWithTarget:(Target *)target {
     if (self = [super initWithFrame:NSMakeRect(0, 0, 100, 100)]) {
@@ -38,6 +39,12 @@
         emailValueLabel.stringValue = target.email;
         [infoBox.contentView addSubview:emailValueLabel];
         
+        self.editButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        editButton.translatesAutoresizingMaskIntoConstraints = NO;
+        editButton.title = @"Edit settings…";
+        editButton.bezelStyle = NSRoundedBezelStyle;
+        [infoBox.contentView addSubview:editButton];
+        
         self.deploymentsBox = [[NSBox alloc] initWithFrame:NSZeroRect];
         deploymentsBox.title = @"App Deployments";
         deploymentsBox.translatesAutoresizingMaskIntoConstraints = NO;
@@ -55,7 +62,7 @@
 }
 
 - (void)updateConstraints {
-    NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid);
+    NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, editButton, deploymentsGrid);
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[infoBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[deploymentsBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
@@ -63,7 +70,8 @@
     
     [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[hostnameLabel]-[hostnameValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
     [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[emailLabel]-[emailValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[hostnameLabel]-[emailLabel]" options:NSLayoutFormatAlignAllLeft metrics:nil views:views]];
+    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[editButton]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
+    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[hostnameLabel]-[emailLabel]-[editButton]" options:NSLayoutFormatAlignAllLeft metrics:nil views:views]];
 //    
 //    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationVertical];
 //    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
