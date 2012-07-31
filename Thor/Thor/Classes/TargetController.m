@@ -4,14 +4,14 @@
 @interface TargetView : NSView
 
 @property (nonatomic, strong) NSBox *infoBox, *deploymentsBox;
-@property (nonatomic, strong) NSTextField *displayNameLabel, *displayNameValueLabel;
+@property (nonatomic, strong) NSTextField *hostnameLabel, *hostnameValueLabel, *emailLabel, *emailValueLabel;
 @property (nonatomic, strong) GridView *deploymentsGrid;
 
 @end
 
 @implementation TargetView
 
-@synthesize infoBox, deploymentsBox, displayNameLabel, displayNameValueLabel, deploymentsGrid;
+@synthesize infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid;
 
 - (id)initWithTarget:(Target *)target {
     if (self = [super initWithFrame:NSMakeRect(0, 0, 100, 100)]) {
@@ -22,13 +22,21 @@
         infoBox.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:infoBox];
         
-        self.displayNameLabel = [Label label];
-        displayNameLabel.stringValue = @"Name";
-        [infoBox.contentView addSubview:displayNameLabel];
+        self.hostnameLabel = [Label label];
+        hostnameLabel.stringValue = @"Hostname";
+        [infoBox.contentView addSubview:hostnameLabel];
         
-        self.displayNameValueLabel = [Label label];
-        displayNameValueLabel.stringValue = target.displayName;
-        [infoBox.contentView addSubview:displayNameValueLabel];
+        self.hostnameValueLabel = [Label label];
+        hostnameValueLabel.stringValue = target.hostname;
+        [infoBox.contentView addSubview:hostnameValueLabel];
+        
+        self.emailLabel = [Label label];
+        emailLabel.stringValue = @"Email";
+        [infoBox.contentView addSubview:emailLabel];
+        
+        self.emailValueLabel = [Label label];
+        emailValueLabel.stringValue = target.email;
+        [infoBox.contentView addSubview:emailValueLabel];
         
         self.deploymentsBox = [[NSBox alloc] initWithFrame:NSZeroRect];
         deploymentsBox.title = @"App Deployments";
@@ -43,19 +51,19 @@
 }
 
 - (void)setFrame:(NSRect)frameRect {
-    NSLog(@"target view frame %@", NSStringFromRect(frameRect));
     [super setFrame:frameRect];
 }
 
 - (void)updateConstraints {
-    NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, displayNameLabel, displayNameValueLabel, deploymentsGrid);
+    NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid);
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[infoBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[deploymentsBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[infoBox(==150)]-[deploymentsBox]" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
     
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[displayNameLabel]-[displayNameValueLabel]-|" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[displayNameLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
+    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[hostnameLabel]-[hostnameValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
+    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[emailLabel]-[emailValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
+    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[hostnameLabel]-[emailLabel]" options:NSLayoutFormatAlignAllLeft metrics:nil views:views]];
 //    
 //    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationVertical];
 //    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
@@ -63,7 +71,8 @@
     [deploymentsBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[deploymentsGrid]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
     [deploymentsBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[deploymentsGrid]|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
     
-    [displayNameValueLabel setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
+    [hostnameValueLabel setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
+    [emailValueLabel setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
     
     [super updateConstraints];
 }
