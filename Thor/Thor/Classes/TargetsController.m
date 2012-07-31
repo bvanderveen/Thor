@@ -2,18 +2,7 @@
 #import "TargetPropertiesController.h"
 #import "TargetsView.h"
 #import "TargetController.h"
-
-@interface CustomWindow : NSWindow
-
-@end
-
-@implementation CustomWindow
-
-- (BOOL)canBecomeKeyWindow {
-    return YES;
-}
-
-@end
+#import "SheetWindow.h"
 
 @interface TargetsController ()
 
@@ -78,7 +67,7 @@
 - (void)addTargetClicked {
     self.targetPropertiesController = [[TargetPropertiesController alloc] init];
     
-    NSWindow *window = [[CustomWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     
     window.contentView = targetPropertiesController.view;
     

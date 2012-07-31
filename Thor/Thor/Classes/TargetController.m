@@ -1,97 +1,14 @@
 #import "TargetController.h"
-#import "CollectionView.h"
-
-@interface TargetView : NSView
-
-@property (nonatomic, strong) NSBox *infoBox, *deploymentsBox;
-@property (nonatomic, strong) NSTextField *hostnameLabel, *hostnameValueLabel, *emailLabel, *emailValueLabel;
-@property (nonatomic, strong) GridView *deploymentsGrid;
-@property (nonatomic, strong) NSButton *editButton;
-
-@end
-
-@implementation TargetView
-
-@synthesize infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid, editButton;
-
-- (id)initWithTarget:(Target *)target {
-    if (self = [super initWithFrame:NSMakeRect(0, 0, 100, 100)]) {
-        //self.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        self.infoBox = [[NSBox alloc] initWithFrame:NSZeroRect];
-        infoBox.title = @"Cloud settings";
-        infoBox.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:infoBox];
-        
-        self.hostnameLabel = [Label label];
-        hostnameLabel.stringValue = @"Hostname";
-        [infoBox.contentView addSubview:hostnameLabel];
-        
-        self.hostnameValueLabel = [Label label];
-        hostnameValueLabel.stringValue = target.hostname;
-        [infoBox.contentView addSubview:hostnameValueLabel];
-        
-        self.emailLabel = [Label label];
-        emailLabel.stringValue = @"Email";
-        [infoBox.contentView addSubview:emailLabel];
-        
-        self.emailValueLabel = [Label label];
-        emailValueLabel.stringValue = target.email;
-        [infoBox.contentView addSubview:emailValueLabel];
-        
-        self.editButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        editButton.translatesAutoresizingMaskIntoConstraints = NO;
-        editButton.title = @"Edit settings…";
-        editButton.bezelStyle = NSRoundedBezelStyle;
-        [infoBox.contentView addSubview:editButton];
-        
-        self.deploymentsBox = [[NSBox alloc] initWithFrame:NSZeroRect];
-        deploymentsBox.title = @"App Deployments";
-        deploymentsBox.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:deploymentsBox];
-        
-        self.deploymentsGrid = [[GridView alloc] initWithFrame:NSZeroRect];
-        
-        [deploymentsBox.contentView addSubview:deploymentsGrid];
-    }
-    return self;
-}
-
-- (void)setFrame:(NSRect)frameRect {
-    [super setFrame:frameRect];
-}
-
-- (void)updateConstraints {
-    NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, editButton, deploymentsGrid);
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[infoBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[deploymentsBox]-|" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[infoBox(==150)]-[deploymentsBox]" options:NSLayoutFormatAlignAllLeading metrics:nil views:views]];
-    
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[hostnameLabel]-[hostnameValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[emailLabel]-[emailValueLabel]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[editButton]" options:NSLayoutFormatAlignAllBaseline metrics:nil views:views]];
-    [infoBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[hostnameLabel]-[emailLabel]-[editButton]" options:NSLayoutFormatAlignAllLeft metrics:nil views:views]];
-//    
-//    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationVertical];
-//    [deploymentsBox setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-    
-    [deploymentsBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[deploymentsGrid]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
-    [deploymentsBox addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[deploymentsGrid]|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
-    
-    [hostnameValueLabel setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-    [emailValueLabel setContentHuggingPriority:NSLayoutPriorityDefaultLow - 1 forOrientation:NSLayoutConstraintOrientationHorizontal];
-    
-    [super updateConstraints];
-}
-
-@end
+#import "TargetView.h"
+#import "TargetPropertiesController.h"
+#import "SheetWindow.h"
 
 @interface TargetController ()
 
 @property (nonatomic, strong) Target *target;
 @property (nonatomic, strong) TargetView *targetView;
 @property (nonatomic, strong) NSArray *deployments;
+@property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 
 @end
 
@@ -103,7 +20,7 @@ static NSArray *deploymentColumns = nil;
     deploymentColumns = [NSArray arrayWithObjects:@"Name", @"CPU", @"Memory", @"Disk", nil];
 }
 
-@synthesize target, targetView, breadcrumbController, title, deployments;
+@synthesize target, targetView, breadcrumbController, title, deployments, targetPropertiesController;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -123,6 +40,8 @@ static NSArray *deploymentColumns = nil;
     
     self.targetView = [[TargetView alloc] initWithTarget:target];
     self.targetView.deploymentsGrid.dataSource = self;
+    self.targetView.editButton.target = self;
+    self.targetView.editButton.action = @selector(editClicked);
     [targetView.deploymentsGrid reloadData];
     
     self.view = targetView;
@@ -157,6 +76,22 @@ static NSArray *deploymentColumns = nil;
     BOOL columnIndexIsValid = NO;
     assert(columnIndexIsValid);
     return nil;
+}
+
+- (void)editClicked {
+    self.targetPropertiesController = [[TargetPropertiesController alloc] init];
+    
+    NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+    
+    window.contentView = targetPropertiesController.view;
+    
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    //[self updateTargets];
+    self.targetPropertiesController = nil;
+    [sheet orderOut:self];
 }
 
 @end

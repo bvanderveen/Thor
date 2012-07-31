@@ -1,0 +1,4 @@
+
+@interface SheetWindow : NSWindow
+
+@end
