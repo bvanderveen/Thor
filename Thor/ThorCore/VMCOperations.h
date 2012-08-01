@@ -1,7 +1,7 @@
 
-@interface DeploymentInfo : NSObject 
+@interface VMCInstanceStats : NSObject 
 
-// status, mapped urls, memory amount, num instances, instance resource usage (?), etc
+@property (nonatomic, assign) NSString *cpu, *memory, *disk, *uptime;
 
 @end
 
@@ -12,7 +12,7 @@
 - (BOOL)targetHostname:(NSString *)target;
 - (BOOL)loginWithEmail:(NSString *)username password:(NSString *)password;
 - (NSArray *)getApps;
-- (DeploymentInfo *)getInfoForAppName:(NSString *)appName;
+- (NSArray *)getInstanceStatsForApp:(NSString *)app;
 
 @end
 

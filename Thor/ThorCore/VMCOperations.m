@@ -1,4 +1,28 @@
 #import "VMCOperations.h"
+#import "Sequence.h"
+
+@implementation VMCInstanceStats
+
+@synthesize cpu, memory, disk, uptime;
+
+- (NSUInteger)hash {
+    return [[NSString stringWithFormat:@"%@%@%@%@", cpu, memory, disk, uptime] hash];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]])
+        return NO;
+    
+    VMCInstanceStats *other = (VMCInstanceStats *)object;
+    
+    return 
+        [other.cpu isEqual:self.cpu] &&
+        [other.memory isEqual:self.memory] &&
+        [other.disk isEqual:self.disk] &&
+        [other.uptime isEqual:self.uptime];
+}
+
+@end
 
 SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *command, NSArray *arguments) {
     NSTask *task = [NSTask new];
@@ -54,12 +78,46 @@ SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *c
     return [result rangeOfString:@"Successfully logged into"].location != NSNotFound;
 }
 
-- (NSArray *)getApps {
-    return nil;
+- (NSArray *)rowStringsFromTableString:(NSString *)table {
+    return [[[table componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] filter:^ BOOL (id line) { 
+        return [line length] && ![[line substringToIndex:1] isEqual:@"+"];
+    }] skip:1];
 }
 
-- (DeploymentInfo *)getInfoForAppName:(NSString *)appName {
-    return nil;
+- (NSArray *)cellsFromRowString:(NSString *)row {
+    return [[row componentsSeparatedByString:@"|"] map:^ id (id value) {
+        return [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }];
+}
+
+- (NSArray *)getApps {
+    NSString *result = self.shellBlock([NSArray arrayWithObjects:@"apps", nil]);
+    
+    if ([result rangeOfString:@"No Applications"].location != NSNotFound)
+        return [NSArray array];
+    
+    NSArray *rows = [self rowStringsFromTableString:result];
+    return [rows map:^ id (id line) {
+        return [[self cellsFromRowString:line] objectAtIndex:1];
+    }];
+}
+
+- (NSArray *)getInstanceStatsForApp:(NSString *)app {
+    NSString *result = self.shellBlock([NSArray arrayWithObjects:@"stats", app, nil]);
+    
+    if ([result rangeOfString:@"Application Not Found"].location != NSNotFound)
+        return nil;
+    
+    NSArray *rows = [self rowStringsFromTableString:result];
+    return [rows map:^ id (id line) {
+        NSArray *cells = [self cellsFromRowString:line];
+        VMCInstanceStats *stats = [VMCInstanceStats new];
+        stats.cpu = [cells objectAtIndex:2];
+        stats.memory = [cells objectAtIndex:3];
+        stats.disk = [cells objectAtIndex:4];
+        stats.uptime = [cells objectAtIndex:5];
+        return stats;
+    }];
 }
 
 @end

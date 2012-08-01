@@ -1,5 +1,0 @@
-
-@interface AddTargetController : NSViewController
-
-
-@end

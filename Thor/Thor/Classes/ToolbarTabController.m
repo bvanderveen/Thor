@@ -1,5 +1,5 @@
 #import "ToolbarTabController.h"
-#import "AppsController.h"
+#import "TargetsController.h"
 #import "CloudsController.h"
 #import "BreadcrumbController.h"
 
@@ -51,7 +51,7 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         toolbar.delegate = self;
         toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         
-        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:[[AppsController alloc] init]];
+        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:[[TargetsController alloc] init]];
         self.cloudsController = [[BreadcrumbController alloc] initWithRootViewController:[[CloudsController alloc] init]];
     }
     return self;

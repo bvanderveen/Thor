@@ -10,18 +10,29 @@
 		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
 		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
+		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
+		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
+		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
+		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
+		414E185D15C226DF007C9508 /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185B15C226DF007C9508 /* Sequence.h */; };
+		414E185E15C226DF007C9508 /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185C15C226DF007C9508 /* Sequence.m */; };
+		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
+		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
-		417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAA15ACC5C000E64503 /* AppsController.m */; };
 		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
+		418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* TargetsController.m */; };
+		418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* TargetsView.xib */; };
+		418BF29915BF43B700E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* TargetsView.m */; };
 		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
-		41C7FE7115B8BCF7006B3468 /* AddTargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7015B8BCF7006B3468 /* AddTargetController.m */; };
-		41C7FE7415B8BF89006B3468 /* AddTargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* AddTargetView.m */; };
-		41F9028F15AF257000550870 /* AppsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F9028E15AF257000550870 /* AppsView.m */; };
+		41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */; };
+		41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */; };
+		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
+		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
@@ -69,10 +80,19 @@
 		4131290515B6113E005F6D54 /* VMCOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperations.h; sourceTree = "<group>"; };
 		4131290615B6113E005F6D54 /* VMCOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperations.m; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
+		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
+		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
+		414E185315C0BF63007C9508 /* TargetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetController.h; path = Classes/TargetController.h; sourceTree = "<group>"; };
+		414E185415C0BF63007C9508 /* TargetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetController.m; path = Classes/TargetController.m; sourceTree = "<group>"; };
+		414E185815C1BC0E007C9508 /* GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridView.h; path = Classes/GridView.h; sourceTree = "<group>"; };
+		414E185915C1BC0E007C9508 /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridView.m; path = Classes/GridView.m; sourceTree = "<group>"; };
+		414E185B15C226DF007C9508 /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
+		414E185C15C226DF007C9508 /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
+		414E185F15C350B7007C9508 /* VMCService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCService.h; sourceTree = "<group>"; };
+		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
-		417FEFA915ACC5C000E64503 /* AppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsController.h; path = Classes/AppsController.h; sourceTree = "<group>"; };
-		417FEFAA15ACC5C000E64503 /* AppsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsController.m; path = Classes/AppsController.m; sourceTree = "<group>"; };
 		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
 		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
@@ -80,17 +100,24 @@
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		418BF28F15BF16CE00E313C7 /* TargetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsController.h; path = Classes/TargetsController.h; sourceTree = "<group>"; };
+		418BF29015BF16CE00E313C7 /* TargetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsController.m; path = Classes/TargetsController.m; sourceTree = "<group>"; };
+		418BF29515BF279E00E313C7 /* TargetsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetsView.xib; sourceTree = "<group>"; };
+		418BF29715BF43B600E313C7 /* TargetsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsView.h; path = Classes/TargetsView.h; sourceTree = "<group>"; };
+		418BF29815BF43B600E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
 		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
 		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
 		41C7FE6B15B89281006B3468 /* BottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomBar.h; path = Classes/BottomBar.h; sourceTree = "<group>"; };
 		41C7FE6C15B89281006B3468 /* BottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomBar.m; path = Classes/BottomBar.m; sourceTree = "<group>"; };
-		41C7FE6F15B8BCF7006B3468 /* AddTargetController.h */ = {isa = PBXFileReference; fileEncoding = 4; name = AddTargetController.h; path = Classes/AddTargetController.h; sourceTree = "<group>"; };
-		41C7FE7015B8BCF7006B3468 /* AddTargetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddTargetController.m; path = Classes/AddTargetController.m; sourceTree = "<group>"; };
-		41C7FE7215B8BF89006B3468 /* AddTargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; name = AddTargetView.h; path = Classes/AddTargetView.h; sourceTree = "<group>"; };
-		41C7FE7315B8BF89006B3468 /* AddTargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddTargetView.m; path = Classes/AddTargetView.m; sourceTree = "<group>"; };
-		41F9028D15AF257000550870 /* AppsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppsView.h; path = Classes/AppsView.h; sourceTree = "<group>"; };
-		41F9028E15AF257000550870 /* AppsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppsView.m; path = Classes/AppsView.m; sourceTree = "<group>"; };
+		41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetPropertiesController.h; path = Classes/TargetPropertiesController.h; sourceTree = "<group>"; };
+		41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetPropertiesController.m; path = Classes/TargetPropertiesController.m; sourceTree = "<group>"; };
+		41C7FE7215B8BF89006B3468 /* TargetPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetPropertiesView.h; path = Classes/TargetPropertiesView.h; sourceTree = "<group>"; };
+		41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetPropertiesView.m; path = Classes/TargetPropertiesView.m; sourceTree = "<group>"; };
+		41D286CB15C879D800206E3A /* TargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetView.h; path = Classes/TargetView.h; sourceTree = "<group>"; };
+		41D286CC15C879D800206E3A /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetView.m; path = Classes/TargetView.m; sourceTree = "<group>"; };
+		41D286CF15C87B9200206E3A /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SheetWindow.h; path = Classes/SheetWindow.h; sourceTree = "<group>"; };
+		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -176,16 +203,50 @@
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
 		};
-		417FEFA815ACC59800E64503 /* Apps */ = {
+		414779E515C0865B00B733EF /* Target View */ = {
 			isa = PBXGroup;
 			children = (
-				41C7FE6E15B8BCBD006B3468 /* Add Target Dialog */,
-				417FEFA915ACC5C000E64503 /* AppsController.h */,
-				417FEFAA15ACC5C000E64503 /* AppsController.m */,
-				41F9028D15AF257000550870 /* AppsView.h */,
-				41F9028E15AF257000550870 /* AppsView.m */,
+				414E185315C0BF63007C9508 /* TargetController.h */,
+				414E185415C0BF63007C9508 /* TargetController.m */,
+				41D286CB15C879D800206E3A /* TargetView.h */,
+				41D286CC15C879D800206E3A /* TargetView.m */,
 			);
-			name = Apps;
+			name = "Target View";
+			sourceTree = "<group>";
+		};
+		414779E615C0B1AD00B733EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				414779E715C0B1C000B733EF /* CollectionViewBackground.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		414E184E15C0B4F1007C9508 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				414E185015C0B55F007C9508 /* CollectionView.h */,
+				414E185115C0B55F007C9508 /* CollectionView.m */,
+				414E185815C1BC0E007C9508 /* GridView.h */,
+				414E185915C1BC0E007C9508 /* GridView.m */,
+				41D286CF15C87B9200206E3A /* SheetWindow.h */,
+				41D286D015C87B9200206E3A /* SheetWindow.m */,
+			);
+			name = "Custom Views";
+			sourceTree = "<group>";
+		};
+		417FEFA815ACC59800E64503 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				418BF29515BF279E00E313C7 /* TargetsView.xib */,
+				418BF29715BF43B600E313C7 /* TargetsView.h */,
+				418BF29815BF43B600E313C7 /* TargetsView.m */,
+				418BF28F15BF16CE00E313C7 /* TargetsController.h */,
+				418BF29015BF16CE00E313C7 /* TargetsController.m */,
+				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
+				414779E515C0865B00B733EF /* Target View */,
+			);
+			name = Targets;
 			sourceTree = "<group>";
 		};
 		417FEFAC15ACC96600E64503 /* Clouds */ = {
@@ -197,15 +258,15 @@
 			name = Clouds;
 			sourceTree = "<group>";
 		};
-		41C7FE6E15B8BCBD006B3468 /* Add Target Dialog */ = {
+		41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */ = {
 			isa = PBXGroup;
 			children = (
-				41C7FE6F15B8BCF7006B3468 /* AddTargetController.h */,
-				41C7FE7015B8BCF7006B3468 /* AddTargetController.m */,
-				41C7FE7215B8BF89006B3468 /* AddTargetView.h */,
-				41C7FE7315B8BF89006B3468 /* AddTargetView.m */,
+				41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */,
+				41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */,
+				41C7FE7215B8BF89006B3468 /* TargetPropertiesView.h */,
+				41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */,
 			);
-			name = "Add Target Dialog";
+			name = "Target Properties Dialog";
 			sourceTree = "<group>";
 		};
 		41F9029C15AF592A00550870 /* ThorCore */ = {
@@ -217,6 +278,10 @@
 				41F902A015AF592A00550870 /* ThorBackend.m */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
+				414E185B15C226DF007C9508 /* Sequence.h */,
+				414E185C15C226DF007C9508 /* Sequence.m */,
+				414E185F15C350B7007C9508 /* VMCService.h */,
+				414E186015C350B7007C9508 /* VMCService.m */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -289,11 +354,13 @@
 			isa = PBXGroup;
 			children = (
 				417FEFAC15ACC96600E64503 /* Clouds */,
-				417FEFA815ACC59800E64503 /* Apps */,
+				417FEFA815ACC59800E64503 /* Targets */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
+				414E184E15C0B4F1007C9508 /* Custom Views */,
 				F32F9755154908CB002CCF27 /* AppDelegate.h */,
 				F32F9756154908CC002CCF27 /* AppDelegate.m */,
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
+				414779E615C0B1AD00B733EF /* Resources */,
 				F32F974A154908CB002CCF27 /* Supporting Files */,
 			);
 			path = Thor;
@@ -339,6 +406,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
+				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
+				414E186115C350B7007C9508 /* VMCService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +533,8 @@
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
 				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
+				418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */,
+				414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,6 +584,8 @@
 			files = (
 				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
 				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
+				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
+				414E186215C350B7007C9508 /* VMCService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,14 +606,19 @@
 				F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */,
 				F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */,
 				417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */,
-				417FEFAB15ACC5C000E64503 /* AppsController.m in Sources */,
 				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
 				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
 				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
-				41F9028F15AF257000550870 /* AppsView.m in Sources */,
 				41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */,
-				41C7FE7115B8BCF7006B3468 /* AddTargetController.m in Sources */,
-				41C7FE7415B8BF89006B3468 /* AddTargetView.m in Sources */,
+				41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */,
+				41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */,
+				418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */,
+				418BF29915BF43B700E313C7 /* TargetsView.m in Sources */,
+				414E185215C0B55F007C9508 /* CollectionView.m in Sources */,
+				414E185515C0BF63007C9508 /* TargetController.m in Sources */,
+				414E185A15C1BC0E007C9508 /* GridView.m in Sources */,
+				41D286CD15C879D800206E3A /* TargetView.m in Sources */,
+				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +736,10 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 				WRAPPER_EXTENSION = octest;
@@ -673,6 +755,10 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
 				VALIDATE_PRODUCT = YES;
@@ -733,6 +819,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -744,6 +834,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
