@@ -1,5 +1,4 @@
 #import "VMCOperations.h"
-#import "Sequence.h"
 
 @implementation VMCInstanceStats
 

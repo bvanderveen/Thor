@@ -278,16 +278,16 @@
 		41F9029C15AF592A00550870 /* ThorCore */ = {
 			isa = PBXGroup;
 			children = (
+				41C7FE6915B77B18006B3468 /* ThorCore.h */,
+				414E185F15C350B7007C9508 /* VMCService.h */,
+				414E186015C350B7007C9508 /* VMCService.m */,
 				4131290515B6113E005F6D54 /* VMCOperations.h */,
 				4131290615B6113E005F6D54 /* VMCOperations.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
-				41F9029D15AF592A00550870 /* Supporting Files */,
-				41C7FE6915B77B18006B3468 /* ThorCore.h */,
 				414E185B15C226DF007C9508 /* Sequence.h */,
 				414E185C15C226DF007C9508 /* Sequence.m */,
-				414E185F15C350B7007C9508 /* VMCService.h */,
-				414E186015C350B7007C9508 /* VMCService.m */,
+				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";

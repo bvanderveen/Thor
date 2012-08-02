@@ -105,7 +105,11 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
     if (![self ensureTarget:target error:error])
         return nil;
     
-    return [vmc getApps];
+    return [[vmc getApps] map:^ id (id a) {
+        VMCDeployment *d = [VMCDeployment new];
+        d.name = a;
+        return d;
+    }];
 }
 
 @end
