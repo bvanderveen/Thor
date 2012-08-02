@@ -1,6 +1,7 @@
 #import "TargetController.h"
 #import "TargetPropertiesController.h"
 #import "SheetWindow.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface TargetController ()
 
@@ -32,15 +33,24 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)awakeFromNib {
-    NSError *error = nil;
-    
-    self.deployments = [[VMCService shared] getDeploymentsForTarget:target error:&error];
-    
-    if (error)
+    [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
+        NSError *e = nil;
+        id result = [[VMCService shared] getDeploymentsForTarget:target error:&e];
+        
+        if (e) {
+            *success = NO;
+            *error = e;
+        }
+        
+        return result;
+    }] deliverOn:[RACScheduler mainQueueScheduler]] subscribeNext:^(id x) {
+        self.deployments = x;
+        [targetView.deploymentsGrid reloadData];
+    } error:^(NSError *error) {
         [NSApp presentError:error];
+    }];
     
     targetView.deploymentsGrid.dataSource = self;
-    [targetView.deploymentsGrid reloadData];
 }
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
