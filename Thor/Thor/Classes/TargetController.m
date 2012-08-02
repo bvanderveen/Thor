@@ -1,12 +1,9 @@
 #import "TargetController.h"
-#import "TargetView.h"
 #import "TargetPropertiesController.h"
 #import "SheetWindow.h"
 
 @interface TargetController ()
 
-@property (nonatomic, strong) Target *target;
-@property (nonatomic, strong) TargetView *targetView;
 @property (nonatomic, strong) NSArray *deployments;
 @property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 
@@ -26,25 +23,18 @@ static NSArray *deploymentColumns = nil;
     return self;
 }
 
-- (id)initWithTarget:(Target *)leTarget {
-    //if (self = [super initWithNibName:@"TargetView" bundle:[NSBundle mainBundle]]) {
-    if (self = [super initWithNibName:nil bundle:nil]) {
-        self.target = leTarget;
-        self.title = leTarget.displayName;
+- (id)init {
+    if (self = [super initWithNibName:@"TargetView" bundle:[NSBundle mainBundle]]) {
+    //if (self = [super initWithNibName:nil bundle:nil]) {
+        self.title = @"Cloud";
     }
     return self;
 }
 
-- (void)loadView {
+- (void)awakeFromNib {    
     self.deployments = [[FixtureVMCService new] getDeploymentsForTarget:target];
-    
-    self.targetView = [[TargetView alloc] initWithTarget:target];
-    self.targetView.deploymentsGrid.dataSource = self;
-    self.targetView.editButton.target = self;
-    self.targetView.editButton.action = @selector(editClicked);
+    targetView.deploymentsGrid.dataSource = self;
     [targetView.deploymentsGrid reloadData];
-    
-    self.view = targetView;
 }
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
@@ -78,8 +68,9 @@ static NSArray *deploymentColumns = nil;
     return nil;
 }
 
-- (void)editClicked {
+- (void)editClicked:(id)sender {
     self.targetPropertiesController = [[TargetPropertiesController alloc] init];
+    self.targetPropertiesController.target = target;
     
     NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     
@@ -89,7 +80,6 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    //[self updateTargets];
     self.targetPropertiesController = nil;
     [sheet orderOut:self];
 }

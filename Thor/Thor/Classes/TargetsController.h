@@ -2,6 +2,7 @@
 
 @interface TargetsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
 
+@property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, strong) IBOutlet NSMutableArray *targets;
 
 - (IBAction)targetClicked:(id)sender;

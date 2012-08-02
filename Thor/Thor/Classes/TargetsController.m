@@ -13,7 +13,7 @@
 
 @implementation TargetsController
 
-@synthesize title, breadcrumbController, targetPropertiesController, targets;
+@synthesize title, breadcrumbController, targetPropertiesController, targets, arrayController;
 
 - (TargetsView *)targetsView {
     return (TargetsView *)self.view;
@@ -46,26 +46,43 @@
     self.targetsView.bar.barButton.target = self;
     self.targetsView.bar.barButton.action = @selector(addTargetClicked);
     self.targetsView.delegate = self;
+    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {
     [targets insertObject:t atIndex:index];
 }
 
+- (void)pushSelectedTarget {
+    
+    Target *target = [self.targets objectAtIndex:arrayController.selectionIndex];
+    
+    TargetController *targetController = [[TargetController alloc] init];
+    targetController.target = target;
+    
+    [self.breadcrumbController pushViewController:targetController animated:YES];
+    NSMutableIndexSet *empty = [NSMutableIndexSet indexSet];
+    [empty removeAllIndexes];
+    arrayController.selectionIndexes = empty;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == arrayController) {
+        if (arrayController.selectionIndexes.count)
+            [self performSelector:@selector(pushSelectedTarget) withObject:nil afterDelay:0];
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 -(void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
     [targets removeObjectAtIndex:index];
 }
 
-- (void)targetClicked:(NSButton *)sender {
-    // heinous!
-    NSUInteger index = [[[[sender superview] superview] subviews] indexOfObject:[sender superview]];
-    Target *target = [targets objectAtIndex:index];
-    
-    [self.breadcrumbController pushViewController:[[TargetController alloc] initWithTarget:target] animated:YES];
-}
-
 - (void)addTargetClicked {
     self.targetPropertiesController = [[TargetPropertiesController alloc] init];
+    self.targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
     
     NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     

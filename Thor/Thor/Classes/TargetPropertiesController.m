@@ -1,51 +1,30 @@
 #import "TargetPropertiesController.h"
-#import "TargetPropertiesView.h"
-
-@interface TargetPropertiesController ()
-
-@property (nonatomic, strong) TargetPropertiesView *targetPropertiesView;
-
-@end
 
 @implementation TargetPropertiesController
 
-@synthesize targetPropertiesView;
+@synthesize targetPropertiesView, target;
 
 - (id)init {
-    if (self = [super initWithNibName:nil bundle:nil]) {
-        
+    if (self = [super initWithNibName:@"TargetPropertiesView" bundle:[NSBundle mainBundle]]) {
     }
     return self;
 }
 
-- (void)loadView {
-    self.targetPropertiesView = [[TargetPropertiesView alloc] initWithFrame:NSZeroRect];
-    targetPropertiesView.cancelButton.target = self;
-    targetPropertiesView.cancelButton.action = @selector(buttonClicked:);
-    targetPropertiesView.confirmButton.target = self;
-    targetPropertiesView.confirmButton.action = @selector(buttonClicked:);
-    
-    self.view = targetPropertiesView;
-}
-
 - (void)buttonClicked:(NSButton *)button {
-    if (button == targetPropertiesView.confirmButton)
-    {
-        // TODO some validation
-        
+    if (button == targetPropertiesView.confirmButton) {
         NSError *error = nil;
-        
-        NSDictionary *target = [NSDictionary dictionaryWithObjectsAndKeys:
-         targetPropertiesView.displayNameField.stringValue, @"displayName", 
-         targetPropertiesView.hostnameField.stringValue, @"hostname",
-         targetPropertiesView.emailField.stringValue, @"email",
-         targetPropertiesView.passwordField.stringValue, @"password",
-         nil];
-        
-        [[ThorBackend shared] createConfiguredTarget:target error:&error];
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+            NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+        }
+        else {
+            [NSApp endSheet:self.view.window];
+        }
     }
-    
-    [NSApp endSheet:self.view.window];
+    else {
+        [[ThorBackend sharedContext] rollback];
+        [NSApp endSheet:self.view.window];
+    }
 }
 
 @end

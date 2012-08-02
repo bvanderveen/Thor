@@ -12,6 +12,7 @@
 
 + (NSFetchRequest *)fetchRequest;
 
++ (Target *)targetInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 + (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
@@ -41,7 +42,8 @@ void ThorEjectObjectContext();
 extern NSString *ThorErrorDomain;
 
 static NSInteger AppLocalRootInvalid = 1;
-static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 2;
+static NSInteger TargetHostnameInvalid = 2;
+static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 3;
 
 @protocol ThorBackend <NSObject>
 
@@ -67,6 +69,7 @@ static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 2;
 
 @interface ThorBackend : NSObject
 
++ (NSManagedObjectContext *)sharedContext;
 + (id<ThorBackend>)shared;
 
 @end

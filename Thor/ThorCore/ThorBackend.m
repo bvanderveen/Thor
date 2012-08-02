@@ -2,13 +2,21 @@
 #import <objc/runtime.h>
 
 static id<ThorBackend> sharedBackend = nil;
+static NSManagedObjectContext *sharedContext = nil;
 @implementation ThorBackend
+
++ (NSManagedObjectContext *)sharedContext {
+    if (!sharedContext) {
+        // TODO handle errors in initialization
+        NSError *error = nil;
+        sharedContext = ThorGetObjectContext(ThorGetStoreURL(&error), &error);
+    }
+    return sharedContext;
+}
 
 + (id<ThorBackend>)shared {
     if (!sharedBackend) {
-        // TODO handle errors in initialization
-        NSError *error = nil;
-        sharedBackend = [[ThorBackendImpl alloc] initWithObjectContext:ThorGetObjectContext(ThorGetStoreURL(&error), &error)];
+        sharedBackend = [[ThorBackendImpl alloc] initWithObjectContext:[self sharedContext]];
     }
     return sharedBackend;
 }
@@ -16,7 +24,6 @@ static id<ThorBackend> sharedBackend = nil;
 @end
 
 @implementation NSObject (DictionaryRepresentation)
-
 
 - (NSDictionary *)dictionaryRepresentation {
     
@@ -34,6 +41,29 @@ static id<ThorBackend> sharedBackend = nil;
     free(properties);
     
     return [result copy];
+}
+
+@end
+
+@interface NSFetchRequest (Helpers)
+
+- (BOOL)anyInContext:(NSManagedObjectContext *)context result:(BOOL*)outResult error:(NSError **)outError;
+
+@end
+
+@implementation NSFetchRequest (Helpers)
+
+- (BOOL)anyInContext:(NSManagedObjectContext *)context result:(BOOL*)outResult error:(NSError **)outError {
+    NSError *fetchWithLocalRootError = nil;
+    NSArray *withSameLocalRoot = [context executeFetchRequest:self error:&fetchWithLocalRootError];
+    
+    if (fetchWithLocalRootError) {
+        *outError = fetchWithLocalRootError;
+        return NO;
+    }
+    
+    *outResult = withSameLocalRoot.count;
+    return YES;
 }
 
 @end
@@ -183,10 +213,44 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @dynamic displayName, hostname, email, password;
 
+- (BOOL)validateHostname:(id *)hostname error:(NSError **)outError {
+    if (*hostname == nil)
+        return YES;
+    
+    if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
+        NSError *error = [[NSError alloc] initWithDomain:ThorErrorDomain code:TargetHostnameInvalid userInfo:[NSDictionary dictionaryWithObject:@"Hostname must start with \"api.\"" forKey:NSLocalizedDescriptionKey]];
+        *outError = error;
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
+    if (![super validateForUpdate:error])
+        return NO;
+    
+    NSFetchRequest *request = [Target fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostname == %@ AND self != %@", self.email, self.hostname, self];
+    
+    BOOL any = NO;
+    
+    if (![request anyInContext:self.managedObjectContext result:&any error:error])
+        return NO;
+    
+    if (any) {
+        *error = [NSError errorWithDomain:ThorErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:[NSDictionary dictionaryWithObject:@"There is already a target with the given email and hostname" forKey:NSLocalizedDescriptionKey]];
+        return NO;
+    }
+
+    return YES;
+}
+
++ (Target *)targetInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
+    return (Target *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"Target"] insertIntoManagedObjectContext:context];
+}
 
 + (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    Target *target = (Target *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"Target"] insertIntoManagedObjectContext:context];
-    
+    Target *target = [self targetInsertedIntoManagedObjectContext:context];
     target.displayName = [dictionary objectForKey:@"displayName"];
     target.hostname = [dictionary objectForKey:@"hostname"];
     target.email = [dictionary objectForKey:@"email"];
@@ -227,26 +291,13 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
-- (BOOL)anyInRequest:(NSFetchRequest *)request error:(NSError **)error result:(BOOL*)result {
-    NSError *fetchWithLocalRootError = nil;
-    NSArray *withSameLocalRoot = [self.context executeFetchRequest:request error:&fetchWithLocalRootError];
-    
-    if (fetchWithLocalRootError) {
-        *error = fetchWithLocalRootError;
-        return NO;
-    }
-    
-    *result = withSameLocalRoot.count;
-    return YES;
-}
-
 - (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error {
     NSFetchRequest *request = [App fetchRequest];
     request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@", [appDict objectForKey:@"localRoot"]];
     
     BOOL any = NO;
     
-    if (![self anyInRequest:request error:error result:&any])
+    if (![request anyInContext:self.context result:&any error:error])
         return nil;
     
     if (any) {
@@ -271,7 +322,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     
     BOOL any = NO;
     
-    if (![self anyInRequest:request error:error result:&any])
+    if (![request anyInContext:self.context result:&any error:error])
         return nil;
     
     if (any) {
