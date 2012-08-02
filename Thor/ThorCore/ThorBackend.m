@@ -68,7 +68,7 @@ static NSManagedObjectContext *sharedContext = nil;
 
 @end
 
-NSString *ThorErrorDomain = @"com.tier3.thor.ErrorDomain";
+NSString *ThorBackendErrorDomain = @"com.tier3.thor.BackendErrorDomain";
 static NSString *ThorDataStoreFile = @"ThorDataStore";
 
 NSURL *ThorGetStoreURL(NSError **error) {
@@ -218,7 +218,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return YES;
     
     if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
-        NSError *error = [[NSError alloc] initWithDomain:ThorErrorDomain code:TargetHostnameInvalid userInfo:[NSDictionary dictionaryWithObject:@"Hostname must start with \"api.\"" forKey:NSLocalizedDescriptionKey]];
+        NSError *error = [[NSError alloc] initWithDomain:ThorBackendErrorDomain code:TargetHostnameInvalid userInfo:[NSDictionary dictionaryWithObject:@"Hostname must start with \"api.\"" forKey:NSLocalizedDescriptionKey]];
         *outError = error;
         return NO;
     }
@@ -238,7 +238,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return NO;
     
     if (any) {
-        *error = [NSError errorWithDomain:ThorErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:[NSDictionary dictionaryWithObject:@"There is already a target with the given email and hostname" forKey:NSLocalizedDescriptionKey]];
+        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:[NSDictionary dictionaryWithObject:@"There is already a target with the given email and hostname" forKey:NSLocalizedDescriptionKey]];
         return NO;
     }
 
@@ -301,7 +301,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return nil;
     
     if (any) {
-        *error = [NSError errorWithDomain:ThorErrorDomain code:AppLocalRootInvalid userInfo:nil];
+        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:AppLocalRootInvalid userInfo:nil];
         return nil;
     }
     
@@ -326,7 +326,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return nil;
     
     if (any) {
-        *error = [NSError errorWithDomain:ThorErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:nil];
+        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:nil];
         return nil;
     }
     

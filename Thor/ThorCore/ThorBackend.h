@@ -39,7 +39,7 @@ NSURL *ThorGetStoreURL(NSError **error);
 NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error);
 void ThorEjectObjectContext();
 
-extern NSString *ThorErrorDomain;
+extern NSString *ThorBackendErrorDomain;
 
 static NSInteger AppLocalRootInvalid = 1;
 static NSInteger TargetHostnameInvalid = 2;

@@ -31,8 +31,14 @@ static NSArray *deploymentColumns = nil;
     return self;
 }
 
-- (void)awakeFromNib {    
-    self.deployments = [[FixtureVMCService new] getDeploymentsForTarget:target];
+- (void)awakeFromNib {
+    NSError *error = nil;
+    
+    self.deployments = [[VMCService shared] getDeploymentsForTarget:target error:&error];
+    
+    if (error)
+        [NSApp presentError:error];
+    
     targetView.deploymentsGrid.dataSource = self;
     [targetView.deploymentsGrid reloadData];
 }

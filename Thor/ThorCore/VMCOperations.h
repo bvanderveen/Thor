@@ -19,6 +19,7 @@
 typedef NSString * (^SynchronousExecuteShellBlock)(NSString *, NSArray *);
 
 SynchronousExecuteShellBlock SynchronousExecuteShell;
+SynchronousExecuteShellBlock RVMExecute;
 
 @interface VMCOperationsImpl : NSObject <VMCOperations>
 
