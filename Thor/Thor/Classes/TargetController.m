@@ -1,7 +1,7 @@
 #import "TargetController.h"
 #import "TargetPropertiesController.h"
 #import "SheetWindow.h"
-#import <ReactiveCocoa/ReactiveCocoa.h>
+#import "NSObject+AssociateDisposable.h"
 
 @interface TargetController ()
 
@@ -33,7 +33,7 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)awakeFromNib {
-    [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
+    self.associatedDisposable = [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
         NSError *e = nil;
         id result = [[VMCService shared] getDeploymentsForTarget:target error:&e];
         

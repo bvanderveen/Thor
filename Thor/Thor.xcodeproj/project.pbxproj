@@ -28,6 +28,7 @@
 		418BF29915BF43B700E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* TargetsView.m */; };
 		41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41C59C0015CA6C3900123ABF /* TargetView.xib */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
+		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
 		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
@@ -138,6 +139,8 @@
 		418BF29815BF43B600E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
 		41C59C0015CA6C3900123ABF /* TargetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetView.xib; sourceTree = "<group>"; };
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
+		41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AssociateDisposable.m"; path = "Classes/NSObject+AssociateDisposable.m"; sourceTree = "<group>"; };
 		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
 		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
@@ -304,6 +307,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		41C59C1D15CB051400123ABF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
+				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +413,7 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
+				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Clouds */,
 				417FEFA815ACC59800E64503 /* Targets */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
@@ -700,6 +713,7 @@
 				414E185A15C1BC0E007C9508 /* GridView.m in Sources */,
 				41D286CD15C879D800206E3A /* TargetView.m in Sources */,
 				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
+				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
