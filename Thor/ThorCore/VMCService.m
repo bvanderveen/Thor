@@ -107,10 +107,19 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
     
     return [[vmc getApps] map:^ id (id a) {
         VMCDeployment *d = [VMCDeployment new];
+        
+        NSArray *stats = [vmc getInstanceStatsForApp:a];
+        
         d.name = a;
-        d.memory = @"?";
-        d.cpu = @"?";
-        d.disk = @"?";
+        d.memory = [stats reduce:^id(id acc, id i) {
+            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).memory cString])];
+        } seed:[NSNumber numberWithInt:0]];
+        d.cpu = [stats reduce:^id(id acc, id i) {
+            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).cpu cString])];
+        } seed:[NSNumber numberWithInt:0]];
+        d.disk = [stats reduce:^id(id acc, id i) {
+            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).disk cString])];
+        } seed:[NSNumber numberWithInt:0]];
         return d;
     }];
 }
