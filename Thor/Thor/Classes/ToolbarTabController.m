@@ -1,9 +1,9 @@
 #import "ToolbarTabController.h"
-#import "TargetsController.h"
-#import "CloudsController.h"
+#import "ItemsController.h"
+#import "TargetItemsDataSource.h"
 #import "BreadcrumbController.h"
 
-NSString *ToolbarCloudsItemIdentifier = @"ToolbarCloudsItemIdentifier";
+NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 
 @interface TabView : NSView
@@ -37,13 +37,13 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 
 @interface ToolbarTabController ()
 
-@property (nonatomic, strong) NSViewController *appsController, *cloudsController, *activeController;
+@property (nonatomic, strong) NSViewController *appsController, *targetsController, *activeController;
 
 @end
 
 @implementation ToolbarTabController
 
-@synthesize toolbar, appsController, cloudsController, activeController = _activeController;
+@synthesize toolbar, appsController, targetsController, activeController = _activeController;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -51,8 +51,16 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         toolbar.delegate = self;
         toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         
-        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:[[TargetsController alloc] init]];
-        self.cloudsController = [[BreadcrumbController alloc] initWithRootViewController:[[CloudsController alloc] init]];
+        ItemsController *targets = [[ItemsController alloc] initWithTitle:@"Clouds"];
+        targets.dataSource = [[TargetItemsDataSource alloc] init];
+        
+        ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
+        apps.dataSource = [[TargetItemsDataSource alloc] init];
+        
+        
+        
+        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:apps];
+        self.targetsController = [[BreadcrumbController alloc] initWithRootViewController:targets];
     }
     return self;
 }
@@ -72,7 +80,7 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         item.action = @selector(itemClicked:);
         return item;
     } 
-    else if ([itemIdentifier isEqual:ToolbarCloudsItemIdentifier]) {
+    else if ([itemIdentifier isEqual:ToolbarTargetsItemIdentifier]) {
         NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
         item.label = @"Clouds";
         item.target = self;
@@ -86,19 +94,19 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarCloudsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
+    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarCloudsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
+    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarCloudsItemIdentifier, nil];
+    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, nil];
 }
 
 - (void)itemClicked:(NSToolbarItem *)item {
-    self.activeController = [item.itemIdentifier isEqual:ToolbarAppsItemIdentifier] ? appsController : cloudsController;
+    self.activeController = [item.itemIdentifier isEqual:ToolbarAppsItemIdentifier] ? appsController : targetsController;
 }
 
 - (void)setActiveController:(NSViewController *)value {

@@ -19,13 +19,14 @@
 		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
 		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
-		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
-		418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* TargetsController.m */; };
-		418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* TargetsView.xib */; };
-		418BF29915BF43B700E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* TargetsView.m */; };
+		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
+		418BF29615BF279E00E313C7 /* ItemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* ItemsView.xib */; };
+		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
+		41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */; };
+		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
 		41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41C59C0015CA6C3900123ABF /* TargetView.xib */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
@@ -125,18 +126,20 @@
 		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
-		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
-		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		418BF28F15BF16CE00E313C7 /* TargetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsController.h; path = Classes/TargetsController.h; sourceTree = "<group>"; };
-		418BF29015BF16CE00E313C7 /* TargetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsController.m; path = Classes/TargetsController.m; sourceTree = "<group>"; };
-		418BF29515BF279E00E313C7 /* TargetsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetsView.xib; sourceTree = "<group>"; };
-		418BF29715BF43B600E313C7 /* TargetsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsView.h; path = Classes/TargetsView.h; sourceTree = "<group>"; };
-		418BF29815BF43B600E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
+		418BF28F15BF16CE00E313C7 /* ItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsController.h; path = Classes/ItemsController.h; sourceTree = "<group>"; };
+		418BF29015BF16CE00E313C7 /* ItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsController.m; path = Classes/ItemsController.m; sourceTree = "<group>"; };
+		418BF29515BF279E00E313C7 /* ItemsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemsView.xib; sourceTree = "<group>"; };
+		418BF29715BF43B600E313C7 /* ItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsView.h; path = Classes/ItemsView.h; sourceTree = "<group>"; };
+		418BF29815BF43B600E313C7 /* ItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsView.m; path = Classes/ItemsView.m; sourceTree = "<group>"; };
+		41B9232C15D0790B0004D167 /* TargetItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetItemsDataSource.h; sourceTree = "<group>"; };
+		41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TargetItemsDataSource.m; sourceTree = "<group>"; };
+		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
+		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
 		41C59C0015CA6C3900123ABF /* TargetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetView.xib; sourceTree = "<group>"; };
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 		414E184E15C0B4F1007C9508 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				41B9232B15D076600004D167 /* Items View */,
 				414E185015C0B55F007C9508 /* CollectionView.h */,
 				414E185115C0B55F007C9508 /* CollectionView.m */,
 				414E185815C1BC0E007C9508 /* GridView.h */,
@@ -277,24 +281,41 @@
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
-				418BF29515BF279E00E313C7 /* TargetsView.xib */,
-				418BF29715BF43B600E313C7 /* TargetsView.h */,
-				418BF29815BF43B600E313C7 /* TargetsView.m */,
-				418BF28F15BF16CE00E313C7 /* TargetsController.h */,
-				418BF29015BF16CE00E313C7 /* TargetsController.m */,
+				41B9232C15D0790B0004D167 /* TargetItemsDataSource.h */,
+				41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
 				414779E515C0865B00B733EF /* Target View */,
 			);
 			name = Targets;
 			sourceTree = "<group>";
 		};
-		417FEFAC15ACC96600E64503 /* Clouds */ = {
+		417FEFAC15ACC96600E64503 /* Apps */ = {
 			isa = PBXGroup;
 			children = (
-				417FEFAD15ACC99800E64503 /* CloudsController.h */,
-				417FEFAE15ACC99800E64503 /* CloudsController.m */,
+				41B9232F15D07A280004D167 /* AppItemsDataSource.h */,
+				41B9233015D07A280004D167 /* AppItemsDataSource.m */,
+				41B9233215D07D0F0004D167 /* App Properties Dialog */,
 			);
-			name = Clouds;
+			name = Apps;
+			sourceTree = "<group>";
+		};
+		41B9232B15D076600004D167 /* Items View */ = {
+			isa = PBXGroup;
+			children = (
+				418BF29515BF279E00E313C7 /* ItemsView.xib */,
+				418BF29715BF43B600E313C7 /* ItemsView.h */,
+				418BF29815BF43B600E313C7 /* ItemsView.m */,
+				418BF28F15BF16CE00E313C7 /* ItemsController.h */,
+				418BF29015BF16CE00E313C7 /* ItemsController.m */,
+			);
+			name = "Items View";
+			sourceTree = "<group>";
+		};
+		41B9233215D07D0F0004D167 /* App Properties Dialog */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "App Properties Dialog";
 			sourceTree = "<group>";
 		};
 		41C59C0315CAFD8200123ABF /* Products */ = {
@@ -414,7 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				41C59C1D15CB051400123ABF /* Extensions */,
-				417FEFAC15ACC96600E64503 /* Clouds */,
+				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
@@ -625,7 +646,7 @@
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
 				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
-				418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */,
+				418BF29615BF279E00E313C7 /* ItemsView.xib in Resources */,
 				414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */,
 				41D286D515C9D75600206E3A /* TargetPropertiesView.xib in Resources */,
 				41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */,
@@ -700,20 +721,21 @@
 				F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */,
 				F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */,
 				417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */,
-				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
 				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
 				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
 				41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */,
 				41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */,
 				41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */,
-				418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */,
-				418BF29915BF43B700E313C7 /* TargetsView.m in Sources */,
+				418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */,
+				418BF29915BF43B700E313C7 /* ItemsView.m in Sources */,
 				414E185215C0B55F007C9508 /* CollectionView.m in Sources */,
 				414E185515C0BF63007C9508 /* TargetController.m in Sources */,
 				414E185A15C1BC0E007C9508 /* GridView.m in Sources */,
 				41D286CD15C879D800206E3A /* TargetView.m in Sources */,
 				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
 				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
+				41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */,
+				41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
