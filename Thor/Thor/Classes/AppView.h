@@ -1,0 +1,4 @@
+
+@interface AppView : NSView
+
+@end

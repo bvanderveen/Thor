@@ -30,6 +30,9 @@
 		41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B9233315D07E1A0004D167 /* AppPropertiesView.xib */; };
 		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
 		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
+		41B9237E15D18AF20004D167 /* AppView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B9237D15D18AF20004D167 /* AppView.xib */; };
+		41B9238115D18E600004D167 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238015D18E600004D167 /* AppController.m */; };
+		41B9238415D190A00004D167 /* AppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238315D1909F0004D167 /* AppView.m */; };
 		41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41C59C0015CA6C3900123ABF /* TargetView.xib */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
@@ -148,6 +151,11 @@
 		41B9233615D085480004D167 /* AppPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesView.m; path = Classes/AppPropertiesView.m; sourceTree = "<group>"; };
 		41B9233815D085870004D167 /* AppPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesController.h; path = Classes/AppPropertiesController.h; sourceTree = "<group>"; };
 		41B9233915D085870004D167 /* AppPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesController.m; path = Classes/AppPropertiesController.m; sourceTree = "<group>"; };
+		41B9237D15D18AF20004D167 /* AppView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppView.xib; sourceTree = "<group>"; };
+		41B9237F15D18E600004D167 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Classes/AppController.h; sourceTree = "<group>"; };
+		41B9238015D18E600004D167 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = Classes/AppController.m; sourceTree = "<group>"; };
+		41B9238215D1909F0004D167 /* AppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppView.h; path = Classes/AppView.h; sourceTree = "<group>"; };
+		41B9238315D1909F0004D167 /* AppView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppView.m; path = Classes/AppView.m; sourceTree = "<group>"; };
 		41C59C0015CA6C3900123ABF /* TargetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetView.xib; sourceTree = "<group>"; };
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
@@ -303,6 +311,7 @@
 				41B9232F15D07A280004D167 /* AppItemsDataSource.h */,
 				41B9233015D07A280004D167 /* AppItemsDataSource.m */,
 				41B9233215D07D0F0004D167 /* App Properties Dialog */,
+				41B9233B15D187B00004D167 /* App View */,
 			);
 			name = Apps;
 			sourceTree = "<group>";
@@ -329,6 +338,18 @@
 				41B9233915D085870004D167 /* AppPropertiesController.m */,
 			);
 			name = "App Properties Dialog";
+			sourceTree = "<group>";
+		};
+		41B9233B15D187B00004D167 /* App View */ = {
+			isa = PBXGroup;
+			children = (
+				41B9237D15D18AF20004D167 /* AppView.xib */,
+				41B9238215D1909F0004D167 /* AppView.h */,
+				41B9238315D1909F0004D167 /* AppView.m */,
+				41B9237F15D18E600004D167 /* AppController.h */,
+				41B9238015D18E600004D167 /* AppController.m */,
+			);
+			name = "App View";
 			sourceTree = "<group>";
 		};
 		41C59C0315CAFD8200123ABF /* Products */ = {
@@ -664,6 +685,7 @@
 				41D286D515C9D75600206E3A /* TargetPropertiesView.xib in Resources */,
 				41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */,
 				41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */,
+				41B9237E15D18AF20004D167 /* AppView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,6 +774,8 @@
 				41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */,
 				41B9233715D085480004D167 /* AppPropertiesView.m in Sources */,
 				41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */,
+				41B9238115D18E600004D167 /* AppController.m in Sources */,
+				41B9238415D190A00004D167 /* AppView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

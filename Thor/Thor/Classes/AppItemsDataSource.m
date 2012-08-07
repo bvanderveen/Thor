@@ -1,5 +1,6 @@
 #import "AppItemsDataSource.h"
 #import "AppPropertiesController.h"
+#import "AppController.h"
 
 @implementation AppItemsDataSource
 
@@ -14,7 +15,9 @@
 }
 
 - (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item {
-    return nil;
+    AppController *appController = [[AppController alloc] init];
+    appController.app = (App *)item;
+    return appController;
 }
 
 @end
