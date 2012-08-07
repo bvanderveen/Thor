@@ -93,7 +93,7 @@
 }
 
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code {
-    NSLog(@"heh %@ %@", ThorErrorDomain, error.domain);
+    NSLog(@"heh %@ %@", ThorBackendErrorDomain, error.domain);
     STAssertEqualObjects(domain, error.domain, @"Unexpected error domain");
     STAssertEquals(code, error.code, @"Unexpected error code");
 }
@@ -169,7 +169,7 @@
     App *app1 = [self.backend createConfiguredApp:appDict1 error:&error];
     
     STAssertNil(app1, @"Expected no result");
-    [self assertError:error hasDomain:ThorErrorDomain andCode:AppLocalRootInvalid];
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:AppLocalRootInvalid];
 }
 
 //- (void)testCreateConfiguredAppThrowsExceptionIfAppDefaultMemoryIsTooLow {
@@ -261,7 +261,7 @@
     Target *target1 = [self.backend createConfiguredTarget:targetDict1 error:&error];
     
     STAssertNil(target1, @"Expected no result");
-    [self assertError:error hasDomain:ThorErrorDomain andCode:TargetHostnameAndEmailPreviouslyConfigured];
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:TargetHostnameAndEmailPreviouslyConfigured];
 }
 
 //
