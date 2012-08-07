@@ -1,6 +1,7 @@
 #import "ToolbarTabController.h"
 #import "ItemsController.h"
 #import "TargetItemsDataSource.h"
+#import "AppItemsDataSource.h"
 #import "BreadcrumbController.h"
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
@@ -55,7 +56,7 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         targets.dataSource = [[TargetItemsDataSource alloc] init];
         
         ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
-        apps.dataSource = [[TargetItemsDataSource alloc] init];
+        apps.dataSource = [[AppItemsDataSource alloc] init];
         
         
         

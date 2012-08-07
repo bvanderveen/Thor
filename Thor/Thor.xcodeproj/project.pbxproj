@@ -27,6 +27,9 @@
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
 		41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
+		41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B9233315D07E1A0004D167 /* AppPropertiesView.xib */; };
+		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
+		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
 		41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41C59C0015CA6C3900123ABF /* TargetView.xib */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
@@ -140,6 +143,11 @@
 		41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TargetItemsDataSource.m; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
+		41B9233315D07E1A0004D167 /* AppPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppPropertiesView.xib; sourceTree = "<group>"; };
+		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
+		41B9233615D085480004D167 /* AppPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesView.m; path = Classes/AppPropertiesView.m; sourceTree = "<group>"; };
+		41B9233815D085870004D167 /* AppPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesController.h; path = Classes/AppPropertiesController.h; sourceTree = "<group>"; };
+		41B9233915D085870004D167 /* AppPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesController.m; path = Classes/AppPropertiesController.m; sourceTree = "<group>"; };
 		41C59C0015CA6C3900123ABF /* TargetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetView.xib; sourceTree = "<group>"; };
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
@@ -314,6 +322,11 @@
 		41B9233215D07D0F0004D167 /* App Properties Dialog */ = {
 			isa = PBXGroup;
 			children = (
+				41B9233315D07E1A0004D167 /* AppPropertiesView.xib */,
+				41B9233515D085480004D167 /* AppPropertiesView.h */,
+				41B9233615D085480004D167 /* AppPropertiesView.m */,
+				41B9233815D085870004D167 /* AppPropertiesController.h */,
+				41B9233915D085870004D167 /* AppPropertiesController.m */,
 			);
 			name = "App Properties Dialog";
 			sourceTree = "<group>";
@@ -341,10 +354,10 @@
 			isa = PBXGroup;
 			children = (
 				41D286D415C9D75600206E3A /* TargetPropertiesView.xib */,
-				41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */,
-				41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */,
 				41C7FE7215B8BF89006B3468 /* TargetPropertiesView.h */,
 				41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */,
+				41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */,
+				41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */,
 			);
 			name = "Target Properties Dialog";
 			sourceTree = "<group>";
@@ -650,6 +663,7 @@
 				414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */,
 				41D286D515C9D75600206E3A /* TargetPropertiesView.xib in Resources */,
 				41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */,
+				41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,6 +750,8 @@
 				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
 				41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */,
 				41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */,
+				41B9233715D085480004D167 /* AppPropertiesView.m in Sources */,
+				41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

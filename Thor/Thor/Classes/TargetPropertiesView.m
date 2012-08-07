@@ -5,12 +5,6 @@
 
 @synthesize displayNameLabel, displayNameField, hostnameLabel, hostnameField, emailLabel, emailField, passwordLabel, passwordField, confirmButton, cancelButton, fieldContainer, buttonContainer;
 
-- (NSTextField *)createLabel {
-    NSTextField *result = [Label label];
-    [fieldContainer addSubview:result];
-    return result;
-}
-
 - (NSSize)intrinsicContentSize {
    return NSMakeSize(500, 300);
 }

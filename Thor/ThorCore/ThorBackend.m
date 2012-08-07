@@ -191,9 +191,13 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @dynamic displayName, localRoot, defaultMemory, defaultInstances;
 
+
++ (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
+    return (App *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"App"] insertIntoManagedObjectContext:context];
+}
+
 + (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    App *app = (App *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"App"] insertIntoManagedObjectContext:context];
-    
+    App *app = [self appInsertedIntoManagedObjectContext:context];
     app.localRoot = [dictionary objectForKey:@"localRoot"];
     app.displayName = [dictionary objectForKey:@"displayName"];
     app.defaultMemory = [dictionary objectForKey:@"defaultMemory"];

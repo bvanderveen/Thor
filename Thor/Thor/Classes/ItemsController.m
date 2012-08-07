@@ -39,7 +39,7 @@
     [super awakeFromNib];
     
     [self updateItems];
-    self.itemsView.bar.barButton.title = @"Add cloud…";
+    self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
     self.itemsView.delegate = self;

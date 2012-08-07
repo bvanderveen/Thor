@@ -1,5 +1,5 @@
 #import "AppItemsDataSource.h"
-//#import "AppPropertiesController.h"
+#import "AppPropertiesController.h"
 
 @implementation AppItemsDataSource
 
@@ -8,11 +8,9 @@
 }
 
 - (NSViewController *)getPropertiesControllerForNewItem {
-    return nil;
-//    
-//    AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
-//    appPropertiesController.app = [App targetInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-//    return appPropertiesController;
+    AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
+    appPropertiesController.app = [App appInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+    return appPropertiesController;
 }
 
 - (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item {

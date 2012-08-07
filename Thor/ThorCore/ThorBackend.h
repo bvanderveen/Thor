@@ -24,6 +24,7 @@
 
 + (NSFetchRequest *)fetchRequest;
 
++ (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 + (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
