@@ -1,16 +1,13 @@
-#import "TargetsView.h"
+#import "ItemsView.h"
 
-@implementation TargetsView
+@implementation ItemsView
 
 @synthesize collectionView, delegate, bar;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
-        self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        
         self.bar = [[BottomBar alloc] initWithFrame:NSZeroRect];
         self.bar.translatesAutoresizingMaskIntoConstraints = NO;
-        [bar.barButton setTitle:@"Add cloud…"];
         [self addSubview:bar];
     }
     return self;

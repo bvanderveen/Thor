@@ -1,5 +1,4 @@
 #import "VMCOperations.h"
-#import "Sequence.h"
 
 @implementation VMCInstanceStats
 
@@ -39,6 +38,13 @@ SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *c
     NSData *outputData = [outputHandle readDataToEndOfFile];
     
     return [[NSString alloc] initWithData:outputData encoding:NSASCIIStringEncoding];
+};
+
+SynchronousExecuteShellBlock RVMExecute = ^ NSString * (NSString *command, NSArray *arguments) {
+    NSArray *newArgs = [NSArray arrayWithObject:@"/Users/bvanderveen/.rvm/gems/ruby-1.9.2-p320@vmc-IronFoundry/bin/vmc"];
+    newArgs = [newArgs arrayByAddingObjectsFromArray:arguments];
+    
+    return SynchronousExecuteShell(@"/Users/bvanderveen/.rvm/bin/ruby-1.9.2-p320@vmc-IronFoundry", newArgs);
 };
 
 

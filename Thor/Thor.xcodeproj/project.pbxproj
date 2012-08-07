@@ -19,13 +19,20 @@
 		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
 		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
-		417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFAE15ACC99800E64503 /* CloudsController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
-		418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* TargetsController.m */; };
-		418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* TargetsView.xib */; };
-		418BF29915BF43B700E313C7 /* TargetsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* TargetsView.m */; };
+		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
+		418BF29615BF279E00E313C7 /* ItemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 418BF29515BF279E00E313C7 /* ItemsView.xib */; };
+		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
+		41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */; };
+		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
+		41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41B9233315D07E1A0004D167 /* AppPropertiesView.xib */; };
+		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
+		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
+		41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41C59C0015CA6C3900123ABF /* TargetView.xib */; };
+		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
+		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
 		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
@@ -33,6 +40,7 @@
 		41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */; };
 		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
+		41D286D515C9D75600206E3A /* TargetPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41D286D415C9D75600206E3A /* TargetPropertiesView.xib */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
@@ -53,6 +61,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		41C59C0D15CAFD8300123ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88037F8315056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
+		41C59C0F15CAFD8300123ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88F440AB153DAC820097B4C3;
+			remoteInfo = "ReactiveCocoa-iOS";
+		};
+		41C59C1115CAFD8300123ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88CDF7DC15000FCF00163A9F;
+			remoteInfo = ReactiveCocoaTests;
+		};
+		41C59C1515CB008B00123ABF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 88037F8215056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
 		41F902AC15AF592A00550870 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
@@ -93,18 +129,29 @@
 		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
-		417FEFAD15ACC99800E64503 /* CloudsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudsController.h; path = Classes/CloudsController.h; sourceTree = "<group>"; };
-		417FEFAE15ACC99800E64503 /* CloudsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudsController.m; path = Classes/CloudsController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		418BF28F15BF16CE00E313C7 /* TargetsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsController.h; path = Classes/TargetsController.h; sourceTree = "<group>"; };
-		418BF29015BF16CE00E313C7 /* TargetsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsController.m; path = Classes/TargetsController.m; sourceTree = "<group>"; };
-		418BF29515BF279E00E313C7 /* TargetsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetsView.xib; sourceTree = "<group>"; };
-		418BF29715BF43B600E313C7 /* TargetsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetsView.h; path = Classes/TargetsView.h; sourceTree = "<group>"; };
-		418BF29815BF43B600E313C7 /* TargetsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetsView.m; path = Classes/TargetsView.m; sourceTree = "<group>"; };
+		418BF28F15BF16CE00E313C7 /* ItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsController.h; path = Classes/ItemsController.h; sourceTree = "<group>"; };
+		418BF29015BF16CE00E313C7 /* ItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsController.m; path = Classes/ItemsController.m; sourceTree = "<group>"; };
+		418BF29515BF279E00E313C7 /* ItemsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemsView.xib; sourceTree = "<group>"; };
+		418BF29715BF43B600E313C7 /* ItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsView.h; path = Classes/ItemsView.h; sourceTree = "<group>"; };
+		418BF29815BF43B600E313C7 /* ItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsView.m; path = Classes/ItemsView.m; sourceTree = "<group>"; };
+		41B9232C15D0790B0004D167 /* TargetItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetItemsDataSource.h; sourceTree = "<group>"; };
+		41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TargetItemsDataSource.m; sourceTree = "<group>"; };
+		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
+		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
+		41B9233315D07E1A0004D167 /* AppPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppPropertiesView.xib; sourceTree = "<group>"; };
+		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
+		41B9233615D085480004D167 /* AppPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesView.m; path = Classes/AppPropertiesView.m; sourceTree = "<group>"; };
+		41B9233815D085870004D167 /* AppPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesController.h; path = Classes/AppPropertiesController.h; sourceTree = "<group>"; };
+		41B9233915D085870004D167 /* AppPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesController.m; path = Classes/AppPropertiesController.m; sourceTree = "<group>"; };
+		41C59C0015CA6C3900123ABF /* TargetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetView.xib; sourceTree = "<group>"; };
+		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
+		41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AssociateDisposable.m"; path = "Classes/NSObject+AssociateDisposable.m"; sourceTree = "<group>"; };
 		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
 		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
@@ -118,6 +165,7 @@
 		41D286CC15C879D800206E3A /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetView.m; path = Classes/TargetView.m; sourceTree = "<group>"; };
 		41D286CF15C87B9200206E3A /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SheetWindow.h; path = Classes/SheetWindow.h; sourceTree = "<group>"; };
 		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
+		41D286D415C9D75600206E3A /* TargetPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetPropertiesView.xib; sourceTree = "<group>"; };
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -171,6 +219,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */,
 				41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */,
 				F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */,
 			);
@@ -206,10 +255,11 @@
 		414779E515C0865B00B733EF /* Target View */ = {
 			isa = PBXGroup;
 			children = (
-				414E185315C0BF63007C9508 /* TargetController.h */,
-				414E185415C0BF63007C9508 /* TargetController.m */,
+				41C59C0015CA6C3900123ABF /* TargetView.xib */,
 				41D286CB15C879D800206E3A /* TargetView.h */,
 				41D286CC15C879D800206E3A /* TargetView.m */,
+				414E185315C0BF63007C9508 /* TargetController.h */,
+				414E185415C0BF63007C9508 /* TargetController.m */,
 			);
 			name = "Target View";
 			sourceTree = "<group>";
@@ -225,6 +275,7 @@
 		414E184E15C0B4F1007C9508 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				41B9232B15D076600004D167 /* Items View */,
 				414E185015C0B55F007C9508 /* CollectionView.h */,
 				414E185115C0B55F007C9508 /* CollectionView.m */,
 				414E185815C1BC0E007C9508 /* GridView.h */,
@@ -238,33 +289,75 @@
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
-				418BF29515BF279E00E313C7 /* TargetsView.xib */,
-				418BF29715BF43B600E313C7 /* TargetsView.h */,
-				418BF29815BF43B600E313C7 /* TargetsView.m */,
-				418BF28F15BF16CE00E313C7 /* TargetsController.h */,
-				418BF29015BF16CE00E313C7 /* TargetsController.m */,
+				41B9232C15D0790B0004D167 /* TargetItemsDataSource.h */,
+				41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
 				414779E515C0865B00B733EF /* Target View */,
 			);
 			name = Targets;
 			sourceTree = "<group>";
 		};
-		417FEFAC15ACC96600E64503 /* Clouds */ = {
+		417FEFAC15ACC96600E64503 /* Apps */ = {
 			isa = PBXGroup;
 			children = (
-				417FEFAD15ACC99800E64503 /* CloudsController.h */,
-				417FEFAE15ACC99800E64503 /* CloudsController.m */,
+				41B9232F15D07A280004D167 /* AppItemsDataSource.h */,
+				41B9233015D07A280004D167 /* AppItemsDataSource.m */,
+				41B9233215D07D0F0004D167 /* App Properties Dialog */,
 			);
-			name = Clouds;
+			name = Apps;
+			sourceTree = "<group>";
+		};
+		41B9232B15D076600004D167 /* Items View */ = {
+			isa = PBXGroup;
+			children = (
+				418BF29515BF279E00E313C7 /* ItemsView.xib */,
+				418BF29715BF43B600E313C7 /* ItemsView.h */,
+				418BF29815BF43B600E313C7 /* ItemsView.m */,
+				418BF28F15BF16CE00E313C7 /* ItemsController.h */,
+				418BF29015BF16CE00E313C7 /* ItemsController.m */,
+			);
+			name = "Items View";
+			sourceTree = "<group>";
+		};
+		41B9233215D07D0F0004D167 /* App Properties Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				41B9233315D07E1A0004D167 /* AppPropertiesView.xib */,
+				41B9233515D085480004D167 /* AppPropertiesView.h */,
+				41B9233615D085480004D167 /* AppPropertiesView.m */,
+				41B9233815D085870004D167 /* AppPropertiesController.h */,
+				41B9233915D085870004D167 /* AppPropertiesController.m */,
+			);
+			name = "App Properties Dialog";
+			sourceTree = "<group>";
+		};
+		41C59C0315CAFD8200123ABF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */,
+				41C59C1015CAFD8300123ABF /* libReactiveCocoa-iOS.a */,
+				41C59C1215CAFD8300123ABF /* ReactiveCocoaTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		41C59C1D15CB051400123ABF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
+				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */ = {
 			isa = PBXGroup;
 			children = (
-				41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */,
-				41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */,
+				41D286D415C9D75600206E3A /* TargetPropertiesView.xib */,
 				41C7FE7215B8BF89006B3468 /* TargetPropertiesView.h */,
 				41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */,
+				41C7FE6F15B8BCF7006B3468 /* TargetPropertiesController.h */,
+				41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */,
 			);
 			name = "Target Properties Dialog";
 			sourceTree = "<group>";
@@ -272,16 +365,16 @@
 		41F9029C15AF592A00550870 /* ThorCore */ = {
 			isa = PBXGroup;
 			children = (
+				41C7FE6915B77B18006B3468 /* ThorCore.h */,
+				414E185F15C350B7007C9508 /* VMCService.h */,
+				414E186015C350B7007C9508 /* VMCService.m */,
 				4131290515B6113E005F6D54 /* VMCOperations.h */,
 				4131290615B6113E005F6D54 /* VMCOperations.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
-				41F9029D15AF592A00550870 /* Supporting Files */,
-				41C7FE6915B77B18006B3468 /* ThorCore.h */,
 				414E185B15C226DF007C9508 /* Sequence.h */,
 				414E185C15C226DF007C9508 /* Sequence.m */,
-				414E185F15C350B7007C9508 /* VMCService.h */,
-				414E186015C350B7007C9508 /* VMCService.m */,
+				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -324,6 +417,7 @@
 				41F902AF15AF592A00550870 /* ThorCoreTests */,
 				F32F9742154908CB002CCF27 /* Frameworks */,
 				F32F9740154908CB002CCF27 /* Products */,
+				41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -353,7 +447,8 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
-				417FEFAC15ACC96600E64503 /* Clouds */,
+				41C59C1D15CB051400123ABF /* Extensions */,
+				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
@@ -461,6 +556,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				41C59C1615CB008B00123ABF /* PBXTargetDependency */,
 				41F902D815B5EFF500550870 /* PBXTargetDependency */,
 			);
 			name = Thor;
@@ -507,6 +603,12 @@
 			mainGroup = F32F9734154908CB002CCF27;
 			productRefGroup = F32F9740154908CB002CCF27 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 41C59C0315CAFD8200123ABF /* Products */;
+					ProjectRef = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F32F973E154908CB002CCF27 /* Thor */,
@@ -516,6 +618,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ReactiveCocoa.framework;
+			remoteRef = 41C59C0D15CAFD8300123ABF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		41C59C1015CAFD8300123ABF /* libReactiveCocoa-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactiveCocoa-iOS.a";
+			remoteRef = 41C59C0F15CAFD8300123ABF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		41C59C1215CAFD8300123ABF /* ReactiveCocoaTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ReactiveCocoaTests.octest;
+			remoteRef = 41C59C1115CAFD8300123ABF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		41F902A415AF592A00550870 /* Resources */ = {
@@ -533,8 +659,11 @@
 				F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */,
 				F32F9754154908CB002CCF27 /* Credits.rtf in Resources */,
 				4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */,
-				418BF29615BF279E00E313C7 /* TargetsView.xib in Resources */,
+				418BF29615BF279E00E313C7 /* ItemsView.xib in Resources */,
 				414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */,
+				41D286D515C9D75600206E3A /* TargetPropertiesView.xib in Resources */,
+				41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */,
+				41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,19 +735,23 @@
 				F32F9757154908CC002CCF27 /* AppDelegate.m in Sources */,
 				F32F975D154908CC002CCF27 /* Thor.xcdatamodeld in Sources */,
 				417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */,
-				417FEFAF15ACC99800E64503 /* CloudsController.m in Sources */,
 				417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */,
 				417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */,
 				41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */,
 				41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */,
 				41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */,
-				418BF29115BF16CF00E313C7 /* TargetsController.m in Sources */,
-				418BF29915BF43B700E313C7 /* TargetsView.m in Sources */,
+				418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */,
+				418BF29915BF43B700E313C7 /* ItemsView.m in Sources */,
 				414E185215C0B55F007C9508 /* CollectionView.m in Sources */,
 				414E185515C0BF63007C9508 /* TargetController.m in Sources */,
 				414E185A15C1BC0E007C9508 /* GridView.m in Sources */,
 				41D286CD15C879D800206E3A /* TargetView.m in Sources */,
 				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
+				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
+				41B9232E15D0790B0004D167 /* TargetItemsDataSource.m in Sources */,
+				41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */,
+				41B9233715D085480004D167 /* AppPropertiesView.m in Sources */,
+				41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,6 +766,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		41C59C1615CB008B00123ABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ReactiveCocoa;
+			targetProxy = 41C59C1515CB008B00123ABF /* PBXContainerItemProxy */;
+		};
 		41F902AD15AF592A00550870 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 41F9029815AF592A00550870 /* ThorCore */;

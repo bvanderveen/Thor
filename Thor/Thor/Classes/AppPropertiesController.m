@@ -1,17 +1,17 @@
-#import "TargetPropertiesController.h"
+#import "AppPropertiesController.h"
 
-@implementation TargetPropertiesController
+@implementation AppPropertiesController
 
-@synthesize targetPropertiesView, target;
+@synthesize appPropertiesView, app;
 
 - (id)init {
-    if (self = [super initWithNibName:@"TargetPropertiesView" bundle:[NSBundle mainBundle]]) {
+    if (self = [super initWithNibName:@"AppPropertiesView" bundle:[NSBundle mainBundle]]) {
     }
     return self;
 }
 
 - (void)buttonClicked:(NSButton *)button {
-    if (button == targetPropertiesView.confirmButton) {
+    if (button == appPropertiesView.confirmButton) {
         NSError *error = nil;
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];

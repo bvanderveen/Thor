@@ -1,0 +1,3 @@
+[submodule "Thor/ReactiveCocoa"]
+	path = Thor/ReactiveCocoa
+	url = git@github.com:github/ReactiveCocoa

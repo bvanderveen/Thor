@@ -1,0 +1,20 @@
+#import "AppItemsDataSource.h"
+#import "AppPropertiesController.h"
+
+@implementation AppItemsDataSource
+
+- (NSArray *)getItems:(NSError **)error {
+    return [[ThorBackend shared] getConfiguredApps:error];
+}
+
+- (NSViewController *)getPropertiesControllerForNewItem {
+    AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
+    appPropertiesController.app = [App appInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+    return appPropertiesController;
+}
+
+- (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item {
+    return nil;
+}
+
+@end
