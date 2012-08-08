@@ -71,7 +71,7 @@
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSCollectionView" id="175472262">
 												<reference key="NSNextResponder" ref="680525326"/>
-												<int key="NSvFlags">274</int>
+												<int key="NSvFlags">4370</int>
 												<string key="NSFrameSize">{280, 219}</string>
 												<reference key="NSSuperview" ref="680525326"/>
 												<reference key="NSWindow"/>
@@ -173,6 +173,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{31, 0}, {38, 17}}</string>
 						<reference key="NSSuperview" ref="533152099"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1505</string>
 						<bool key="NSEnabled">YES</bool>
@@ -207,6 +208,7 @@
 						</set>
 						<string key="NSFrame">{{-3, 19}, {106, 81}}</string>
 						<reference key="NSSuperview" ref="533152099"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="629208173"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -228,6 +230,7 @@
 				</array>
 				<string key="NSFrameSize">{100, 100}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="828422206"/>
 			</object>
 		</array>
