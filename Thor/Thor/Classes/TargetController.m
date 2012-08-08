@@ -26,7 +26,6 @@ static NSArray *deploymentColumns = nil;
 
 - (id)init {
     if (self = [super initWithNibName:@"TargetView" bundle:[NSBundle mainBundle]]) {
-    //if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Cloud";
     }
     return self;
