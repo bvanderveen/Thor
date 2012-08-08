@@ -54,15 +54,17 @@ static NSManagedObjectContext *sharedContext = nil;
 @implementation NSFetchRequest (Helpers)
 
 - (BOOL)anyInContext:(NSManagedObjectContext *)context result:(BOOL*)outResult error:(NSError **)outError {
-    NSError *fetchWithLocalRootError = nil;
-    NSArray *withSameLocalRoot = [context executeFetchRequest:self error:&fetchWithLocalRootError];
+    NSError *fetchError = nil;
+    NSArray *matching = [context executeFetchRequest:self error:&fetchError];
     
-    if (fetchWithLocalRootError) {
-        *outError = fetchWithLocalRootError;
+    if (fetchError) {
+        *outError = fetchError;
         return NO;
     }
     
-    *outResult = withSameLocalRoot.count;
+    *outResult = matching.count > 0;
+    
+    NSLog(@"matching %@", matching);
     return YES;
 }
 
@@ -191,24 +193,47 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @dynamic displayName, localRoot, defaultMemory, defaultInstances;
 
-
 + (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
     return (App *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"App"] insertIntoManagedObjectContext:context];
-}
-
-+ (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    App *app = [self appInsertedIntoManagedObjectContext:context];
-    app.localRoot = [dictionary objectForKey:@"localRoot"];
-    app.displayName = [dictionary objectForKey:@"displayName"];
-    app.defaultMemory = [dictionary objectForKey:@"defaultMemory"];
-    app.defaultInstances = [dictionary objectForKey:@"defaultInstances"];
-    return app;
 }
 
 + (NSFetchRequest *)fetchRequest {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     request.entity = getAppEntity();
     return request;
+}
+
+- (BOOL)performValidation:(NSError **)error {
+    NSFetchRequest *request = [App fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@ AND self != %@", self.localRoot, self];
+    
+    BOOL any = NO;
+    NSLog(@"Performing validation on app with local root %@", self.localRoot);
+    
+    if (![request anyInContext:self.managedObjectContext result:&any error:error])
+        return NO;
+    
+    if (any) {
+        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:AppLocalRootInvalid userInfo:nil];
+        NSLog(@"Failed validation for app root");
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)validateForInsert:(NSError **)error {
+    if (![super validateForInsert:error])
+        return NO;
+    
+    return [self performValidation:error];
+}
+
+- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
+    if (![super validateForUpdate:error])
+        return NO;
+    
+    return [self performValidation:error];
 }
 
 @end
@@ -229,10 +254,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return YES;
 }
 
-- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
-    if (![super validateForUpdate:error])
-        return NO;
-    
+- (BOOL)performValidation:(NSError **)error {
     NSFetchRequest *request = [Target fetchRequest];
     request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostname == %@ AND self != %@", self.email, self.hostname, self];
     
@@ -245,21 +267,26 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         *error = [NSError errorWithDomain:ThorBackendErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:[NSDictionary dictionaryWithObject:@"There is already a target with the given email and hostname" forKey:NSLocalizedDescriptionKey]];
         return NO;
     }
-
+    
     return YES;
+}
+
+- (BOOL)validateForInsert:(NSError **)error {
+    if (![super validateForInsert:error])
+        return NO;
+    
+    return [self performValidation:error];
+}
+
+- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
+    if (![super validateForUpdate:error])
+        return NO;
+    
+    return [self performValidation:error];
 }
 
 + (Target *)targetInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
     return (Target *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"Target"] insertIntoManagedObjectContext:context];
-}
-
-+ (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    Target *target = [self targetInsertedIntoManagedObjectContext:context];
-    target.displayName = [dictionary objectForKey:@"displayName"];
-    target.hostname = [dictionary objectForKey:@"hostname"];
-    target.email = [dictionary objectForKey:@"email"];
-    target.password = [dictionary objectForKey:@"password"];
-    return target;
 }
 
 + (NSFetchRequest *)fetchRequest {
@@ -295,47 +322,10 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
-- (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error {
-    NSFetchRequest *request = [App fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"localRoot == %@", [appDict objectForKey:@"localRoot"]];
-    
-    BOOL any = NO;
-    
-    if (![request anyInContext:self.context result:&any error:error])
-        return nil;
-    
-    if (any) {
-        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:AppLocalRootInvalid userInfo:nil];
-        return nil;
-    }
-    
-    App *app = [App appWithDictionary:appDict insertIntoManagedObjectContext:self.context];
-    return [self.context save:error] ? app : nil;
-}
-
-
 - (NSArray *)getConfiguredTargets:(NSError **)error {
     NSFetchRequest *request = [Target fetchRequest];
     request.sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
     return [self.context executeFetchRequest:request error:error];
-}
-
-- (Target *)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error {
-    NSFetchRequest *request = [Target fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostname == %@", [targetDict objectForKey:@"email"], [targetDict objectForKey:@"hostname"]];
-    
-    BOOL any = NO;
-    
-    if (![request anyInContext:self.context result:&any error:error])
-        return nil;
-    
-    if (any) {
-        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:nil];
-        return nil;
-    }
-    
-    Target *target = [Target targetWithDictionary:targetDict insertIntoManagedObjectContext:self.context];
-    return [self.context save:error] ? target : nil;
 }
 
 @end
