@@ -13,7 +13,6 @@
 + (NSFetchRequest *)fetchRequest;
 
 + (Target *)targetInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
-+ (Target *)targetWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
 
@@ -25,7 +24,6 @@
 + (NSFetchRequest *)fetchRequest;
 
 + (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
-+ (App *)appWithDictionary:(NSDictionary *)dictionary insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
 
@@ -49,15 +47,7 @@ static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 3;
 @protocol ThorBackend <NSObject>
 
 - (NSArray *)getConfiguredApps:(NSError **)error;
-- (App *)createConfiguredApp:(NSDictionary *)appDict error:(NSError **)error;
-//- (void)updateConfiguredApp:(App *)app error:(NSError **)error;
-
-
 - (NSArray *)getConfiguredTargets:(NSError **)error;
-- (Target *)createConfiguredTarget:(NSDictionary *)targetDict error:(NSError **)error;
-
-//- (NSArray *)getDeploymentsForApp:(App *)app;
-//- (void)createDeploymentForApp:(App *)app target:(Target *)target;
 
 @end
 

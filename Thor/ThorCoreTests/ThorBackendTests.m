@@ -13,50 +13,50 @@
 
 @interface ThorBackendTests (Fixtures)
 
-- (NSArray *)createConfiguredApps;
-
 @end
 
 @implementation ThorBackendTests (Fixtures)
 
-- (NSArray *)createConfiguredApps {
+- (NSArray *)createApps {
     return [NSArray arrayWithObjects:
-            [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
-            [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
-            [App appWithDictionary:[self createApp] insertIntoManagedObjectContext:self.context],
+            [self createApp],
+            [self createApp],
+            [self createApp],
             nil];
 }
 
-- (NSDictionary *)createApp {
+- (App *)createApp {
     static int counter = 0;
     counter++;
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithFormat:@"App %d", counter], @"displayName",
-            [NSString stringWithFormat:@"/path/to/app%d", counter], @"localRoot",
-            [NSNumber numberWithInt:128], @"defaultMemory",
-            [NSNumber numberWithInt:2], @"defaultInstances", 
-            nil];
+    App *result = [App appInsertedIntoManagedObjectContext:self.context];
+    result.displayName = [NSString stringWithFormat:@"App %d", counter];
+    result.localRoot = [NSString stringWithFormat:@"/path/to/app%d", counter];
+    result.defaultMemory = [NSNumber numberWithInt:128];
+    result.defaultInstances = [NSNumber numberWithInt:2];
+    
+    NSLog(@"returning app with local root %@", result.localRoot);
+    return result;
 }
 
-- (NSArray *)createConfiguredTargets {
+- (NSArray *)createTargets {
     return [NSArray arrayWithObjects:
-            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
-            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
-            [Target targetWithDictionary:[self createTarget] insertIntoManagedObjectContext:self.context],
+            [self createTarget],
+            [self createTarget],
+            [self createTarget],
             nil];
 }
 
-- (NSDictionary *)createTarget {
+- (Target *)createTarget {
     static int counter = 0;
     counter++;
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithFormat:@"Target %d", counter], @"displayName",
-            [NSString stringWithFormat:@"api.target%d.foo.com", counter], @"hostname",
-            [NSString stringWithFormat:@"user%d@foo.com", counter], @"email",
-            [NSString stringWithFormat:@"password%d", counter], @"password",
-            nil];
+    Target *result = [Target targetInsertedIntoManagedObjectContext:self.context];
+    result.displayName = [NSString stringWithFormat:@"Target %d", counter];
+    result.hostname = [NSString stringWithFormat:@"api.target%d.foo.com", counter];
+    result.email = [NSString stringWithFormat:@"user%d@foo.com", counter];
+    result.password = [NSString stringWithFormat:@"password%d", counter];
+    return result;
 }
 
 @end
@@ -64,7 +64,6 @@
 @interface ThorBackendTests (Assertions)
 
 - (void)assertActualObjects:(NSArray *)actualObjects equalExpectedObjects:(NSArray *)expectedObjects;
-- (void)assertObjectExistsInLocalConfiguration:(NSDictionary *)dict fetchRequest:(NSFetchRequest *)request;
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code;
 
 @end
@@ -79,23 +78,10 @@
         
 }
 
-- (void)assertObjectExistsInLocalConfiguration:(NSDictionary *)dict fetchRequest:(NSFetchRequest *)request {
-    NSError *error = nil;
-    NSArray *objects = [self.context executeFetchRequest:request error:&error];
-    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
-    
-    BOOL found = NO;
-    for (id o in objects)
-        if ([[o dictionaryRepresentation] isEqual:dict])
-            found = YES;
-    
-    STAssertTrue(found, @"did not find object %@", dict);
-}
-
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code {
-    NSLog(@"heh %@ %@", ThorErrorDomain, error.domain);
-    STAssertEqualObjects(domain, error.domain, @"Unexpected error domain");
-    STAssertEquals(code, error.code, @"Unexpected error code");
+    STAssertNotNil(error, @"Expected non-nil error");
+    STAssertEqualObjects(error.domain, domain, @"Unexpected error domain");
+    STAssertEquals(error.code, code, @"Unexpected error code");
 }
 
 @end
@@ -136,9 +122,9 @@
     [super tearDown];
 }
 
-
-- (void)testGetConfiguredAppsReadsLocalConfiguration {
-    NSArray *expectedApps = [self createConfiguredApps];
+- (void)testGetConfiguredAppsReadsContext {
+    NSArray *expectedApps = [self createApps];
+    [self saveContext];
     
     NSError *error = nil;
     NSArray *actualApps = [self.backend getConfiguredApps:&error];
@@ -147,29 +133,17 @@
     [self assertActualObjects:actualApps equalExpectedObjects:expectedApps];
 }
 
-- (void)testCreateConfiguredAppAmendsLocalConfiguration {
-    NSDictionary *appDict = [self createApp];
+- (void)testInsertingAppReturnsErrorIfAppLocalPathIsPreviouslyUsed {
+    App *app0 = [self createApp];
+    [self saveContext];
+    
+    App *app1 = [self createApp];
+    app1.localRoot = app0.localRoot;
     
     NSError *error = nil;
-    App *app = [self.backend createConfiguredApp:appDict error:&error];
+    [context save:&error];
     
-    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
-    STAssertNotNil(app, @"Expected result");
-    STAssertEqualObjects([app dictionaryRepresentation], appDict, @"Returned app and given app differ");
-    [self assertObjectExistsInLocalConfiguration:appDict fetchRequest:[App fetchRequest]];
-}
-
-- (void)testCreateConfiguredAppReturnsErrorIfAppLocalPathIsPreviouslyUsed {
-    NSDictionary *appDict0 = [self createApp];
-    NSDictionary *appDict1 = [[self createApp] mutableCopy];
-    [appDict1 setValue:[appDict0 objectForKey:@"localRoot"] forKey:@"localRoot"];
-    
-    NSError *error = nil;
-    [self.backend createConfiguredApp:appDict0 error:&error];
-    App *app1 = [self.backend createConfiguredApp:appDict1 error:&error];
-    
-    STAssertNil(app1, @"Expected no result");
-    [self assertError:error hasDomain:ThorErrorDomain andCode:AppLocalRootInvalid];
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:AppLocalRootInvalid];
 }
 
 //- (void)testCreateConfiguredAppThrowsExceptionIfAppDefaultMemoryIsTooLow {
@@ -227,8 +201,9 @@
 //- (void)testUpdateConfiguredAppThrowsExceptionIfAppDefaultInstancesIsOutOfRange {
 //}
 
-- (void)testGetConfiguredTargetsReadsLocalConfiguration {
-    NSArray *expectedTargets = [self createConfiguredTargets];
+- (void)testGetConfiguredTargetsReadsContext {
+    NSArray *expectedTargets = [self createTargets];
+    [self saveContext];
     
     NSError *error = nil;
     NSArray *actualTargets = [self.backend getConfiguredTargets:&error];
@@ -236,32 +211,38 @@
     STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
     [self assertActualObjects:actualTargets equalExpectedObjects:expectedTargets];
 }
+//
+//- (void)testCreateConfiguredTargetAmendsLocalConfiguration {
+//    NSDictionary *targetDict = [self createTarget];
+//    
+//    NSError *error = nil;
+//    
+//    
+//    Target *target = [Target targetWithDictionary:targetDict insertIntoManagedObjectContext:self.context];
+//    
+//    [self.context save:&error];
+//    
+//    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+//    STAssertNotNil(target, @"Expected result");
+//    
+//    STAssertEqualObjects([target dictionaryRepresentation], targetDict, @"Returned target and given target differ");
+//    [self assertObjectExistsInLocalConfiguration:targetDict fetchRequest:[Target fetchRequest]];
+//    
+//}
 
-- (void)testCreateConfiguredTargetAmendsLocalConfiguration {
-    NSDictionary *targetDict = [self createTarget];
+- (void)testCreateConfiguredTargetReturnsErrorIfEmailAndHostnameArePreviouslyUsed {
+    Target *target0 = [self createTarget];
+    [self saveContext];
+    
+    Target *target1 = [self createTarget];
+    
+    target1.email = target0.email;
+    target1.hostname = target0.hostname;
     
     NSError *error = nil;
-    Target *target = [self.backend createConfiguredTarget:targetDict error:&error];
+    [context save:&error];
     
-    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
-    STAssertNotNil(target, @"Expected result");
-    STAssertEqualObjects([target dictionaryRepresentation], targetDict, @"Returned target and given target differ");
-    [self assertObjectExistsInLocalConfiguration:targetDict fetchRequest:[Target fetchRequest]];
-    
-}
-
-- (void)testCreateConfiguredTargetThrowsExceptionIfEmailAndHostnameArePreviouslyUsed {
-    NSDictionary *targetDict0 = [self createApp];
-    NSDictionary *targetDict1 = [[self createApp] mutableCopy];
-    [targetDict1 setValue:[targetDict0 objectForKey:@"email"] forKey:@"email"];
-    [targetDict1 setValue:[targetDict0 objectForKey:@"hostname"] forKey:@"hostname"];
-    
-    NSError *error = nil;
-    [self.backend createConfiguredTarget:targetDict0 error:&error];
-    Target *target1 = [self.backend createConfiguredTarget:targetDict1 error:&error];
-    
-    STAssertNil(target1, @"Expected no result");
-    [self assertError:error hasDomain:ThorErrorDomain andCode:TargetHostnameAndEmailPreviouslyConfigured];
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:TargetHostnameAndEmailPreviouslyConfigured];
 }
 
 //

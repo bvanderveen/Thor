@@ -1,7 +1,14 @@
 
 @interface VMCInstanceStats : NSObject 
 
-@property (nonatomic, assign) NSString *cpu, *memory, *disk, *uptime;
+@property (nonatomic, copy) NSString *cpu, *memory, *disk, *uptime;
+
+@end
+
+@interface VMCApp : NSObject
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSArray *uris;
 
 @end
 
@@ -11,8 +18,8 @@
 
 - (BOOL)targetHostname:(NSString *)target;
 - (BOOL)loginWithEmail:(NSString *)username password:(NSString *)password;
-- (NSArray *)getApps;
-- (NSArray *)getInstanceStatsForApp:(NSString *)app;
+- (NSArray *)getApps; // of VMCApp
+- (NSArray *)getInstanceStatsForApp:(NSString *)app; // of VMCInstanceStats
 
 @end
 

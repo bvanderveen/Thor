@@ -3,7 +3,7 @@
 
 @implementation TargetView
 
-@synthesize infoBox, deploymentsBox, hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel, deploymentsGrid, editButton;
+@synthesize infoBox, deploymentsBox, deploymentsGrid, editButton;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -12,7 +12,6 @@
 }
 
 - (void)updateConstraints {
-    //hostnameLabel, hostnameValueLabel, emailLabel, emailValueLabel,
     NSDictionary *views = NSDictionaryOfVariableBindings(infoBox, deploymentsBox, deploymentsGrid);
     
     [self removeConstraints:self.constraints];

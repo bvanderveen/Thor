@@ -23,6 +23,27 @@
 
 @end
 
+@implementation VMCApp
+
+@synthesize name, uris;
+
+- (NSUInteger)hash {
+    return [[NSString stringWithFormat:@"%@%@%@%@", name, uris] hash];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]])
+        return NO;
+    
+    VMCApp *other = (VMCApp *)object;
+    
+    return 
+        [other.name isEqual:self.name] &&
+        [other.uris isEqual:self.uris];
+}
+
+@end
+
 SynchronousExecuteShellBlock SynchronousExecuteShell = ^ NSString * (NSString *command, NSArray *arguments) {
     NSTask *task = [NSTask new];
     task.launchPath = command;
@@ -104,7 +125,11 @@ SynchronousExecuteShellBlock RVMExecute = ^ NSString * (NSString *command, NSArr
     
     NSArray *rows = [self rowStringsFromTableString:result];
     return [rows map:^ id (id line) {
-        return [[self cellsFromRowString:line] objectAtIndex:1];
+        NSArray *cells = [self cellsFromRowString:line];
+        VMCApp *app = [VMCApp new];
+        app.name = [cells objectAtIndex:1];
+        app.uris = [[[cells objectAtIndex:4] componentsSeparatedByString:@","] map:^ id (id uri) { return [uri stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]; }];
+        return app;
     }];
 }
 

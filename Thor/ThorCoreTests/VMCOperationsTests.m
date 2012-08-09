@@ -134,7 +134,7 @@
 "+-------------+----+---------+--------------------------------------+----------+\n"
 "| Application | #  | Health  | URLS                                 | Services |\n"
 "+-------------+----+---------+--------------------------------------+----------+\n"
-"| gm          | 1  | RUNNING | gm.robotech.wa1.wfabric.com          |          |\n"
+"| gm          | 1  | RUNNING | gm.robotech.wfabric.com, foo.bar.com |          |\n"
 "| nodejs_test | 1  | 0%      | nodejs_test.robotech.wa1.wfabric.com |          |\n"
 "+-------------+----+---------+--------------------------------------+----------+\n"
 "\n"
@@ -145,7 +145,16 @@
     
     NSInteger actualCount = result.count;
     STAssertTrue(actualCount == 2, @"Expected 2 results");
-    NSArray *expectedResult = [NSArray arrayWithObjects:@"gm", @"nodejs_test", nil];
+    
+    VMCApp *app0 = [VMCApp new];
+    app0.name = @"gm";
+    app0.uris = [NSArray arrayWithObjects:@"gm.robotech.wfabric.com", @"foo.bar.com", nil];
+    
+    VMCApp *app1 = [VMCApp new];
+    app1.name = @"nodejs_test";
+    app1.uris = [NSArray arrayWithObject:@"nodejs_test.robotech.wa1.wfabric.com"];
+    
+    NSArray *expectedResult = [NSArray arrayWithObjects:app0, app1, nil];
     STAssertEqualObjects(result, expectedResult, @"unexpected result from getApps");
 }
 

@@ -106,19 +106,23 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
         return nil;
     
     return [[vmc getApps] map:^ id (id a) {
+        VMCApp *app = ((VMCApp *)a);
+        NSArray *stats = [vmc getInstanceStatsForApp:app.name];
+        
         VMCDeployment *d = [VMCDeployment new];
         
-        NSArray *stats = [vmc getInstanceStatsForApp:a];
-        
-        d.name = a;
+        d.name = app.name;
         d.memory = [stats reduce:^id(id acc, id i) {
-            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).memory cString])];
+            NSString *memory = ((VMCInstanceStats *)i).memory;
+            return [NSNumber numberWithFloat:[acc floatValue] + [memory floatValue]];
         } seed:[NSNumber numberWithInt:0]];
         d.cpu = [stats reduce:^id(id acc, id i) {
-            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).cpu cString])];
+            NSString *cpu = ((VMCInstanceStats *)i).cpu;
+            return [NSNumber numberWithFloat:[acc floatValue] + [cpu floatValue]];
         } seed:[NSNumber numberWithInt:0]];
         d.disk = [stats reduce:^id(id acc, id i) {
-            return [NSNumber numberWithFloat:[acc floatValue] + atof([((VMCInstanceStats *)i).disk cString])];
+            NSString *disk = ((VMCInstanceStats *)i).disk;
+            return [NSNumber numberWithFloat:[acc floatValue] + [disk floatValue]];
         } seed:[NSNumber numberWithInt:0]];
         return d;
     }];
