@@ -1004,6 +1004,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1019,6 +1020,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
