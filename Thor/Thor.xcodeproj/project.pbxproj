@@ -10,6 +10,11 @@
 		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
 		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
+		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
+		4135F59A15D33BEE0054D961 /* AppIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59515D33BEE0054D961 /* AppIconSelected.png */; };
+		4135F59B15D33BEE0054D961 /* BreadcrumbArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */; };
+		4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59715D33BEE0054D961 /* CloudIcon.png */; };
+		4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59815D33BEE0054D961 /* CloudIconSelected.png */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -119,6 +124,11 @@
 		4131290515B6113E005F6D54 /* VMCOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperations.h; sourceTree = "<group>"; };
 		4131290615B6113E005F6D54 /* VMCOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperations.m; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
+		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
+		4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrow.png; path = Resources/BreadcrumbArrow.png; sourceTree = "<group>"; };
+		4135F59715D33BEE0054D961 /* CloudIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIcon.png; path = Resources/CloudIcon.png; sourceTree = "<group>"; };
+		4135F59815D33BEE0054D961 /* CloudIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSelected.png; path = Resources/CloudIconSelected.png; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -275,6 +285,11 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4135F59415D33BEE0054D961 /* AppIcon.png */,
+				4135F59515D33BEE0054D961 /* AppIconSelected.png */,
+				4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */,
+				4135F59715D33BEE0054D961 /* CloudIcon.png */,
+				4135F59815D33BEE0054D961 /* CloudIconSelected.png */,
 				414779E715C0B1C000B733EF /* CollectionViewBackground.png */,
 			);
 			name = Resources;
@@ -686,6 +701,11 @@
 				41C59C0115CA6C3900123ABF /* TargetView.xib in Resources */,
 				41B9233415D07E1A0004D167 /* AppPropertiesView.xib in Resources */,
 				41B9237E15D18AF20004D167 /* AppView.xib in Resources */,
+				4135F59915D33BEE0054D961 /* AppIcon.png in Resources */,
+				4135F59A15D33BEE0054D961 /* AppIconSelected.png in Resources */,
+				4135F59B15D33BEE0054D961 /* BreadcrumbArrow.png in Resources */,
+				4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */,
+				4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
