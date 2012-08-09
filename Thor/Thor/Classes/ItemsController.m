@@ -8,20 +8,22 @@
 
 @property (nonatomic, strong) NSViewController *itemPropertiesController;
 @property (nonatomic, readonly) ItemsView *itemsView;
+@property (nonatomic, strong) NSCollectionViewItem *(^itemPrototypeFactory)(NSCollectionView *);
 
 @end
 
 @implementation ItemsController
 
-@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource;
+@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource, itemPrototypeFactory;
 
 - (ItemsView *)itemsView {
     return (ItemsView *)self.view;
 }
 
-- (id)initWithTitle:(NSString *)leTitle {
+- (id)initWithTitle:(NSString *)leTitle itemPrototype:(NSCollectionViewItem *(^)(NSCollectionView *))leItemPrototype {
     if (self = [super initWithNibName:@"ItemsView" bundle:[NSBundle mainBundle]]) {
         self.title = leTitle;
+        self.itemPrototypeFactory = leItemPrototype;
     }
     return self;
 }
@@ -38,11 +40,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.itemsView.collectionView.itemPrototypeFactory = self.itemPrototypeFactory;
     [self updateItems];
     self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
-    self.itemsView.delegate = self;
     [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
 }
 

@@ -15,6 +15,8 @@
 		4135F59B15D33BEE0054D961 /* BreadcrumbArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */; };
 		4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59715D33BEE0054D961 /* CloudIcon.png */; };
 		4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59815D33BEE0054D961 /* CloudIconSelected.png */; };
+		4135F59F15D3422D0054D961 /* TargetCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59E15D3422D0054D961 /* TargetCollectionItemView.xib */; };
+		4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4135F5A115D34D520054D961 /* CollectionItemView.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -23,6 +25,7 @@
 		414E185E15C226DF007C9508 /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185C15C226DF007C9508 /* Sequence.m */; };
 		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
 		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
+		416566F015D42B9F00EF93DF /* AppCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 416566EF15D42B9F00EF93DF /* AppCollectionItemView.xib */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
@@ -129,6 +132,9 @@
 		4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrow.png; path = Resources/BreadcrumbArrow.png; sourceTree = "<group>"; };
 		4135F59715D33BEE0054D961 /* CloudIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIcon.png; path = Resources/CloudIcon.png; sourceTree = "<group>"; };
 		4135F59815D33BEE0054D961 /* CloudIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSelected.png; path = Resources/CloudIconSelected.png; sourceTree = "<group>"; };
+		4135F59E15D3422D0054D961 /* TargetCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetCollectionItemView.xib; sourceTree = "<group>"; };
+		4135F5A015D34D520054D961 /* CollectionItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionItemView.h; path = Classes/CollectionItemView.h; sourceTree = "<group>"; };
+		4135F5A115D34D520054D961 /* CollectionItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionItemView.m; path = Classes/CollectionItemView.m; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 		414E185C15C226DF007C9508 /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
 		414E185F15C350B7007C9508 /* VMCService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCService.h; sourceTree = "<group>"; };
 		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
+		416566EF15D42B9F00EF93DF /* AppCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppCollectionItemView.xib; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
@@ -312,6 +319,7 @@
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
+				4135F59E15D3422D0054D961 /* TargetCollectionItemView.xib */,
 				41B9232C15D0790B0004D167 /* TargetItemsDataSource.h */,
 				41B9232D15D0790B0004D167 /* TargetItemsDataSource.m */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
@@ -323,6 +331,7 @@
 		417FEFAC15ACC96600E64503 /* Apps */ = {
 			isa = PBXGroup;
 			children = (
+				416566EF15D42B9F00EF93DF /* AppCollectionItemView.xib */,
 				41B9232F15D07A280004D167 /* AppItemsDataSource.h */,
 				41B9233015D07A280004D167 /* AppItemsDataSource.m */,
 				41B9233215D07D0F0004D167 /* App Properties Dialog */,
@@ -334,6 +343,8 @@
 		41B9232B15D076600004D167 /* Items View */ = {
 			isa = PBXGroup;
 			children = (
+				4135F5A015D34D520054D961 /* CollectionItemView.h */,
+				4135F5A115D34D520054D961 /* CollectionItemView.m */,
 				418BF29515BF279E00E313C7 /* ItemsView.xib */,
 				418BF29715BF43B600E313C7 /* ItemsView.h */,
 				418BF29815BF43B600E313C7 /* ItemsView.m */,
@@ -706,6 +717,8 @@
 				4135F59B15D33BEE0054D961 /* BreadcrumbArrow.png in Resources */,
 				4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */,
 				4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */,
+				4135F59F15D3422D0054D961 /* TargetCollectionItemView.xib in Resources */,
+				416566F015D42B9F00EF93DF /* AppCollectionItemView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +809,7 @@
 				41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */,
 				41B9238115D18E600004D167 /* AppController.m in Sources */,
 				41B9238415D190A00004D167 /* AppView.m in Sources */,
+				4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,6 +1019,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = ReactiveCocoa/external/jrswizzle;
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1021,6 +1036,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = ReactiveCocoa/external/jrswizzle;
 				INFOPLIST_FILE = "Thor/Thor-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",

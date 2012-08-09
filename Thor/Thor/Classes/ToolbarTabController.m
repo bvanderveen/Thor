@@ -3,6 +3,7 @@
 #import "TargetItemsDataSource.h"
 #import "AppItemsDataSource.h"
 #import "BreadcrumbController.h"
+#import "Sequence.h"
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
@@ -46,18 +47,30 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 
 @synthesize toolbar, appsController, targetsController, activeController = _activeController;
 
+- (NSCollectionViewItem *(^)(NSCollectionView *))itemFromNibNamed:(NSString *)nibName {
+    return ^ NSCollectionViewItem * (NSCollectionView *collectionView) {
+        NSNib *nib = [[NSNib alloc] initWithNibNamed:nibName bundle:nil];
+        
+        NSArray *topLevelObjects;
+        [nib instantiateNibWithOwner:collectionView topLevelObjects:&topLevelObjects];
+        
+        return [[topLevelObjects filter:^ BOOL (id o) { 
+            return [o isKindOfClass:[NSCollectionViewItem class]]; 
+        }] objectAtIndex:0];
+    };
+}
+
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.toolbar = [[NSToolbar alloc] initWithIdentifier:@"TabToolbar"];
         toolbar.delegate = self;
         toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         
-        ItemsController *targets = [[ItemsController alloc] initWithTitle:@"Clouds"];
+        ItemsController *targets = [[ItemsController alloc] initWithTitle:@"Clouds" itemPrototype:[self itemFromNibNamed:@"TargetCollectionItemView"]];
         targets.dataSource = [[TargetItemsDataSource alloc] init];
         
-        ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
+        ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps" itemPrototype:[self itemFromNibNamed:@"AppCollectionItemView"]];
         apps.dataSource = [[AppItemsDataSource alloc] init];
-        
         
         
         self.appsController = [[BreadcrumbController alloc] initWithRootViewController:apps];

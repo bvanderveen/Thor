@@ -15,6 +15,6 @@
 
 @property (nonatomic, strong) id<ItemsControllerDataSource> dataSource;
 
-- (id)initWithTitle:(NSString *)leTitle;
+- (id)initWithTitle:(NSString *)leTitle itemPrototype:(NSCollectionViewItem *(^)(NSCollectionView *))itemPrototype;
 
 @end
