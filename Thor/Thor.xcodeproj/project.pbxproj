@@ -26,6 +26,8 @@
 		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
 		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		416566F015D42B9F00EF93DF /* AppCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 416566EF15D42B9F00EF93DF /* AppCollectionItemView.xib */; };
+		4165678D15D5B74200EF93DF /* AppToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678B15D5B74200EF93DF /* AppToolbarIcon.png */; };
+		4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
@@ -147,6 +149,8 @@
 		414E185F15C350B7007C9508 /* VMCService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCService.h; sourceTree = "<group>"; };
 		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		416566EF15D42B9F00EF93DF /* AppCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppCollectionItemView.xib; sourceTree = "<group>"; };
+		4165678B15D5B74200EF93DF /* AppToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppToolbarIcon.png; path = Resources/AppToolbarIcon.png; sourceTree = "<group>"; };
+		4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudToolbarIcon.png; path = Resources/CloudToolbarIcon.png; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
@@ -294,10 +298,12 @@
 			children = (
 				4135F59415D33BEE0054D961 /* AppIcon.png */,
 				4135F59515D33BEE0054D961 /* AppIconSelected.png */,
+				4165678B15D5B74200EF93DF /* AppToolbarIcon.png */,
 				4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */,
 				4135F59715D33BEE0054D961 /* CloudIcon.png */,
 				4135F59815D33BEE0054D961 /* CloudIconSelected.png */,
 				414779E715C0B1C000B733EF /* CollectionViewBackground.png */,
+				4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -719,6 +725,8 @@
 				4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */,
 				4135F59F15D3422D0054D961 /* TargetCollectionItemView.xib in Resources */,
 				416566F015D42B9F00EF93DF /* AppCollectionItemView.xib in Resources */,
+				4165678D15D5B74200EF93DF /* AppToolbarIcon.png in Resources */,
+				4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
