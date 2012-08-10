@@ -10,11 +10,15 @@
 - (void)customDrawRect:(NSRect)dirtyRect { 
     [NSGraphicsContext saveGraphicsState];
     
-    CGFloat above = MAX(-self.documentVisibleRect.origin.y, 0);
-    CGFloat below = MAX(MIN((self.documentVisibleRect.size.height + self.documentVisibleRect.origin.y) - self.documentRect.size.height, self.documentVisibleRect.size.height),0);
+    NSRect documentVisibleRect = self.documentVisibleRect;
     
     [NSGraphicsContext currentContext].patternPhase = NSMakePoint(0, 0);
-    NSRect clipRect = NSMakeRect(0, self.documentVisibleRect.origin.y, self.documentVisibleRect.size.width, self.documentVisibleRect.size.height);
+    NSRect clipRect = NSMakeRect(0, documentVisibleRect.origin.y, documentVisibleRect.size.width, documentVisibleRect.size.height);
+//    
+//    NSLog(@"document rect %@", NSStringFromRect(self.documentRect));
+//    NSLog(@"document visible rect %@", NSStringFromRect(documentVisibleRect));
+//    NSLog(@"Clip rect %@", NSStringFromRect(clipRect));
+//    NSLog(@"---");
     
     NSBezierPath *newClipPath = [NSBezierPath bezierPathWithRect:clipRect];
     [newClipPath setClip];
