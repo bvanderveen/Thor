@@ -8,22 +8,20 @@
 
 @property (nonatomic, strong) NSViewController *itemPropertiesController;
 @property (nonatomic, readonly) ItemsView *itemsView;
-@property (nonatomic, strong) NSCollectionViewItem *(^itemPrototypeFactory)(NSCollectionView *);
 
 @end
 
 @implementation ItemsController
 
-@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource, itemPrototypeFactory;
+@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource;
 
 - (ItemsView *)itemsView {
     return (ItemsView *)self.view;
 }
 
-- (id)initWithTitle:(NSString *)leTitle itemPrototype:(NSCollectionViewItem *(^)(NSCollectionView *))leItemPrototype {
+- (id)initWithTitle:(NSString *)leTitle {
     if (self = [super initWithNibName:@"ItemsView" bundle:[NSBundle mainBundle]]) {
         self.title = leTitle;
-        self.itemPrototypeFactory = leItemPrototype;
     }
     return self;
 }
@@ -36,16 +34,20 @@
     NSError *error = nil;
     self.items = [[dataSource getItems:&error] mutableCopy];
 }
+- (NSCollectionViewItem *)collectionView:(CollectionView *)collectionView newItemForRepresentedObject:(id)object {
+    return [dataSource itemsController:self getCollectionViewItemForItem:object collectionView:collectionView];
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    self.itemsView.collectionView.itemPrototypeFactory = self.itemPrototypeFactory;
+    self.itemsView.collectionView.dataSource = self;
+    
     [self updateItems];
     self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
-    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {
@@ -73,7 +75,7 @@
     }
 }
 
--(void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
+- (void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
     [items removeObjectAtIndex:index];
 }
 

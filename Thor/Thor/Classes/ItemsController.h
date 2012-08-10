@@ -1,9 +1,12 @@
 #import "BreadcrumbController.h"
 
+@class ItemsController;
+
 @protocol ItemsControllerDataSource <NSObject>
 
 - (NSArray *)getItems:(NSError **)error;
 - (NSViewController *)getPropertiesControllerForNewItem;
+- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController getCollectionViewItemForItem:(id)item collectionView:(NSCollectionView *)collectionView;
 - (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item;
 
 @end
@@ -15,6 +18,6 @@
 
 @property (nonatomic, strong) id<ItemsControllerDataSource> dataSource;
 
-- (id)initWithTitle:(NSString *)leTitle itemPrototype:(NSCollectionViewItem *(^)(NSCollectionView *))itemPrototype;
+- (id)initWithTitle:(NSString *)leTitle;
 
 @end

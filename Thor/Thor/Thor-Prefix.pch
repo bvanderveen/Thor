@@ -3,4 +3,5 @@
 #endif
 
 #import "ThorCore.h"
+#import "Sequence.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>

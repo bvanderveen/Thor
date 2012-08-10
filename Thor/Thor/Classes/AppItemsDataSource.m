@@ -2,7 +2,13 @@
 #import "AppPropertiesController.h"
 #import "AppController.h"
 
+static NSNib *nib = nil;
+
 @implementation AppItemsDataSource
+
++ (void)initialize {
+    nib = [[NSNib alloc] initWithNibNamed:@"AppCollectionItemView" bundle:nil];
+}
 
 - (NSArray *)getItems:(NSError **)error {
     return [[ThorBackend shared] getConfiguredApps:error];
@@ -18,6 +24,25 @@
     AppController *appController = [[AppController alloc] init];
     appController.app = (App *)item;
     return appController;
+}
+
+- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController getCollectionViewItemForItem:(id)item collectionView:(NSCollectionView *)collectionView  {
+    NSArray *topLevelObjects;
+    [nib instantiateNibWithOwner:collectionView topLevelObjects:&topLevelObjects];
+    
+    NSView *view = [[topLevelObjects filter:^ BOOL (id o) { 
+        return [o isKindOfClass:[NSView class]];
+    }] objectAtIndex:0];
+    
+    NSButton *button = [view.subviews objectAtIndex:0];
+    
+    [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
+        [itemsController.breadcrumbController pushViewController:[self getControllerForItem:item] animated:YES];
+    }]];
+        
+    return [[topLevelObjects filter:^ BOOL (id o) { 
+        return [o isKindOfClass:[NSCollectionViewItem class]]; 
+    }] objectAtIndex:0];
 }
 
 @end

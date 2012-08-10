@@ -14,7 +14,7 @@
     CGFloat below = MAX(MIN((self.documentVisibleRect.size.height + self.documentVisibleRect.origin.y) - self.documentRect.size.height, self.documentVisibleRect.size.height),0);
     
     [NSGraphicsContext currentContext].patternPhase = NSMakePoint(0, 0);
-    NSRect clipRect = NSMakeRect(0, self.documentVisibleRect.origin.y , self.documentVisibleRect.size.width, self.documentVisibleRect.size.height);
+    NSRect clipRect = NSMakeRect(0, self.documentVisibleRect.origin.y, self.documentVisibleRect.size.width, self.documentVisibleRect.size.height);
     
     NSBezierPath *newClipPath = [NSBezierPath bezierPathWithRect:clipRect];
     [newClipPath setClip];
@@ -39,15 +39,16 @@
 @end
 
 
-@implementation TransparentCollectionView
+@implementation CollectionView
 
-@synthesize itemPrototypeFactory;
+@synthesize dataSource;
 
 - (void)drawRect:(NSRect)dirtyRect {
-    
+    // do nothing. background is drawn by swizzled -[NSClipView drawRect:] above.
 }
+
 - (NSCollectionViewItem *)newItemForRepresentedObject:(id)object {
-    return itemPrototypeFactory(self);
+    return [dataSource collectionView:self newItemForRepresentedObject:object];
 }
 
 @end
