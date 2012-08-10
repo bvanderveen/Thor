@@ -1,6 +1,7 @@
 #import "TargetItemsDataSource.h"
 #import "TargetPropertiesController.h"
 #import "TargetController.h"
+#import "CollectionItemView.h"
 
 static NSNib *nib = nil;
 
@@ -40,7 +41,8 @@ static NSNib *nib = nil;
         return [o isKindOfClass:[NSView class]];
     }] objectAtIndex:0];
     
-    NSButton *button = [view.subviews objectAtIndex:0];
+    CollectionItemViewButton *button = [view.subviews objectAtIndex:0];
+    button.label = ((App *)item).displayName;
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
         [itemsController.breadcrumbController pushViewController:[self getControllerForItem:item] animated:YES];
