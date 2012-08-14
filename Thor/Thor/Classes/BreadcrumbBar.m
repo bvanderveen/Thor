@@ -1,4 +1,7 @@
 #import "BreadcrumbBar.h"
+#import "NSString+ShadowedTextDrawing.h"
+
+#define BAR_BACKGROUND_COLOR ([NSColor colorWithSRGBRed:.25 green:.27 blue:.30 alpha:1.0])
 
 @interface BreadcrumbItemView : NSButton
 
@@ -29,16 +32,27 @@
 
 - (id)initWithItem:(id<BreadcrumbItem>)item {
     if (self = [super initWithItem:item]) {
-        [self setTitle:@"Back"];
+        self.bordered = NO;
     }
     return self;
 }
 
 - (CGSize)intrinsicContentSize {
-    return CGSizeMake(100, NSViewNoInstrinsicMetric);
+    return CGSizeMake(44, 44);
 }
 
-
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithSRGBRed:.17 green:.19 blue:.21 alpha:1.0] set];
+    NSRectFill(self.bounds);
+    
+    [BAR_BACKGROUND_COLOR set];
+    NSRectFill(NSMakeRect(0, 0, self.bounds.size.width - 1, self.bounds.size.height - 1));
+    
+    NSImage *arrowImage = [NSImage imageNamed:@"BreadcrumbArrow"];
+    CGSize contentSize = [self intrinsicContentSize];
+    
+    [arrowImage drawAtPoint:NSMakePoint((contentSize.width - arrowImage.size.width) / 2, (contentSize.height - arrowImage.size.height) / 2 - 2) fromRect:(NSRect){ .origin = NSZeroPoint, .size = arrowImage.size } operation:NSCompositeSourceOver fraction:1];
+}
 
 @end
 
@@ -50,13 +64,39 @@
 
 - (id)initWithItem:(id<BreadcrumbItem>)item {
     if (self = [super initWithItem:item]) {
-        [self setTitle:item.title];
+        self.title = item.title;
+        self.bordered = NO;
     }
     return self;
 }
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(100, NSViewNoInstrinsicMetric);
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithSRGBRed:.17 green:.19 blue:.21 alpha:1.0] set];
+    NSRectFill(self.bounds);
+    
+    [BAR_BACKGROUND_COLOR set];
+    NSRectFill(NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - 1));
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    paragraphStyle.alignment = NSCenterTextAlignment;
+    
+    NSFont *labelFont = [NSFont boldSystemFontOfSize:12];
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                labelFont, NSFontAttributeName,
+                                [NSColor whiteColor], NSForegroundColorAttributeName,
+                                paragraphStyle, NSParagraphStyleAttributeName,
+                                nil];
+    
+    CGFloat fontLineHeight = labelFont.leading + labelFont.ascender - labelFont.descender;
+    NSRect labelRect = NSMakeRect(0, (self.bounds.size.height - fontLineHeight) / 2 + 1, self.bounds.size.width, fontLineHeight + 2);
+    
+    [self.title drawShadowedInRect:labelRect withAttributes:attributes];
 }
 
 @end
@@ -103,8 +143,11 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor blackColor] set];
-    NSRectFill(dirtyRect);
+    [[NSColor colorWithSRGBRed:.17 green:.19 blue:.21 alpha:1.0] set];
+    NSRectFill(self.bounds);
+    
+    [BAR_BACKGROUND_COLOR set];
+    NSRectFill(NSMakeRect(0, 1, self.bounds.size.width, self.bounds.size.height - 1));
 }
 
 - (NSSize)intrinsicContentSize {
@@ -117,7 +160,7 @@
         CGFloat w = [view intrinsicContentSize].width;
         view.frame = NSMakeRect(x, 0, w, self.bounds.size.height);
         [view setNeedsLayout:YES];
-        x += w + 2;
+        x += w;
     }
     [super layout];
 }

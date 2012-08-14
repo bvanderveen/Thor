@@ -34,16 +34,20 @@
     NSError *error = nil;
     self.items = [[dataSource getItems:&error] mutableCopy];
 }
+- (NSCollectionViewItem *)collectionView:(CollectionView *)collectionView newItemForRepresentedObject:(id)object {
+    return [dataSource itemsController:self getCollectionViewItemForItem:object collectionView:collectionView];
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    self.itemsView.collectionView.dataSource = self;
     
     [self updateItems];
     self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
-    self.itemsView.delegate = self;
-    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {
@@ -71,7 +75,7 @@
     }
 }
 
--(void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
+- (void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
     [items removeObjectAtIndex:index];
 }
 

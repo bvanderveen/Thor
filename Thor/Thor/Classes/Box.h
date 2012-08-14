@@ -1,0 +1,4 @@
+
+@interface Box : NSBox
+
+@end

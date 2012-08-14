@@ -3,6 +3,7 @@
 #import "TargetItemsDataSource.h"
 #import "AppItemsDataSource.h"
 #import "BreadcrumbController.h"
+#import "Sequence.h"
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
@@ -59,7 +60,6 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         apps.dataSource = [[AppItemsDataSource alloc] init];
         
         
-        
         self.appsController = [[BreadcrumbController alloc] initWithRootViewController:apps];
         self.targetsController = [[BreadcrumbController alloc] initWithRootViewController:targets];
     }
@@ -77,6 +77,7 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
     if ([itemIdentifier isEqual:ToolbarAppsItemIdentifier]) {
         NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
         item.label = @"Apps";
+        item.image = [NSImage imageNamed:@"AppToolbarIcon"];
         item.target = self;
         item.action = @selector(itemClicked:);
         return item;
@@ -84,6 +85,7 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
     else if ([itemIdentifier isEqual:ToolbarTargetsItemIdentifier]) {
         NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
         item.label = @"Clouds";
+        item.image = [NSImage imageNamed:@"CloudToolbarIcon"];
         item.target = self;
         item.action = @selector(itemClicked:);
         return item;

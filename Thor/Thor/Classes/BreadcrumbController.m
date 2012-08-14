@@ -42,8 +42,15 @@
 
 - (void)layout {
     CGFloat barHeight = [self.bar intrinsicContentSize].height;
-    self.bar.frame = NSMakeRect(0, self.bounds.size.height - barHeight, self.bounds.size.width, barHeight);
-    self.contentView.frame = NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - barHeight);
+    if (bar.stack.count > 1) {
+        self.bar.frame = NSMakeRect(0, self.bounds.size.height - barHeight, self.bounds.size.width, barHeight);
+        self.contentView.frame = NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - barHeight);
+    }
+    else {
+        // push bar out of sight to the right. eventually we will animate
+        self.bar.frame = NSMakeRect(self.bounds.size.width, self.bounds.size.height - barHeight, self.bounds.size.width, barHeight);
+        self.contentView.frame = self.bounds;
+    }
     [super layout];
 }
 
