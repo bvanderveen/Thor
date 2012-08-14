@@ -29,6 +29,7 @@
 		4165678D15D5B74200EF93DF /* AppToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678B15D5B74200EF93DF /* AppToolbarIcon.png */; };
 		4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */; };
 		4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */; };
+		4165679415D9D75100EF93DF /* Box.m in Sources */ = {isa = PBXBuildFile; fileRef = 4165679315D9D75100EF93DF /* Box.m */; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
@@ -154,6 +155,8 @@
 		4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudToolbarIcon.png; path = Resources/CloudToolbarIcon.png; sourceTree = "<group>"; };
 		4165678F15D5DE2000EF93DF /* NSString+ShadowedTextDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ShadowedTextDrawing.h"; path = "Classes/NSString+ShadowedTextDrawing.h"; sourceTree = "<group>"; };
 		4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ShadowedTextDrawing.m"; path = "Classes/NSString+ShadowedTextDrawing.m"; sourceTree = "<group>"; };
+		4165679215D9D75100EF93DF /* Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box.h; path = Classes/Box.h; sourceTree = "<group>"; };
+		4165679315D9D75100EF93DF /* Box.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Box.m; path = Classes/Box.m; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 				41D286D015C87B9200206E3A /* SheetWindow.m */,
 				4165678F15D5DE2000EF93DF /* NSString+ShadowedTextDrawing.h */,
 				4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */,
+				4165679215D9D75100EF93DF /* Box.h */,
+				4165679315D9D75100EF93DF /* Box.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -824,6 +829,7 @@
 				41B9238415D190A00004D167 /* AppView.m in Sources */,
 				4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */,
 				4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */,
+				4165679415D9D75100EF93DF /* Box.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
