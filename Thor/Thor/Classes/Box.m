@@ -3,6 +3,8 @@
 @implementation Box
 
 - (void)drawRect:(NSRect)dirtyRect {
+    [NSGraphicsContext saveGraphicsState];
+    
     // dark outline
     NSBezierPath *outerRect = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:5 yRadius:5];
     [outerRect setClip];
@@ -22,6 +24,8 @@
     
     [[NSColor colorWithCalibratedWhite:.85 alpha:1] set];
     NSRectFill(NSMakeRect(1, self.bounds.size.height - (lineHeight + 20), self.bounds.size.width - 2, .5));
+    
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end
