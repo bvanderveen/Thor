@@ -12,13 +12,27 @@ Technical Description
 This application uses the [VMC CLI](https://github.com/cloudfoundry/vmc) or  [Iron Foundry VMC CLI for .NET](https://github.com/IronFoundry/vmc) as an underlying tool. The VMC tool acts as an abstraction layer to protect from changes that are made to the underlying cloud controller and other Cloud Foundry architecture.
 Workflow
 ---
+**What's Being Worked On?**
+
 The workflow we're using for Thor is viewable via the [Issues](https://github.com/IronFoundry/Thor/issues) section used in conjunction with the [Huboard Kanban](http://huboard.com/IronFoundry/Thor/board).
 
 The Kanban follows a simple backlog (with as minimum of a backlog kept as possible), then that becomes working, and steps through the remaining items as work is completed.
 
-Building the source
----
-This project makes use of git submodules. After cloning the repository, change into the root of the repo and run the following command to grab all of the submodules.
+**Getting the Code**
 
-    git submodule update --init --recursive
+To clone/fork/download the latest code to work with, contribute, and send pull requests with follow these steps.
 
+ 1. Navigate to the main source (where you probably already are since you're reading this document) and fork the code. [Thor Source Code](https://github.com/IronFoundry/Thor)
+ 2. Once you've forked the code, navigate to your repository and clone to your local development machine.
+
+`git clone git@github.com:YourGithubAccount/Thor.git`
+
+ 3. Once the clone is complete, pull the submodules with the following command.
+
+`git submodule update --init --recursive`
+
+Your local repository should have executable code now. Open the project with XCode and see if everything works. If it doesn't, please post a comment or message me via my github account [Adron](https://github.com/Adron) or msg me on Twitter [@Adron](http://twitter.com/adron) and I'll help you get everything up and running.
+
+**Working on the Code**
+
+Once you've added the feature, or completed one of the stories or items in the [Issues List](https://github.com/IronFoundry/Thor/issues?state=open) leave a comment on the issue and submit a pull request (or just submit the pull request). I'll then merge it back in, or if there are conflicts I'll work with you to merge it back in and add the code to the master branch.
