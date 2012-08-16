@@ -30,6 +30,11 @@
 		4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */; };
 		4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */; };
 		4165679415D9D75100EF93DF /* Box.m in Sources */ = {isa = PBXBuildFile; fileRef = 4165679315D9D75100EF93DF /* Box.m */; };
+		416567A715DAE3B100EF93DF /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
+		416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 416567AA15DAE46D00EF93DF /* SMWebRequest.h */; };
+		416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AB15DAE46D00EF93DF /* SMWebRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */ = {isa = PBXBuildFile; fileRef = 416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */; };
+		416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
@@ -76,6 +81,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4165679F15DAE39200EF93DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC12323D1391D5CC00131607;
+			remoteInfo = SBJson;
+		};
+		416567A115DAE39200EF93DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC1232521391D5CC00131607;
+			remoteInfo = SBJsonTests;
+		};
+		416567A315DAE39200EF93DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCC2626913920FC7003D9994;
+			remoteInfo = "sbjson-ios";
+		};
+		416567A515DAE39200EF93DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCC2627313920FC7003D9994;
+			remoteInfo = "sbjson-iosTests";
+		};
+		416567A815DAE3BD00EF93DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC12323C1391D5CC00131607;
+			remoteInfo = SBJson;
+		};
 		41C59C0D15CAFD8300123ABF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
@@ -157,6 +197,11 @@
 		4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ShadowedTextDrawing.m"; path = "Classes/NSString+ShadowedTextDrawing.m"; sourceTree = "<group>"; };
 		4165679215D9D75100EF93DF /* Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box.h; path = Classes/Box.h; sourceTree = "<group>"; };
 		4165679315D9D75100EF93DF /* Box.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Box.m; path = Classes/Box.m; sourceTree = "<group>"; };
+		4165679515DAE39100EF93DF /* SBJson.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SBJson.xcodeproj; path = "json-framework/SBJson.xcodeproj"; sourceTree = "<group>"; };
+		416567AA15DAE46D00EF93DF /* SMWebRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMWebRequest.h; path = webrequest/SMWebRequest.h; sourceTree = SOURCE_ROOT; };
+		416567AB15DAE46D00EF93DF /* SMWebRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMWebRequest.m; path = webrequest/SMWebRequest.m; sourceTree = SOURCE_ROOT; };
+		416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SMWebRequest+RAC.h"; sourceTree = "<group>"; };
+		416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SMWebRequest+RAC.m"; sourceTree = "<group>"; };
 		417FEFA415ACBFE300E64503 /* ToolbarTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarTabController.h; path = Classes/ToolbarTabController.h; sourceTree = "<group>"; };
 		417FEFA515ACBFE300E64503 /* ToolbarTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarTabController.m; path = Classes/ToolbarTabController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
@@ -235,6 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				416567A715DAE3B100EF93DF /* SBJson.framework in Frameworks */,
 				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +376,30 @@
 				4165679315D9D75100EF93DF /* Box.m */,
 			);
 			name = "Custom Views";
+			sourceTree = "<group>";
+		};
+		4165679615DAE39100EF93DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				416567A015DAE39200EF93DF /* SBJson.framework */,
+				416567A215DAE39200EF93DF /* SBJsonTests.octest */,
+				416567A415DAE39200EF93DF /* libsbjson-ios.a */,
+				416567A615DAE39200EF93DF /* sbjson-iosTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		416567B215DAE59700EF93DF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				414E185B15C226DF007C9508 /* Sequence.h */,
+				414E185C15C226DF007C9508 /* Sequence.m */,
+				416567AA15DAE46D00EF93DF /* SMWebRequest.h */,
+				416567AB15DAE46D00EF93DF /* SMWebRequest.m */,
+				416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */,
+				416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		417FEFA815ACC59800E64503 /* Targets */ = {
@@ -435,8 +505,7 @@
 				4131290615B6113E005F6D54 /* VMCOperations.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
-				414E185B15C226DF007C9508 /* Sequence.h */,
-				414E185C15C226DF007C9508 /* Sequence.m */,
+				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCore;
@@ -480,6 +549,7 @@
 				41F902AF15AF592A00550870 /* ThorCoreTests */,
 				F32F9742154908CB002CCF27 /* Frameworks */,
 				F32F9740154908CB002CCF27 /* Products */,
+				4165679515DAE39100EF93DF /* SBJson.xcodeproj */,
 				41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -566,6 +636,8 @@
 				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
 				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
 				414E186115C350B7007C9508 /* VMCService.h in Headers */,
+				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
+				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +655,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				416567A915DAE3BD00EF93DF /* PBXTargetDependency */,
 			);
 			name = ThorCore;
 			productName = ThorCore;
@@ -671,6 +744,10 @@
 					ProductGroup = 41C59C0315CAFD8200123ABF /* Products */;
 					ProjectRef = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
 				},
+				{
+					ProductGroup = 4165679615DAE39100EF93DF /* Products */;
+					ProjectRef = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -683,6 +760,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		416567A015DAE39200EF93DF /* SBJson.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SBJson.framework;
+			remoteRef = 4165679F15DAE39200EF93DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		416567A215DAE39200EF93DF /* SBJsonTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SBJsonTests.octest;
+			remoteRef = 416567A115DAE39200EF93DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		416567A415DAE39200EF93DF /* libsbjson-ios.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libsbjson-ios.a";
+			remoteRef = 416567A315DAE39200EF93DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		416567A615DAE39200EF93DF /* sbjson-iosTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "sbjson-iosTests.octest";
+			remoteRef = 416567A515DAE39200EF93DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -788,6 +893,8 @@
 				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
 				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
 				414E186215C350B7007C9508 /* VMCService.m in Sources */,
+				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
+				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,6 +951,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		416567A915DAE3BD00EF93DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SBJson;
+			targetProxy = 416567A815DAE3BD00EF93DF /* PBXContainerItemProxy */;
+		};
 		41C59C1615CB008B00123ABF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ReactiveCocoa;
