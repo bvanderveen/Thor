@@ -3,7 +3,7 @@
 	url = git@github.com:github/ReactiveCocoa
 [submodule "json-framework"]
 	path = json-framework
-	url = https://github.com/stig/json-framework.git
+	url = git@github.com:stig/json-framework
 [submodule "webrequest"]
 	path = webrequest
-	url = https://github.com/nfarina/webrequest.git
+	url = git@github.com:nfarina/webrequest
