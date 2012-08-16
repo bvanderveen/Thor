@@ -15,7 +15,7 @@
 
 @interface GridView : NSView
 
-@property (nonatomic, unsafe_unretained) id<GridDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) IBOutlet id<GridDataSource> dataSource;
 
 - (void)reloadData;
 

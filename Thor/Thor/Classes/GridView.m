@@ -19,17 +19,17 @@
     return self;
 }
 
-- (void)setFrame:(NSRect)frameRect {
-    NSLog(@"GridRow setFrame:%@", NSStringFromRect(frameRect));
-    [super setFrame:frameRect];
-}
-
 - (void)setCells:(NSArray *)cells {
     _cells = cells;
     
     for (NSView *v in cells) {
         [self addSubview:v];
     }
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithCalibratedWhite:.9 alpha:1] set];
+    NSRectFill(NSMakeRect(0, 1, self.bounds.size.width, 1));
 }
 
 @end
@@ -59,6 +59,15 @@
     
     NSMutableArray *newGridRows = [NSMutableArray array];
     
+    GridRow *header = [GridRow new];
+    NSMutableArray *cells = [NSMutableArray array];
+    for (int i = 0; i < columns; i++) {
+        [cells addObject:[self headerViewForColumn:i]];
+    }
+    header.cells = cells;
+    [newGridRows addObject:header];
+    [self addSubview:header];
+    
     for (int i = 0; i < rows; i++) {
         GridRow *r = [GridRow new];
         NSMutableArray *cells = [NSMutableArray array];
@@ -74,11 +83,24 @@
     [self setNeedsLayout:YES];
 }
 
+- (NSView *)headerViewForColumn:(NSUInteger)column {
+    NSString *title = [dataSource gridView:self titleForColumn:column];
+    NSTextField *label = [Label label];
+    label.translatesAutoresizingMaskIntoConstraints = YES;
+    //label.backgroundColor = [NSColor redColor];
+    label.font = [NSFont systemFontOfSize:12];
+    label.textColor = [NSColor colorWithCalibratedWhite:.66 alpha:1];
+    label.stringValue = title;
+    return label;
+}
+
 - (NSView *)viewForCellAtRow:(NSUInteger)row column:(NSUInteger)column {
     NSString *title = [dataSource gridView:self titleForRow:row column:column];
     NSTextField *label = [Label label];
     label.translatesAutoresizingMaskIntoConstraints = YES;
     //label.backgroundColor = [NSColor redColor];
+    label.font = [NSFont boldSystemFontOfSize:12];
+    label.textColor = [NSColor colorWithCalibratedWhite:.33 alpha:1];
     label.stringValue = title;
     return label;
 }
@@ -89,7 +111,7 @@
 }
 
 - (CGFloat)rowHeight {
-    return 20;
+    return 30;
 }
 
 - (CGFloat)totalHeight {
