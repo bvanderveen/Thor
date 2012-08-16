@@ -1,9 +1,9 @@
-[submodule "Thor/ReactiveCocoa"]
-	path = Thor/ReactiveCocoa
+[submodule "ReactiveCocoa"]
+	path = ReactiveCocoa
 	url = git@github.com:github/ReactiveCocoa
-[submodule "Thor/json-framework"]
-	path = Thor/json-framework
+[submodule "json-framework"]
+	path = json-framework
 	url = https://github.com/stig/json-framework.git
-[submodule "Thor/webrequest"]
-	path = Thor/webrequest
+[submodule "webrequest"]
+	path = webrequest
 	url = https://github.com/nfarina/webrequest.git
