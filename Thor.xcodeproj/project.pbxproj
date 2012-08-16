@@ -10,6 +10,7 @@
 		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
 		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
+		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
 		4135F59A15D33BEE0054D961 /* AppIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59515D33BEE0054D961 /* AppIconSelected.png */; };
 		4135F59B15D33BEE0054D961 /* BreadcrumbArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */; };
@@ -289,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */,
 				4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */,
 				41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */,
 				41F902AB15AF592A00550870 /* Foundation.framework in Frameworks */,
