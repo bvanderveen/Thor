@@ -15,3 +15,10 @@ Workflow
 The workflow we're using for Thor is viewable via the [Issues](https://github.com/IronFoundry/Thor/issues) section used in conjunction with the [Huboard Kanban](http://huboard.com/IronFoundry/Thor/board).
 
 The Kanban follows a simple backlog (with as minimum of a backlog kept as possible), then that becomes working, and steps through the remaining items as work is completed.
+
+Building the source
+---
+This project makes use of git submodules. After cloning the repository, change into the root of the repo and run the following command to grab all of the submodules.
+
+    git submodule update --init --recursive
+
