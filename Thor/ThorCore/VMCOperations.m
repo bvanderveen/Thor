@@ -28,7 +28,7 @@
 @synthesize name, uris;
 
 - (NSUInteger)hash {
-    return [[NSString stringWithFormat:@"%@%@%@%@", name, uris] hash];
+    return [[NSString stringWithFormat:@"%@%@", name, uris] hash];
 }
 
 - (BOOL)isEqual:(id)object {
