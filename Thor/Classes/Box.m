@@ -7,13 +7,13 @@
     
     // dark outline
     NSBezierPath *outerRect = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:5 yRadius:5];
-    [outerRect setClip];
+    [outerRect addClip];
     [[NSColor colorWithCalibratedWhite:.85 alpha:1] set];
     NSRectFill(self.bounds);
     
     // main area
     NSBezierPath *innerRect = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(self.bounds, 1, 1) xRadius:4 yRadius:4];
-    [innerRect setClip];
+    [innerRect addClip];
     [[NSColor colorWithCalibratedWhite:.95 alpha:1] set];
     NSRectFill(self.bounds);
     
