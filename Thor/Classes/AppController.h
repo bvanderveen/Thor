@@ -1,9 +1,12 @@
 #import "BreadcrumbController.h"
+#import "GridView.h"
+#import "AppView.h"
 
-@interface AppController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
+@interface AppController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource>
 
+@property (nonatomic, copy) NSArray *deployments;
 @property (nonatomic, strong) IBOutlet App *app;
-//@property (nonatomic, strong) IBOutlet AppView *appView;
+@property (nonatomic, strong) IBOutlet AppView *appView;
 
 - (IBAction)editClicked:(id)sender;
 

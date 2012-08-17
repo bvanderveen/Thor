@@ -27,7 +27,7 @@
 
 @end
 
-@interface Deployment : NSManagedObject
+@interface Deployment : NSObject
 
 @property (copy) NSString *displayName, *hostname, *appName;
 @property (strong) NSNumber *memory, *instances;

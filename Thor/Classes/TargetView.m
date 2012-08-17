@@ -3,6 +3,6 @@
 
 @implementation TargetView
 
-@synthesize infoBox, deploymentsBox, deploymentsGrid, editButton;
+@synthesize deploymentsGrid, editButton;
 
 @end

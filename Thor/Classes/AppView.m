@@ -2,4 +2,6 @@
 
 @implementation AppView
 
+@synthesize deploymentsGrid;
+
 @end

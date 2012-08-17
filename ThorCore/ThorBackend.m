@@ -297,6 +297,12 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @end
 
+@implementation Deployment
+
+@synthesize displayName, hostname, appName, memory, instances;
+
+@end
+
 @interface ThorBackendImpl ()
 
 @property (nonatomic, strong) NSManagedObjectModel *model;
