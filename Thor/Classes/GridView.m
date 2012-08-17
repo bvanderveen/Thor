@@ -4,19 +4,36 @@
 @interface GridRow : NSView
 
 @property (nonatomic, copy) NSArray *cells;
+@property (nonatomic, assign) BOOL highlighted;
 
 @end
 
 @implementation GridRow
 
-@synthesize cells = _cells;
+@synthesize cells = _cells, highlighted;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         //self.translatesAutoresizingMaskIntoConstraints = NO;
         //self.autoresizesSubviews = NO;
+        NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        [self addTrackingArea:trackingArea];
     }
     return self;
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+    highlighted = YES;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+    highlighted = NO;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)cursorUpdate:(NSEvent *)event {
+    [[NSCursor pointingHandCursor] set];
 }
 
 - (void)setCells:(NSArray *)cells {
@@ -28,6 +45,11 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+    if (highlighted) {
+        [[NSColor blueColor] set];
+        NSRectFill(self.bounds);
+    }
+    
     [[NSColor colorWithCalibratedWhite:.9 alpha:1] set];
     NSRectFill(NSMakeRect(0, 1, self.bounds.size.width, 1));
 }
@@ -120,6 +142,11 @@
 
 - (CGSize)intrinsicContentSize {
     return NSMakeSize(NSViewNoInstrinsicMetric, [self totalHeight]);
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor redColor] set];
+    NSRectFill(self.bounds);
 }
 
 - (void)layout {

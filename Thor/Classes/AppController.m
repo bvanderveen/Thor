@@ -27,8 +27,6 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)awakeFromNib {
-    
-    
     Deployment *d0 = [Deployment new];
     d0.displayName = @"Cloud 1 Foo";
     d0.appName = @"foo";
