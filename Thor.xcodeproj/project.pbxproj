@@ -69,6 +69,9 @@
 		41F902AE15AF592A00550870 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41F902B415AF592A00550870 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41F902B215AF592A00550870 /* InfoPlist.strings */; };
 		41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902B615AF592A00550870 /* ThorBackendTests.m */; };
+		41FA11BD15E431BB0079FD30 /* DeploymentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA11BC15E431BB0079FD30 /* DeploymentController.m */; };
+		41FA11C015E431ED0079FD30 /* DeploymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA11BF15E431ED0079FD30 /* DeploymentView.m */; };
+		41FA11C215E4320B0079FD30 /* DeploymentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11C115E4320B0079FD30 /* DeploymentView.xib */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -257,6 +260,11 @@
 		41F902B315AF592A00550870 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		41F902B515AF592A00550870 /* ThorBackendTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorBackendTests.h; sourceTree = "<group>"; };
 		41F902B615AF592A00550870 /* ThorBackendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThorBackendTests.m; sourceTree = "<group>"; };
+		41FA11BB15E431BB0079FD30 /* DeploymentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentController.h; path = Classes/DeploymentController.h; sourceTree = "<group>"; };
+		41FA11BC15E431BB0079FD30 /* DeploymentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentController.m; path = Classes/DeploymentController.m; sourceTree = "<group>"; };
+		41FA11BE15E431ED0079FD30 /* DeploymentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentView.h; path = Classes/DeploymentView.h; sourceTree = "<group>"; };
+		41FA11BF15E431ED0079FD30 /* DeploymentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentView.m; path = Classes/DeploymentView.m; sourceTree = "<group>"; };
+		41FA11C115E4320B0079FD30 /* DeploymentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeploymentView.xib; path = Classes/DeploymentView.xib; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -542,6 +550,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		41FA11BA15E431990079FD30 /* Deployments */ = {
+			isa = PBXGroup;
+			children = (
+				41FA11C115E4320B0079FD30 /* DeploymentView.xib */,
+				41FA11BE15E431ED0079FD30 /* DeploymentView.h */,
+				41FA11BF15E431ED0079FD30 /* DeploymentView.m */,
+				41FA11BB15E431BB0079FD30 /* DeploymentController.h */,
+				41FA11BC15E431BB0079FD30 /* DeploymentController.m */,
+			);
+			name = Deployments;
+			sourceTree = "<group>";
+		};
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +605,7 @@
 				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
+				41FA11BA15E431990079FD30 /* Deployments */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
 				F32F9755154908CB002CCF27 /* AppDelegate.h */,
@@ -844,6 +865,7 @@
 				416566F015D42B9F00EF93DF /* AppCollectionItemView.xib in Resources */,
 				4165678D15D5B74200EF93DF /* AppToolbarIcon.png in Resources */,
 				4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */,
+				41FA11C215E4320B0079FD30 /* DeploymentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,6 +961,8 @@
 				4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */,
 				4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */,
 				4165679415D9D75100EF93DF /* Box.m in Sources */,
+				41FA11BD15E431BB0079FD30 /* DeploymentController.m in Sources */,
+				41FA11C015E431ED0079FD30 /* DeploymentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
