@@ -2,10 +2,10 @@
 
 @implementation VMCInstanceStats
 
-@synthesize cpu, memory, disk, uptime;
+@synthesize ID, cpu, memory, disk, uptime;
 
 - (NSUInteger)hash {
-    return [[NSString stringWithFormat:@"%@%@%@%@", cpu, memory, disk, uptime] hash];
+    return [[NSString stringWithFormat:@"%@%@%@%@%@", ID, cpu, memory, disk, uptime] hash];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -15,6 +15,7 @@
     VMCInstanceStats *other = (VMCInstanceStats *)object;
     
     return 
+        [other.ID isEqual:self.ID] &&
         [other.cpu isEqual:self.cpu] &&
         [other.memory isEqual:self.memory] &&
         [other.disk isEqual:self.disk] &&
@@ -143,6 +144,7 @@ SynchronousExecuteShellBlock RVMExecute = ^ NSString * (NSString *command, NSArr
     return [rows map:^ id (id line) {
         NSArray *cells = [self cellsFromRowString:line];
         VMCInstanceStats *stats = [VMCInstanceStats new];
+        stats.ID = [cells objectAtIndex:1];
         stats.cpu = [cells objectAtIndex:2];
         stats.memory = [cells objectAtIndex:3];
         stats.disk = [cells objectAtIndex:4];

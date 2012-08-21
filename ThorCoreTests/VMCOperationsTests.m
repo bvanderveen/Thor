@@ -195,12 +195,14 @@
     STAssertTrue(actualCount == 2, @"Expected 2 results");
     
     VMCInstanceStats *stats0 = [VMCInstanceStats new];
+    stats0.ID = @"0";
     stats0.cpu = @"0.0% (2)";
     stats0.memory = @"12.2M (64M)";
     stats0.disk = @"6.5M (2G)";
     stats0.uptime = @"0d:1h:31m:14s";
     
     VMCInstanceStats *stats1 = [VMCInstanceStats new];
+    stats1.ID = @"1";
     stats1.cpu = @"0.2% (2)";
     stats1.memory = @"14.2M (64M)";
     stats1.disk = @"8.5M (2G)";

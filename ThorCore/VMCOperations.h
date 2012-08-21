@@ -1,7 +1,7 @@
 
 @interface VMCInstanceStats : NSObject 
 
-@property (nonatomic, copy) NSString *cpu, *memory, *disk, *uptime;
+@property (nonatomic, copy) NSString *ID, *cpu, *memory, *disk, *uptime;
 
 @end
 
