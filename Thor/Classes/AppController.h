@@ -2,7 +2,7 @@
 #import "GridView.h"
 #import "AppView.h"
 
-@interface AppController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource>
+@interface AppController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource, GridDelegate>
 
 @property (nonatomic, copy) NSArray *deployments;
 @property (nonatomic, strong) IBOutlet App *app;

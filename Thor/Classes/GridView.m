@@ -1,16 +1,23 @@
 #import "GridView.h"
 #import "CollectionView.h"
 
+@interface GridView ()
+
+@property (nonatomic, copy) NSArray *gridRows;
+
+@end
+
 @interface GridRow : NSView
 
 @property (nonatomic, copy) NSArray *cells;
 @property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, unsafe_unretained) GridView *gridView;
 
 @end
 
 @implementation GridRow
 
-@synthesize cells = _cells, highlighted;
+@synthesize cells = _cells, highlighted, gridView;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -30,6 +37,10 @@
 - (void)mouseExited:(NSEvent *)theEvent {
     highlighted = NO;
     [self setNeedsDisplay:YES];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+    [gridView.delegate gridView:gridView didSelectRowAtIndex:[gridView.gridRows indexOfObject:self] - 1];
 }
 
 - (void)cursorUpdate:(NSEvent *)event {
@@ -56,15 +67,9 @@
 
 @end
 
-@interface GridView ()
-
-@property (nonatomic, copy) NSArray *gridRows;
-
-@end
-
 @implementation GridView
 
-@synthesize dataSource, gridRows;
+@synthesize delegate, dataSource, gridRows;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -102,6 +107,7 @@
     }
     
     self.gridRows = newGridRows;
+    [gridRows makeObjectsPerformSelector:@selector(setGridView:) withObject:self];
     [self setNeedsLayout:YES];
 }
 

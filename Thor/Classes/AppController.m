@@ -76,6 +76,10 @@ static NSArray *deploymentColumns = nil;
     return nil;
 }
 
+- (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
+    NSLog(@"Clicked at index %d", row);
+}
+
 - (void)editClicked:(id)sender {
     self.appPropertiesController = [[AppPropertiesController alloc] init];
     self.appPropertiesController.app = app;
