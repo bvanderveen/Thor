@@ -51,7 +51,7 @@
     }
     
     [[NSColor colorWithCalibratedWhite:.9 alpha:1] set];
-    NSRectFill(NSMakeRect(0, 1, self.bounds.size.width, 1));
+    NSRectFill(NSMakeRect(0, 0, self.bounds.size.width, 1));
 }
 
 @end
@@ -137,16 +137,11 @@
 }
 
 - (CGFloat)totalHeight {
-    return [self rowHeight] * gridRows.count;
+    return [self rowHeight] * gridRows.count + 1;
 }
 
 - (CGSize)intrinsicContentSize {
     return NSMakeSize(NSViewNoInstrinsicMetric, [self totalHeight]);
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor redColor] set];
-    NSRectFill(self.bounds);
 }
 
 - (void)layout {
@@ -159,14 +154,11 @@
         assert([row superview] == self);
         row.frame = NSMakeRect(0, self.bounds.size.height - rowHeight * (i + 1), self.bounds.size.width, rowHeight);
         
-        NSLog(@"row at %@", NSStringFromRect(row.frame));
-        
         CGFloat x = 0;
         for (int j = 0; j < row.cells.count; j++) {
             NSTextField *cell = [row.cells objectAtIndex:j];
             CGFloat columnWidth = [self widthOfColumn:j];
-            cell.frame = NSMakeRect(x, 0, columnWidth, rowHeight);
-            NSLog(@"cell frame %@", NSStringFromRect(cell.frame));
+            cell.frame = NSMakeRect(x, -5, columnWidth, rowHeight);
             x += columnWidth;
         }
         

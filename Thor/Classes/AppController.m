@@ -37,9 +37,10 @@ static NSArray *deploymentColumns = nil;
     d1.appName = @"foo";
     d1.hostname = @"api.cloud2.com";
     
-    self.deployments = [NSArray arrayWithObjects:d0, d1, nil];
+    self.deployments = [NSArray arrayWithObjects:d0, d1, d0, d1, d0, d1, d0, d1, d1, d0, d1, d0, d1, d0, d1, nil];
     
     [self.appView.deploymentsGrid reloadData];
+    //[self.appView setNeedsLayout:YES];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
