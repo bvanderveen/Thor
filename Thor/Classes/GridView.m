@@ -57,7 +57,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
     if (highlighted) {
-        [[NSColor blueColor] set];
+        [[NSColor colorWithCalibratedRed:.84 green:.93 blue:.96 alpha:1] set];
         NSRectFill(self.bounds);
     }
     
