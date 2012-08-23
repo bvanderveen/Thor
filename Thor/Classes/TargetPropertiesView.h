@@ -2,6 +2,7 @@
 @interface TargetPropertiesView : NSView
 
 @property (nonatomic, strong) IBOutlet NSTextField 
+    *windowLabel,
     *displayNameLabel,
     *displayNameField,
     *hostnameLabel,

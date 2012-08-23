@@ -85,6 +85,7 @@ static NSArray *deploymentColumns = nil;
 
 - (void)editClicked:(id)sender {
     self.targetPropertiesController = [[TargetPropertiesController alloc] init];
+    self.targetPropertiesController.editing = YES;
     self.targetPropertiesController.target = target;
     
     NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
