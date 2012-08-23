@@ -48,7 +48,7 @@
     [BAR_BACKGROUND_COLOR set];
     NSRectFill(NSMakeRect(0, 0, self.bounds.size.width - 1, self.bounds.size.height - 1));
     
-    NSImage *arrowImage = [NSImage imageNamed:@"BreadcrumbArrow"];
+    NSImage *arrowImage = [NSImage imageNamed:((NSButtonCell *)self.cell).isHighlighted ? @"BreadcrumbArrowSelected" : @"BreadcrumbArrow"];
     CGSize contentSize = [self intrinsicContentSize];
     
     [arrowImage drawAtPoint:NSMakePoint((contentSize.width - arrowImage.size.width) / 2, (contentSize.height - arrowImage.size.height) / 2 - 2) fromRect:(NSRect){ .origin = NSZeroPoint, .size = arrowImage.size } operation:NSCompositeSourceOver fraction:1];

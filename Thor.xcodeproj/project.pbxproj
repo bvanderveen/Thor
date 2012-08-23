@@ -45,6 +45,7 @@
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
+		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
 		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
 		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
@@ -227,6 +228,7 @@
 		418BF29015BF16CE00E313C7 /* ItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsController.m; path = Classes/ItemsController.m; sourceTree = "<group>"; };
 		418BF29715BF43B600E313C7 /* ItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsView.h; path = Classes/ItemsView.h; sourceTree = "<group>"; };
 		418BF29815BF43B600E313C7 /* ItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsView.m; path = Classes/ItemsView.m; sourceTree = "<group>"; };
+		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
 		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				4135F59515D33BEE0054D961 /* AppIconSelected.png */,
 				4165678B15D5B74200EF93DF /* AppToolbarIcon.png */,
 				4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */,
+				41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */,
 				4135F59715D33BEE0054D961 /* CloudIcon.png */,
 				4135F59815D33BEE0054D961 /* CloudIconSelected.png */,
 				414779E715C0B1C000B733EF /* CollectionViewBackground.png */,
@@ -899,6 +902,7 @@
 				41FA11D815E433EB0079FD30 /* AppView.xib in Resources */,
 				413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */,
 				413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */,
+				41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
