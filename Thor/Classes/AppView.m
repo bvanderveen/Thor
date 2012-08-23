@@ -8,7 +8,7 @@
 @implementation AppSettingsView
 
 - (NSSize)intrinsicContentSize {
-    return NSMakeSize(NSViewNoInstrinsicMetric, 135);
+    return NSMakeSize(NSViewNoInstrinsicMetric, 107);
 }
 
 @end

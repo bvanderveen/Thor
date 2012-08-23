@@ -32,8 +32,6 @@
     App *result = [App appInsertedIntoManagedObjectContext:self.context];
     result.displayName = [NSString stringWithFormat:@"App %d", counter];
     result.localRoot = [NSString stringWithFormat:@"/path/to/app%d", counter];
-    result.defaultMemory = [NSNumber numberWithInt:128];
-    result.defaultInstances = [NSNumber numberWithInt:2];
     
     NSLog(@"returning app with local root %@", result.localRoot);
     return result;

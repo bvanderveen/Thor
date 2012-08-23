@@ -19,7 +19,6 @@
 @interface App : NSManagedObject
 
 @property (strong) NSString *displayName, *localRoot;
-@property (strong) NSNumber *defaultMemory, *defaultInstances;
 
 + (NSFetchRequest *)fetchRequest;
 
