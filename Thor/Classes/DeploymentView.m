@@ -8,7 +8,7 @@
 @implementation DeploymentSettingsView
 
 - (NSSize)intrinsicContentSize {
-    return NSMakeSize(NSViewNoInstrinsicMetric, 135);
+    return NSMakeSize(NSViewNoInstrinsicMetric, 140);
 }
 
 @end

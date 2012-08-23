@@ -17,6 +17,8 @@
 		4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59715D33BEE0054D961 /* CloudIcon.png */; };
 		4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59815D33BEE0054D961 /* CloudIconSelected.png */; };
 		4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4135F5A115D34D520054D961 /* CollectionItemView.m */; };
+		413912F315E5D0A900DB464E /* CloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912F115E5D0A900DB464E /* CloudService.h */; };
+		413912F415E5D0A900DB464E /* CloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F215E5D0A900DB464E /* CloudService.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -183,6 +185,8 @@
 		4135F59815D33BEE0054D961 /* CloudIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSelected.png; path = Resources/CloudIconSelected.png; sourceTree = "<group>"; };
 		4135F5A015D34D520054D961 /* CollectionItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionItemView.h; path = Classes/CollectionItemView.h; sourceTree = "<group>"; };
 		4135F5A115D34D520054D961 /* CollectionItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionItemView.m; path = Classes/CollectionItemView.m; sourceTree = "<group>"; };
+		413912F115E5D0A900DB464E /* CloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudService.h; sourceTree = "<group>"; };
+		413912F215E5D0A900DB464E /* CloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudService.m; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -518,6 +522,8 @@
 				414E186015C350B7007C9508 /* VMCService.m */,
 				4131290515B6113E005F6D54 /* VMCOperations.h */,
 				4131290615B6113E005F6D54 /* VMCOperations.m */,
+				413912F115E5D0A900DB464E /* CloudService.h */,
+				413912F215E5D0A900DB464E /* CloudService.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
@@ -666,6 +672,7 @@
 				414E186115C350B7007C9508 /* VMCService.h in Headers */,
 				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
+				413912F315E5D0A900DB464E /* CloudService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +931,7 @@
 				414E186215C350B7007C9508 /* VMCService.m in Sources */,
 				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
+				413912F415E5D0A900DB464E /* CloudService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

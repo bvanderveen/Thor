@@ -10,7 +10,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize deploymentInfo, title, deploymentView, breadcrumbController, instanceStats;
+@synthesize deploymentInfo, cloudApp, title, deploymentView, breadcrumbController, instanceStats;
 
 + (void)initialize {
     instanceColumns = [NSArray arrayWithObjects:@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime", nil];
@@ -28,6 +28,7 @@ static NSArray *instanceColumns = nil;
     NSError *error = nil;
     
     self.instanceStats = [[FixtureVMCService new] getInstanceStatsForAppName:deploymentInfo.appName target:deploymentInfo.target error:&error];
+    self.cloudApp = [[FixtureCloudService new] getAppWithName:deploymentInfo.appName];
     [self.deploymentView.instancesGrid reloadData];
 }
 
