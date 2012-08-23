@@ -30,15 +30,15 @@ static NSArray *deploymentColumns = nil;
 - (void)awakeFromNib {
     Deployment *d0 = [Deployment new];
     d0.displayName = @"Cloud 1 Foo";
-    d0.appName = @"foo";
+    d0.appName = @"foo1";
     d0.hostname = @"api.cloud1.com";
     
     Deployment *d1 = [Deployment new];
     d1.displayName = @"Cloud 2 Foo";
-    d1.appName = @"foo";
+    d1.appName = @"foo2";
     d1.hostname = @"api.cloud2.com";
     
-    self.deployments = [NSArray arrayWithObjects:d0, d1, d0, d1, d0, d1, d0, d1, d1, d0, d1, d0, d1, d0, d1, nil];
+    self.deployments = [NSArray arrayWithObjects:d0, d1, nil];
     
     [self.appView.deploymentsGrid reloadData];
 }

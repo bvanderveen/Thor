@@ -135,7 +135,7 @@
 
 - (CGFloat)widthOfColumn:(NSUInteger)column {
     // TODO make variable, memoize
-    return 100;
+    return 107;
 }
 
 - (CGFloat)rowHeight {

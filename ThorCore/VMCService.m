@@ -12,13 +12,13 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
 
 - (NSArray *)getDeploymentsForTarget:(Target *)target error:(NSError **)error {
     VMCDeployment *deployment0 = [VMCDeployment new];
-    deployment0.name = @"Foo";
+    deployment0.name = @"nodejs_test";
     deployment0.cpu = @"33%";
     deployment0.memory = @"256M";
     deployment0.disk = @"128MB";
     
     VMCDeployment *deployment1 = [VMCDeployment new];
-    deployment1.name = @"Bar";
+    deployment1.name = @"rails_test";
     deployment1.cpu = @"66%";
     deployment1.memory = @"512M";
     deployment1.disk = @"256MB";
@@ -33,16 +33,16 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
     stats0.host = @"10.0.0.1";
     stats0.cpu = @"100%";
     stats0.memory = @"2GB";
-    stats0.disk = @"2TB";
-    stats0.uptime = @"Forevs";
+    stats0.disk = @"20GB";
+    stats0.uptime = @"20:21:50:12";
     
     VMCInstanceStats *stats1 = [VMCInstanceStats new];
     stats1.ID = @"1";
     stats1.host = @"10.0.0.2";
     stats1.cpu = @"110%";
     stats1.memory = @"2GB";
-    stats1.disk = @"3TB";
-    stats1.uptime = @"Foreva";
+    stats1.disk = @"20GB";
+    stats1.uptime = @"20:21:49:56";
     
     return [NSArray arrayWithObjects:stats0, stats1, nil];
     
