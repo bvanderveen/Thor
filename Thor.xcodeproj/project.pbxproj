@@ -19,6 +19,9 @@
 		4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4135F5A115D34D520054D961 /* CollectionItemView.m */; };
 		413912F315E5D0A900DB464E /* CloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912F115E5D0A900DB464E /* CloudService.h */; };
 		413912F415E5D0A900DB464E /* CloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F215E5D0A900DB464E /* CloudService.m */; };
+		413912F815E5D98800DB464E /* ServicesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F715E5D98800DB464E /* ServicesController.m */; };
+		413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413912F915E5DA1E00DB464E /* ServicesView.xib */; };
+		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -187,6 +190,10 @@
 		4135F5A115D34D520054D961 /* CollectionItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionItemView.m; path = Classes/CollectionItemView.m; sourceTree = "<group>"; };
 		413912F115E5D0A900DB464E /* CloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudService.h; sourceTree = "<group>"; };
 		413912F215E5D0A900DB464E /* CloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudService.m; sourceTree = "<group>"; };
+		413912F615E5D98800DB464E /* ServicesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicesController.h; path = Classes/ServicesController.h; sourceTree = "<group>"; };
+		413912F715E5D98800DB464E /* ServicesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicesController.m; path = Classes/ServicesController.m; sourceTree = "<group>"; };
+		413912F915E5DA1E00DB464E /* ServicesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServicesView.xib; path = Resources/ServicesView.xib; sourceTree = "<group>"; };
+		413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServicesToolbarIcon.png; path = Resources/ServicesToolbarIcon.png; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -350,6 +357,16 @@
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
 		};
+		413912F515E5D94D00DB464E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				413912F915E5DA1E00DB464E /* ServicesView.xib */,
+				413912F615E5D98800DB464E /* ServicesController.h */,
+				413912F715E5D98800DB464E /* ServicesController.m */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		414779E515C0865B00B733EF /* Target View */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +382,7 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */,
 				4135F59415D33BEE0054D961 /* AppIcon.png */,
 				4135F59515D33BEE0054D961 /* AppIconSelected.png */,
 				4165678B15D5B74200EF93DF /* AppToolbarIcon.png */,
@@ -618,6 +636,7 @@
 				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
+				413912F515E5D94D00DB464E /* Services */,
 				41FA11BA15E431990079FD30 /* Deployments */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
@@ -878,6 +897,8 @@
 				41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */,
 				41FA11D615E433E00079FD30 /* AppPropertiesView.xib in Resources */,
 				41FA11D815E433EB0079FD30 /* AppView.xib in Resources */,
+				413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */,
+				413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,6 +998,7 @@
 				41FA11C715E4335D0079FD30 /* AppDelegate.m in Sources */,
 				41FA11CC15E433900079FD30 /* TargetItemsDataSource.m in Sources */,
 				41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */,
+				413912F815E5D98800DB464E /* ServicesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

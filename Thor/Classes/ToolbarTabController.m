@@ -1,5 +1,6 @@
 #import "ToolbarTabController.h"
 #import "ItemsController.h"
+#import "ServicesController.h"
 #import "TargetItemsDataSource.h"
 #import "AppItemsDataSource.h"
 #import "BreadcrumbController.h"
@@ -7,6 +8,7 @@
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
+NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
 
 @interface TabView : NSView
 
@@ -39,13 +41,13 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 
 @interface ToolbarTabController ()
 
-@property (nonatomic, strong) NSViewController *appsController, *targetsController, *activeController;
+@property (nonatomic, strong) NSViewController *appsController, *targetsController, *servicesController, *activeController;
 
 @end
 
 @implementation ToolbarTabController
 
-@synthesize toolbar, appsController, targetsController, activeController = _activeController;
+@synthesize toolbar, appsController, targetsController, servicesController, activeController = _activeController;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -59,9 +61,10 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
         apps.dataSource = [[AppItemsDataSource alloc] init];
         
-        
         self.appsController = [[BreadcrumbController alloc] initWithRootViewController:apps];
         self.targetsController = [[BreadcrumbController alloc] initWithRootViewController:targets];
+        
+        self.servicesController = [[ServicesController alloc] init];
     }
     return self;
 }
@@ -90,6 +93,14 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
         item.action = @selector(itemClicked:);
         return item;
     }
+    else if ([itemIdentifier isEqual:ToolbarServicesItemIdentifier]) {
+        NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+        item.label = @"Services";
+        item.image = [NSImage imageNamed:@"ServicesToolbarIcon"];
+        item.target = self;
+        item.action = @selector(itemClicked:);
+        return item;
+    }
     else if ([itemIdentifier isEqual:NSToolbarFlexibleSpaceItemIdentifier]) {
         return [[NSToolbarItem alloc] initWithItemIdentifier:NSToolbarFlexibleSpaceItemIdentifier];
     }
@@ -97,19 +108,24 @@ NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
+    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)leToolbar {
+    return [self toolbarDefaultItemIdentifiers:leToolbar];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, nil];
+    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier, nil];
 }
 
 - (void)itemClicked:(NSToolbarItem *)item {
-    self.activeController = [item.itemIdentifier isEqual:ToolbarAppsItemIdentifier] ? appsController : targetsController;
+    if ([item.itemIdentifier isEqual:ToolbarAppsItemIdentifier])
+        self.activeController = appsController;
+    else if ([item.itemIdentifier isEqual:ToolbarTargetsItemIdentifier])
+        self.activeController = targetsController;
+    else if ([item.itemIdentifier isEqual:ToolbarServicesItemIdentifier])
+        self.activeController = servicesController;
 }
 
 - (void)setActiveController:(NSViewController *)value {
