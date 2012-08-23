@@ -45,6 +45,7 @@ static NSArray *deploymentColumns = nil;
     }] deliverOn:[RACScheduler mainQueueScheduler]] subscribeNext:^(id x) {
         self.deployments = x;
         [targetView.deploymentsGrid reloadData];
+        targetView.needsLayout = YES;
     } error:^(NSError *error) {
         [NSApp presentError:error];
     }];

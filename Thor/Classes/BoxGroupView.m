@@ -9,7 +9,7 @@
     CGFloat boxTopMargin = 50;
     CGFloat boxBottomMargin = 20;
     
-    NSEdgeInsets boxContentInsets = NSEdgeInsetsMake(35, 0, 10, 0);
+    NSEdgeInsets boxContentInsets = NSEdgeInsetsMake(35, 0, -2, 0);
     
     NSSize boxContent1Size = boxContent1.intrinsicContentSize;
     CGFloat box1Height = boxContent1Size.height + boxContentInsets.top + boxContentInsets.bottom;

@@ -41,7 +41,6 @@ static NSArray *deploymentColumns = nil;
     self.deployments = [NSArray arrayWithObjects:d0, d1, d0, d1, d0, d1, d0, d1, d1, d0, d1, d0, d1, d0, d1, nil];
     
     [self.appView.deploymentsGrid reloadData];
-    //[self.appView setNeedsLayout:YES];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -101,7 +100,8 @@ static NSArray *deploymentColumns = nil;
 
 - (void)editClicked:(id)sender {
     self.appPropertiesController = [[AppPropertiesController alloc] init];
-    self.appPropertiesController.app = app;
+    appPropertiesController.editing = YES;
+    appPropertiesController.app = app;
     
     NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = appPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     
