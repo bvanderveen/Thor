@@ -2,6 +2,7 @@
 #import "TargetPropertiesController.h"
 #import "SheetWindow.h"
 #import "NSObject+AssociateDisposable.h"
+#import "DeploymentController.h"
 
 @interface TargetController ()
 
@@ -34,7 +35,7 @@ static NSArray *deploymentColumns = nil;
 - (void)awakeFromNib {
     self.associatedDisposable = [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
         NSError *e = nil;
-        id result = [[VMCService shared] getDeploymentsForTarget:target error:&e];
+        id result = [[FixtureVMCService new] getDeploymentsForTarget:target error:&e];
         
         if (e) {
             *success = NO;
@@ -82,6 +83,21 @@ static NSArray *deploymentColumns = nil;
     BOOL columnIndexIsValid = NO;
     assert(columnIndexIsValid);
     return nil;
+}
+
+- (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
+    VMCDeployment *deployment = [deployments objectAtIndex:row];
+    
+    DeploymentInfo *deploymentInfo = [DeploymentInfo new];
+    
+    deploymentInfo.appName = deployment.name;
+    deploymentInfo.target = [VMCTarget new];
+    deploymentInfo.target.hostname = target.hostname;
+    deploymentInfo.target.email = target.email;
+    deploymentInfo.target.password = target.password;
+    
+    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
+    [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
 - (void)editClicked:(id)sender {
