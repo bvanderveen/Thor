@@ -32,10 +32,13 @@
     documentView.frame = NSMakeRect(0, 0, bounds.size.width - 2, documentViewHeight);
     
     box1.frame = NSMakeRect(horizontalMargin, documentViewHeight - (box1Height + verticalMargin), boxWidth, box1Height);
-    boxContent1.frame = NSMakeRect(0, boxContentInsets.bottom, boxContent1.bounds.size.width, boxContent1Size.height);
+    boxContent1.frame = NSMakeRect(0, boxContentInsets.bottom, boxWidth, boxContent1Size.height);
     
     box2.frame = NSMakeRect(horizontalMargin, documentViewHeight - (box1Height + verticalMargin + box2Height + verticalMargin), boxWidth, box2Height);
-    boxContent2.frame = NSMakeRect(0, boxContentInsets.bottom, boxContent2.bounds.size.width, boxContent2Size.height);
+    boxContent2.frame = NSMakeRect(0, boxContentInsets.bottom, boxWidth, boxContent2Size.height);
+    
+    // probably this should not happen at every layout. but it works for now.
+    [documentView scrollPoint:NSMakePoint(0, NSMaxY(documentView.frame) - NSHeight(scrollView.contentView.bounds))];
 }
 
 @end
