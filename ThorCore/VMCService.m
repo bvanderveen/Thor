@@ -26,11 +26,27 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
     return [NSArray arrayWithObjects:deployment0, deployment1, nil];
 }
 
-@end
 
-@interface VMCTarget : NSObject
-
-@property (nonatomic, copy) NSString *hostname, *email, *password;
+- (NSArray *)getInstanceStatsForAppName:(NSString *)appname target:(VMCTarget *)target error:(NSError **)error {
+    VMCInstanceStats *stats0 = [VMCInstanceStats new];
+    stats0.ID = @"0";
+    stats0.host = @"10.0.0.1";
+    stats0.cpu = @"100%";
+    stats0.memory = @"2GB";
+    stats0.disk = @"2TB";
+    stats0.uptime = @"Forevs";
+    
+    VMCInstanceStats *stats1 = [VMCInstanceStats new];
+    stats1.ID = @"1";
+    stats1.host = @"10.0.0.2";
+    stats1.cpu = @"110%";
+    stats1.memory = @"2GB";
+    stats1.disk = @"3TB";
+    stats1.uptime = @"Foreva";
+    
+    return [NSArray arrayWithObjects:stats0, stats1, nil];
+    
+}
 
 @end
 
@@ -126,6 +142,14 @@ NSString *VMCServiceErrorDomain = @"com.tier3.thor.VMCServiceErrorDomain";
         } seed:[NSNumber numberWithInt:0]];
         return d;
     }];
+}
+
+- (NSArray *)getInstanceStatsForAppName:(NSString *)appname target:(Target *)target error:(NSError **)error {
+    if (![self ensureTarget:target error:error])
+        return nil;
+    
+    return [vmc getInstanceStatsForApp:appname];
+    
 }
 
 @end

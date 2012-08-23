@@ -1,6 +1,7 @@
 #import "AppController.h"
 #import "AppPropertiesController.h"
 #import "SheetWindow.h"
+#import "DeploymentController.h"
 
 @interface AppController ()
 
@@ -77,7 +78,25 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    NSLog(@"Clicked at index %d", row);
+    
+    Deployment *deployment = [deployments objectAtIndex:row];
+    
+    DeploymentInfo *deploymentInfo = [DeploymentInfo new];
+    
+    deploymentInfo.appName = deployment.appName;
+    deploymentInfo.target = [VMCTarget new];
+    deploymentInfo.target.hostname = deployment.hostname;
+    
+    // need to get these from the configured target. e.g.,
+    // deploymentInfo.target.email = deployment.target.email;
+    // deploymentInfo.target.password = deployment.target.password;
+    // although the target may be provided by a lookup…
+    
+    deploymentInfo.target.email = @"some email";
+    deploymentInfo.target.password = @"some password";
+    
+    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
+    [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
 - (void)editClicked:(id)sender {

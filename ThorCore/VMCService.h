@@ -7,9 +7,16 @@
 
 @end
 
+@interface VMCTarget : NSObject
+
+@property (nonatomic, copy) NSString *hostname, *email, *password;
+
+@end
+
 @protocol VMCService <NSObject>
 
 - (NSArray *)getDeploymentsForTarget:(Target *)target error:(NSError **)error;
+- (NSArray *)getInstanceStatsForAppName:(NSString *)appname target:(VMCTarget *)target error:(NSError **)error;
 
 @end
 

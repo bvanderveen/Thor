@@ -73,6 +73,7 @@
 		41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */; };
 		41FA11D615E433E00079FD30 /* AppPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D515E433E00079FD30 /* AppPropertiesView.xib */; };
 		41FA11D815E433EB0079FD30 /* AppView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D715E433EB0079FD30 /* AppView.xib */; };
+		41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA11DA15E436570079FD30 /* BoxGroupView.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -267,6 +268,8 @@
 		41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppCollectionItemView.xib; path = Resources/AppCollectionItemView.xib; sourceTree = "<group>"; };
 		41FA11D515E433E00079FD30 /* AppPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppPropertiesView.xib; path = Resources/AppPropertiesView.xib; sourceTree = "<group>"; };
 		41FA11D715E433EB0079FD30 /* AppView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppView.xib; path = Resources/AppView.xib; sourceTree = "<group>"; };
+		41FA11D915E436560079FD30 /* BoxGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoxGroupView.h; path = Classes/BoxGroupView.h; sourceTree = "<group>"; };
+		41FA11DA15E436570079FD30 /* BoxGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BoxGroupView.m; path = Classes/BoxGroupView.m; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -384,6 +387,8 @@
 				4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */,
 				4165679215D9D75100EF93DF /* Box.h */,
 				4165679315D9D75100EF93DF /* Box.m */,
+				41FA11D915E436560079FD30 /* BoxGroupView.h */,
+				41FA11DA15E436570079FD30 /* BoxGroupView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -963,6 +968,7 @@
 				41FA11C015E431ED0079FD30 /* DeploymentView.m in Sources */,
 				41FA11C715E4335D0079FD30 /* AppDelegate.m in Sources */,
 				41FA11CC15E433900079FD30 /* TargetItemsDataSource.m in Sources */,
+				41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

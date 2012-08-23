@@ -299,7 +299,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @implementation Deployment
 
-@synthesize displayName, hostname, appName, memory, instances;
+@synthesize displayName, hostname, appName;
 
 @end
 

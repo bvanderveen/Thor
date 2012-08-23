@@ -2,10 +2,10 @@
 
 @implementation VMCInstanceStats
 
-@synthesize ID, cpu, memory, disk, uptime;
+@synthesize ID, host, cpu, memory, disk, uptime;
 
 - (NSUInteger)hash {
-    return [[NSString stringWithFormat:@"%@%@%@%@%@", ID, cpu, memory, disk, uptime] hash];
+    return [[NSString stringWithFormat:@"%@%@%@%@%@%@", ID, host, cpu, memory, disk, uptime] hash];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -16,6 +16,7 @@
     
     return 
         [other.ID isEqual:self.ID] &&
+        [other.host isEqual:self.host] &&
         [other.cpu isEqual:self.cpu] &&
         [other.memory isEqual:self.memory] &&
         [other.disk isEqual:self.disk] &&
