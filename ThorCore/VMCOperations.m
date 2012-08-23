@@ -146,6 +146,7 @@ SynchronousExecuteShellBlock RVMExecute = ^ NSString * (NSString *command, NSArr
         NSArray *cells = [self cellsFromRowString:line];
         VMCInstanceStats *stats = [VMCInstanceStats new];
         stats.ID = [cells objectAtIndex:1];
+        stats.host = @"";
         stats.cpu = [cells objectAtIndex:2];
         stats.memory = [cells objectAtIndex:3];
         stats.disk = [cells objectAtIndex:4];
