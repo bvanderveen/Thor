@@ -2,12 +2,17 @@
 
 @implementation AppPropertiesController
 
-@synthesize appPropertiesView, app;
+@synthesize editing, appPropertiesView, app;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppPropertiesView" bundle:[NSBundle mainBundle]]) {
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    appPropertiesView.windowLabel.stringValue = editing ? @"Edit App" : @"Add App";
+    appPropertiesView.confirmButton.title = editing ? @"Save" : @"OK";
 }
 
 - (void)buttonClicked:(NSButton *)button {

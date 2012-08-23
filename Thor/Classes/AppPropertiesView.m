@@ -2,7 +2,7 @@
 
 @implementation AppPropertiesView
 
-@synthesize confirmButton, browseButton;
+@synthesize windowLabel, confirmButton, browseButton;
 
 - (NSSize)intrinsicContentSize {
     return NSMakeSize(480, 200);
