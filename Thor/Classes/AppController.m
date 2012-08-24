@@ -28,17 +28,8 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)awakeFromNib {
-    Deployment *d0 = [Deployment new];
-    d0.displayName = @"Cloud 1 Foo";
-    d0.appName = @"foo1";
-    d0.hostname = @"api.cloud1.com";
-    
-    Deployment *d1 = [Deployment new];
-    d1.displayName = @"Cloud 2 Foo";
-    d1.appName = @"foo2";
-    d1.hostname = @"api.cloud2.com";
-    
-    self.deployments = [NSArray arrayWithObjects:d0, d1, nil];
+    NSError *error = nil;
+    self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
     
     [self.appView.deploymentsGrid reloadData];
 }
@@ -77,22 +68,16 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    
     Deployment *deployment = [deployments objectAtIndex:row];
+    NSError *error = nil;
+    Target *targetOfDeployment = [[ThorBackend shared] getTargetForDeployment:deployment error:&error];
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
-    
     deploymentInfo.appName = deployment.appName;
-    deploymentInfo.target = [VMCTarget new];
-    deploymentInfo.target.hostname = deployment.hostname;
-    
-    // need to get these from the configured target. e.g.,
-    // deploymentInfo.target.email = deployment.target.email;
-    // deploymentInfo.target.password = deployment.target.password;
-    // although the target may be provided by a lookup…
-    
-    deploymentInfo.target.email = @"some email";
-    deploymentInfo.target.password = @"some password";
+    deploymentInfo.target = [CloudInfo new];
+    deploymentInfo.target.hostname = targetOfDeployment.hostname;
+    deploymentInfo.target.email = targetOfDeployment.email;
+    deploymentInfo.target.password = targetOfDeployment.password;
     
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];

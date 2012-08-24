@@ -16,7 +16,7 @@ static NSArray *deploymentColumns = nil;
 @implementation TargetController
 
 + (void)initialize {
-    deploymentColumns = [NSArray arrayWithObjects:@"Name", @"CPU", @"Memory", @"Disk", nil];
+    deploymentColumns = [NSArray arrayWithObjects:@"Name", @"URI", @"Instances", @"Memory", @"Disk", nil];
 }
 
 @synthesize target, targetView, breadcrumbController, title, deployments, targetPropertiesController;
@@ -34,14 +34,7 @@ static NSArray *deploymentColumns = nil;
 
 - (void)awakeFromNib {
     self.associatedDisposable = [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
-        NSError *e = nil;
-        id result = [[FixtureVMCService new] getDeploymentsForTarget:target error:&e];
-        
-        if (e) {
-            *success = NO;
-            *error = e;
-        }
-        
+        id result = [[FixtureCloudService new] getApps];
         return result;
     }] deliverOn:[RACScheduler mainQueueScheduler]] subscribeNext:^(id x) {
         self.deployments = x;
@@ -67,17 +60,19 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    VMCDeployment *deployment = [deployments objectAtIndex:row];
+    CloudApp *app = [deployments objectAtIndex:row];
     
     switch (columnIndex) {
         case 0:
-            return deployment.name;
+            return app.name;
         case 1:
-            return deployment.cpu;
+            return [app.uris objectAtIndex:0];
         case 2:
-            return deployment.memory;
+            return [NSString stringWithFormat:@"%d", app.instances];
         case 3:
-            return deployment.disk;
+            return [NSString stringWithFormat:@"%d", app.memory];
+        case 4:
+            return [NSString stringWithFormat:@"%d", app.disk];
     }
     
     BOOL columnIndexIsValid = NO;
@@ -86,12 +81,11 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    VMCDeployment *deployment = [deployments objectAtIndex:row];
+    CloudApp *app = [deployments objectAtIndex:row];
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
-    
-    deploymentInfo.appName = deployment.name;
-    deploymentInfo.target = [VMCTarget new];
+    deploymentInfo.appName = app.name;
+    deploymentInfo.target = [CloudInfo new];
     deploymentInfo.target.hostname = target.hostname;
     deploymentInfo.target.email = target.email;
     deploymentInfo.target.password = target.password;

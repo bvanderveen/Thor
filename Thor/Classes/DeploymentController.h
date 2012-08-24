@@ -5,7 +5,7 @@
 @interface DeploymentInfo : NSObject
 
 @property (nonatomic, copy) NSString *appName;
-@property (nonatomic, strong) VMCTarget *target;
+@property (nonatomic, strong) CloudInfo *target;
 
 @end
 

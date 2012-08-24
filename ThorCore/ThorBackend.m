@@ -334,4 +334,23 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
+- (NSArray *)getDeploymentsForApp:(App *)app error:(NSError **)error {
+    Deployment *d0 = [Deployment new];
+    d0.displayName = @"Cloud 1 Foo";
+    d0.appName = @"foo1";
+    d0.hostname = @"api.cloud1.com";
+    
+    Deployment *d1 = [Deployment new];
+    d1.displayName = @"Cloud 2 Foo";
+    d1.appName = @"foo2";
+    d1.hostname = @"api.cloud2.com";
+    
+    return [NSArray arrayWithObjects:d0, d1, nil];
+}
+
+- (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {
+    NSFetchRequest *request = [Target fetchRequest];
+    return [[self.context executeFetchRequest:request error:error] objectAtIndex:0];
+}
+
 @end

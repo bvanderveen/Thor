@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4131290715B6113E005F6D54 /* VMCOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4131290515B6113E005F6D54 /* VMCOperations.h */; };
-		4131290815B6113E005F6D54 /* VMCOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131290615B6113E005F6D54 /* VMCOperations.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
 		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
@@ -28,8 +26,6 @@
 		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
 		414E185D15C226DF007C9508 /* Sequence.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185B15C226DF007C9508 /* Sequence.h */; };
 		414E185E15C226DF007C9508 /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185C15C226DF007C9508 /* Sequence.m */; };
-		414E186115C350B7007C9508 /* VMCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 414E185F15C350B7007C9508 /* VMCService.h */; };
-		414E186215C350B7007C9508 /* VMCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E186015C350B7007C9508 /* VMCService.m */; };
 		4165678D15D5B74200EF93DF /* AppToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678B15D5B74200EF93DF /* AppToolbarIcon.png */; };
 		4165678E15D5B74200EF93DF /* CloudToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */; };
 		4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */; };
@@ -53,7 +49,6 @@
 		41B9238415D190A00004D167 /* AppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238315D1909F0004D167 /* AppView.m */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
-		41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
 		41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */; };
@@ -179,8 +174,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4131290515B6113E005F6D54 /* VMCOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperations.h; sourceTree = "<group>"; };
-		4131290615B6113E005F6D54 /* VMCOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperations.m; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
@@ -204,8 +197,6 @@
 		414E185915C1BC0E007C9508 /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridView.m; path = Classes/GridView.m; sourceTree = "<group>"; };
 		414E185B15C226DF007C9508 /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
 		414E185C15C226DF007C9508 /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
-		414E185F15C350B7007C9508 /* VMCService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCService.h; sourceTree = "<group>"; };
-		414E186015C350B7007C9508 /* VMCService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCService.m; sourceTree = "<group>"; };
 		4165678B15D5B74200EF93DF /* AppToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppToolbarIcon.png; path = Resources/AppToolbarIcon.png; sourceTree = "<group>"; };
 		4165678C15D5B74200EF93DF /* CloudToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudToolbarIcon.png; path = Resources/CloudToolbarIcon.png; sourceTree = "<group>"; };
 		4165678F15D5DE2000EF93DF /* NSString+ShadowedTextDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ShadowedTextDrawing.h"; path = "Classes/NSString+ShadowedTextDrawing.h"; sourceTree = "<group>"; };
@@ -242,8 +233,6 @@
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
 		41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AssociateDisposable.m"; path = "Classes/NSObject+AssociateDisposable.m"; sourceTree = "<group>"; };
-		41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCOperationsTests.h; sourceTree = "<group>"; };
-		41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCOperationsTests.m; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
 		41C7FE6B15B89281006B3468 /* BottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomBar.h; path = Classes/BottomBar.h; sourceTree = "<group>"; };
 		41C7FE6C15B89281006B3468 /* BottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomBar.m; path = Classes/BottomBar.m; sourceTree = "<group>"; };
@@ -539,10 +528,6 @@
 			isa = PBXGroup;
 			children = (
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
-				414E185F15C350B7007C9508 /* VMCService.h */,
-				414E186015C350B7007C9508 /* VMCService.m */,
-				4131290515B6113E005F6D54 /* VMCOperations.h */,
-				4131290615B6113E005F6D54 /* VMCOperations.m */,
 				413912F115E5D0A900DB464E /* CloudService.h */,
 				413912F215E5D0A900DB464E /* CloudService.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
@@ -564,8 +549,6 @@
 		41F902AF15AF592A00550870 /* ThorCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				41C7FE4F15B7423B006B3468 /* VMCOperationsTests.h */,
-				41C7FE5015B7423B006B3468 /* VMCOperationsTests.m */,
 				41F902B515AF592A00550870 /* ThorBackendTests.h */,
 				41F902B615AF592A00550870 /* ThorBackendTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
@@ -689,9 +672,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4131290715B6113E005F6D54 /* VMCOperations.h in Headers */,
 				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
-				414E186115C350B7007C9508 /* VMCService.h in Headers */,
 				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
 				413912F315E5D0A900DB464E /* CloudService.h in Headers */,
@@ -951,9 +932,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
-				4131290815B6113E005F6D54 /* VMCOperations.m in Sources */,
 				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
-				414E186215C350B7007C9508 /* VMCService.m in Sources */,
 				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
 				413912F415E5D0A900DB464E /* CloudService.m in Sources */,
@@ -965,7 +944,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */,
-				41C7FE5115B7423B006B3468 /* VMCOperationsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,8 @@ static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 3;
 
 - (NSArray *)getConfiguredApps:(NSError **)error;
 - (NSArray *)getConfiguredTargets:(NSError **)error;
+- (NSArray *)getDeploymentsForApp:(App *)app error:(NSError **)error;
+- (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error;
 
 @end
 

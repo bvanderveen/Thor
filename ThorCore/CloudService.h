@@ -1,5 +1,5 @@
 
-@interface CloudInfo
+@interface CloudInfo : NSObject
 
 @property (nonatomic, copy) NSString *hostname, *email, *password;
 
@@ -22,10 +22,20 @@ typedef enum {
 
 @end
 
+@interface CloudAppInstanceStats : NSObject
+
+@property (nonatomic, copy) NSString *ID, *host;
+@property (nonatomic, assign) NSInteger port, memory, disk;
+@property (nonatomic, assign) float cpu, uptime;
+
+@end
+
 
 @protocol CloudService <NSObject>
 
+- (NSArray *)getApps;
 - (CloudApp *)getAppWithName:(NSString *)name;
+- (NSArray *)getStatsForAppWithName:(NSString *)name;
 
 @end
 

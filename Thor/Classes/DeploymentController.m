@@ -27,7 +27,7 @@ static NSArray *instanceColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     
-    self.instanceStats = [[FixtureVMCService new] getInstanceStatsForAppName:deploymentInfo.appName target:deploymentInfo.target error:&error];
+    self.instanceStats = [[FixtureCloudService new] getStatsForAppWithName:deploymentInfo.appName];
     self.cloudApp = [[FixtureCloudService new] getAppWithName:deploymentInfo.appName];
     [self.deploymentView.instancesGrid reloadData];
 }
@@ -49,7 +49,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    VMCInstanceStats *stats = [instanceStats objectAtIndex:row];
+    CloudAppInstanceStats *stats = [instanceStats objectAtIndex:row];
     
     switch (columnIndex) {
         case 0:
@@ -57,13 +57,13 @@ static NSArray *instanceColumns = nil;
         case 1:
             return stats.host;
         case 2:
-            return stats.cpu;
+            return [NSString stringWithFormat:@"%f", stats.cpu];
         case 3:
-            return stats.memory;
+            return [NSString stringWithFormat:@"%f", stats.memory];
         case 4:
-            return stats.disk;
+            return [NSString stringWithFormat:@"%f", stats.disk];
         case 5:
-            return stats.uptime;
+            return [NSString stringWithFormat:@"%f", stats.uptime];
     }
     
     BOOL columnIndexIsValid = NO;
