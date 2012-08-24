@@ -10,7 +10,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize deploymentInfo, cloudApp, title, deploymentView, breadcrumbController, instanceStats;
+@synthesize deploymentInfo, app, title, deploymentView, breadcrumbController, instanceStats;
 
 + (void)initialize {
     instanceColumns = [NSArray arrayWithObjects:@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime", nil];
@@ -28,7 +28,7 @@ static NSArray *instanceColumns = nil;
     NSError *error = nil;
     
     self.instanceStats = [[FixtureCloudService new] getStatsForAppWithName:deploymentInfo.appName];
-    self.cloudApp = [[FixtureCloudService new] getAppWithName:deploymentInfo.appName];
+    self.app = [[FixtureCloudService new] getAppWithName:deploymentInfo.appName];
     [self.deploymentView.instancesGrid reloadData];
 }
 
@@ -49,7 +49,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    CloudAppInstanceStats *stats = [instanceStats objectAtIndex:row];
+    FoundryAppInstanceStats *stats = [instanceStats objectAtIndex:row];
     
     switch (columnIndex) {
         case 0:

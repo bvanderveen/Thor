@@ -6,20 +6,20 @@
 
 @interface TargetController ()
 
-@property (nonatomic, strong) NSArray *deployments;
+@property (nonatomic, strong) NSArray *apps;
 @property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 
 @end
 
-static NSArray *deploymentColumns = nil;
+static NSArray *appColumns = nil;
 
 @implementation TargetController
 
 + (void)initialize {
-    deploymentColumns = [NSArray arrayWithObjects:@"Name", @"URI", @"Instances", @"Memory", @"Disk", nil];
+    appColumns = [NSArray arrayWithObjects:@"Name", @"URI", @"Instances", @"Memory", @"Disk", nil];
 }
 
-@synthesize target, targetView, breadcrumbController, title, deployments, targetPropertiesController;
+@synthesize target, targetView, breadcrumbController, title, apps, targetPropertiesController;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -37,7 +37,7 @@ static NSArray *deploymentColumns = nil;
         id result = [[FixtureCloudService new] getApps];
         return result;
     }] deliverOn:[RACScheduler mainQueueScheduler]] subscribeNext:^(id x) {
-        self.deployments = x;
+        self.apps = x;
         [targetView.deploymentsGrid reloadData];
         targetView.needsLayout = YES;
     } error:^(NSError *error) {
@@ -48,19 +48,19 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
-    return deploymentColumns.count;
+    return appColumns.count;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex {
-    return [deploymentColumns objectAtIndex:columnIndex];
+    return [appColumns objectAtIndex:columnIndex];
 }
 
 - (NSUInteger)numberOfRowsForGridView:(GridView *)gridView {
-    return deployments.count;
+    return apps.count;
 }
 
 - (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    CloudApp *app = [deployments objectAtIndex:row];
+    FoundryApp *app = [apps objectAtIndex:row];
     
     switch (columnIndex) {
         case 0:
@@ -81,7 +81,7 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    CloudApp *app = [deployments objectAtIndex:row];
+    FoundryApp *app = [apps objectAtIndex:row];
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
     deploymentInfo.appName = app.name;

@@ -6,13 +6,13 @@
 
 @end
 
-@implementation CloudApp
+@implementation FoundryApp
 
 @synthesize name, uris, instances, memory, disk, state;
 
 @end
 
-@implementation CloudAppInstanceStats
+@implementation FoundryAppInstanceStats
 
 @synthesize ID, host, port, cpu, memory, disk, uptime;
 
@@ -24,19 +24,19 @@
     return [NSArray arrayWithObjects:[self getAppWithName:@"fixture_app1"], [self getAppWithName:@"fixture_app2"], nil];
 }
 
-- (CloudApp *)getAppWithName:(NSString *)name {
-    CloudApp *result = [CloudApp new];
+- (FoundryApp *)getAppWithName:(NSString *)name {
+    FoundryApp *result = [FoundryApp new];
     result.name = name;
     result.uris = [NSArray arrayWithObject:@"api.coolapp.com"];
     result.instances = 2;
     result.memory = 1024 * 1024;
     result.disk = 1024 * 1024 * 1024;
-    result.state = CloudAppStateStarted;
+    result.state = FoundryAppStateStarted;
     return result;
 }
 
 - (NSArray *)getStatsForAppWithName:(NSString *)name {
-    CloudAppInstanceStats *stats0 = [CloudAppInstanceStats new];
+    FoundryAppInstanceStats *stats0 = [FoundryAppInstanceStats new];
     stats0.ID = @"0";
     stats0.host = @"10.0.0.1";
     stats0.port = 23433;
@@ -45,7 +45,7 @@
     stats0.disk = 53 * 1024 * 1024 * 1024;
     stats0.uptime = 32492.3;
     
-    CloudAppInstanceStats *stats1 = [CloudAppInstanceStats new];
+    FoundryAppInstanceStats *stats1 = [FoundryAppInstanceStats new];
     stats1.ID = @"1";
     stats1.host = @"10.0.0.2";
     stats1.port = 23435;

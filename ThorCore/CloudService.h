@@ -6,11 +6,11 @@
 @end
 
 typedef enum {
-    CloudAppStateStarted,
-    CloudAppStateStopped
-} CloudAppState;
+    FoundryAppStateStarted,
+    FoundryAppStateStopped
+} FoundryAppState;
 
-@interface CloudApp : NSObject
+@interface FoundryApp : NSObject
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSArray *uris;
@@ -18,11 +18,11 @@ typedef enum {
     instances,
     memory,
     disk;
-@property (nonatomic, assign) CloudAppState state;
+@property (nonatomic, assign) FoundryAppState state;
 
 @end
 
-@interface CloudAppInstanceStats : NSObject
+@interface FoundryAppInstanceStats : NSObject
 
 @property (nonatomic, copy) NSString *ID, *host;
 @property (nonatomic, assign) NSInteger port, memory, disk;
@@ -31,14 +31,14 @@ typedef enum {
 @end
 
 
-@protocol CloudService <NSObject>
+@protocol FoundryService <NSObject>
 
 - (NSArray *)getApps;
-- (CloudApp *)getAppWithName:(NSString *)name;
+- (FoundryApp *)getAppWithName:(NSString *)name;
 - (NSArray *)getStatsForAppWithName:(NSString *)name;
 
 @end
 
-@interface FixtureCloudService : NSObject <CloudService>
+@interface FixtureCloudService : NSObject <FoundryService>
 
 @end
