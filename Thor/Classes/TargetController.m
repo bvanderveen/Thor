@@ -7,6 +7,7 @@
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
+@property (nonatomic, strong) FoundryService *service;
 @property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 
 @end
@@ -19,7 +20,19 @@ static NSArray *appColumns = nil;
     appColumns = [NSArray arrayWithObjects:@"Name", @"URI", @"Instances", @"Memory", @"Disk", nil];
 }
 
-@synthesize target, targetView, breadcrumbController, title, apps, targetPropertiesController;
+@synthesize target = _target, targetView, breadcrumbController, title, apps, service, targetPropertiesController;
+
+- (void)setTarget:(Target *)value {
+    _target = value;
+    
+    CloudInfo *info = [CloudInfo new];
+    
+    info.hostname = value.hostname;
+    info.email = value.email;
+    info.password = value.password;
+    
+    self.service = [[FoundryService alloc] initWithCloudInfo:info];
+}
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -33,10 +46,7 @@ static NSArray *appColumns = nil;
 }
 
 - (void)awakeFromNib {
-    self.associatedDisposable = [[[RACSubscribable start:^id(BOOL *success, NSError **error) {
-        id result = [[FixtureCloudService new] getApps];
-        return result;
-    }] deliverOn:[RACScheduler mainQueueScheduler]] subscribeNext:^(id x) {
+    self.associatedDisposable = [[service getApps] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsGrid reloadData];
         targetView.needsLayout = YES;
@@ -85,10 +95,7 @@ static NSArray *appColumns = nil;
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
     deploymentInfo.appName = app.name;
-    deploymentInfo.target = [CloudInfo new];
-    deploymentInfo.target.hostname = target.hostname;
-    deploymentInfo.target.email = target.email;
-    deploymentInfo.target.password = target.password;
+    deploymentInfo.target = service.cloudInfo;
     
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
@@ -97,7 +104,7 @@ static NSArray *appColumns = nil;
 - (void)editClicked:(id)sender {
     self.targetPropertiesController = [[TargetPropertiesController alloc] init];
     self.targetPropertiesController.editing = YES;
-    self.targetPropertiesController.target = target;
+    self.targetPropertiesController.target = self.target;
     
     NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     

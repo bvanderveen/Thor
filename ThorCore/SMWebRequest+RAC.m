@@ -76,7 +76,7 @@
     [subscriber sendError:error];
 }
 
-- (id<RACSubscribable>)subscribable {
+- (RACSubscribable *)subscribable {
     return [RACSubscribable createSubscribable:^ RACDisposable * (id<RACSubscriber> s) {
         subscriber = [s retain];
         //[[UIApplication sharedApplication] networkActivityDidBegin];
@@ -90,9 +90,9 @@
 
 @implementation SMWebRequest (RAC)
 
-+ (id<RACSubscribable>)requestSubscribableWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
++ (RACSubscribable *)requestSubscribableWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
     WebRequestBlockProducer *p = [[WebRequestBlockProducer alloc] initWithURLRequest:request dataParser:parser];
-    id<RACSubscribable> result = [p subscribable];
+    RACSubscribable *result = [p subscribable];
     [p release];
     return result;
 }

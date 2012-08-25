@@ -42,6 +42,9 @@
 		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
+		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
+		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
+		41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
 		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
 		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
@@ -220,6 +223,8 @@
 		418BF29715BF43B600E313C7 /* ItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsView.h; path = Classes/ItemsView.h; sourceTree = "<group>"; };
 		418BF29815BF43B600E313C7 /* ItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsView.m; path = Classes/ItemsView.m; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
+		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
+		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
 		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
@@ -315,6 +320,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */,
 				41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */,
 				41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */,
 				F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */,
@@ -421,6 +427,8 @@
 		416567B215DAE59700EF93DF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */,
+				41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */,
 				414E185B15C226DF007C9508 /* Sequence.h */,
 				414E185C15C226DF007C9508 /* Sequence.m */,
 				416567AA15DAE46D00EF93DF /* SMWebRequest.h */,
@@ -676,6 +684,7 @@
 				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
 				413912F315E5D0A900DB464E /* CloudService.h in Headers */,
+				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,6 +945,7 @@
 				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
 				413912F415E5D0A900DB464E /* CloudService.m in Sources */,
+				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1087,7 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = "json-framework/Classes";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1095,6 +1106,7 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = "json-framework/Classes";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

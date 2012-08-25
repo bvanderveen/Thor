@@ -1,3 +1,4 @@
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface CloudInfo : NSObject
 
@@ -7,7 +8,8 @@
 
 typedef enum {
     FoundryAppStateStarted,
-    FoundryAppStateStopped
+    FoundryAppStateStopped,
+    FoundryAppStateUnknown
 } FoundryAppState;
 
 @interface FoundryApp : NSObject
@@ -33,9 +35,17 @@ typedef enum {
 
 @protocol FoundryService <NSObject>
 
-- (NSArray *)getApps;
-- (FoundryApp *)getAppWithName:(NSString *)name;
-- (NSArray *)getStatsForAppWithName:(NSString *)name;
+- (RACSubscribable *)getApps; // NSArray of FoundryApp
+- (RACSubscribable *)getAppWithName:(NSString *)name; // FoundryApp
+- (RACSubscribable *)getStatsForAppWithName:(NSString *)name; // NSArray of FoundryAppInstanceStats
+
+@end
+
+@interface FoundryService : NSObject <FoundryService>
+
+@property (nonatomic, strong) CloudInfo *cloudInfo;
+
+- (id)initWithCloudInfo:(CloudInfo *)cloudInfo;
 
 @end
 
