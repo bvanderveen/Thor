@@ -53,8 +53,6 @@ static NSArray *appColumns = nil;
     } error:^(NSError *error) {
         [NSApp presentError:error];
     }];
-    
-    targetView.deploymentsGrid.dataSource = self;
 }
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
