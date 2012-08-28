@@ -35,7 +35,7 @@ static NSArray *instanceColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     
-    self.associatedDisposable = [[RACSubscribable combineLatest:@[[service getStatsForAppWithName:deploymentInfo.appName], [service getAppWithName:deploymentInfo.appName]] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
+    self.associatedDisposable = [[RACSubscribable combineLatest:@[[service getStatsForAppWithName:deploymentInfo.appName], [service getAppWithName:deploymentInfo.appName]]] subscribeNext:^ (id x) {
         RACTuple *tuple = (RACTuple *)x;
         self.instanceStats = tuple.first;
         self.app = tuple.second;
