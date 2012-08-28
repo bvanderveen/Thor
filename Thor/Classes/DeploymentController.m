@@ -44,7 +44,6 @@ static NSArray *instanceColumns = nil;
     } error:^ (NSError *error) {
         [NSApp presentError:error];
     }];
-    [self.deploymentView.instancesGrid reloadData];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
