@@ -20,7 +20,7 @@
         NSError *error = nil;
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];
-            NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+            NSLog(@"There was an error! %@", error.userInfo[NSLocalizedDescriptionKey]);
         }
         else {
             [NSApp endSheet:self.view.window];

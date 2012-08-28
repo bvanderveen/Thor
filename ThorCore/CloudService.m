@@ -16,20 +16,20 @@
 static NSDictionary *stateDict = nil;
 
 + (void)initialize {
-    stateDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSNumber numberWithInt:FoundryAppStateStarted], @"STARTED",
-                [NSNumber numberWithInt:FoundryAppStateStopped], @"STOPPED",
-                 nil];
+    stateDict = @{
+        @"STARTED" : [NSNumber numberWithInt:FoundryAppStateStarted],
+        @"STOPPED" : [NSNumber numberWithInt:FoundryAppStateStopped]
+    };
 }
 
 + (FoundryApp *)appWithDictionary:(NSDictionary *)appDict {
     FoundryApp *app = [FoundryApp new];
     
-    app.name = [appDict objectForKey:@"name"];
-    app.uris = [appDict objectForKey:@"uris"];
-    app.instances = [[appDict objectForKey:@"instances"] intValue];
+    app.name = appDict[@"name"];
+    app.uris = appDict[@"uris"];
+    app.instances = [appDict[@"instances"] intValue];
 
-    NSString *state = [appDict objectForKey:@"state"];
+    NSString *state = appDict[@"state"];
     
     NSLog(@"Got app state '%@'", state);
     if (![stateDict.allKeys containsObject:state]) {
@@ -37,11 +37,11 @@ static NSDictionary *stateDict = nil;
         app.state = FoundryAppStateUnknown;
     }
     else
-    app.state = [[stateDict objectForKey:state] intValue];
+    app.state = [stateDict[state] intValue];
 
-    NSDictionary *resources = [appDict objectForKey:@"resources"];
-    app.memory = [[resources objectForKey:@"memory"] intValue];
-    app.disk = [[resources objectForKey:@"disk"] intValue];
+    NSDictionary *resources = appDict[@"resources"];
+    app.memory = [resources[@"memory"] intValue];
+    app.disk = [resources[@"disk"] intValue];
 
     return app;
 }
@@ -56,16 +56,16 @@ static NSDictionary *stateDict = nil;
     FoundryAppInstanceStats *result = [FoundryAppInstanceStats new];
     result.ID = lID;
     
-    NSDictionary *statsDict = [dictionary objectForKey:@"stats"];
-    result.host = [statsDict objectForKey:@"host"];
-    result.port = [[statsDict objectForKey:@"port"] intValue];
+    NSDictionary *statsDict = dictionary[@"stats"];
+    result.host = statsDict[@"host"];
+    result.port = [statsDict[@"port"] intValue];
     
-    result.uptime = [[statsDict objectForKey:@"uptime"] floatValue];
+    result.uptime = [statsDict[@"uptime"] floatValue];
     
-    NSDictionary *usageDict = [statsDict objectForKey:@"usage"];
-    result.cpu = [[usageDict objectForKey:@"cpu"] floatValue];
-    result.memory = [[usageDict objectForKey:@"mem"] floatValue];
-    result.disk = [[usageDict objectForKey:@"disk"] intValue];
+    NSDictionary *usageDict = statsDict[@"usage"];
+    result.cpu = [usageDict[@"cpu"] floatValue];
+    result.memory = [usageDict[@"mem"] floatValue];
+    result.disk = [usageDict[@"disk"] intValue];
  
     return result;
 }
@@ -116,7 +116,7 @@ static id (^JsonParser)(id) = ^ id (id data) {
     urlRequest.HTTPBody = [[NSDictionary dictionaryWithObject:cloudInfo.password forKey:@"password"] JSONDataRepresentation];
         
     return [[SMWebRequest requestSubscribableWithURLRequest:urlRequest dataParser:JsonParser] select:^ id (id r) {
-        return [((NSDictionary *)r) objectForKey:@"token"];
+        return ((NSDictionary *)r)[@"token"];
     }];
 }
 
@@ -147,7 +147,7 @@ static id (^JsonParser)(id) = ^ id (id data) {
 - (RACSubscribable *)getStatsForAppWithName:(NSString *)name {
     return [self authenticatedRequestForPath:[NSString stringWithFormat:@"/apps/%@/stats", name] resultHandler:^ id (id allStats) {
         return [((NSDictionary *)allStats).allKeys map:^ id (id key) {
-            return [FoundryAppInstanceStats instantsStatsWithID:key dictionary:[allStats objectForKey:key]];
+            return [FoundryAppInstanceStats instantsStatsWithID:key dictionary:allStats[key]];
         }];
     }];
 }
@@ -163,13 +163,13 @@ static id (^JsonParser)(id) = ^ id (id data) {
 @implementation FixtureCloudService
 
 - (RACSubscribable *)getApps {
-    return [RACSubscribable return:[NSArray arrayWithObjects:[self getAppWithName:@"fixture_app1"], [self getAppWithName:@"fixture_app2"], nil]];
+    return [RACSubscribable return:@[[self getAppWithName:@"fixture_app1"], [self getAppWithName:@"fixture_app2"]]];
 }
 
 - (RACSubscribable *)getAppWithName:(NSString *)name {
     FoundryApp *result = [FoundryApp new];
     result.name = name;
-    result.uris = [NSArray arrayWithObject:@"api.coolapp.com"];
+    result.uris = @[@"api.coolapp.com"];
     result.instances = 2;
     result.memory = 1024 * 1024;
     result.disk = 1024 * 1024 * 1024;
@@ -196,7 +196,7 @@ static id (^JsonParser)(id) = ^ id (id data) {
     stats1.disk = 53 * 1024 * 1024 * 1024;
     stats1.uptime = 32487.9;
     
-    return [RACSubscribable return:[NSArray arrayWithObjects:stats0, stats1, nil]];
+    return [RACSubscribable return:@[stats0, stats1]];
 }
 
 @end

@@ -20,7 +20,7 @@ static NSArray *instanceColumns = nil;
 @synthesize service, deploymentInfo, app, title, deploymentView, breadcrumbController, instanceStats;
 
 + (void)initialize {
-    instanceColumns = [NSArray arrayWithObjects:@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime", nil];
+    instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
 }
 
 - (id)initWithDeploymentInfo:(DeploymentInfo *)leDeploymentInfo {
@@ -35,7 +35,7 @@ static NSArray *instanceColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     
-    self.associatedDisposable = [[RACSubscribable combineLatest:[NSArray arrayWithObjects:[service getStatsForAppWithName:deploymentInfo.appName], [service getAppWithName:deploymentInfo.appName], nil] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
+    self.associatedDisposable = [[RACSubscribable combineLatest:@[[service getStatsForAppWithName:deploymentInfo.appName], [service getAppWithName:deploymentInfo.appName]] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
         RACTuple *tuple = (RACTuple *)x;
         self.instanceStats = tuple.first;
         self.app = tuple.second;
@@ -75,7 +75,7 @@ static NSArray *instanceColumns = nil;
         case 3:
             return [NSString stringWithFormat:@"%f", stats.memory];
         case 4:
-            return [NSString stringWithFormat:@"%f", stats.disk];
+            return [NSString stringWithFormat:@"%ld", stats.disk];
         case 5:
             return [NSString stringWithFormat:@"%f", stats.uptime];
     }

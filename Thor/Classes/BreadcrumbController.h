@@ -12,8 +12,6 @@
 
 @interface BreadcrumbController : NSViewController <BreadcrumbBarDelegate>
 
-//@property (nonatomic, strong, readonly) BreadcrumbBar *bar;
-
 - (id)initWithRootViewController:(NSViewController<BreadcrumbControllerAware> *)controller;
 
 - (void)pushViewController:(NSViewController<BreadcrumbControllerAware> *)controller animated:(BOOL)animated;

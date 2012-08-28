@@ -108,7 +108,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
+    return @[ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)leToolbar {
@@ -116,7 +116,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
-    return [NSArray arrayWithObjects:ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier, nil];
+    return @[ToolbarAppsItemIdentifier, ToolbarTargetsItemIdentifier, ToolbarServicesItemIdentifier];
 }
 
 - (void)itemClicked:(NSToolbarItem *)item {

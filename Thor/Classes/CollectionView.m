@@ -67,7 +67,7 @@
     if (ATTEMPT_CUTE_BACKGROUND_DRAWING) {
         
     } else {
-        self.backgroundColors = [NSArray arrayWithObject:[NSColor colorWithPatternImage:[NSImage imageNamed:@"CollectionViewBackground"]]];
+        self.backgroundColors = @[[NSColor colorWithPatternImage:[NSImage imageNamed:@"CollectionViewBackground"]]];
     }
 }
 

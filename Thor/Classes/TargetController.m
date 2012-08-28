@@ -17,7 +17,7 @@ static NSArray *appColumns = nil;
 @implementation TargetController
 
 + (void)initialize {
-    appColumns = [NSArray arrayWithObjects:@"Name", @"URI", @"Instances", @"Memory", @"Disk", nil];
+    appColumns = @[@"Name", @"URI", @"Instances", @"Memory", @"Disk"];
 }
 
 @synthesize target = _target, targetView, breadcrumbController, title, apps, service, targetPropertiesController;
@@ -76,11 +76,11 @@ static NSArray *appColumns = nil;
         case 1:
             return [app.uris objectAtIndex:0];
         case 2:
-            return [NSString stringWithFormat:@"%d", app.instances];
+            return [NSString stringWithFormat:@"%ld", app.instances];
         case 3:
-            return [NSString stringWithFormat:@"%d", app.memory];
+            return [NSString stringWithFormat:@"%ld", app.memory];
         case 4:
-            return [NSString stringWithFormat:@"%d", app.disk];
+            return [NSString stringWithFormat:@"%ld", app.disk];
     }
     
     BOOL columnIndexIsValid = NO;

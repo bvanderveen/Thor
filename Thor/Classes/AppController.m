@@ -14,7 +14,7 @@ static NSArray *deploymentColumns = nil;
 @implementation AppController
 
 + (void)initialize {
-    deploymentColumns = [NSArray arrayWithObjects:@"App name", @"Cloud name", @"Cloud hostname", nil];
+    deploymentColumns = @[@"App name", @"Cloud name", @"Cloud hostname"];
 }
 
 @synthesize app, deployments, appPropertiesController, breadcrumbController, title, appView;

@@ -50,7 +50,7 @@
 - (id)skip:(NSInteger)howMany {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:self.count - howMany];
     
-    for (int i = howMany; i < self.count; i++)
+    for (NSInteger i = howMany; i < self.count; i++)
         [result addObject:[self objectAtIndex:i]];
     
     return result;

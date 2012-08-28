@@ -18,11 +18,9 @@
 @implementation ThorBackendTests (Fixtures)
 
 - (NSArray *)createApps {
-    return [NSArray arrayWithObjects:
+    return @[[self createApp],
             [self createApp],
-            [self createApp],
-            [self createApp],
-            nil];
+            [self createApp]];
 }
 
 - (App *)createApp {
@@ -38,11 +36,9 @@
 }
 
 - (NSArray *)createTargets {
-    return [NSArray arrayWithObjects:
+    return @[[self createTarget],
             [self createTarget],
-            [self createTarget],
-            [self createTarget],
-            nil];
+            [self createTarget]];
 }
 
 - (Target *)createTarget {

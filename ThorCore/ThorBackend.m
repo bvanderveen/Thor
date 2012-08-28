@@ -102,8 +102,8 @@ NSEntityDescription *getAppEntity() {
         defaultMemory.attributeType = NSInteger32AttributeType;
         defaultMemory.optional = NO;
         defaultMemory.defaultValue = [NSNumber numberWithInt:64];
-        [defaultMemory setValidationPredicates:[NSArray arrayWithObjects:[NSPredicate predicateWithFormat:@"SELF > 0"], [NSPredicate predicateWithFormat:@"SELF < 99999"], nil] 
-                        withValidationWarnings:[NSArray arrayWithObjects:@"Memory too low", @"Memory too high", nil]];
+        [defaultMemory setValidationPredicates:@[[NSPredicate predicateWithFormat:@"SELF > 0"], [NSPredicate predicateWithFormat:@"SELF < 99999"]]
+                        withValidationWarnings:@[@"Memory too low", @"Memory too high"]];
         
         NSAttributeDescription *defaultInstances = [NSAttributeDescription new];
         defaultInstances.name = @"defaultInstances";
@@ -111,7 +111,7 @@ NSEntityDescription *getAppEntity() {
         defaultInstances.optional = NO;
         defaultInstances.defaultValue = [NSNumber numberWithInt:2];
         
-        entity.properties = [NSArray arrayWithObjects:displayName, localRoot, defaultMemory, defaultInstances, nil];
+        entity.properties = @[displayName, localRoot, defaultMemory, defaultInstances];
     }
     
     return entity;
@@ -146,7 +146,7 @@ NSEntityDescription *getTargetEntity() {
         password.attributeType = NSStringAttributeType;
         password.optional = NO;
         
-        entity.properties = [NSArray arrayWithObjects:displayName, hostname, email, password, nil];
+        entity.properties = @[displayName, hostname, email, password];
     }
     
     return entity;
@@ -157,10 +157,9 @@ NSManagedObjectModel *getManagedObjectModel() {
     
     if (!model) {
         model = [[NSManagedObjectModel alloc] init];
-        model.entities = [NSArray arrayWithObjects:
+        model.entities = @[
                         getAppEntity(),
-                        getTargetEntity(),
-                        nil];
+                        getTargetEntity()];
     }
     
     return model;
@@ -194,7 +193,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 @dynamic displayName, localRoot;
 
 + (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    return (App *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"App"] insertIntoManagedObjectContext:context];
+    return (App *)[[NSManagedObject alloc] initWithEntity:[getManagedObjectModel() entitiesByName][@"App"] insertIntoManagedObjectContext:context];
 }
 
 + (NSFetchRequest *)fetchRequest {
@@ -286,7 +285,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 }
 
 + (Target *)targetInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
-    return (Target *)[[NSManagedObject alloc] initWithEntity:[[getManagedObjectModel() entitiesByName] objectForKey:@"Target"] insertIntoManagedObjectContext:context];
+    return (Target *)[[NSManagedObject alloc] initWithEntity:[getManagedObjectModel() entitiesByName][@"Target"] insertIntoManagedObjectContext:context];
 }
 
 + (NSFetchRequest *)fetchRequest {
@@ -324,13 +323,13 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 - (NSArray *)getConfiguredApps:(NSError **)error {
     NSFetchRequest *request = [App fetchRequest];
-    request.sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
     return [self.context executeFetchRequest:request error:error];
 }
 
 - (NSArray *)getConfiguredTargets:(NSError **)error {
     NSFetchRequest *request = [Target fetchRequest];
-    request.sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
     return [self.context executeFetchRequest:request error:error];
 }
 
@@ -345,7 +344,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     d1.appName = @"foo2";
     d1.hostname = @"api.cloud2.com";
     
-    return [NSArray arrayWithObjects:d0, d1, nil];
+    return @[d0, d1];
 }
 
 - (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {
