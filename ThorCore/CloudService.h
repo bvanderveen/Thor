@@ -27,8 +27,8 @@ typedef enum {
 @interface FoundryAppInstanceStats : NSObject
 
 @property (nonatomic, copy) NSString *ID, *host;
-@property (nonatomic, assign) NSInteger port, memory, disk;
-@property (nonatomic, assign) float cpu, uptime;
+@property (nonatomic, assign) NSInteger port, disk;
+@property (nonatomic, assign) float cpu, memory, uptime;
 
 @end
 

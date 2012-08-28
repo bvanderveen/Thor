@@ -41,7 +41,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSObjectController" id="688772324">
-				<string key="NSObjectClassName">CloudApp</string>
+				<string key="NSObjectClassName">FoundryApp</string>
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
@@ -464,19 +464,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentObject: self.cloudApp</string>
+						<string key="label">contentObject: self.app</string>
 						<reference key="source" ref="688772324"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="688772324"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentObject: self.cloudApp</string>
+							<string key="NSLabel">contentObject: self.app</string>
 							<string key="NSBinding">contentObject</string>
-							<string key="NSKeyPath">self.cloudApp</string>
+							<string key="NSKeyPath">self.app</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">50</int>
+					<int key="connectionID">52</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -862,7 +862,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">51</int>
+			<int key="maxID">52</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -875,24 +875,16 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">CloudApp</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/CloudApp.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">DeploymentController</string>
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="cloudApp">CloudApp</string>
+						<string key="app">FoundryApp</string>
 						<string key="deploymentView">DeploymentView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="cloudApp">
-							<string key="name">cloudApp</string>
-							<string key="candidateClassName">CloudApp</string>
+						<object class="IBToOneOutletInfo" key="app">
+							<string key="name">app</string>
+							<string key="candidateClassName">FoundryApp</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="deploymentView">
 							<string key="name">deploymentView</string>
@@ -947,6 +939,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/DeploymentView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FoundryApp</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FoundryApp.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

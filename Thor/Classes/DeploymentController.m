@@ -1,4 +1,5 @@
 #import "DeploymentController.h"
+#import "NSObject+AssociateDisposable.h"
 
 @implementation DeploymentInfo
 
@@ -6,11 +7,17 @@
 
 @end
 
+@interface DeploymentController ()
+
+@property (nonatomic, strong) FoundryService *service;
+
+@end
+
 static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize deploymentInfo, app, title, deploymentView, breadcrumbController, instanceStats;
+@synthesize service, deploymentInfo, app, title, deploymentView, breadcrumbController, instanceStats;
 
 + (void)initialize {
     instanceColumns = [NSArray arrayWithObjects:@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime", nil];
@@ -20,6 +27,7 @@ static NSArray *instanceColumns = nil;
     if (self = [super initWithNibName:@"DeploymentView" bundle:[NSBundle mainBundle]]) {
         self.title = leDeploymentInfo.appName;
         self.deploymentInfo = leDeploymentInfo;
+        self.service = [[FoundryService alloc] initWithCloudInfo:deploymentInfo.target];
     }
     return self;
 }
@@ -27,8 +35,15 @@ static NSArray *instanceColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     
-    self.instanceStats = [[FixtureCloudService new] getStatsForAppWithName:deploymentInfo.appName];
-    self.app = [[FixtureCloudService new] getAppWithName:deploymentInfo.appName];
+    self.associatedDisposable = [[RACSubscribable combineLatest:[NSArray arrayWithObjects:[service getStatsForAppWithName:deploymentInfo.appName], [[FixtureCloudService new] getAppWithName:deploymentInfo.appName], nil] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
+        RACTuple *tuple = (RACTuple *)x;
+        self.instanceStats = tuple.first;
+        self.app = tuple.second;
+        [deploymentView.instancesGrid reloadData];
+        deploymentView.needsLayout = YES;
+    } error:^ (NSError *error) {
+        [NSApp presentError:error];
+    }];
     [self.deploymentView.instancesGrid reloadData];
 }
 

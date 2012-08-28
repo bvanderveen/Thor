@@ -32,7 +32,7 @@ static NSDictionary *stateDict = nil;
     NSString *state = [appDict objectForKey:@"state"];
 
     if (![stateDict.allKeys containsObject:state]) {
-        NSLog(@"Got previously unknown state %@", state);
+        NSLog(@"Got previously unknown state '%@'", state);
         app.state = FoundryAppStateUnknown;
     }
     else
@@ -50,6 +50,24 @@ static NSDictionary *stateDict = nil;
 @implementation FoundryAppInstanceStats
 
 @synthesize ID, host, port, cpu, memory, disk, uptime;
+
++ (FoundryAppInstanceStats *)instantsStatsWithID:(NSString *)lID dictionary:(NSDictionary *)dictionary {
+    FoundryAppInstanceStats *result = [FoundryAppInstanceStats new];
+    result.ID = lID;
+    
+    NSDictionary *statsDict = [dictionary objectForKey:@"stats"];
+    result.host = [statsDict objectForKey:@"host"];
+    result.port = [[statsDict objectForKey:@"port"] intValue];
+    
+    result.uptime = [[statsDict objectForKey:@"uptime"] floatValue];
+    
+    NSDictionary *usageDict = [statsDict objectForKey:@"usage"];
+    result.cpu = [[usageDict objectForKey:@"cpu"] floatValue];
+    result.memory = [[usageDict objectForKey:@"mem"] floatValue];
+    result.disk = [[usageDict objectForKey:@"disk"] intValue];
+ 
+    return result;
+}
 
 @end
 
@@ -103,20 +121,33 @@ static id (^JsonParser)(id) = ^ id (id data) {
 
 - (RACSubscribable *)getAuthenticatedWebRequestForPath:(NSString *)path {
     if (token)
-        return [RACSubscribable return:[self URLRequestForPath:path withToken:token]];
+        return [RACSubscribable return:[SMWebRequest requestSubscribableWithURLRequest:[self URLRequestForPath:path withToken:token] dataParser:JsonParser]];
     
     return [[self getToken] select:^ id (id t) {
         self.token = t;
-        return [SMWebRequest requestSubscribableWithURLRequest:[self URLRequestForPath:path withToken:t]dataParser:JsonParser];
+        return [SMWebRequest requestSubscribableWithURLRequest:[self URLRequestForPath:path withToken:t] dataParser:JsonParser];
+    }];
+}
+
+- (RACSubscribable *)authenticatedRequestForPath:(NSString *)path resultHandler:(id(^)(id))handler {
+    return [[self getAuthenticatedWebRequestForPath:path] selectMany:^ id (id request) {
+        return [request select:^ id (id result) { return handler(result); }];
     }];
 }
 
 - (RACSubscribable *)getApps {
-    return [[self getAuthenticatedWebRequestForPath:@"/apps"] selectMany:^ id<RACSubscribable> (id r) {
-        return [r select:^id(id apps) {
-            return [(NSArray *)apps map:^ id (id app) {
-                return [FoundryApp appWithDictionary:app];
-            }];
+    return [self authenticatedRequestForPath:@"/apps" resultHandler:^ id (id apps) {
+        return [(NSArray *)apps map:^ id (id app) {
+            return [FoundryApp appWithDictionary:app];
+        }];
+    }];
+}
+
+- (RACSubscribable *)getStatsForAppWithName:(NSString *)name {
+    
+    return [self authenticatedRequestForPath:[NSString stringWithFormat:@"/apps/%@/stats", name] resultHandler:^ id (id allStats) {
+        return [((NSDictionary *)allStats).allKeys map:^ id (id key) {
+            return [FoundryAppInstanceStats instantsStatsWithID:key dictionary:[allStats objectForKey:key]];
         }];
     }];
 }
