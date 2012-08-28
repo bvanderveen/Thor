@@ -35,7 +35,7 @@ static NSArray *instanceColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     
-    self.associatedDisposable = [[RACSubscribable combineLatest:[NSArray arrayWithObjects:[service getStatsForAppWithName:deploymentInfo.appName], [[FixtureCloudService new] getAppWithName:deploymentInfo.appName], nil] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
+    self.associatedDisposable = [[RACSubscribable combineLatest:[NSArray arrayWithObjects:[service getStatsForAppWithName:deploymentInfo.appName], [service getAppWithName:deploymentInfo.appName], nil] reduce:^ id (id x) { return x; }] subscribeNext:^ (id x) {
         RACTuple *tuple = (RACTuple *)x;
         self.instanceStats = tuple.first;
         self.app = tuple.second;
