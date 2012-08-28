@@ -17,8 +17,8 @@ static NSDictionary *stateDict = nil;
 
 + (void)initialize {
     stateDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"STARTED", [NSNumber numberWithInt:FoundryAppStateStarted],
-                 @"STOPPED", [NSNumber numberWithInt:FoundryAppStateStopped],
+                [NSNumber numberWithInt:FoundryAppStateStarted], @"STARTED",
+                [NSNumber numberWithInt:FoundryAppStateStopped], @"STOPPED",
                  nil];
 }
 
@@ -30,9 +30,10 @@ static NSDictionary *stateDict = nil;
     app.instances = [[appDict objectForKey:@"instances"] intValue];
 
     NSString *state = [appDict objectForKey:@"state"];
-
+    
+    NSLog(@"Got app state '%@'", state);
     if (![stateDict.allKeys containsObject:state]) {
-        NSLog(@"Got previously unknown state '%@'", state);
+        NSLog(@"Got previously unknown app state '%@'", state);
         app.state = FoundryAppStateUnknown;
     }
     else
