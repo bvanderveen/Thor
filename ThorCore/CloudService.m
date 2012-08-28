@@ -144,11 +144,16 @@ static id (^JsonParser)(id) = ^ id (id data) {
 }
 
 - (RACSubscribable *)getStatsForAppWithName:(NSString *)name {
-    
     return [self authenticatedRequestForPath:[NSString stringWithFormat:@"/apps/%@/stats", name] resultHandler:^ id (id allStats) {
         return [((NSDictionary *)allStats).allKeys map:^ id (id key) {
             return [FoundryAppInstanceStats instantsStatsWithID:key dictionary:[allStats objectForKey:key]];
         }];
+    }];
+}
+
+- (RACSubscribable *)getAppWithName:(NSString *)name {
+    return [self authenticatedRequestForPath:[NSString stringWithFormat:@"/apps/%@", name] resultHandler:^ id (id app) {
+        return [FoundryApp appWithDictionary:app];
     }];
 }
 
