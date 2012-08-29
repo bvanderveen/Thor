@@ -1,7 +1,10 @@
 #import "TargetPropertiesView.h"
 
-@interface TargetPropertiesController : NSViewController
+@interface TargetPropertiesController : NSViewController {
+    
+}
 
+@property (nonatomic, strong) IBOutlet NSObjectController *objectController;
 @property (nonatomic, assign) BOOL editing;
 @property (nonatomic, strong) IBOutlet Target *target;
 @property (nonatomic, strong) IBOutlet TargetPropertiesView *targetPropertiesView;

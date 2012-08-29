@@ -2,7 +2,7 @@
 
 @implementation TargetPropertiesController
 
-@synthesize editing, targetPropertiesView, target;
+@synthesize editing, targetPropertiesView, target, objectController;
 
 - (id)init {
     if (self = [super initWithNibName:@"TargetPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -17,6 +17,7 @@
 
 - (void)buttonClicked:(NSButton *)button {
     if (button == targetPropertiesView.confirmButton) {
+        [objectController commitEditing];
         NSError *error = nil;
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];
