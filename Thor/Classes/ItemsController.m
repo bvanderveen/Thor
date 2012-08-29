@@ -34,6 +34,7 @@
     NSError *error = nil;
     self.items = [[dataSource getItems:&error] mutableCopy];
 }
+
 - (NSCollectionViewItem *)collectionView:(CollectionView *)collectionView newItemForRepresentedObject:(id)object {
     return [dataSource itemsController:self getCollectionViewItemForItem:object collectionView:collectionView];
 }

@@ -73,12 +73,11 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
     if (ATTEMPT_CUTE_BACKGROUND_DRAWING) {
-        
+        // do nothing. background is drawn by swizzled -[NSClipView drawRect:] above.
     }
     else {
         [super drawRect:dirtyRect];
     }
-    // do nothing. background is drawn by swizzled -[NSClipView drawRect:] above.
 }
 
 - (NSCollectionViewItem *)newItemForRepresentedObject:(id)object {

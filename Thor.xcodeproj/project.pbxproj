@@ -447,9 +447,9 @@
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
+				41FA11C815E4337A0079FD30 /* TargetCollectionItemView.xib */,
 				41FA11CA15E433900079FD30 /* TargetItemsDataSource.h */,
 				41FA11CB15E433900079FD30 /* TargetItemsDataSource.m */,
-				41FA11C815E4337A0079FD30 /* TargetCollectionItemView.xib */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
 				414779E515C0865B00B733EF /* Target View */,
 			);

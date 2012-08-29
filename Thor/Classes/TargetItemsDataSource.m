@@ -42,7 +42,7 @@ static NSNib *nib = nil;
     }] objectAtIndex:0];
     
     CollectionItemViewButton *button = [view.subviews objectAtIndex:0];
-    button.label = ((App *)item).displayName;
+    [button bind:@"label" toObject:item withKeyPath:@"displayName" options:nil];
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
         [itemsController.breadcrumbController pushViewController:[self getControllerForItem:item] animated:YES];
