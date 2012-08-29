@@ -1,6 +1,18 @@
 #import "AppView.h"
 #import "BoxGroupView.h"
 
+@implementation AppView : NSView
+
+@synthesize drawerBar, appContentView;
+
+- (void)layout {
+    self.drawerBar.frame = self.bounds;
+    NSLog(@"app view bounds %@", NSStringFromRect(self.bounds));
+    [super layout];
+}
+
+@end
+
 @interface AppSettingsView : NSView
 
 @end
@@ -13,11 +25,12 @@
 
 @end
 
-@implementation AppView
+@implementation AppContentView
 
 @synthesize scrollView, deploymentsGrid, deploymentsBox, settingsBox, settingsView;
 
 - (void)layout {
+    NSLog(@"app content view bounds %@", NSStringFromRect(self.bounds));
     [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView box1:settingsBox boxContent1:settingsView box2:deploymentsBox boxContent2:deploymentsGrid];
     
     [super layout];

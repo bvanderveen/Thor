@@ -31,7 +31,7 @@ static NSArray *deploymentColumns = nil;
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
     
-    [self.appView.deploymentsGrid reloadData];
+    [self.appView.appContentView.deploymentsGrid reloadData];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410E277B15ED78D100636BBE /* DrawerBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 410E277A15ED78D100636BBE /* DrawerBar.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
 		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
@@ -177,6 +178,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		410E277915ED78D100636BBE /* DrawerBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawerBar.h; path = Classes/DrawerBar.h; sourceTree = "<group>"; };
+		410E277A15ED78D100636BBE /* DrawerBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawerBar.m; path = Classes/DrawerBar.m; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
@@ -409,6 +412,8 @@
 				4165679315D9D75100EF93DF /* Box.m */,
 				41FA11D915E436560079FD30 /* BoxGroupView.h */,
 				41FA11DA15E436570079FD30 /* BoxGroupView.m */,
+				410E277915ED78D100636BBE /* DrawerBar.h */,
+				410E277A15ED78D100636BBE /* DrawerBar.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -991,6 +996,7 @@
 				41FA11CC15E433900079FD30 /* TargetItemsDataSource.m in Sources */,
 				41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */,
 				413912F815E5D98800DB464E /* ServicesController.m in Sources */,
+				410E277B15ED78D100636BBE /* DrawerBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

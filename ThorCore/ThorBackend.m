@@ -344,7 +344,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     d1.appName = @"foo2";
     d1.hostname = @"api.cloud2.com";
     
-    return @[d0, d1];
+    return @[d0, d1, d0, d1, d0, d1, d0, d1, d0, d1];
 }
 
 - (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {
