@@ -1,5 +1,8 @@
 #import "FoundryServiceTests.h"
 #import "FoundryService.h"
+#import "Specta.h"
+#define EXP_SHORTHAND
+#import "Expecta.h"
 
 @interface MockEndpoint : NSObject
 
@@ -52,24 +55,15 @@
 @synthesize service, endpoint;
 
 - (void)setUp {
-    self.endpoint = [MockEndpoint new];
-    self.service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
 }
 
 - (void)tearDown {
 }
 
 - (void)testGetAppsCallsEndpoint {
-    [[service getApps] subscribeCompleted:^{ }];
     
-    id expected = @{
-        @"method" : @"GET",
-        @"path" : @"/apps",
-        @"headers" : [NSNull null],
-        @"body" : [NSNull null]
-    };
     
-    STAssertEqualObjects(endpoint.calls[0], expected, @"did not recieve expected calls");
+    //STAssertEqualObjects(endpoint.calls[0], expected, @"did not recieve expected calls");
 }
 
 - (void)testGetAppsParsesResults {
@@ -77,3 +71,32 @@
 }
 
 @end
+
+
+SpecBegin(FoundryService)
+
+describe(@"FoundryService", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[service getApps] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/apps",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
+
+SpecEnd

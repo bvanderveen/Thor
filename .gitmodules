@@ -7,3 +7,9 @@
 [submodule "webrequest"]
 	path = webrequest
 	url = git@github.com:nfarina/webrequest
+[submodule "specta"]
+	path = specta
+	url = git@github.com:github/specta
+[submodule "expecta"]
+	path = expecta
+	url = git@github.com:github/expecta
