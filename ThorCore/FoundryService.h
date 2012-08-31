@@ -4,6 +4,10 @@
 
 @property (nonatomic, copy) NSString *hostname, *email, *password;
 
+// result is parsed JSON of response body
+- (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+
+
 @end
 
 typedef enum {
@@ -22,6 +26,8 @@ typedef enum {
     disk;
 @property (nonatomic, assign) FoundryAppState state;
 
++ (FoundryApp *)appWithDictionary:(NSDictionary *)appDict;
+
 @end
 
 @interface FoundryAppInstanceStats : NSObject
@@ -30,8 +36,9 @@ typedef enum {
 @property (nonatomic, assign) NSInteger port, disk;
 @property (nonatomic, assign) float cpu, memory, uptime;
 
-@end
++ (FoundryAppInstanceStats *)instantsStatsWithID:(NSString *)lID dictionary:(NSDictionary *)dictionary;
 
+@end
 
 @protocol FoundryService <NSObject>
 
@@ -46,9 +53,5 @@ typedef enum {
 @property (nonatomic, strong) FoundryEndpoint *endpoint;
 
 - (id)initWithEndpoint:(FoundryEndpoint *)endpoint;
-
-@end
-
-@interface FixtureCloudService : NSObject <FoundryService>
 
 @end
