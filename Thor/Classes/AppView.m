@@ -7,7 +7,6 @@
 
 - (void)layout {
     self.drawerBar.frame = self.bounds;
-    NSLog(@"app view bounds %@", NSStringFromRect(self.bounds));
     [super layout];
 }
 
@@ -30,7 +29,6 @@
 @synthesize scrollView, deploymentsGrid, deploymentsBox, settingsBox, settingsView;
 
 - (void)layout {
-    NSLog(@"app content view bounds %@", NSStringFromRect(self.bounds));
     [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView box1:settingsBox boxContent1:settingsView box2:deploymentsBox boxContent2:deploymentsGrid];
     
     [super layout];

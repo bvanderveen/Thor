@@ -13,6 +13,7 @@
     // TODO factor bar out of items view
     bar.frame = NSZeroRect;
     collectionScrollView.frame = self.bounds;
+    [super layout];
 }
 
 @end
