@@ -59,6 +59,9 @@
 		41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */; };
 		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
+		41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B215F038F500A45951 /* FoundryServiceTests.m */; };
+		41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */; };
+		41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
@@ -252,6 +255,10 @@
 		41D286CC15C879D800206E3A /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetView.m; path = Classes/TargetView.m; sourceTree = "<group>"; };
 		41D286CF15C87B9200206E3A /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SheetWindow.h; path = Classes/SheetWindow.h; sourceTree = "<group>"; };
 		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
+		41EE94B115F038F500A45951 /* FoundryServiceTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryServiceTests.h; sourceTree = "<group>"; };
+		41EE94B215F038F500A45951 /* FoundryServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryServiceTests.m; sourceTree = "<group>"; };
+		41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Target+FoundryEndpointCreation.h"; sourceTree = "<group>"; };
+		41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Target+FoundryEndpointCreation.m"; sourceTree = "<group>"; };
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -545,6 +552,8 @@
 				413912F215E5D0A900DB464E /* CloudService.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
+				41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */,
+				41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
@@ -564,6 +573,8 @@
 			children = (
 				41F902B515AF592A00550870 /* ThorBackendTests.h */,
 				41F902B615AF592A00550870 /* ThorBackendTests.m */,
+				41EE94B115F038F500A45951 /* FoundryServiceTests.h */,
+				41EE94B215F038F500A45951 /* FoundryServiceTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCoreTests;
@@ -690,6 +701,7 @@
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
 				413912F315E5D0A900DB464E /* CloudService.h in Headers */,
 				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
+				41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,6 +963,7 @@
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
 				413912F415E5D0A900DB464E /* CloudService.m in Sources */,
 				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
+				41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +972,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */,
+				41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
