@@ -1,6 +1,6 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-@interface CloudInfo : NSObject
+@interface FoundryEndpoint : NSObject
 
 @property (nonatomic, copy) NSString *hostname, *email, *password;
 
@@ -43,9 +43,9 @@ typedef enum {
 
 @interface FoundryService : NSObject <FoundryService>
 
-@property (nonatomic, strong) CloudInfo *cloudInfo;
+@property (nonatomic, strong) FoundryEndpoint *endpoint;
 
-- (id)initWithCloudInfo:(CloudInfo *)cloudInfo;
+- (id)initWithEndpoint:(FoundryEndpoint *)endpoint;
 
 @end
 

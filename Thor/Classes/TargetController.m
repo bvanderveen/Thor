@@ -24,14 +24,8 @@ static NSArray *appColumns = nil;
 
 - (void)setTarget:(Target *)value {
     _target = value;
-    
-    CloudInfo *info = [CloudInfo new];
-    
-    info.hostname = value.hostname;
-    info.email = value.email;
-    info.password = value.password;
-    
-    self.service = [[FoundryService alloc] initWithCloudInfo:info];
+    FoundryEndpoint *endpoint = (FoundryEndpoint *)value;
+    self.service = [[FoundryService alloc] initWithEndpoint:endpoint];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -93,7 +87,7 @@ static NSArray *appColumns = nil;
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
     deploymentInfo.appName = app.name;
-    deploymentInfo.target = service.cloudInfo;
+    deploymentInfo.endpoint = service.endpoint;
     
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];

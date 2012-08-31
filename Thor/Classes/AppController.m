@@ -83,10 +83,10 @@ static NSArray *deploymentColumns = nil;
     
     DeploymentInfo *deploymentInfo = [DeploymentInfo new];
     deploymentInfo.appName = deployment.appName;
-    deploymentInfo.target = [CloudInfo new];
-    deploymentInfo.target.hostname = targetOfDeployment.hostname;
-    deploymentInfo.target.email = targetOfDeployment.email;
-    deploymentInfo.target.password = targetOfDeployment.password;
+    deploymentInfo.endpoint = [FoundryEndpoint new];
+    deploymentInfo.endpoint.hostname = targetOfDeployment.hostname;
+    deploymentInfo.endpoint.email = targetOfDeployment.email;
+    deploymentInfo.endpoint.password = targetOfDeployment.password;
     
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];

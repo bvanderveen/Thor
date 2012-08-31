@@ -3,7 +3,7 @@
 
 @implementation DeploymentInfo
 
-@synthesize appName, target;
+@synthesize appName, endpoint;
 
 @end
 
@@ -27,7 +27,7 @@ static NSArray *instanceColumns = nil;
     if (self = [super initWithNibName:@"DeploymentView" bundle:[NSBundle mainBundle]]) {
         self.title = leDeploymentInfo.appName;
         self.deploymentInfo = leDeploymentInfo;
-        self.service = [[FoundryService alloc] initWithCloudInfo:deploymentInfo.target];
+        self.service = [[FoundryService alloc] initWithEndpoint:deploymentInfo.endpoint];
     }
     return self;
 }

@@ -5,7 +5,7 @@
 @interface DeploymentInfo : NSObject
 
 @property (nonatomic, copy) NSString *appName;
-@property (nonatomic, strong) CloudInfo *target;
+@property (nonatomic, strong) FoundryEndpoint *endpoint;
 
 @end
 

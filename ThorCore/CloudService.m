@@ -3,7 +3,7 @@
 #import "NSObject+JSONDataRepresentation.h"
 #import "SBJson.h"
 
-@implementation CloudInfo
+@implementation FoundryEndpoint
 
 @synthesize hostname, email, password;
 
@@ -86,17 +86,17 @@ static id (^JsonParser)(id) = ^ id (id data) {
 
 @implementation FoundryService
 
-@synthesize cloudInfo, token;
+@synthesize endpoint, token;
 
-- (id)initWithCloudInfo:(CloudInfo *)leCloudInfo {
+- (id)initWithEndpoint:(FoundryEndpoint *)lEndpoint {
     if (self = [super init]) {
-        self.cloudInfo = leCloudInfo;
+        self.endpoint = lEndpoint;
     }
     return self;
 }
 
 - (NSURL *)URLForPath:(NSString *)path {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", cloudInfo.hostname, path]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", endpoint.hostname, path]];
 }
 
 - (NSMutableURLRequest *)URLRequestForPath:(NSString *)path {
@@ -110,10 +110,10 @@ static id (^JsonParser)(id) = ^ id (id data) {
 }
 
 - (RACSubscribable *)getToken {
-    NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", cloudInfo.email];
+    NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", endpoint.email];
     NSMutableURLRequest *urlRequest = [self URLRequestForPath:path];
     urlRequest.HTTPMethod = @"POST";
-    urlRequest.HTTPBody = [[NSDictionary dictionaryWithObject:cloudInfo.password forKey:@"password"] JSONDataRepresentation];
+    urlRequest.HTTPBody = [[NSDictionary dictionaryWithObject:endpoint.password forKey:@"password"] JSONDataRepresentation];
         
     return [[SMWebRequest requestSubscribableWithURLRequest:urlRequest dataParser:JsonParser] select:^ id (id r) {
         return ((NSDictionary *)r)[@"token"];
