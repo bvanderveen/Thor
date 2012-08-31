@@ -1,4 +1,5 @@
+#import <SenTestingKit/SenTestingKit.h>
 
-@interface FoundryServiceTests : NSObject
+@interface FoundryServiceTests : SenTestCase
 
 @end

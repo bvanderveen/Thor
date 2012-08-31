@@ -7,7 +7,6 @@
 // result is parsed JSON of response body
 - (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
 
-
 @end
 
 typedef enum {
