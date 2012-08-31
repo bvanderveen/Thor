@@ -48,11 +48,10 @@
 
 SpecBegin(FoundryService)
 
-describe(@"FoundryService", ^ {
+describe(@"getApps", ^ {
     
     __block MockEndpoint *endpoint;
     __block FoundryService *service;
-    
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
@@ -121,6 +120,62 @@ describe(@"FoundryService", ^ {
         expect(app1.state).to.equal(FoundryAppStateStopped);
         expect(app1.memory).to.equal(2049);
         expect(app1.disk).to.equal(4097);
+    });
+});
+
+
+describe(@"getAppWithName", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[service getAppWithName:@"name"] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/apps/name",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    
+    
+    it(@"should parse result", ^ {
+        endpoint.results = @[
+        @{
+        @"name" : @"the name",
+        @"uris" : @[ @"uri", @"uri2" ],
+        @"instances" : @2,
+        @"state" : @"STARTED",
+        @"resources" : @{
+        @"memory" : @2048,
+        @"disk" : @4096
+        }
+        }];
+        
+        __block FoundryApp *app;
+        
+        [[service getAppWithName:@"the name"] subscribeNext:^(id x) {
+            app = (FoundryApp *)x;
+        }];
+        
+        
+        expect(app.name).to.equal(@"the name");
+        id uris = @[ @"uri", @"uri2" ];
+        expect(app.uris).to.equal(uris);
+        expect(app.instances).to.equal(2);
+        expect(app.state).to.equal(FoundryAppStateStarted);
+        expect(app.memory).to.equal(2048);
+        expect(app.disk).to.equal(4096);
     });
 });
 
