@@ -24,8 +24,7 @@ static NSArray *appColumns = nil;
 
 - (void)setTarget:(Target *)value {
     _target = value;
-    FoundryEndpoint *endpoint = (FoundryEndpoint *)value;
-    self.service = [[FoundryService alloc] initWithEndpoint:endpoint];
+    self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:value]];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
