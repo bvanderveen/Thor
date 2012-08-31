@@ -6,7 +6,7 @@
 
 @interface MockEndpoint : NSObject
 
-@property (nonatomic, strong) NSMutableArray *calls, *results;
+@property (nonatomic, copy) NSArray *calls, *results;
 
 @end
 
@@ -30,44 +30,17 @@
     @"body" : body ? body : [NSNull null]
     };
     
-    [calls addObject:call];
+    calls = [calls arrayByAddingObject:call];
     
     id resultObject = results.count ? results[0] : nil;
     
-    if (results.count)
-        [results removeObjectAtIndex:0];
+    if (results.count) {
+        NSMutableArray *newResults = [results mutableCopy];
+        [newResults removeObjectAtIndex:0];
+        results = newResults;
+    }
     
     return [RACSubscribable return:resultObject];
-}
-
-@end
-
-@interface FoundryServiceTests ()
-
-@property (nonatomic, strong) FoundryService *service;
-@property (nonatomic, strong) MockEndpoint *endpoint;
-
-
-@end
-
-@implementation FoundryServiceTests
-
-@synthesize service, endpoint;
-
-- (void)setUp {
-}
-
-- (void)tearDown {
-}
-
-- (void)testGetAppsCallsEndpoint {
-    
-    
-    //STAssertEqualObjects(endpoint.calls[0], expected, @"did not recieve expected calls");
-}
-
-- (void)testGetAppsParsesResults {
-    
 }
 
 @end
@@ -79,6 +52,7 @@ describe(@"FoundryService", ^ {
     
     __block MockEndpoint *endpoint;
     __block FoundryService *service;
+    
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
@@ -96,6 +70,57 @@ describe(@"FoundryService", ^ {
         }];
         
         expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should parse results", ^ {
+        endpoint.results = @[ @[
+        @{
+        @"name" : @"the name",
+        @"uris" : @[ @"uri", @"uri2" ],
+        @"instances" : @2,
+        @"state" : @"STARTED",
+        @"resources" : @{
+        @"memory" : @2048,
+        @"disk" : @4096
+        }
+        },
+        @{
+        @"name" : @"the name2",
+        @"uris" : @[ @"uri3", @"uri4" ],
+        @"instances" : @3,
+        @"state" : @"STOPPED",
+        @"resources" : @{
+        @"memory" : @2049,
+        @"disk" : @4097
+        }
+        }
+        ] ];
+        
+        __block NSArray *result;
+        [[service getApps] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(2);
+        
+        FoundryApp *app0 = result[0];
+        expect(app0.name).to.equal(@"the name");
+        id uris = @[ @"uri", @"uri2" ];
+        expect(app0.uris).to.equal(uris);
+        expect(app0.instances).to.equal(2);
+        expect(app0.state).to.equal(FoundryAppStateStarted);
+        expect(app0.memory).to.equal(2048);
+        expect(app0.disk).to.equal(4096);
+        
+        FoundryApp *app1 = result[1];
+        
+        expect(app1.name).to.equal(@"the name2");
+        uris = @[ @"uri3", @"uri4" ];
+        expect(app1.uris).to.equal(uris);
+        expect(app1.instances).to.equal(3);
+        expect(app1.state).to.equal(FoundryAppStateStopped);
+        expect(app1.memory).to.equal(2049);
+        expect(app1.disk).to.equal(4097);
     });
 });
 
