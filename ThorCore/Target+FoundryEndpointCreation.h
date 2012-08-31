@@ -1,4 +1,4 @@
-#import "CloudService.h"
+#import "FoundryService.h"
 #import "ThorCore.h"
 
 @interface FoundryEndpoint (FoundryEndpointCreation)

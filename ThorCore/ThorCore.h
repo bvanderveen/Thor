@@ -1,4 +1,4 @@
 
 #import "ThorBackend.h"
-#import "CloudService.h"
+#import "FoundryService.h"
 #import "Target+FoundryEndpointCreation.h"
