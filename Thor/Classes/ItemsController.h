@@ -4,10 +4,9 @@
 
 @protocol ItemsControllerDataSource <NSObject>
 
-- (NSArray *)getItems:(NSError **)error;
-- (NSViewController *)getPropertiesControllerForNewItem;
-- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController getCollectionViewItemForItem:(id)item collectionView:(NSCollectionView *)collectionView;
-- (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item;
+- (NSArray *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error;
+- (NSViewController *)newItemPropertiesControllerForItemsController:(ItemsController *)itemsController;
+- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *) collectionView item:(id)item;
 
 @end
 

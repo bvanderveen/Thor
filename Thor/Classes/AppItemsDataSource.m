@@ -5,33 +5,42 @@
 
 static NSNib *nib = nil;
 
+@interface AppItemsDataSource ()
+
+@property (nonatomic, copy) void (^action)(ItemsController *, id);
+
+@end
+
 @implementation AppItemsDataSource
+
+@synthesize action;
 
 + (void)initialize {
     nib = [[NSNib alloc] initWithNibNamed:@"AppCollectionItemView" bundle:nil];
 }
 
-- (NSArray *)getItems:(NSError **)error {
+- (id)initWithSelectionAction:(void (^)(ItemsController *, id))lAction {
+    if (self = [super init]) {
+        self.action = lAction;
+    }
+    return self;
+}
+
+- (NSArray *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
     return [[ThorBackend shared] getConfiguredApps:error];
 }
 
-- (NSViewController *)getPropertiesControllerForNewItem {
+- (NSViewController *)newItemPropertiesControllerForItemsController:(ItemsController *)itemsController {
     AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
     appPropertiesController.app = [App appInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
     return appPropertiesController;
 }
 
-- (NSViewController<BreadcrumbControllerAware> *)getControllerForItem:(id)item {
-    AppController *appController = [[AppController alloc] init];
-    appController.app = (App *)item;
-    return appController;
-}
-
-- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController getCollectionViewItemForItem:(id)item collectionView:(NSCollectionView *)collectionView  {
+- (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *)collectionView item:(id)item   {
     NSArray *topLevelObjects;
     [nib instantiateNibWithOwner:collectionView topLevelObjects:&topLevelObjects];
     
-    NSView *view = [[topLevelObjects filter:^ BOOL (id o) { 
+    NSView *view = [[topLevelObjects filter:^ BOOL (id o) {
         return [o isKindOfClass:[NSView class]];
     }] objectAtIndex:0];
     
@@ -39,7 +48,7 @@ static NSNib *nib = nil;
     [button bind:@"label" toObject:item withKeyPath:@"displayName" options:nil];
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
-        [itemsController.breadcrumbController pushViewController:[self getControllerForItem:item] animated:YES];
+        action(itemsController, item);
     }]];
         
     return [[topLevelObjects filter:^ BOOL (id o) { 

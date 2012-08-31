@@ -39,15 +39,28 @@
 
 @end
 
-@interface FakeDrawerView : NSView
+@interface DrawerContainer : NSView
 
 @end
 
-@implementation FakeDrawerView
+@implementation DrawerContainer
+
+- (id)initWithFrame:(NSRect)frameRect {
+    self = [super initWithFrame:frameRect];
+    return self;
+}
 
 - (void)drawRect:(NSRect)dirtyRect {
     [[NSColor blueColor] set];
     NSRectFill(dirtyRect);
+}
+
+- (void)layout {
+    if (self.subviews.count) {
+        NSView *view = [self.subviews objectAtIndex:0];
+        [view setFrame:self.bounds];
+    }
+    [super layout];
 }
 
 @end
@@ -55,47 +68,56 @@
 @interface DrawerBar ()
 
 @property (nonatomic, strong) DrawerBarBar *bar;
+@property (nonatomic, strong) NSView *drawerContainer;
 
 @end
 
 @implementation DrawerBar
 
-@synthesize expanded, bar, drawerView, contentView;
+@synthesize expanded, bar, drawerView, contentView, drawerContainer;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
+        self.drawerContainer = [[DrawerContainer alloc] initWithFrame:NSZeroRect];
+        [self addSubview:drawerContainer];
+        
         self.bar = [[DrawerBarBar alloc] initWithFrame:NSZeroRect];
         bar.button.target = self;
         bar.button.action = @selector(toggleDrawer);
         [self addSubview:bar];
         
-        self.drawerView = [[FakeDrawerView alloc] initWithFrame:NSZeroRect];
-        [self addSubview:drawerView];
+        self.autoresizesSubviews = NO;
+        self.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return self;
 }
 
 - (void)layout {
     NSSize barSize = [bar intrinsicContentSize];
-    NSSize drawerSize = [drawerView intrinsicContentSize];
+    NSSize drawerSize = NSMakeSize(NSViewNoInstrinsicMetric, 250);
     
     if (expanded) {
         self.contentView.frame = NSMakeRect(0, barSize.height + drawerSize.height, self.bounds.size.width, self.bounds.size.height - barSize.height - drawerSize.height);
-        self.drawerView.frame = NSMakeRect(0, barSize.height, self.bounds.size.width, drawerSize.height);
+        self.drawerContainer.frame = NSMakeRect(0, barSize.height, self.bounds.size.width, drawerSize.height);
     }
     else {
         self.contentView.frame = NSMakeRect(0, barSize.height, self.bounds.size.width, self.bounds.size.height - barSize.height);
-        self.drawerView.frame = NSMakeRect(0, 0, self.bounds.size.width, drawerSize.height);
+        self.drawerContainer.frame = NSMakeRect(0, 0, self.bounds.size.width, drawerSize.height);
     }
-    
     
     self.bar.frame = NSMakeRect(0, 0, self.bounds.size.width, barSize.height);
     [super layout];
 }
 
 - (void)toggleDrawer {
-    self.expanded = !self.expanded;
+    self.expanded = !expanded;
+    if (expanded) {
+        [drawerContainer addSubview:drawerView];
+    }
+    else
+        [drawerView removeFromSuperview];
     self.needsLayout = YES;
+    [self layoutSubtreeIfNeeded];
 }
 
 @end

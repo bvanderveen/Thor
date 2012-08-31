@@ -2,10 +2,13 @@
 #import "AppPropertiesController.h"
 #import "SheetWindow.h"
 #import "DeploymentController.h"
+#import "TargetItemsDataSource.h"
 
 @interface AppController ()
 
 @property (nonatomic, strong) AppPropertiesController *appPropertiesController;
+@property (nonatomic, strong) ItemsController *targetsController;
+@property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 
 @end
 
@@ -17,11 +20,10 @@ static NSArray *deploymentColumns = nil;
     deploymentColumns = @[@"App name", @"Cloud name", @"Cloud hostname"];
 }
 
-@synthesize app, deployments, appPropertiesController, breadcrumbController, title, appView;
+@synthesize app, deployments, appPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
-        //if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"App";
     }
     return self;
@@ -30,6 +32,13 @@ static NSArray *deploymentColumns = nil;
 - (void)awakeFromNib {
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
+    
+    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
+    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
+        NSLog(@"choose %@", [item displayName]);
+    }];
+    
+    self.appView.drawerBar.drawerView = targetsController.view;
     
     [self.appView.appContentView.deploymentsGrid reloadData];
 }
