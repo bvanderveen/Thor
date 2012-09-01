@@ -147,8 +147,6 @@ describe(@"getAppWithName", ^ {
         expect(endpoint.calls).to.equal(expectedCalls);
     });
     
-    
-    
     it(@"should parse result", ^ {
         endpoint.results = @[
         @{
@@ -176,6 +174,67 @@ describe(@"getAppWithName", ^ {
         expect(app.state).to.equal(FoundryAppStateStarted);
         expect(app.memory).to.equal(2048);
         expect(app.disk).to.equal(4096);
+    });
+});
+
+
+describe(@"getStatsForAppWithName", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[service getStatsForAppWithName:@"name"] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/apps/name/stats",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    
+    it(@"should parse result", ^ {
+        endpoint.results = @[ @{
+        @"0" : @{
+            @"stats" : @{
+                @"host" : @"10.0.0.1",
+                @"port" : @3300,
+                @"uptime": @2300.1,
+                @"usage" : @{
+                    @"cpu" : @99.1,
+                    @"mem" : @2048.3,
+                    @"disk": @4096
+                }
+            }
+        }
+        }];
+        
+        __block NSArray *result;
+        
+        [[service getStatsForAppWithName:@"the name"] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(1);
+        
+        FoundryAppInstanceStats *stats = result[0];
+        
+        expect(stats.ID).to.equal(@"0");
+        expect(stats.host).to.equal(@"10.0.0.1");
+        expect(stats.port).to.equal(3300);
+        expect(stats.uptime).to.equal(2300.1);
+        expect(stats.cpu).to.equal(99.1);
+        expect(stats.memory).to.equal(2048.3);
+        expect(stats.disk).to.equal(4096);
     });
 });
 
