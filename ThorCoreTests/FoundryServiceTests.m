@@ -45,7 +45,6 @@
 
 @end
 
-
 SpecBegin(FoundryService)
 
 describe(@"getApps", ^ {
@@ -123,7 +122,6 @@ describe(@"getApps", ^ {
     });
 });
 
-
 describe(@"getAppWithName", ^ {
     
     __block MockEndpoint *endpoint;
@@ -166,7 +164,6 @@ describe(@"getAppWithName", ^ {
             app = (FoundryApp *)x;
         }];
         
-        
         expect(app.name).to.equal(@"the name");
         id uris = @[ @"uri", @"uri2" ];
         expect(app.uris).to.equal(uris);
@@ -176,7 +173,6 @@ describe(@"getAppWithName", ^ {
         expect(app.disk).to.equal(4096);
     });
 });
-
 
 describe(@"getStatsForAppWithName", ^ {
     
@@ -200,7 +196,6 @@ describe(@"getStatsForAppWithName", ^ {
         
         expect(endpoint.calls).to.equal(expectedCalls);
     });
-    
     
     it(@"should parse result", ^ {
         endpoint.results = @[ @{
