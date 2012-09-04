@@ -1,0 +1,4 @@
+
+@interface DeploymentPropertiesController : NSViewController
+
+@end

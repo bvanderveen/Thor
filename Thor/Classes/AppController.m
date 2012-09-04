@@ -35,7 +35,7 @@ static NSArray *deploymentColumns = nil;
     
     self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
-        NSLog(@"choose %@", [item displayName]);
+        [self displayDeploymentDialogWithTarget:(Target *)item];
     }];
     
     self.appView.drawerBar.drawerView = targetsController.view;
@@ -104,6 +104,10 @@ static NSArray *deploymentColumns = nil;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     self.appPropertiesController = nil;
     [sheet orderOut:self];
+}
+
+- (void)displayDeploymentDialogWithTarget:(Target *)target {
+    
 }
 
 @end

@@ -65,6 +65,9 @@
 		41EE94B915F13FB700A45951 /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41EE94E815F15EFE00A45951 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EE94E615F15EFC00A45951 /* libExpecta.a */; };
 		41EE94E915F15EFE00A45951 /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EE94E715F15EFD00A45951 /* libSpecta.a */; };
+		41EE94ED15F6936900A45951 /* DeploymentPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94EC15F6936900A45951 /* DeploymentPropertiesController.m */; };
+		41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94EF15F6937A00A45951 /* DeploymentPropertiesView.m */; };
+		41EE94F215F6939700A45951 /* DeploymentPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41EE94F115F6939700A45951 /* DeploymentPropertiesView.xib */; };
 		41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029A15AF592A00550870 /* Foundation.framework */; };
 		41F902A115AF592A00550870 /* ThorBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F902A015AF592A00550870 /* ThorBackend.m */; };
 		41F902A815AF592A00550870 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9764154908CC002CCF27 /* SenTestingKit.framework */; };
@@ -336,6 +339,11 @@
 		41EE94CC15F143B900A45951 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = specta/Specta.xcodeproj; sourceTree = "<group>"; };
 		41EE94E615F15EFC00A45951 /* libExpecta.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libExpecta.a; path = "../../Library/Developer/Xcode/DerivedData/Thor-atwtqicqmpmqtyexmgdlhsptxosy/Build/Products/Debug/libExpecta.a"; sourceTree = "<group>"; };
 		41EE94E715F15EFD00A45951 /* libSpecta.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSpecta.a; path = "../../Library/Developer/Xcode/DerivedData/Thor-atwtqicqmpmqtyexmgdlhsptxosy/Build/Products/Debug/libSpecta.a"; sourceTree = "<group>"; };
+		41EE94EB15F6936900A45951 /* DeploymentPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentPropertiesController.h; path = Classes/DeploymentPropertiesController.h; sourceTree = "<group>"; };
+		41EE94EC15F6936900A45951 /* DeploymentPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentPropertiesController.m; path = Classes/DeploymentPropertiesController.m; sourceTree = "<group>"; };
+		41EE94EE15F6937A00A45951 /* DeploymentPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentPropertiesView.h; path = Classes/DeploymentPropertiesView.h; sourceTree = "<group>"; };
+		41EE94EF15F6937A00A45951 /* DeploymentPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentPropertiesView.m; path = Classes/DeploymentPropertiesView.m; sourceTree = "<group>"; };
+		41EE94F115F6939700A45951 /* DeploymentPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeploymentPropertiesView.xib; path = Resources/DeploymentPropertiesView.xib; sourceTree = "<group>"; };
 		41F9029915AF592A00550870 /* libThorCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThorCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		41F9029A15AF592A00550870 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		41F9029E15AF592A00550870 /* ThorCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThorCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -646,6 +654,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		41EE94EA15F6931700A45951 /* Deployment Properties Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				41EE94F115F6939700A45951 /* DeploymentPropertiesView.xib */,
+				41EE94EE15F6937A00A45951 /* DeploymentPropertiesView.h */,
+				41EE94EF15F6937A00A45951 /* DeploymentPropertiesView.m */,
+				41EE94EB15F6936900A45951 /* DeploymentPropertiesController.h */,
+				41EE94EC15F6936900A45951 /* DeploymentPropertiesController.m */,
+			);
+			name = "Deployment Properties Dialog";
+			sourceTree = "<group>";
+		};
 		41F9029C15AF592A00550870 /* ThorCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +714,7 @@
 		41FA11BA15E431990079FD30 /* Deployments */ = {
 			isa = PBXGroup;
 			children = (
+				41EE94EA15F6931700A45951 /* Deployment Properties Dialog */,
 				41FA11C315E4334D0079FD30 /* DeploymentView.xib */,
 				41FA11BE15E431ED0079FD30 /* DeploymentView.h */,
 				41FA11BF15E431ED0079FD30 /* DeploymentView.m */,
@@ -752,8 +773,8 @@
 				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
-				413912F515E5D94D00DB464E /* Services */,
 				41FA11BA15E431990079FD30 /* Deployments */,
+				413912F515E5D94D00DB464E /* Services */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
@@ -1082,6 +1103,7 @@
 				413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */,
 				413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */,
 				41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */,
+				41EE94F215F6939700A45951 /* DeploymentPropertiesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1205,8 @@
 				41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */,
 				413912F815E5D98800DB464E /* ServicesController.m in Sources */,
 				410E277B15ED78D100636BBE /* DrawerBar.m in Sources */,
+				41EE94ED15F6936900A45951 /* DeploymentPropertiesController.m in Sources */,
+				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
