@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "ToolbarTabController.h"
+#import "DeploymentMemoryTransformer.h"
 
 @interface AppDelegate ()
 
@@ -10,6 +11,10 @@
 @implementation AppDelegate
 
 @synthesize toolbarTabController;
+
++ (void)initialize {
+    [NSValueTransformer setValueTransformer:[DeploymentMemoryTransformer new] forName:@"DeploymentMemoryTransformer"];
+}
 
 - (id)init {
     if (self = [super init]) {

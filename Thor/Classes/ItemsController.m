@@ -76,10 +76,7 @@
 - (void)addItemClicked {
     self.itemPropertiesController = [dataSource newItemPropertiesControllerForItemsController:self];
     
-    
-    NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.itemPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
-    
-    window.contentView = itemPropertiesController.view;
+    NSWindow *window = [SheetWindow sheetWindowWithView:itemPropertiesController.view];
     
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }

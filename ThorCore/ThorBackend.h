@@ -26,9 +26,19 @@
 
 @end
 
+typedef enum {
+    DeploymentMemoryAmount64 = 0,
+    DeploymentMemoryAmount128 = 1,
+    DeploymentMemoryAmount256 = 2,
+    DeploymentMemoryAmount512 = 3,
+    DeploymentMemoryAmount1024 = 4,
+    DeploymentMemoryAmount2048 = 5,
+} DeploymentMemoryAmount;
+
 @interface Deployment : NSObject
 
 @property (copy) NSString *displayName, *hostname, *appName;
+@property (assign) NSInteger memory, instances;
 
 @end
 

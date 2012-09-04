@@ -3,10 +3,16 @@
 #import "SheetWindow.h"
 #import "DeploymentController.h"
 #import "TargetItemsDataSource.h"
+#import "DeploymentPropertiesController.h"
+
+
+static NSInteger AppPropertiesControllerContext;
+static NSInteger DeploymentPropertiesControllerContext;
 
 @interface AppController ()
 
 @property (nonatomic, strong) AppPropertiesController *appPropertiesController;
+@property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) ItemsController *targetsController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 
@@ -20,7 +26,7 @@ static NSArray *deploymentColumns = nil;
     deploymentColumns = @[@"App name", @"Cloud name", @"Cloud hostname"];
 }
 
-@synthesize app, deployments, appPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
+@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -93,21 +99,27 @@ static NSArray *deploymentColumns = nil;
     self.appPropertiesController = [[AppPropertiesController alloc] init];
     appPropertiesController.editing = YES;
     appPropertiesController.app = app;
-    
-    NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = appPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
-    
-    window.contentView = appPropertiesController.view;
-    
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+
+    NSWindow *window = [SheetWindow sheetWindowWithView:appPropertiesController.view];
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&AppPropertiesControllerContext];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    self.appPropertiesController = nil;
+    if (contextInfo == &AppPropertiesControllerContext) {
+        self.appPropertiesController = nil;
+    }
+    else if (contextInfo == &DeploymentPropertiesControllerContext) {
+        self.deploymentPropertiesController = nil;
+    }
     [sheet orderOut:self];
 }
 
 - (void)displayDeploymentDialogWithTarget:(Target *)target {
+    self.deploymentPropertiesController = [DeploymentPropertiesController new];
+    deploymentPropertiesController.deployment = [Deployment new];
     
+    NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];    
 }
 
 @end

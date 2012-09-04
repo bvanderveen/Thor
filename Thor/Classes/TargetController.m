@@ -97,10 +97,7 @@ static NSArray *appColumns = nil;
     self.targetPropertiesController.editing = YES;
     self.targetPropertiesController.target = self.target;
     
-    NSWindow *window = [[SheetWindow alloc] initWithContentRect:(NSRect){ .origin = NSZeroPoint, .size = self.targetPropertiesController.view.intrinsicContentSize } styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
-    
-    window.contentView = targetPropertiesController.view;
-    
+    NSWindow *window = [SheetWindow sheetWindowWithView:targetPropertiesController.view];
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 

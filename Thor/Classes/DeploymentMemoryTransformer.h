@@ -1,0 +1,4 @@
+
+@interface DeploymentMemoryTransformer : NSValueTransformer
+
+@end
