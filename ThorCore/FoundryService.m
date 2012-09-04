@@ -35,7 +35,7 @@ static id (^JsonParser)(id) = ^ id (id data) {
 }
 
 // result is subscribable
-- (RACSubscribable *)getAuthenticatedRequestForPath:(NSString *)path {
+- (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     if (token)
         return [RACSubscribable return:[self requestWithMethod:@"GET" path:path headers:@{ @"AUTHORIZATION" : token } body:nil]];
     
@@ -46,7 +46,7 @@ static id (^JsonParser)(id) = ^ id (id data) {
 }
 
 - (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    return [[self getAuthenticatedRequestForPath:path] selectMany:^ id (id request) {
+    return [[self getAuthenticatedRequestWithMethod:method path:path headers:headers body:body] selectMany:^ id<RACSubscribable> (id request) {
         return request;
     }];
 }
