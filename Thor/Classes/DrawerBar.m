@@ -50,11 +50,6 @@
     return self;
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor blueColor] set];
-    NSRectFill(dirtyRect);
-}
-
 - (void)layout {
     if (self.subviews.count) {
         NSView *view = [self.subviews objectAtIndex:0];
