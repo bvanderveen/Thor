@@ -152,14 +152,77 @@ NSEntityDescription *getTargetEntity() {
     return entity;
 }
 
+NSEntityDescription *getDeploymentEntity(NSEntityDescription *appEntity, NSEntityDescription *targetEntity) {
+    static NSEntityDescription *entity = nil;
+    
+    if (!entity) {
+        entity = [NSEntityDescription new];
+        entity.name = @"Deployment";
+        entity.managedObjectClassName = @"Deployment";
+        
+        NSAttributeDescription *displayName = [NSAttributeDescription new];
+        displayName.name = @"displayName";
+        displayName.attributeType = NSStringAttributeType;
+        displayName.optional = YES; // TODO NO
+        
+        NSAttributeDescription *appName = [NSAttributeDescription new];
+        appName.name = @"appName";
+        appName.attributeType = NSStringAttributeType;
+        appName.optional = NO;
+        
+        NSRelationshipDescription *app = [NSRelationshipDescription new];
+        app.name = @"app";
+        app.destinationEntity = appEntity;
+        app.minCount = 1;
+        app.maxCount = 1;
+        app.deleteRule = NSNoActionDeleteRule;
+
+        NSRelationshipDescription *appInv = [NSRelationshipDescription new];
+        appInv.name = @"deployments";
+        appInv.destinationEntity = entity;
+        appInv.minCount = 0;
+        appInv.deleteRule = NSCascadeDeleteRule;
+
+        app.inverseRelationship = appInv;
+        appInv.inverseRelationship = app;
+        
+        appEntity.properties = [appEntity.properties arrayByAddingObject:appInv];
+        
+        NSRelationshipDescription *target = [NSRelationshipDescription new];
+        target.name = @"target";
+        target.destinationEntity = targetEntity;
+        target.minCount = 1;
+        target.maxCount = 1;
+        target.deleteRule = NSNoActionDeleteRule;
+        
+        NSRelationshipDescription *targetInv = [NSRelationshipDescription new];
+        targetInv.name = @"deployments";
+        targetInv.destinationEntity = entity;
+        targetInv.minCount = 0;
+        targetInv.deleteRule = NSCascadeDeleteRule;
+        
+        target.inverseRelationship = targetInv;
+        targetInv.inverseRelationship = target;
+        
+        targetEntity.properties = [targetEntity.properties arrayByAddingObject:targetInv];
+        
+        entity.properties = @[displayName, appName, app, target];
+    }
+    
+    return entity;
+}
+
 NSManagedObjectModel *getManagedObjectModel() {
     static NSManagedObjectModel *model = nil;
     
     if (!model) {
+        
+        NSEntityDescription *appEntity = getAppEntity();
+        NSEntityDescription *targetEntity = getTargetEntity();
+        NSEntityDescription *deploymentEntity = getDeploymentEntity(appEntity, targetEntity);
+        
         model = [[NSManagedObjectModel alloc] init];
-        model.entities = @[
-                        getAppEntity(),
-                        getTargetEntity()];
+        model.entities = @[appEntity, targetEntity, deploymentEntity];
     }
     
     return model;
@@ -298,7 +361,20 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @implementation Deployment
 
-@synthesize displayName, hostname, appName;
+@dynamic displayName, target, app, appName;
+@synthesize memory, instances;
+
++ (NSFetchRequest *)fetchRequest {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.entity = getDeploymentEntity(getAppEntity(), getTargetEntity());
+    return request;
+}
+
+
++ (Deployment *)deploymentInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
+    return (Deployment *)[[NSManagedObject alloc] initWithEntity:[getManagedObjectModel() entitiesByName][@"Deployment"] insertIntoManagedObjectContext:context];
+}
+
 
 @end
 
@@ -334,17 +410,10 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 }
 
 - (NSArray *)getDeploymentsForApp:(App *)app error:(NSError **)error {
-    Deployment *d0 = [Deployment new];
-    d0.displayName = @"Cloud 1 Foo";
-    d0.appName = @"foo1";
-    d0.hostname = @"api.cloud1.com";
-    
-    Deployment *d1 = [Deployment new];
-    d1.displayName = @"Cloud 2 Foo";
-    d1.appName = @"foo2";
-    d1.hostname = @"api.cloud2.com";
-    
-    return @[d0, d1, d0, d1, d0, d1, d0, d1, d0, d1];
+    NSFetchRequest *request = [Deployment fetchRequest];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
+    request.predicate = [NSPredicate predicateWithFormat:@"app == %@", app];
+    return [self.context executeFetchRequest:request error:error];
 }
 
 - (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {

@@ -35,18 +35,19 @@ static NSArray *deploymentColumns = nil;
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)updateDeployments {
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
-    
+    [self.appView.appContentView.deploymentsGrid reloadData];
+}
+
+- (void)awakeFromNib {
+    [self updateDeployments];
     self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
         [self displayDeploymentDialogWithTarget:(Target *)item];
     }];
-    
     self.appView.drawerBar.drawerView = targetsController.view;
-    
-    [self.appView.appContentView.deploymentsGrid reloadData];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -72,9 +73,9 @@ static NSArray *deploymentColumns = nil;
         case 0:
             return deployment.appName;
         case 1:
-            return deployment.hostname;
+            return deployment.target.displayName;
         case 2:
-            return deployment.hostname;
+            return deployment.target.hostname;
     }
     
     BOOL columnIndexIsValid = NO;
@@ -110,13 +111,20 @@ static NSArray *deploymentColumns = nil;
     }
     else if (contextInfo == &DeploymentPropertiesControllerContext) {
         self.deploymentPropertiesController = nil;
+        // TODO hide drawer
+        [self updateDeployments];
     }
     [sheet orderOut:self];
 }
 
 - (void)displayDeploymentDialogWithTarget:(Target *)target {
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+    deployment.app = app;
+    deployment.target = target;
+    
     self.deploymentPropertiesController = [DeploymentPropertiesController new];
-    deploymentPropertiesController.deployment = [Deployment new];
+    deploymentPropertiesController.deployment = deployment;
     
     NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];    

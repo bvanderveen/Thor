@@ -35,10 +35,15 @@ typedef enum {
     DeploymentMemoryAmount2048 = 5,
 } DeploymentMemoryAmount;
 
-@interface Deployment : NSObject
+@interface Deployment : NSManagedObject
 
-@property (copy) NSString *displayName, *hostname, *appName;
+@property (strong) Target *target;
+@property (strong) App *app;
+@property (copy) NSString *displayName, *appName;
 @property (assign) NSInteger memory, instances;
+
++ (NSFetchRequest *)fetchRequest;
++ (Deployment *)deploymentInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
 

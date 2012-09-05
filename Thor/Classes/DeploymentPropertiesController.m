@@ -11,7 +11,7 @@
 }
 
 - (void)buttonClicked:(NSButton *)button {
-    if (button == deploymentProperties6View.confirmButton) {
+    if (button == deploymentPropertiesView.confirmButton) {
         NSError *error = nil;
         [objectController commitEditing];
         if (![[ThorBackend sharedContext] save:&error]) {
