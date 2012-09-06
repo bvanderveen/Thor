@@ -22,6 +22,8 @@
 		413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413912F915E5DA1E00DB464E /* ServicesView.xib */; };
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
+		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
+		413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -276,6 +278,10 @@
 		413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServicesToolbarIcon.png; path = Resources/ServicesToolbarIcon.png; sourceTree = "<group>"; };
 		413C2DE415F6B0B600C80B4C /* DeploymentMemoryTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentMemoryTransformer.h; path = Classes/DeploymentMemoryTransformer.h; sourceTree = "<group>"; };
 		413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentMemoryTransformer.m; path = Classes/DeploymentMemoryTransformer.m; sourceTree = "<group>"; };
+		413C2DE715F9282A00C80B4C /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Classes/LoadingView.h; sourceTree = "<group>"; };
+		413C2DE815F9282A00C80B4C /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Classes/LoadingView.m; sourceTree = "<group>"; };
+		413C2E1715F96C3800C80B4C /* RACSubscribable+ShowLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSubscribable+ShowLoadingView.h"; path = "Classes/RACSubscribable+ShowLoadingView.h"; sourceTree = "<group>"; };
+		413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSubscribable+ShowLoadingView.m"; path = "Classes/RACSubscribable+ShowLoadingView.m"; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -521,6 +527,8 @@
 				41FA11DA15E436570079FD30 /* BoxGroupView.m */,
 				410E277915ED78D100636BBE /* DrawerBar.h */,
 				410E277A15ED78D100636BBE /* DrawerBar.m */,
+				413C2DE715F9282A00C80B4C /* LoadingView.h */,
+				413C2DE815F9282A00C80B4C /* LoadingView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -628,6 +636,8 @@
 			children = (
 				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
 				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
+				413C2E1715F96C3800C80B4C /* RACSubscribable+ShowLoadingView.h */,
+				413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1221,6 +1231,8 @@
 				41EE94ED15F6936900A45951 /* DeploymentPropertiesController.m in Sources */,
 				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
+				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
+				413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
