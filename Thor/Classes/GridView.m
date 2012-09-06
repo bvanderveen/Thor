@@ -125,6 +125,7 @@
 - (NSView *)viewForCellAtRow:(NSUInteger)row column:(NSUInteger)column {
     NSString *title = [dataSource gridView:self titleForRow:row column:column];
     NSTextField *label = [Label label];
+    ((NSTextFieldCell *)label.cell).lineBreakMode = NSLineBreakByTruncatingTail;
     label.translatesAutoresizingMaskIntoConstraints = YES;
     //label.backgroundColor = [NSColor redColor];
     label.font = [NSFont boldSystemFontOfSize:12];
