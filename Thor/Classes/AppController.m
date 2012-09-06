@@ -123,6 +123,7 @@ static NSArray *deploymentColumns = nil;
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
     deployment.app = app;
     deployment.target = target;
+    deployment.instances = 1;
     
     self.deploymentPropertiesController = [DeploymentPropertiesController new];
     deploymentPropertiesController.deployment = deployment;
