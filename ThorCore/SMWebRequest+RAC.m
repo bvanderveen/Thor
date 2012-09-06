@@ -69,6 +69,7 @@
 - (void)webRequest:(SMWebRequest *)webRequest didCompleteWithResult:(id)result context:(id)context {
     [self cancel];
     [subscriber sendNext:result];
+    [subscriber sendCompleted];
 }
 
 - (void)webRequest:(SMWebRequest *)webRequest didFailWithError:(NSError *)error context:(id)context {
