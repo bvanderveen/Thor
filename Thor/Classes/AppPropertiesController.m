@@ -17,8 +17,8 @@
 
 - (void)buttonClicked:(NSButton *)button {
     if (button == appPropertiesView.confirmButton) {
-        NSError *error = nil;
         [objectController commitEditing];
+        NSError *error = nil;
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];
             NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
