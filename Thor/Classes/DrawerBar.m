@@ -69,7 +69,18 @@
 
 @implementation DrawerBar
 
-@synthesize expanded, bar, drawerView, contentView, drawerContainer;
+@synthesize expanded = _expanded, bar, drawerView, contentView, drawerContainer;
+
+- (void)setExpanded:(BOOL)value {
+    _expanded = value;
+    if (_expanded) {
+        [drawerContainer addSubview:drawerView];
+    }
+    else
+        [drawerView removeFromSuperview];
+    self.needsLayout = YES;
+    [self layoutSubtreeIfNeeded];
+}
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -91,7 +102,7 @@
     NSSize barSize = [bar intrinsicContentSize];
     NSSize drawerSize = NSMakeSize(NSViewNoInstrinsicMetric, 250);
     
-    if (expanded) {
+    if (self.expanded) {
         self.contentView.frame = NSMakeRect(0, barSize.height + drawerSize.height, self.bounds.size.width, self.bounds.size.height - barSize.height - drawerSize.height);
         self.drawerContainer.frame = NSMakeRect(0, barSize.height, self.bounds.size.width, drawerSize.height);
     }
@@ -105,14 +116,7 @@
 }
 
 - (void)toggleDrawer {
-    self.expanded = !expanded;
-    if (expanded) {
-        [drawerContainer addSubview:drawerView];
-    }
-    else
-        [drawerView removeFromSuperview];
-    self.needsLayout = YES;
-    [self layoutSubtreeIfNeeded];
+    self.expanded = !self.expanded;
 }
 
 @end

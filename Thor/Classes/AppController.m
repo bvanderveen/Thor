@@ -38,7 +38,8 @@ static NSArray *deploymentColumns = nil;
 - (void)updateDeployments {
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
-    [self.appView.appContentView.deploymentsGrid reloadData];
+    [appView.appContentView.deploymentsGrid reloadData];
+    appView.appContentView.needsLayout = YES;
 }
 
 - (void)awakeFromNib {
@@ -111,7 +112,7 @@ static NSArray *deploymentColumns = nil;
     }
     else if (contextInfo == &DeploymentPropertiesControllerContext) {
         self.deploymentPropertiesController = nil;
-        // TODO hide drawer
+        self.appView.drawerBar.expanded = NO;
         [self updateDeployments];
     }
     [sheet orderOut:self];

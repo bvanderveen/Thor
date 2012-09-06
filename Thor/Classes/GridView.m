@@ -108,7 +108,7 @@
     
     self.gridRows = newGridRows;
     [gridRows makeObjectsPerformSelector:@selector(setGridView:) withObject:self];
-    [self setNeedsLayout:YES];
+    self.needsLayout = YES;
 }
 
 - (NSView *)headerViewForColumn:(NSUInteger)column {
