@@ -5,7 +5,7 @@
 @synthesize confirmButton, contentView;
 
 - (NSSize)intrinsicContentSize {
-    return NSMakeSize(480, 225);
+    return NSMakeSize(480, 279);
 }
 
 @end

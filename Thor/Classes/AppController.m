@@ -23,7 +23,7 @@ static NSArray *deploymentColumns = nil;
 @implementation AppController
 
 + (void)initialize {
-    deploymentColumns = @[@"App name", @"Cloud name", @"Cloud hostname"];
+    deploymentColumns = @[@"Title", @"App name", @"Cloud name", @"Cloud hostname"];
 }
 
 @synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
@@ -72,10 +72,12 @@ static NSArray *deploymentColumns = nil;
     
     switch (columnIndex) {
         case 0:
-            return deployment.appName;
+            return deployment.displayName;
         case 1:
-            return deployment.target.displayName;
+            return deployment.appName;
         case 2:
+            return deployment.target.displayName;
+        case 3:
             return deployment.target.hostname;
     }
     
