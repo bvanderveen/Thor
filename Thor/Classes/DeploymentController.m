@@ -1,5 +1,6 @@
 #import "DeploymentController.h"
 #import "NSObject+AssociateDisposable.h"
+#import "RACSubscribable+ShowLoadingView.h"
 
 @implementation DeploymentInfo
 
@@ -39,7 +40,9 @@ static NSArray *instanceColumns = nil;
         [service getStatsForAppWithName:deploymentInfo.appName],
         [service getAppWithName:deploymentInfo.appName]];
     
-    self.associatedDisposable = [[RACSubscribable combineLatest:subscribables] subscribeNext:^ (id x) {
+    RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
+    
+    self.associatedDisposable = [call subscribeNext:^ (id x) {
         RACTuple *tuple = (RACTuple *)x;
         self.instanceStats = tuple.first;
         self.app = tuple.second;
