@@ -24,6 +24,9 @@
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
 		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
 		413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */; };
+		413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 413C2E20160006D600C80B4C /* libcommonCrypto.dylib */; };
+		413C2E24160009CD00C80B4C /* SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E22160009CC00C80B4C /* SHA1.h */; };
+		413C2E25160009CD00C80B4C /* SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E23160009CC00C80B4C /* SHA1.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -282,6 +285,9 @@
 		413C2DE815F9282A00C80B4C /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Classes/LoadingView.m; sourceTree = "<group>"; };
 		413C2E1715F96C3800C80B4C /* RACSubscribable+ShowLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSubscribable+ShowLoadingView.h"; path = "Classes/RACSubscribable+ShowLoadingView.h"; sourceTree = "<group>"; };
 		413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSubscribable+ShowLoadingView.m"; path = "Classes/RACSubscribable+ShowLoadingView.m"; sourceTree = "<group>"; };
+		413C2E20160006D600C80B4C /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
+		413C2E22160009CC00C80B4C /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
+		413C2E23160009CC00C80B4C /* SHA1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1.m; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -403,6 +409,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */,
 				416567A715DAE3B100EF93DF /* SBJson.framework in Frameworks */,
 				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
 			);
@@ -700,6 +707,8 @@
 				41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
+				413C2E22160009CC00C80B4C /* SHA1.h */,
+				413C2E23160009CC00C80B4C /* SHA1.m */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -776,6 +785,7 @@
 		F32F9742154908CB002CCF27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				413C2E20160006D600C80B4C /* libcommonCrypto.dylib */,
 				41EE94E615F15EFC00A45951 /* libExpecta.a */,
 				41EE94E715F15EFD00A45951 /* libSpecta.a */,
 				4131290915B61264005F6D54 /* CoreData.framework */,
@@ -852,6 +862,7 @@
 				413912F315E5D0A900DB464E /* FoundryService.h in Headers */,
 				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
 				41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */,
+				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,6 +1192,7 @@
 				413912F415E5D0A900DB464E /* FoundryService.m in Sources */,
 				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
 				41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */,
+				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1344,6 +1356,10 @@
 					ReactiveCocoa/ReactiveCocoaFramework,
 					expecta/products,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1366,6 +1382,10 @@
 					"json-framework/Classes",
 					ReactiveCocoa/ReactiveCocoaFramework,
 					expecta/products,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
