@@ -91,4 +91,16 @@
     return result;
 }
 
+- (NSArray *)concat:(NSArray *)other {
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:self.count + other.count];
+    
+    for (id obj in self)
+        [result addObject:obj];
+    
+    for (id obj in other)
+        [result addObject:obj];
+    
+    return result;
+}
+
 @end

@@ -11,6 +11,6 @@
 - (NSArray *)take:(NSInteger)howMany;
 - (NSArray *)skipWhile:(BOOL(^)(id))predicate;
 - (NSArray *)takeWhile:(BOOL(^)(id))predicate;
-
+- (NSArray *)concat:(NSArray *)array;
 
 @end
