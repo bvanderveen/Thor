@@ -233,35 +233,50 @@ describe(@"getStatsForAppWithName", ^ {
     });
 });
 
-describe(@"CreateSlugFromPath", ^ {
-    NSArray *root = @[NSTemporaryDirectory(), @"TestZipDir"];
-    NSString *rootPath = [NSString pathWithComponents:root];
-    
-    beforeEach(^{
-        void(^createFile)(NSArray *, NSString *) = ^ (NSArray *pathComponents, NSString *contents) {
-            
-            NSString *directory = [NSString pathWithComponents:[[root concat:pathComponents] take:root.count + pathComponents.count - 1]];
-            NSError *error = nil;
-            [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
-            
-            if (error) {
-                NSLog(@"error: %@", [error localizedDescription]);
-                assert(NO);
-            }
-            
-            NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
-            
-            [[NSFileManager defaultManager] createFileAtPath:path contents:[contents dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
-        };
+NSArray *root = @[NSTemporaryDirectory(), @"TestZipDir"];
+NSString *rootPath = [NSString pathWithComponents:root];
+NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+
+NSSet *(^createFiles)(NSArray *) = ^ (NSArray *files) {
+    NSSet *created = [NSSet set];
+    for (NSArray *f in files) {
+        NSArray *pathComponents = f[0];
+        NSString *contents = f[1];
         
-        createFile(@[@"foo"], @"this is /foo");
-        createFile(@[@"bar"], @"this is /bar");
-        createFile(@[@"subdir1", @"foo1"], @"this is /subdir1/foo1");
-        createFile(@[@"subdir1", @"bar1"], @"this is /subdir1/bar1");
-        createFile(@[@"subdir2", @"foo2"], @"this is /subdir2/foo2");
-        createFile(@[@"subdir2", @"bar2"], @"this is /subdir2/bar2");
-        createFile(@[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3");
-        createFile(@[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3");
+        NSString *directory = [NSString pathWithComponents:[[root concat:pathComponents] take:root.count + pathComponents.count - 1]];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+        
+        if (error) {
+            NSLog(@"error: %@", [error localizedDescription]);
+            assert(NO);
+        }
+        
+        NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
+        
+        created = [created setByAddingObject:@{
+            @"name" : [NSString stringWithFormat:@"/%@", [NSString pathWithComponents:pathComponents]],
+            @"contents": contents
+        }];
+        
+        [[NSFileManager defaultManager] createFileAtPath:path contents:[contents dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+    }
+    return created;
+};
+
+
+describe(@"CreateSlugManifestFromPath", ^ {
+    beforeEach(^{
+        createFiles(@[
+                    @[ @[@"foo"], @"this is /foo" ],
+                    @[ @[@"bar"], @"this is /bar" ],
+                    @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
+                    @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
+                    @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
+                    @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
+                    @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
+                    @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
+                    ]);
     });
     
     afterEach(^{
@@ -270,9 +285,9 @@ describe(@"CreateSlugFromPath", ^ {
     });
 
     it(@"should list files recursively", ^{
-        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
         
-        NSArray *filenames = [slug.resources map:^id(id r) {
+        NSArray *filenames = [manifest map:^id(id r) {
             return [r objectForKey:@"fn"];
         }];
         
@@ -288,10 +303,9 @@ describe(@"CreateSlugFromPath", ^ {
     });
     
     it(@"should provide file sizes", ^ {
-        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
         
-        
-        NSMutableDictionary *nameToSizeDict = [slug.resources reduce:^id(id acc, id i) {
+        NSMutableDictionary *nameToSizeDict = [manifest reduce:^id(id acc, id i) {
             ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"size"];
             return acc;
         } seed:[NSMutableDictionary dictionary]];
@@ -302,10 +316,9 @@ describe(@"CreateSlugFromPath", ^ {
     });
     
     it(@"should calculate SHA1 digests", ^ {
-        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
         
-        
-        NSMutableDictionary *nameToHashDict = [slug.resources reduce:^id(id acc, id i) {
+        NSMutableDictionary *nameToHashDict = [manifest reduce:^id(id acc, id i) {
             ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"sha1"];
             return acc;
         } seed:[NSMutableDictionary dictionary]];
@@ -314,9 +327,79 @@ describe(@"CreateSlugFromPath", ^ {
         expect(nameToHashDict[@"/subdir1/foo1"]).to.equal(@"1411e4e16e797bd23075cf9b4fc0611ea64402f2");
         expect(nameToHashDict[@"/subdir2/subdir3/bar3"]).to.equal(@"84fb57be8728b638cfa2b100fc6b8f82dc807e62");
     });
+});
+
+void (^extractSlug)(NSURL *, NSURL *) = ^(NSURL *slug, NSURL *path) {
+    NSTask *task = [NSTask new];
+    task.launchPath = @"/usr/bin/unzip";
+    task.arguments = @[slug.path, @"-d", path.path];
+    [task launch];
+    [task waitUntilExit];
     
-    it(@"should generate zip file containing listed files", ^ {
+    
+    NSError *error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
+};
+
+NSSet *(^filesUnderRoot)(NSURL *) = ^ NSSet * (NSURL *root) {
+    NSSet *result = [NSSet set];
+    root = [root URLByResolvingSymlinksInPath];
+    id i = nil;
+    for (id u in [[NSFileManager defaultManager] enumeratorAtURL:root includingPropertiesForKeys:nil options:0 errorHandler:nil]) {
+        NSURL *url = [u URLByResolvingSymlinksInPath];
         
+        NSError *error = nil;
+        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:&error];
+        
+        if (error)
+            NSLog(@"Error: %@", [error localizedDescription]);
+        
+        if ([attributes[NSFileType] isEqual:NSFileTypeDirectory])
+            continue;
+        
+        result = [result setByAddingObject:@{
+            @"name": [url.path stringByReplacingOccurrencesOfString:root.path withString:@""],
+            @"contents" : [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil]
+         }];
+    }
+    
+    NSError *error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:root.path error:&error];
+    return result;
+};
+
+describe(@"CreateSlugFromManifest", ^{
+    __block NSSet *createdFiles;
+    
+    beforeEach(^{
+        createdFiles = createFiles(@[
+                    @[ @[@"foo"], @"this is /foo" ],
+                    @[ @[@"bar"], @"this is /bar" ],
+                    @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
+                    @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
+                    @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
+                    @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
+                    @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
+                    @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
+                    ]);
+    });
+    
+    afterEach(^{
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+    });
+    
+    it(@"should contain all of the files", ^{
+        NSArray *extractionRoot = @[NSTemporaryDirectory(), @"TestZipDirExtracted"];
+        NSURL *extractionRootPath = [NSURL fileURLWithPath:[NSString pathWithComponents:extractionRoot]];
+        
+        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
+        NSURL *slug = CreateSlugFromManifest(manifest, rootURL);
+        
+        extractSlug(slug, extractionRootPath);
+        NSSet *files = filesUnderRoot(extractionRootPath);
+        
+        expect(files).to.equal(createdFiles);
     });
 });
 

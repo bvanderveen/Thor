@@ -153,7 +153,7 @@ NSString *AppStateStringFromState(FoundryAppState state) {
 
 @implementation FoundrySlug
 
-@synthesize zipFile, resources;
+@synthesize zipFile, manifiest;
 
 @end
 
@@ -187,25 +187,38 @@ NSArray *GetItemsOnPath(NSURL *path) {
     id i = nil;
     for (id u in [[NSFileManager defaultManager] enumeratorAtURL:path includingPropertiesForKeys:nil options:0 errorHandler:nil]) {
         NSURL *url = [u URLByResolvingSymlinksInPath];
-        
         [result addObject:url];
     }
     
     return result;
 }
 
-FoundrySlug *CreateSlugFromPath(NSURL *path) {
-    FoundrySlug *result = [FoundrySlug new];
-    result.resources = [[GetItemsOnPath(path) filter:^BOOL(id url) {
+NSArray *CreateSlugManifestFromPath(NSURL *path) {
+    return [[GetItemsOnPath(path) filter:^BOOL(id url) {
         return !URLIsDirectory(url);
-    }]  map:^ id (id f) {
+    }] map:^ id (id f) {
         return @{
         @"fn" : StripBasePath(path, f),
         @"size": SizeOfFile(f),
         @"sha1": CalculateSHA1OfFileAtPath(f)
         };
     }];
-    return result;
+}
+
+NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
+    NSURL *path = [NSURL fileURLWithPath:[NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]]];
+    
+    NSTask *task = [NSTask new];
+    task.launchPath = @"/usr/bin/zip";
+    task.currentDirectoryPath = basePath.path;
+    task.arguments = [@[path.path] concat:[manifest map:^id(id f) {
+        return [f[@"fn"] substringWithRange:NSMakeRange(1, [f[@"fn"] length] - 1)];
+    }]];
+    
+    [task launch];
+    
+    [task waitUntilExit];
+    return path;
 }
 
 @interface FoundryService ()

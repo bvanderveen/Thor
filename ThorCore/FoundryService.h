@@ -43,14 +43,18 @@ typedef enum {
 @interface FoundrySlug : NSObject
 
 @property (nonatomic, strong) NSURL *zipFile;
-@property (nonatomic, copy) NSArray *resources;
+@property (nonatomic, copy) NSArray *manifiest;
 
 @end
 
 // this is a potentially long-running operation that involves
 // recursively traversing the file system and generating
 // checksums
-FoundrySlug *CreateSlugFromPath(NSURL *path);
+NSArray *CreateSlugManifestFromPath(NSURL *rootURL);
+
+// this is a potentially long-running operation that creates
+// a zip archive on disk containing all the files in the manifest
+NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *rootURL);
 
 @protocol FoundryService <NSObject>
 
