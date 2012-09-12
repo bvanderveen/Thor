@@ -2,7 +2,7 @@
 #import "SMWebRequest+RAC.h"
 #import "NSObject+JSONDataRepresentation.h"
 #import "SBJson.h"
-
+#import "SHA1.h"
 
 static id (^JsonParser)(id) = ^ id (id data) {
     return [((NSData *)data) JSONValue];
@@ -53,18 +53,37 @@ static id (^JsonParser)(id) = ^ id (id data) {
 
 @end
 
-@implementation FoundryApp
-
-@synthesize name, uris, instances, memory, disk, state;
-
 static NSDictionary *stateDict = nil;
 
-+ (void)initialize {
-    stateDict = @{
-        @"STARTED" : [NSNumber numberWithInt:FoundryAppStateStarted],
-        @"STOPPED" : [NSNumber numberWithInt:FoundryAppStateStopped]
-    };
+FoundryAppState AppStateFromString(NSString *stateString) {
+     if (!stateDict)
+         stateDict = @{
+            @"STARTED" : [NSNumber numberWithInt:FoundryAppStateStarted],
+            @"STOPPED" : [NSNumber numberWithInt:FoundryAppStateStopped]
+        };
+    
+    if (![stateDict.allKeys containsObject:stateString]) {
+        NSLog(@"Got previously unknown app state '%@'", stateString);
+        return FoundryAppStateUnknown;
+    }
+    else
+        return [stateDict[stateString] intValue];
 }
+
+NSString *AppStateStringFromState(FoundryAppState state) {
+    switch (state) {
+        case FoundryAppStateStarted:
+            return @"STARTED";
+        case FoundryAppStateStopped:
+            return @"STOPPED";
+        default:
+            return @"???";
+    }
+}
+
+@implementation FoundryApp
+
+@synthesize name, stagingModel, stagingStack, uris, services, instances, memory, disk, state;
 
 + (FoundryApp *)appWithDictionary:(NSDictionary *)appDict {
     FoundryApp *app = [FoundryApp new];
@@ -75,19 +94,35 @@ static NSDictionary *stateDict = nil;
 
     NSString *state = appDict[@"state"];
     
-    NSLog(@"Got app state '%@'", state);
-    if (![stateDict.allKeys containsObject:state]) {
-        NSLog(@"Got previously unknown app state '%@'", state);
-        app.state = FoundryAppStateUnknown;
-    }
-    else
-    app.state = [stateDict[state] intValue];
+    app.state = AppStateFromString(state);
 
     NSDictionary *resources = appDict[@"resources"];
     app.memory = [resources[@"memory"] intValue];
     app.disk = [resources[@"disk"] intValue];
 
     return app;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+    return @{
+        @"name" : name,
+        @"staging" : @{
+            @"model" : stagingModel,
+            @"stack" : stagingStack,
+        },
+        @"uris" : uris,
+        @"instances" : [NSNumber numberWithInteger:instances],
+        @"resources" : @{
+            @"memory" : [NSNumber numberWithInteger:memory],
+            @"disk" : [NSNumber numberWithInteger:disk]
+        },
+        @"state" : AppStateStringFromState(state),
+        @"services" : services,
+        @"env" : @[],
+        @"meta" : @{
+            @"debug" : @NO
+        }
+    };
 }
 
 @end
@@ -115,6 +150,63 @@ static NSDictionary *stateDict = nil;
 }
 
 @end
+
+@implementation FoundrySlug
+
+@synthesize zipFile, resources;
+
+@end
+
+BOOL URLIsDirectory(NSURL *url) {
+    NSError *error = nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:&error];
+    
+    if (error)
+        NSLog(@"Error: %@", [error localizedDescription]);
+    
+    return [attributes[NSFileType] isEqual:NSFileTypeDirectory];
+}
+
+NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
+    return [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
+}
+
+NSNumber *SizeOfFile(NSURL *url) {
+    NSError *error = nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:&error];
+    
+    if (error)
+        NSLog(@"Error: %@", [error localizedDescription]);
+    
+    return attributes[NSFileSize];
+}
+
+NSArray *GetItemsOnPath(NSURL *path) {
+    NSMutableArray *result = [NSMutableArray array];
+    path = [path URLByResolvingSymlinksInPath];
+    id i = nil;
+    for (id u in [[NSFileManager defaultManager] enumeratorAtURL:path includingPropertiesForKeys:nil options:0 errorHandler:nil]) {
+        NSURL *url = [u URLByResolvingSymlinksInPath];
+        
+        [result addObject:url];
+    }
+    
+    return result;
+}
+
+FoundrySlug *CreateSlugFromPath(NSURL *path) {
+    FoundrySlug *result = [FoundrySlug new];
+    result.resources = [[GetItemsOnPath(path) filter:^BOOL(id url) {
+        return !URLIsDirectory(url);
+    }]  map:^ id (id f) {
+        return @{
+        @"fn" : StripBasePath(path, f),
+        @"size": SizeOfFile(f),
+        @"sha1": CalculateSHA1OfFileAtPath(f)
+        };
+    }];
+    return result;
+}
 
 @interface FoundryService ()
 

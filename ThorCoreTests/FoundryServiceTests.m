@@ -233,4 +233,91 @@ describe(@"getStatsForAppWithName", ^ {
     });
 });
 
+describe(@"CreateSlugFromPath", ^ {
+    NSArray *root = @[NSTemporaryDirectory(), @"TestZipDir"];
+    NSString *rootPath = [NSString pathWithComponents:root];
+    
+    beforeEach(^{
+        void(^createFile)(NSArray *, NSString *) = ^ (NSArray *pathComponents, NSString *contents) {
+            
+            NSString *directory = [NSString pathWithComponents:[[root concat:pathComponents] take:root.count + pathComponents.count - 1]];
+            NSError *error = nil;
+            [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+            
+            if (error) {
+                NSLog(@"error: %@", [error localizedDescription]);
+                assert(NO);
+            }
+            
+            NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
+            
+            [[NSFileManager defaultManager] createFileAtPath:path contents:[contents dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+        };
+        
+        createFile(@[@"foo"], @"this is /foo");
+        createFile(@[@"bar"], @"this is /bar");
+        createFile(@[@"subdir1", @"foo1"], @"this is /subdir1/foo1");
+        createFile(@[@"subdir1", @"bar1"], @"this is /subdir1/bar1");
+        createFile(@[@"subdir2", @"foo2"], @"this is /subdir2/foo2");
+        createFile(@[@"subdir2", @"bar2"], @"this is /subdir2/bar2");
+        createFile(@[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3");
+        createFile(@[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3");
+    });
+    
+    afterEach(^{
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+    });
+
+    it(@"should list files recursively", ^{
+        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        
+        NSArray *filenames = [slug.resources map:^id(id r) {
+            return [r objectForKey:@"fn"];
+        }];
+        
+        expect(filenames.count).to.equal(8);
+        expect(filenames).to.contain(@"/foo");
+        expect(filenames).to.contain(@"/bar");
+        expect(filenames).to.contain(@"/subdir1/foo1");
+        expect(filenames).to.contain(@"/subdir1/bar1");
+        expect(filenames).to.contain(@"/subdir2/foo2");
+        expect(filenames).to.contain(@"/subdir2/bar2");
+        expect(filenames).to.contain(@"/subdir2/subdir3/foo3");
+        expect(filenames).to.contain(@"/subdir2/subdir3/bar3");
+    });
+    
+    it(@"should provide file sizes", ^ {
+        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        
+        
+        NSMutableDictionary *nameToSizeDict = [slug.resources reduce:^id(id acc, id i) {
+            ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"size"];
+            return acc;
+        } seed:[NSMutableDictionary dictionary]];
+        
+        expect(nameToSizeDict[@"/foo"]).to.equal(@"this is /foo".length);
+        expect(nameToSizeDict[@"/subdir1/foo1"]).to.equal(@"this is /subdir1/foo1".length);
+        expect(nameToSizeDict[@"/subdir2/subdir3/bar3"]).to.equal(@"this is /subdir2/subdir3/bar3".length);
+    });
+    
+    it(@"should calculate SHA1 digests", ^ {
+        FoundrySlug *slug = CreateSlugFromPath([NSURL fileURLWithPath:rootPath]);
+        
+        
+        NSMutableDictionary *nameToHashDict = [slug.resources reduce:^id(id acc, id i) {
+            ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"sha1"];
+            return acc;
+        } seed:[NSMutableDictionary dictionary]];
+        
+        expect(nameToHashDict[@"/foo"]).to.equal(@"02d93cc62a7f63b4e4bead55fff95176251d7cc7");
+        expect(nameToHashDict[@"/subdir1/foo1"]).to.equal(@"1411e4e16e797bd23075cf9b4fc0611ea64402f2");
+        expect(nameToHashDict[@"/subdir2/subdir3/bar3"]).to.equal(@"84fb57be8728b638cfa2b100fc6b8f82dc807e62");
+    });
+    
+    it(@"should generate zip file containing listed files", ^ {
+        
+    });
+});
+
 SpecEnd
