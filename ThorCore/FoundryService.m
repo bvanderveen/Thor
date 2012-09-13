@@ -1,4 +1,5 @@
 #import "FoundryService.h"
+#import "Sequence.h"
 #import "SMWebRequest+RAC.h"
 #import "NSObject+JSONDataRepresentation.h"
 #import "SBJson.h"
@@ -36,12 +37,17 @@ static id (^JsonParser)(id) = ^ id (id data) {
 
 // result is subscribable
 - (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+    
+    NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
+    
+    h[@"AUTHORIZATION"] = token;
+    
     if (token)
-        return [RACSubscribable return:[self requestWithMethod:@"GET" path:path headers:@{ @"AUTHORIZATION" : token } body:nil]];
+        return [RACSubscribable return:[self requestWithMethod:method path:path headers:h body:body]];
     
     return [[self getToken] select:^ id (id t) {
         self.token = t;
-        return [self requestWithMethod:@"GET" path:path headers:@{ @"AUTHORIZATION" : token } body:nil];
+        return [self requestWithMethod:method path:path headers:h body:body];
     }];
 }
 
@@ -258,6 +264,10 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     return [[endpoint authenticatedRequestWithMethod:@"GET" path:[NSString stringWithFormat:@"/apps/%@", name] headers:nil body:nil] select:^id(id app) {
         return [FoundryApp appWithDictionary:app];
     }];
+}
+
+- (RACSubscribable *)createApp:(FoundryApp *)app {
+    return [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]];
 }
 
 @end

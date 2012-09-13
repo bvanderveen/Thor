@@ -1,5 +1,6 @@
 #import "FoundryServiceTests.h"
-#import "FoundryService.h"
+#import "ThorCore.h"
+#import "Sequence.h"
 #import "Specta.h"
 #define EXP_SHORTHAND
 #import "Expecta.h"
@@ -230,6 +231,65 @@ describe(@"getStatsForAppWithName", ^ {
         expect(stats.cpu).to.equal(99.1);
         expect(stats.memory).to.equal(2048.3);
         expect(stats.disk).to.equal(4096);
+    });
+});
+
+
+describe(@"createApp", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        
+        FoundryApp *app = [FoundryApp new];
+        
+        //@synthesize name, stagingModel, stagingStack, uris, services, instances, memory, disk, state;
+
+        app.name = @"appname";
+        app.stagingModel = @"rack";
+        app.stagingStack = @"ruby18";
+        app.uris = @[ @"app.foo.bar.com" ];
+        app.services = @[];
+        app.instances = 3;
+        app.memory = 256;
+        app.disk = 512;
+        app.state = FoundryAppStateStarted;
+        
+        [[service createApp:app] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"PUT",
+        @"path" : @"/apps/appname",
+        @"headers" : [NSNull null],
+        @"body" : @{
+            @"name" : @"appname",
+        @"staging" : @{
+            @"model" : @"rack",
+            @"stack" : @"ruby18",
+        },
+        @"uris" : @[ @"app.foo.bar.com" ],
+        @"services" : @[],
+        @"instances": @3,
+        @"resources" : @{
+            @"memory" : @256,
+            @"disk" : @512
+        },
+        @"state" : @"STARTED",
+        @"env" : @[],
+        @"meta" : @{
+        @"debug" : @0
+        }
+        }
+        
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
     });
 });
 
