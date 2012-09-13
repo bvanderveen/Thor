@@ -2,6 +2,7 @@
 #import "GridView.h"
 #import "AppView.h"
 #import "ItemsController.h"
+#import "ThorCore.h"
 
 @interface AppController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource, GridDelegate>
 

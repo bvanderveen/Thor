@@ -1,6 +1,7 @@
 #import "BreadcrumbController.h"
 #import "GridView.h"
 #import "DeploymentView.h"
+#import "ThorCore.h"
 
 @interface DeploymentInfo : NSObject
 

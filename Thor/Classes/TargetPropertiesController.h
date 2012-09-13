@@ -1,4 +1,5 @@
 #import "TargetPropertiesView.h"
+#import "ThorCore.h"
 
 @interface TargetPropertiesController : NSViewController {
     

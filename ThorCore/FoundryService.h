@@ -53,7 +53,8 @@ typedef enum {
 NSArray *CreateSlugManifestFromPath(NSURL *rootURL);
 
 // this is a potentially long-running operation that creates
-// a zip archive on disk containing all the files in the manifest
+// a zip archive on disk containing all the files in the manifest.
+// you should delete the file when you're done with it.
 NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *rootURL);
 
 @protocol FoundryService <NSObject>
@@ -63,7 +64,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *rootURL);
 - (RACSubscribable *)getStatsForAppWithName:(NSString *)name; // NSArray of FoundryAppInstanceStats
 
 - (RACSubscribable *)createApp:(FoundryApp *)app;
-- (RACSubscribable *)postSlug:(FoundrySlug *)slug toAppWithName:(NSString *)name;
+- (RACSubscribable *)postSlug:(NSURL *)slug manifest:(NSArray *)manifest toAppWithName:(NSString *)name;
 
 @end
 

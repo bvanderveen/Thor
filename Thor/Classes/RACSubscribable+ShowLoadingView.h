@@ -1,4 +1,5 @@
 #import "LoadingView.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface RACSubscribable (ShowLoadingView)
 

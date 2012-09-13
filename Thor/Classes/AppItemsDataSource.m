@@ -2,6 +2,7 @@
 #import "AppPropertiesController.h"
 #import "AppController.h"
 #import "CollectionItemView.h"
+#import "Sequence.h"
 
 static NSNib *nib = nil;
 

@@ -1,4 +1,5 @@
 #import "DeploymentPropertiesView.h"
+#import "ThorCore.h"
 
 @interface DeploymentPropertiesController : NSViewController
 

@@ -1,6 +1,7 @@
 #import "BreadcrumbController.h"
 #import "TargetView.h"
 #import "GridView.h"
+#import "ThorCore.h"
 
 @interface TargetController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource, GridDelegate>
 
