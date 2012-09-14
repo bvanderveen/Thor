@@ -362,7 +362,14 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
         
         RACDisposable *inner = [[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
                                   @"Content-Type": @"multipart/form-data"
-                                  } body:[NSInputStream inputStreamWithFileAtPath:tempFilePath]] subscribe:subscriber];
+                                  } body:[NSInputStream inputStreamWithFileAtPath:tempFilePath]] subscribeNext:^(id x) {
+            [subscriber sendNext:x];
+        } error:^(NSError *error) {
+            [subscriber sendError:error];
+        } completed:^{
+            deleteTempFile();
+            [subscriber sendCompleted];
+        }];
         
         return [RACDisposable disposableWithBlock:^ {
             deleteTempFile();
