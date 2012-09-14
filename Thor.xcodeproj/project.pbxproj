@@ -27,6 +27,8 @@
 		413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 413C2E20160006D600C80B4C /* libcommonCrypto.dylib */; };
 		413C2E24160009CD00C80B4C /* SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E22160009CC00C80B4C /* SHA1.h */; };
 		413C2E25160009CD00C80B4C /* SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E23160009CC00C80B4C /* SHA1.m */; };
+		413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E261603007800C80B4C /* NSOutputStream+Writing.h */; };
+		413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E271603007900C80B4C /* NSOutputStream+Writing.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
@@ -288,6 +290,8 @@
 		413C2E20160006D600C80B4C /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		413C2E22160009CC00C80B4C /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
 		413C2E23160009CC00C80B4C /* SHA1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1.m; sourceTree = "<group>"; };
+		413C2E261603007800C80B4C /* NSOutputStream+Writing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOutputStream+Writing.h"; sourceTree = "<group>"; };
+		413C2E271603007900C80B4C /* NSOutputStream+Writing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOutputStream+Writing.m"; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
@@ -562,6 +566,8 @@
 				416567AB15DAE46D00EF93DF /* SMWebRequest.m */,
 				416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */,
 				416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */,
+				413C2E261603007800C80B4C /* NSOutputStream+Writing.h */,
+				413C2E271603007900C80B4C /* NSOutputStream+Writing.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -863,6 +869,7 @@
 				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
 				41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */,
 				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
+				413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1193,6 +1200,7 @@
 				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
 				41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */,
 				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
+				413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

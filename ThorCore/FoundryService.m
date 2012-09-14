@@ -4,6 +4,7 @@
 #import "NSObject+JSONDataRepresentation.h"
 #import "SBJson.h"
 #import "SHA1.h"
+#import "NSOutputStream+Writing.h"
 
 static id (^JsonParser)(id) = ^ id (id data) {
     return [((NSData *)data) JSONValue];
@@ -283,8 +284,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     
     static NSString *boundry = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
     
-    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
+    return [RACSubscribable createSubscribable:^ RACDisposable *(id<RACSubscriber> subscriber) {
         NSString *tempFilePath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorMultipartMessageBuffer"]];
         NSOutputStream *tempFile = [NSOutputStream outputStreamToFileAtPath:tempFilePath append:NO];
         
@@ -296,71 +296,23 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
             [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
         };
         
-        void (^writeData)(NSData *) = ^ (NSData *data) {
-            int bufferSize = 1024 * 4;
-            uint8_t buffer[bufferSize];
-            
-            NSUInteger bytesCopied = 0;
-            
-            while (bytesCopied < data.length) {
-                NSUInteger bytesToCopy = MIN(bufferSize, data.length - bytesCopied);
-                [data getBytes:buffer length:bytesToCopy];
-    
-                int bytesWritten = 0;
-                while (bytesWritten < bytesToCopy)
-                {
-                    bytesWritten += [tempFile write:(&buffer)[bytesWritten] maxLength:bytesToCopy - bytesWritten];
-                }
-                
-                bytesCopied += bytesToCopy;
-            }
-        };
-        
-        void (^writeString)(NSString *) = ^ (NSString *string) {
-            writeData([string dataUsingEncoding:NSUTF8StringEncoding]);
-        };
-        
-        void (^writeCRLF)() = ^ {
-            writeString(@"\r\n");
-        };
-        
-        void (^writeSlug)() = ^ {
-            NSInputStream *slugFile = [NSInputStream inputStreamWithURL:slug];
-            [slugFile open];
-            
-            NSInteger bytesRead = 0;
-            int bufferSize = 1024 * 4;
-            uint8_t buffer[bufferSize];
-            
-            while (true) {
-                
-                bytesRead = [slugFile read:(&buffer)[bytesRead] maxLength:bufferSize];
-                
-                if (bytesRead <= 0)
-                    break;
-                
-                int bytesWritten = 0;
-                while (bytesWritten < bytesRead)
-                {
-                    bytesWritten += [tempFile write:(&buffer)[bytesWritten] maxLength:bytesRead - bytesWritten];
-                }
-            }
-            [slugFile close];
-        };
-        
         [tempFile open];
         
-        writeString([NSString stringWithFormat:@"--%@\r\n", boundry]);
-        writeString(@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n");
-        writeData([manifest JSONDataRepresentation]); writeCRLF();
-        writeString([NSString stringWithFormat:@"--%@\r\n", boundry]);
-        writeString(@"Content-Disposition: form-data; name=\"application\"\r\n");
-        writeString(@"Content-Type: application/zip\r\n\r\n");
-        writeSlug();
-        writeString([NSString stringWithFormat:@"\r\n--%@--\r\n", boundry]);
+        [tempFile writeString:[NSString stringWithFormat:@"--%@\r\n", boundry]];
+        [tempFile writeString:@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n"];
+        [tempFile writeData:[manifest JSONDataRepresentation]];
+        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", boundry]];
+        [tempFile writeString:@"Content-Disposition: form-data; name=\"application\"\r\n"];
+        [tempFile writeString:@"Content-Type: application/zip\r\n\r\n"];
+        
+        NSInputStream *slugFile = [NSInputStream inputStreamWithURL:slug];
+        [slugFile open];
+        [tempFile writeStream:slugFile];
+        [slugFile close];
+        
+        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@--\r\n", boundry]];
         
         [tempFile close];
-        
         
         RACDisposable *inner = [[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
                                   @"Content-Type": @"multipart/form-data"
