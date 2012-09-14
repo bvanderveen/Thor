@@ -23,12 +23,33 @@
     return self;
 }
 
+- (NSString *)stringFromStream:(NSInputStream *)stream {
+    NSMutableString *result = [NSMutableString string];
+    
+    int bytesRead = 0;
+    NSUInteger bufferSize = 1024 * 20;
+    uint8_t buffer[bufferSize];
+    
+    [stream open];
+    while (true) {
+        bytesRead = [stream read:&buffer maxLength:bufferSize];
+        
+        if (bytesRead <= 0)
+            break;
+        
+        [result appendString:[[NSString alloc] initWithBytes:buffer length:bytesRead encoding:NSUTF8StringEncoding]];
+    }
+    [stream close];
+    
+    return [result copy];
+}
+
 - (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSDictionary *call = @{
     @"method" : method ? method : [NSNull null],
     @"path" : path ? path : [NSNull null],
     @"headers" : headers ? headers : [NSNull null],
-    @"body" : body ? body : [NSNull null]
+    @"body" : body ? ([body isKindOfClass:[NSInputStream class]] ? [self stringFromStream:(NSInputStream *)body] : body) : [NSNull null]
     };
     
     calls = [calls arrayByAddingObject:call];
@@ -287,6 +308,50 @@ describe(@"createApp", ^ {
         }
         }
         
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
+
+
+describe(@"postSlug", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        NSString *tempFilePath = [NSString pathWithComponents:@[ NSTemporaryDirectory(), @"TestUploadFile.txt" ]];
+        NSURL *tempFileURL = [NSURL fileURLWithPath:tempFilePath];
+        
+        [[NSFileManager defaultManager] createFileAtPath:tempFilePath contents:[@"this is some data in a file" dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+        
+        NSArray *manifest = @[ @"a", @"b", @"c" ];
+        
+        [[service postSlug:tempFileURL manifest:manifest toAppWithName:@"appname"] subscribeCompleted:^{ }];
+        
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
+        
+        NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL"; 
+        
+        id expectedCalls = @[@{
+        @"method" : @"PUT",
+        @"path" : @"/apps/appname/application",
+        @"headers" : @{ @"Content-Type" : @"multipart/form-data" },
+        @"body" : @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
+        "[\"a\",\"b\",\"c\"]\r\n" \
+        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        "Content-Disposition: form-data; name=\"application\"\r\n" \
+        "Content-Type: application/zip\r\n\r\n" \
+        "this is some data in a file\r\n"
+        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n"
         }];
         
         expect(endpoint.calls).to.equal(expectedCalls);

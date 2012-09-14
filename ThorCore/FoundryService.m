@@ -37,7 +37,6 @@ static id (^JsonParser)(id) = ^ id (id data) {
 
 // result is subscribable
 - (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    
     NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
     
     h[@"AUTHORIZATION"] = token;
@@ -268,6 +267,109 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
 
 - (RACSubscribable *)createApp:(FoundryApp *)app {
     return [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]];
+}
+
+- (RACSubscribable *)postSlug:(NSURL *)slug manifest:(NSArray *)manifest toAppWithName:(NSString *)name {
+    // per thread: http://lists.apple.com/archives/macnetworkprog/2007/May/msg00051.html
+    //
+    // we're gonna write out the multipart message to a temp file,
+    // post a stream over that temp file, then delete it when we're done.
+    //
+    // not the world's most efficient approach, but should work much more
+    // predictably than trying to subclass NSInputStream and dealing
+    // with undocumented private API weirdness.
+    
+    static NSString *boundry = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
+    
+    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        NSString *tempFilePath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorMultipartMessageBuffer"]];
+        NSOutputStream *tempFile = [NSOutputStream outputStreamToFileAtPath:tempFilePath append:NO];
+        
+        __block BOOL deletedTempFile = NO;
+        void (^deleteTempFile)() = ^ {
+            if (deletedTempFile) return;
+            deletedTempFile = YES;
+            NSError *error = nil;
+            [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
+        };
+        
+        void (^writeData)(NSData *) = ^ (NSData *data) {
+            int bufferSize = 1024 * 4;
+            uint8_t buffer[bufferSize];
+            
+            NSUInteger bytesCopied = 0;
+            
+            while (bytesCopied < data.length) {
+                NSUInteger bytesToCopy = MIN(bufferSize, data.length - bytesCopied);
+                [data getBytes:buffer length:bytesToCopy];
+    
+                int bytesWritten = 0;
+                while (bytesWritten < bytesToCopy)
+                {
+                    bytesWritten += [tempFile write:(&buffer)[bytesWritten] maxLength:bytesToCopy - bytesWritten];
+                }
+                
+                bytesCopied += bytesToCopy;
+            }
+        };
+        
+        void (^writeString)(NSString *) = ^ (NSString *string) {
+            writeData([string dataUsingEncoding:NSUTF8StringEncoding]);
+        };
+        
+        void (^writeCRLF)() = ^ {
+            writeString(@"\r\n");
+        };
+        
+        void (^writeSlug)() = ^ {
+            NSInputStream *slugFile = [NSInputStream inputStreamWithURL:slug];
+            [slugFile open];
+            
+            NSInteger bytesRead = 0;
+            int bufferSize = 1024 * 4;
+            uint8_t buffer[bufferSize];
+            
+            while (true) {
+                
+                bytesRead = [slugFile read:(&buffer)[bytesRead] maxLength:bufferSize];
+                
+                if (bytesRead <= 0)
+                    break;
+                
+                int bytesWritten = 0;
+                while (bytesWritten < bytesRead)
+                {
+                    bytesWritten += [tempFile write:(&buffer)[bytesWritten] maxLength:bytesRead - bytesWritten];
+                }
+            }
+            [slugFile close];
+        };
+        
+        [tempFile open];
+        
+        writeString([NSString stringWithFormat:@"--%@\r\n", boundry]);
+        writeString(@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n");
+        writeData([manifest JSONDataRepresentation]); writeCRLF();
+        writeString([NSString stringWithFormat:@"--%@\r\n", boundry]);
+        writeString(@"Content-Disposition: form-data; name=\"application\"\r\n");
+        writeString(@"Content-Type: application/zip\r\n\r\n");
+        writeSlug();
+        writeString([NSString stringWithFormat:@"\r\n--%@--\r\n", boundry]);
+        
+        [tempFile close];
+        
+        
+        RACDisposable *inner = [[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
+                                  @"Content-Type": @"multipart/form-data"
+                                  } body:[NSInputStream inputStreamWithFileAtPath:tempFilePath]] subscribe:subscriber];
+        
+        return [RACDisposable disposableWithBlock:^ {
+            deleteTempFile();
+            [inner dispose];
+        }];
+    }];
+    
 }
 
 @end
