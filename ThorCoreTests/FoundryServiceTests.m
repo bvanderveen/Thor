@@ -340,18 +340,22 @@ describe(@"postSlug", ^ {
         
         NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL"; 
         
-        id expectedCalls = @[@{
-        @"method" : @"PUT",
-        @"path" : @"/apps/appname/application",
-        @"headers" : @{ @"Content-Type" : @"multipart/form-data" },
-        @"body" : @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-        "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
-        "[\"a\",\"b\",\"c\"]\r\n" \
-        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-        "Content-Disposition: form-data; name=\"application\"\r\n" \
-        "Content-Type: application/zip\r\n\r\n" \
-        "this is some data in a file\r\n"
-        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n"
+        id expectedCalls = @[
+        @{
+            @"method" : @"PUT",
+            @"path" : @"/apps/appname/application",
+            @"headers" : @{
+                @"Content-Type" : @"multipart/form-data"
+            },
+            @"body" :
+                @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+                "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
+                "[\"a\",\"b\",\"c\"]\r\n" \
+                "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+                "Content-Disposition: form-data; name=\"application\"\r\n" \
+                "Content-Type: application/zip\r\n\r\n" \
+                "this is some data in a file\r\n"
+                "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n"
         }];
         
         expect(endpoint.calls).to.equal(expectedCalls);
