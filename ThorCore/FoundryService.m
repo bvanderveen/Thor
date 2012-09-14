@@ -39,13 +39,15 @@ static id (^JsonParser)(id) = ^ id (id data) {
 - (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
     
-    h[@"AUTHORIZATION"] = token;
     
-    if (token)
+    if (token) {
+        h[@"AUTHORIZATION"] = token;
         return [RACSubscribable return:[self requestWithMethod:method path:path headers:h body:body]];
+    }
     
     return [[self getToken] select:^ id (id t) {
         self.token = t;
+        h[@"AUTHORIZATION"] = token;
         return [self requestWithMethod:method path:path headers:h body:body];
     }];
 }
