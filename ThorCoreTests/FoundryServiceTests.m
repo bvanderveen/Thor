@@ -273,8 +273,8 @@ describe(@"createApp", ^ {
         //@synthesize name, stagingModel, stagingStack, uris, services, instances, memory, disk, state;
 
         app.name = @"appname";
-        app.stagingModel = @"rack";
-        app.stagingStack = @"ruby18";
+        app.stagingFramework = @"rack";
+        app.stagingRuntime = @"ruby18";
         app.uris = @[ @"app.foo.bar.com" ];
         app.services = @[];
         app.instances = 3;
@@ -285,27 +285,27 @@ describe(@"createApp", ^ {
         [[service createApp:app] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
-        @"method" : @"PUT",
-        @"path" : @"/apps/appname",
+        @"method" : @"POST",
+        @"path" : @"/apps",
         @"headers" : [NSNull null],
         @"body" : @{
             @"name" : @"appname",
         @"staging" : @{
-            @"model" : @"rack",
-            @"stack" : @"ruby18",
+            @"framework" : @"rack",
+            @"runtime" : @"ruby18",
         },
         @"uris" : @[ @"app.foo.bar.com" ],
-        @"services" : @[],
+        //@"services" : @[],
         @"instances": @3,
         @"resources" : @{
-            @"memory" : @256,
-            @"disk" : @512
+            @"memory" : @256//,
+            //@"disk" : @512
         },
-        @"state" : @"STARTED",
-        @"env" : @[],
-        @"meta" : @{
-        @"debug" : @0
-        }
+        //@"state" : @"STARTED",
+        //@"env" : @[],
+        //@"meta" : @{
+        //@"debug" : @0
+        //}
         }
         
         }];
@@ -338,24 +338,28 @@ describe(@"postSlug", ^ {
         NSError *error = nil;
         [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
         
-        NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL"; 
+        NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
+        
+        NSString *expectedBody = @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
+        "[\"a\",\"b\",\"c\"]\r\n" \
+        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        "Content-Disposition: form-data; name=\"application\"\r\n" \
+        "Content-Type: application/zip\r\n\r\n" \
+        "this is some data in a file\r\n"
+        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n";
+        
+        
         
         id expectedCalls = @[
         @{
             @"method" : @"PUT",
             @"path" : @"/apps/appname/application",
             @"headers" : @{
-                @"Content-Type" : @"multipart/form-data"
+                @"Content-Type" : @"multipart/form-data; boundary=BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL",
+                @"Content-Length" : [[NSNumber numberWithUnsignedInteger:expectedBody.length] stringValue]
             },
-            @"body" :
-                @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-                "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
-                "[\"a\",\"b\",\"c\"]\r\n" \
-                "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-                "Content-Disposition: form-data; name=\"application\"\r\n" \
-                "Content-Type: application/zip\r\n\r\n" \
-                "this is some data in a file\r\n"
-                "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n"
+            @"body" : expectedBody
         }];
         
         expect(endpoint.calls).to.equal(expectedCalls);
@@ -529,6 +533,74 @@ describe(@"CreateSlugFromManifest", ^{
         NSSet *files = filesUnderRoot(extractionRootPath);
         
         expect(files).to.equal(createdFiles);
+    });
+});
+
+describe(@"TestDeployment", ^{
+    it(@"should deploy a thing", ^{
+        
+        NSArray *repoPathComponents = @[ NSTemporaryDirectory(), @"paasIt" ];
+        NSString *repoPath = [NSString pathWithComponents:repoPathComponents];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:nil];
+        NSURL *repoURL = [NSURL fileURLWithPath:repoPath];
+        
+        NSTask *task = [NSTask new];
+        task.launchPath = @"/usr/bin/git";
+        task.arguments = @[ @"clone", @"git://github.com/Adron/paasIt.git", repoPath ];
+        [task launch];
+        [task waitUntilExit];
+        
+        NSURL *nodeTestAppURL = [NSURL fileURLWithPath:[NSString pathWithComponents:[repoPathComponents arrayByAddingObject:@"nodejs_basic_cloudfoundry"]]];
+        
+        
+        NSArray *manifest = CreateSlugManifestFromPath(nodeTestAppURL);
+        NSURL *slug = CreateSlugFromManifest(manifest, nodeTestAppURL);
+        
+        FoundryEndpoint *endpoint = [FoundryEndpoint new];
+        endpoint.email = @"b@bvanderveen.com";
+        endpoint.password = @"secret";
+        endpoint.hostname = @"api.bvanderveen.cloudfoundry.me";
+        
+        FoundryService *service = [[FoundryService alloc] initWithEndpoint:endpoint];
+        
+        FoundryApp *app = [FoundryApp new];
+        app.name = @"thor_test_node";
+        app.uris = @[ @"thor_test_node.bvanderveen.cloudfoundry.me" ];
+        app.instances = 1;
+        //app.state = FoundryAppStateStarted;
+        app.memory = 64;
+        //app.disk = 2048;
+        app.stagingFramework = @"node";
+        app.stagingRuntime = [NSNull null];//@"node";
+        //app.services = @[];
+        
+        __block BOOL done = NO, err = NO;
+        int attempts = 0;
+        
+        [[service createApp:app] subscribeError:^ (NSError *error) {
+            NSLog(@"error: %@", [error localizedDescription]);
+            err = YES;
+        } completed:^{
+            [[service postSlug:slug manifest:@[] toAppWithName:@"thor_test_node"] subscribeError: ^ (NSError *error) {
+                NSLog(@"error: %@", [error localizedDescription]);
+                err = YES;
+            } completed:^{
+                done = YES;
+                NSError *error = nil;
+            }];
+        }];
+        
+        while (!done && !err && attempts++ < 1) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:30.0]];
+        }
+        NSLog(@"done");
+        expect(err).to.beFalsy();
+        expect(done).to.beTruthy();
+        
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
     });
 });
 

@@ -17,7 +17,7 @@ typedef enum {
 
 @interface FoundryApp : NSObject
 
-@property (nonatomic, copy) NSString *name, *stagingModel, *stagingStack;
+@property (nonatomic, copy) NSString *name, *stagingFramework, *stagingRuntime;
 @property (nonatomic, copy) NSArray *uris, *services;
 @property (nonatomic, assign) NSUInteger
     instances,

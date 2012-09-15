@@ -24,8 +24,19 @@ static id (^JsonParser)(id) = ^ id (id data) {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     urlRequest.HTTPMethod = method;
+    
+    if ([body isKindOfClass:[NSInputStream class]]) {
+        urlRequest.HTTPBodyStream = (NSInputStream *)body;
+    }
+    else {
+        urlRequest.HTTPBody = [body JSONDataRepresentation];
+        NSMutableDictionary *newHeaders = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
+        newHeaders[@"Content-Type"] = @"application/json";
+        headers = newHeaders;
+    }
+    
     urlRequest.AllHTTPHeaderFields = headers;
-    urlRequest.HTTPBody = [body JSONDataRepresentation];
+    
     return [SMWebRequest requestSubscribableWithURLRequest:urlRequest dataParser:JsonParser];
 }
 
@@ -91,7 +102,7 @@ NSString *AppStateStringFromState(FoundryAppState state) {
 
 @implementation FoundryApp
 
-@synthesize name, stagingModel, stagingStack, uris, services, instances, memory, disk, state;
+@synthesize name, stagingFramework, stagingRuntime, uris, services, instances, memory, disk, state;
 
 + (FoundryApp *)appWithDictionary:(NSDictionary *)appDict {
     FoundryApp *app = [FoundryApp new];
@@ -115,21 +126,21 @@ NSString *AppStateStringFromState(FoundryAppState state) {
     return @{
         @"name" : name,
         @"staging" : @{
-            @"model" : stagingModel,
-            @"stack" : stagingStack,
+            @"framework" : stagingFramework,
+            @"runtime" : stagingRuntime,
         },
         @"uris" : uris,
         @"instances" : [NSNumber numberWithInteger:instances],
         @"resources" : @{
-            @"memory" : [NSNumber numberWithInteger:memory],
-            @"disk" : [NSNumber numberWithInteger:disk]
+            @"memory" : [NSNumber numberWithInteger:memory]//,
+            //@"disk" : [NSNumber numberWithInteger:disk]
         },
-        @"state" : AppStateStringFromState(state),
-        @"services" : services,
-        @"env" : @[],
-        @"meta" : @{
-            @"debug" : @NO
-        }
+        //@"state" : AppStateStringFromState(state),
+        //@"services" : services,
+        //@"env" : @[],
+        //@"meta" : @{
+        //    @"debug" : @NO
+        //}
     };
 }
 
@@ -214,7 +225,9 @@ NSArray *CreateSlugManifestFromPath(NSURL *path) {
 }
 
 NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
-    NSURL *path = [NSURL fileURLWithPath:[NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]]];
+    NSString *slugPath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]];
+    [[NSFileManager defaultManager] removeItemAtPath:slugPath error:nil];
+    NSURL *path = [NSURL fileURLWithPath:slugPath];
     
     NSTask *task = [NSTask new];
     task.launchPath = @"/usr/bin/zip";
@@ -269,7 +282,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
 }
 
 - (RACSubscribable *)createApp:(FoundryApp *)app {
-    return [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]];
+    return [endpoint authenticatedRequestWithMethod:@"POST" path:@"/apps" headers:nil body:[app dictionaryRepresentation]];
 }
 
 - (RACSubscribable *)postSlug:(NSURL *)slug manifest:(NSArray *)manifest toAppWithName:(NSString *)name {
@@ -282,7 +295,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     // predictably than trying to subclass NSInputStream and dealing
     // with undocumented private API weirdness.
     
-    static NSString *boundry = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
+    static NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
     
     return [RACSubscribable createSubscribable:^ RACDisposable *(id<RACSubscriber> subscriber) {
         NSString *tempFilePath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorMultipartMessageBuffer"]];
@@ -298,24 +311,37 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
         
         [tempFile open];
         
-        [tempFile writeString:[NSString stringWithFormat:@"--%@\r\n", boundry]];
+        [tempFile writeString:[NSString stringWithFormat:@"--%@\r\n", boundary]];
         [tempFile writeString:@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n"];
         [tempFile writeData:[manifest JSONDataRepresentation]];
-        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", boundry]];
+        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", boundary]];
         [tempFile writeString:@"Content-Disposition: form-data; name=\"application\"\r\n"];
         [tempFile writeString:@"Content-Type: application/zip\r\n\r\n"];
         
         NSInputStream *slugFile = [NSInputStream inputStreamWithURL:slug];
         [slugFile open];
+
         [tempFile writeStream:slugFile];
         [slugFile close];
         
-        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@--\r\n", boundry]];
+        [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary]];
         
         [tempFile close];
         
+        NSError *error;
+        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:tempFilePath error:&error];
+        
+        if (error) {
+            deleteTempFile();
+            [subscriber sendError:error];
+            return nil;
+        }
+        
+        NSNumber *contentLength = attributes[NSFileSize];
+        
         RACDisposable *inner = [[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
-                                  @"Content-Type": @"multipart/form-data"
+                                 @"Content-Type": [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary],
+                                  @"Content-Length": [contentLength stringValue],
                                   } body:[NSInputStream inputStreamWithFileAtPath:tempFilePath]] subscribeNext:^(id x) {
             [subscriber sendNext:x];
         } error:^(NSError *error) {
