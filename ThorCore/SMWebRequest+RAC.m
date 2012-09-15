@@ -62,6 +62,13 @@
     [super dealloc];
 }
 
+- (NSURLRequest *)webRequest:(SMWebRequest *)webRequest willSendRequest:(NSURLRequest *)newRequest redirectResponse:(NSURLResponse *)redirectResponse {
+    if (redirectResponse)
+        return nil;
+    else
+        return newRequest;
+}
+
 - (id)webRequest:(SMWebRequest *)webRequest resultObjectForData:(NSData *)data context:(id)context {
     return parser ? parser(data) : data;
 }
