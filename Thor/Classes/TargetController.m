@@ -38,7 +38,7 @@ static NSArray *appColumns = nil;
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)viewWillAppear {
     self.associatedDisposable = [[service getApps] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsGrid reloadData];
@@ -82,10 +82,11 @@ static NSArray *appColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    return;
-    
     FoundryApp *app = [apps objectAtIndex:row];
-    Deployment *deployment = nil; // TODO lookup by app/target
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+    deployment.appName = app.name;
+    deployment.target = self.target;
+    
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }

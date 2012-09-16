@@ -94,6 +94,8 @@ static NSArray *instanceColumns = nil;
     self.associatedDisposable = [[service deleteAppWithName:deployment.appName] subscribeError:^(NSError *error) {
         [NSApp presentError:error];
     } completed:^{
+        deployment.target = nil;
+        
         [[ThorBackend sharedContext] deleteObject:deployment];
         NSError *error;
         
