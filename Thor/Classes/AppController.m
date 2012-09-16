@@ -101,7 +101,7 @@ static NSArray *deploymentColumns = nil;
             button.bezelStyle = NSTexturedRoundedBezelStyle;
             
             [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
-                [self pushDeployment:deployment];
+                [self pushDeployment:deployment sender:button];
             }]];
             return button;
         }
@@ -163,8 +163,27 @@ static NSArray *deploymentColumns = nil;
     [self.breadcrumbController popViewControllerAnimated:YES];
 }
 
-- (void)pushDeployment:(Deployment *)deployment {
-    NSLog(@"push shit");
+- (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
+    FoundryService *service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    
+    RACSubscribable *deploy = [[[RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSURL *rootURL = [NSURL fileURLWithPath:deployment.app.localRoot];
+        id manifest = CreateSlugManifestFromPath(rootURL);
+        NSURL *slug = CreateSlugFromManifest(manifest, rootURL);
+        
+        return [[[service postSlug:slug manifest:manifest toAppWithName:deployment.appName] subscribeOn:[RACScheduler mainQueueScheduler]] subscribe:subscriber];
+    }] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]];
+    
+    button.enabled = NO;
+    button.title = @"Pushing…";
+    [deploy subscribeError:^(NSError *error) {
+        [NSApp presentError:error];
+        button.enabled = YES;
+        button.title = @"Push";
+    } completed:^{
+        button.enabled = YES;
+        button.title = @"Push";
+    }];
 }
 
 @end
