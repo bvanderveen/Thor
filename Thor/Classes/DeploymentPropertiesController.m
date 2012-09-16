@@ -34,12 +34,31 @@
     if (button == deploymentPropertiesView.confirmButton) {
         NSError *error = nil;
         [objectController commitEditing];
+        
+        // TODO revert this if the remote creation fails.
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];
             NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
         }
         else {
-            [NSApp endSheet:self.view.window];
+            FoundryService *service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+            
+            FoundryApp *app = [FoundryApp new];
+            app.name = deployment.appName;
+            app.uris = @[];
+            app.stagingFramework = @"node";
+            app.instances = deployment.instances;
+            app.memory = deployment.memory;
+            
+            // TODO display spinner while waiting.
+            deploymentPropertiesView.confirmButton.enabled = NO;
+            
+            self.associatedDisposable = [[service createApp:app] subscribeError:^(NSError *error) {
+                [NSApp presentError:error];
+                deploymentPropertiesView.confirmButton.enabled = YES;
+            } completed:^{
+                [NSApp endSheet:self.view.window];
+            }];
         }
     }
     else {

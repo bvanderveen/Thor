@@ -126,8 +126,8 @@ NSString *AppStateStringFromState(FoundryAppState state) {
     return @{
         @"name" : name,
         @"staging" : @{
-            @"framework" : stagingFramework,
-            @"runtime" : stagingRuntime,
+            @"framework" : stagingFramework ? stagingFramework : [NSNull null],
+            @"runtime" : stagingRuntime ? stagingFramework : [NSNull null],
         },
         @"uris" : uris,
         @"instances" : [NSNumber numberWithInteger:instances],
