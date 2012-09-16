@@ -85,6 +85,9 @@
     controller.breadcrumbController = self;
     [self.breadcrumbView.bar pushItem:controller.breadcrumbItem animated:animated];
     [self.breadcrumbView pushToView:controller.view animated:animated];
+    
+    if ([controller respondsToSelector:@selector(viewWillAppear)])
+        [(id<BreadcrumbControllerAware>)controller viewWillAppear];
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated {

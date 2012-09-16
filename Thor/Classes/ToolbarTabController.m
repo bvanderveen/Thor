@@ -143,6 +143,9 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
     if (self.view.subviews.count) 
         [[self.view.subviews objectAtIndex:0] removeFromSuperview];
     
+    if ([value respondsToSelector:@selector(viewWillAppear)])
+        [(id)value viewWillAppear];
+    
     [self.view addSubview:value.view];
 }
 

@@ -8,6 +8,7 @@
 @property (nonatomic, unsafe_unretained) BreadcrumbController *breadcrumbController;
 @property (nonatomic, readonly) id<BreadcrumbItem> breadcrumbItem;
 
+// TODO move this somewhere else.
 @optional
 - (void)viewWillAppear;
 
