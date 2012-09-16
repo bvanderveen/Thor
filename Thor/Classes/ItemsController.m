@@ -44,11 +44,14 @@
     
     self.itemsView.collectionView.dataSource = self;
     
-    [self updateItems];
     self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
 //    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)viewWillAppear {
+    [self updateItems];
 }
 
 - (void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {

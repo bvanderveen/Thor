@@ -4,7 +4,7 @@
 #import "DeploymentController.h"
 #import "TargetItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
-
+#import "ThorCore.h"
 
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
@@ -43,12 +43,15 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)awakeFromNib {
-    [self updateDeployments];
     self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
         [self displayDeploymentDialogWithTarget:(Target *)item];
     }];
     self.appView.drawerBar.drawerView = targetsController.view;
+}
+
+- (void)viewWillAppear {
+    [self updateDeployments];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -132,6 +135,18 @@ static NSArray *deploymentColumns = nil;
     
     NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];    
+}
+
+- (void)deleteClicked:(id)sender {
+    [[ThorBackend sharedContext] deleteObject:app];
+    NSError *error;
+    
+    if (![[ThorBackend sharedContext] save:&error]) {
+        [NSApp presentError:error];
+        return;
+    }
+        
+    [self.breadcrumbController popViewControllerAnimated:YES];
 }
 
 @end

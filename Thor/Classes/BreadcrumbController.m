@@ -90,11 +90,19 @@
 - (void)popViewControllerAnimated:(BOOL)animated {
     [self.breadcrumbView.bar popItemAnimated:animated];
     NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack lastObject];
+    
+    if ([controller respondsToSelector:@selector(viewWillAppear)])
+        [(id<BreadcrumbControllerAware>)controller viewWillAppear];
+    
     [self.breadcrumbView popToView:controller.view animated:animated];
 }
 
 - (void)breadcrumbBar:(BreadcrumbBar *)bar willPopItem:(id<BreadcrumbItem>)item {
     NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
+    
+    if ([controller respondsToSelector:@selector(viewWillAppear)])
+        [(id<BreadcrumbControllerAware>)controller viewWillAppear];
+    
     [self.breadcrumbView popToView:controller.view animated:NO];
 }
 

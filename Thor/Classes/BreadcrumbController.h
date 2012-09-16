@@ -8,6 +8,9 @@
 @property (nonatomic, unsafe_unretained) BreadcrumbController *breadcrumbController;
 @property (nonatomic, readonly) id<BreadcrumbItem> breadcrumbItem;
 
+@optional
+- (void)viewWillAppear;
+
 @end
 
 @interface BreadcrumbController : NSViewController <BreadcrumbBarDelegate>

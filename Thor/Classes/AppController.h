@@ -12,5 +12,6 @@
 
 
 - (IBAction)editClicked:(id)sender;
+- (IBAction)deleteClicked:(id)sender;
 
 @end
