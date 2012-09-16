@@ -52,6 +52,11 @@ static NSArray *deploymentColumns = nil;
 
 - (void)viewWillAppear {
     [self updateDeployments];
+    
+    // TODO really this should be done by the drawer view.
+    // but I'm gonna rip the drawer view out and everything
+    // will make more sense.
+    [targetsController viewWillAppear];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -124,7 +129,6 @@ static NSArray *deploymentColumns = nil;
 }
 
 - (void)displayDeploymentDialogWithTarget:(Target *)target {
-    
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
     deployment.app = app;
     deployment.target = target;
