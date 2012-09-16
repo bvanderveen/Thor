@@ -1,6 +1,7 @@
 #import "DeploymentController.h"
 #import "NSObject+AssociateDisposable.h"
 #import "RACSubscribable+ShowLoadingView.h"
+#import "GridView.h"
 
 @interface DeploymentController ()
 
@@ -63,27 +64,27 @@ static NSArray *instanceColumns = nil;
     return instanceStats.count;
 }
 
-- (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
+- (NSView *)gridView:(GridView *)gridView viewForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
     FoundryAppInstanceStats *stats = [instanceStats objectAtIndex:row];
+    
+    NSString *labelTitle;
     
     switch (columnIndex) {
         case 0:
-            return stats.ID;
+            labelTitle = stats.ID;
         case 1:
-            return stats.host;
+            labelTitle = stats.host;
         case 2:
-            return [NSString stringWithFormat:@"%f", stats.cpu];
+            labelTitle = [NSString stringWithFormat:@"%f", stats.cpu];
         case 3:
-            return [NSString stringWithFormat:@"%f", stats.memory];
+            labelTitle = [NSString stringWithFormat:@"%f", stats.memory];
         case 4:
-            return [NSString stringWithFormat:@"%ld", stats.disk];
+            labelTitle = [NSString stringWithFormat:@"%ld", stats.disk];
         case 5:
-            return [NSString stringWithFormat:@"%f", stats.uptime];
+            labelTitle = [NSString stringWithFormat:@"%f", stats.uptime];
     }
     
-    BOOL columnIndexIsValid = NO;
-    assert(columnIndexIsValid);
-    return nil;
+    return [GridLabel labelWithTitle:title];
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {

@@ -8,7 +8,7 @@
 - (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex;
 
 - (NSUInteger)numberOfRowsForGridView:(GridView *)gridView;
-- (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex;
+- (NSView *)gridView:(GridView *)gridView viewForRow:(NSUInteger)row column:(NSUInteger)columnIndex;
 
 @end
 
@@ -25,5 +25,11 @@
 @property (nonatomic, unsafe_unretained) IBOutlet id<GridDelegate> delegate;
 
 - (void)reloadData;
+
+@end
+
+@interface GridLabel : NSTextView
+
++ (GridLabel *)labelWithTitle:(NSString *)title;
 
 @end

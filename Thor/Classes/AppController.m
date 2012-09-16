@@ -5,6 +5,7 @@
 #import "TargetItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
 #import "ThorCore.h"
+#import "GridView.h"
 
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
@@ -75,23 +76,23 @@ static NSArray *deploymentColumns = nil;
     return deployments.count;
 }
 
-- (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
+- (NSView *)gridView:(GridView *)gridView viewForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
     Deployment *deployment = [deployments objectAtIndex:row];
+    
+    NSString *labelTitle;
     
     switch (columnIndex) {
         case 0:
-            return deployment.displayName;
+            labelTitle = deployment.displayName;
         case 1:
-            return deployment.appName;
+            labelTitle = deployment.appName;
         case 2:
-            return deployment.target.displayName;
+            labelTitle = deployment.target.displayName;
         case 3:
-            return deployment.target.hostname;
+            labelTitle = deployment.target.hostname;
     }
     
-    BOOL columnIndexIsValid = NO;
-    assert(columnIndexIsValid);
-    return nil;
+    return [GridLabel labelWithTitle:labelTitle];
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {

@@ -3,6 +3,7 @@
 #import "SheetWindow.h"
 #import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
+#import "GridView.h"
 
 @interface TargetController ()
 
@@ -60,25 +61,25 @@ static NSArray *appColumns = nil;
     return apps.count;
 }
 
-- (NSString *)gridView:(GridView *)gridView titleForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
+- (NSView *)gridView:(GridView *)gridView viewForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
     FoundryApp *app = [apps objectAtIndex:row];
+    
+    NSString *labelTitle;
     
     switch (columnIndex) {
         case 0:
-            return app.name;
+            labelTitle = app.name;
         case 1:
-            return [app.uris objectAtIndex:0];
+            labelTitle = [app.uris objectAtIndex:0];
         case 2:
-            return [NSString stringWithFormat:@"%ld", app.instances];
+            labelTitle = [NSString stringWithFormat:@"%ld", app.instances];
         case 3:
-            return [NSString stringWithFormat:@"%ld", app.memory];
+            labelTitle = [NSString stringWithFormat:@"%ld", app.memory];
         case 4:
-            return [NSString stringWithFormat:@"%ld", app.disk];
+            labelTitle = [NSString stringWithFormat:@"%ld", app.disk];
     }
     
-    BOOL columnIndexIsValid = NO;
-    assert(columnIndexIsValid);
-    return nil;
+    return [GridLabel labelWithTitle:title];
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {

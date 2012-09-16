@@ -123,15 +123,7 @@
 }
 
 - (NSView *)viewForCellAtRow:(NSUInteger)row column:(NSUInteger)column {
-    NSString *title = [dataSource gridView:self titleForRow:row column:column];
-    NSTextField *label = [Label label];
-    ((NSTextFieldCell *)label.cell).lineBreakMode = NSLineBreakByTruncatingTail;
-    label.translatesAutoresizingMaskIntoConstraints = YES;
-    //label.backgroundColor = [NSColor redColor];
-    label.font = [NSFont boldSystemFontOfSize:12];
-    label.textColor = [NSColor colorWithCalibratedWhite:.33 alpha:1];
-    label.stringValue = title == nil ? @"" : title;
-    return label;
+    return [dataSource gridView:self viewForRow:row column:column];
 }
 
 - (CGFloat)widthOfColumn:(NSUInteger)column {
@@ -172,6 +164,22 @@
         y += row.frame.size.height;
     }
     [super layout];
+}
+
+@end
+
+@implementation GridLabel
+
++ (GridLabel *)labelWithTitle:(NSString *)title {
+    NSTextField *label = [Label label];
+    ((NSTextFieldCell *)label.cell).lineBreakMode = NSLineBreakByTruncatingTail;
+    label.translatesAutoresizingMaskIntoConstraints = YES;
+    //label.backgroundColor = [NSColor redColor];
+    label.font = [NSFont boldSystemFontOfSize:12];
+    label.textColor = [NSColor colorWithCalibratedWhite:.33 alpha:1];
+    label.stringValue = title == nil ? @"" : title;
+    return (GridLabel *)label;
+
 }
 
 @end
