@@ -187,7 +187,11 @@ BOOL URLIsDirectory(NSURL *url) {
 }
 
 NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
-    return [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
+    NSString *stripped = [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
+    if ([[stripped substringToIndex:1] isEqual:@"/"])
+        stripped = [stripped substringFromIndex:1];
+    
+    return stripped;
 }
 
 NSNumber *SizeOfFile(NSURL *url) {
@@ -233,7 +237,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     task.launchPath = @"/usr/bin/zip";
     task.currentDirectoryPath = basePath.path;
     task.arguments = [@[path.path] concat:[manifest map:^id(id f) {
-        return [f[@"fn"] substringWithRange:NSMakeRange(1, [f[@"fn"] length] - 1)];
+        return f[@"fn"];
     }]];
     
     [task launch];

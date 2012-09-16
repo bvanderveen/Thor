@@ -388,7 +388,7 @@ NSSet *(^createFiles)(NSArray *) = ^ (NSArray *files) {
         NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
         
         created = [created setByAddingObject:@{
-            @"name" : [NSString stringWithFormat:@"/%@", [NSString pathWithComponents:pathComponents]],
+            @"name" : [NSString pathWithComponents:pathComponents],
             @"contents": contents
         }];
         
@@ -425,14 +425,14 @@ describe(@"CreateSlugManifestFromPath", ^ {
         }];
         
         expect(filenames.count).to.equal(8);
-        expect(filenames).to.contain(@"/foo");
-        expect(filenames).to.contain(@"/bar");
-        expect(filenames).to.contain(@"/subdir1/foo1");
-        expect(filenames).to.contain(@"/subdir1/bar1");
-        expect(filenames).to.contain(@"/subdir2/foo2");
-        expect(filenames).to.contain(@"/subdir2/bar2");
-        expect(filenames).to.contain(@"/subdir2/subdir3/foo3");
-        expect(filenames).to.contain(@"/subdir2/subdir3/bar3");
+        expect(filenames).to.contain(@"foo");
+        expect(filenames).to.contain(@"bar");
+        expect(filenames).to.contain(@"subdir1/foo1");
+        expect(filenames).to.contain(@"subdir1/bar1");
+        expect(filenames).to.contain(@"subdir2/foo2");
+        expect(filenames).to.contain(@"subdir2/bar2");
+        expect(filenames).to.contain(@"subdir2/subdir3/foo3");
+        expect(filenames).to.contain(@"subdir2/subdir3/bar3");
     });
     
     it(@"should provide file sizes", ^ {
@@ -443,9 +443,9 @@ describe(@"CreateSlugManifestFromPath", ^ {
             return acc;
         } seed:[NSMutableDictionary dictionary]];
         
-        expect(nameToSizeDict[@"/foo"]).to.equal(@"this is /foo".length);
-        expect(nameToSizeDict[@"/subdir1/foo1"]).to.equal(@"this is /subdir1/foo1".length);
-        expect(nameToSizeDict[@"/subdir2/subdir3/bar3"]).to.equal(@"this is /subdir2/subdir3/bar3".length);
+        expect(nameToSizeDict[@"foo"]).to.equal(@"this is /foo".length);
+        expect(nameToSizeDict[@"subdir1/foo1"]).to.equal(@"this is /subdir1/foo1".length);
+        expect(nameToSizeDict[@"subdir2/subdir3/bar3"]).to.equal(@"this is /subdir2/subdir3/bar3".length);
     });
     
     it(@"should calculate SHA1 digests", ^ {
@@ -456,9 +456,9 @@ describe(@"CreateSlugManifestFromPath", ^ {
             return acc;
         } seed:[NSMutableDictionary dictionary]];
         
-        expect(nameToHashDict[@"/foo"]).to.equal(@"02d93cc62a7f63b4e4bead55fff95176251d7cc7");
-        expect(nameToHashDict[@"/subdir1/foo1"]).to.equal(@"1411e4e16e797bd23075cf9b4fc0611ea64402f2");
-        expect(nameToHashDict[@"/subdir2/subdir3/bar3"]).to.equal(@"84fb57be8728b638cfa2b100fc6b8f82dc807e62");
+        expect(nameToHashDict[@"foo"]).to.equal(@"02d93cc62a7f63b4e4bead55fff95176251d7cc7");
+        expect(nameToHashDict[@"subdir1/foo1"]).to.equal(@"1411e4e16e797bd23075cf9b4fc0611ea64402f2");
+        expect(nameToHashDict[@"subdir2/subdir3/bar3"]).to.equal(@"84fb57be8728b638cfa2b100fc6b8f82dc807e62");
     });
 });
 
@@ -491,7 +491,7 @@ NSSet *(^filesUnderRoot)(NSURL *) = ^ NSSet * (NSURL *root) {
             continue;
         
         result = [result setByAddingObject:@{
-            @"name": [url.path stringByReplacingOccurrencesOfString:root.path withString:@""],
+            @"name": [url.path stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@/", root.path] withString:@""],
             @"contents" : [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil]
          }];
     }
@@ -582,7 +582,7 @@ describe(@"TestDeployment", ^{
             NSLog(@"error: %@", [error localizedDescription]);
             err = YES;
         } completed:^{
-            [[service postSlug:slug manifest:@[] toAppWithName:@"thor_test_node"] subscribeError: ^ (NSError *error) {
+            [[service postSlug:slug manifest:manifest toAppWithName:@"thor_test_node"] subscribeError: ^ (NSError *error) {
                 NSLog(@"error: %@", [error localizedDescription]);
                 err = YES;
             } completed:^{
@@ -592,7 +592,7 @@ describe(@"TestDeployment", ^{
         }];
         
         while (!done && !err && attempts++ < 1) {
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:30.0]];
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
         }
         NSLog(@"done");
         expect(err).to.beFalsy();
