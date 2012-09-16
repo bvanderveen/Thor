@@ -6,8 +6,9 @@
 #import "SHA1.h"
 #import "NSOutputStream+Writing.h"
 
-static id (^JsonParser)(id) = ^ id (id data) {
-    return [((NSData *)data) JSONValue];
+static id (^JsonParser)(id) = ^ id (id d) {
+    NSData *data = (NSData *)d;
+    return data.length ? [data JSONValue] : nil;
 };
 
 @interface FoundryEndpoint ()
@@ -247,7 +248,6 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     }]];
     
     [task launch];
-    
     [task waitUntilExit];
     return path;
 }
