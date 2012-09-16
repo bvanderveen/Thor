@@ -64,6 +64,7 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *rootURL);
 - (RACSubscribable *)getStatsForAppWithName:(NSString *)name; // NSArray of FoundryAppInstanceStats
 
 - (RACSubscribable *)createApp:(FoundryApp *)app;
+- (RACSubscribable *)deleteAppWithName:(NSString *)name;
 - (RACSubscribable *)postSlug:(NSURL *)slug manifest:(NSArray *)manifest toAppWithName:(NSString *)name;
 
 @end

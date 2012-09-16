@@ -255,7 +255,6 @@ describe(@"getStatsForAppWithName", ^ {
     });
 });
 
-
 describe(@"createApp", ^ {
     
     __block MockEndpoint *endpoint;
@@ -269,17 +268,15 @@ describe(@"createApp", ^ {
     it(@"should call endpoint", ^ {
         
         FoundryApp *app = [FoundryApp new];
-        
-        //@synthesize name, stagingModel, stagingStack, uris, services, instances, memory, disk, state;
 
         app.name = @"appname";
         app.stagingFramework = @"rack";
         app.stagingRuntime = @"ruby18";
         app.uris = @[ @"app.foo.bar.com" ];
-        app.services = @[];
+        //app.services = @[];
         app.instances = 3;
         app.memory = 256;
-        app.disk = 512;
+        //app.disk = 512;
         app.state = FoundryAppStateStarted;
         
         [[service createApp:app] subscribeCompleted:^{ }];
@@ -314,6 +311,29 @@ describe(@"createApp", ^ {
     });
 });
 
+describe(@"deleteApp", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[service deleteAppWithName:@"foobard"] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+            @"method" : @"DELETE",
+            @"path" : @"/apps/foobard",
+            @"headers" : [NSNull null],
+            @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
 
 describe(@"postSlug", ^ {
     
@@ -397,10 +417,34 @@ NSSet *(^createFiles)(NSArray *) = ^ (NSArray *files) {
     return created;
 };
 
+void (^removeCreatedFiles)() = ^ {
+    NSError *error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+};
 
 describe(@"CreateSlugManifestFromPath", ^ {
+    void (^expectToBeIntendedFiles)(NSSet *) = ^ (NSSet *filenames) {
+        expect(filenames.count).to.equal(8);
+        expect(filenames).to.contain(@"foo");
+        expect(filenames).to.contain(@"bar");
+        expect(filenames).to.contain(@"subdir1/foo1");
+        expect(filenames).to.contain(@"subdir1/bar1");
+        expect(filenames).to.contain(@"subdir2/foo2");
+        expect(filenames).to.contain(@"subdir2/bar2");
+        expect(filenames).to.contain(@"subdir2/subdir3/foo3");
+        expect(filenames).to.contain(@"subdir2/subdir3/bar3");
+    };
+    
+    id (^filesInManifest)() = ^ id () {
+        return [CreateSlugManifestFromPath(rootURL) map:^id(id r) {
+            return [r objectForKey:@"fn"];
+        }];
+    };
+    
+    __block NSArray *intendedFiles;
+    
     beforeEach(^{
-        createFiles(@[
+        intendedFiles = createFiles(@[
                     @[ @[@"foo"], @"this is /foo" ],
                     @[ @[@"bar"], @"this is /bar" ],
                     @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
@@ -413,26 +457,22 @@ describe(@"CreateSlugManifestFromPath", ^ {
     });
     
     afterEach(^{
-        NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+        removeCreatedFiles();
     });
 
     it(@"should list files recursively", ^{
-        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
+        expectToBeIntendedFiles(filesInManifest());
+    });
+    
+    it(@"should exclude .git directories", ^ {
+        createFiles(@[
+                    @[ @[@".git", @"index-n-stuff"], @"blah blah blah" ],
+                    @[ @[@".git", @"objects"], @"tree or whatever" ],
+                    @[ @[@".git", @"whateverelse"], @"wish I understood git more" ]
+                    ]);
         
-        NSArray *filenames = [manifest map:^id(id r) {
-            return [r objectForKey:@"fn"];
-        }];
         
-        expect(filenames.count).to.equal(8);
-        expect(filenames).to.contain(@"foo");
-        expect(filenames).to.contain(@"bar");
-        expect(filenames).to.contain(@"subdir1/foo1");
-        expect(filenames).to.contain(@"subdir1/bar1");
-        expect(filenames).to.contain(@"subdir2/foo2");
-        expect(filenames).to.contain(@"subdir2/bar2");
-        expect(filenames).to.contain(@"subdir2/subdir3/foo3");
-        expect(filenames).to.contain(@"subdir2/subdir3/bar3");
+        expectToBeIntendedFiles(filesInManifest());
     });
     
     it(@"should provide file sizes", ^ {
@@ -547,12 +587,11 @@ describe(@"TestDeployment", ^{
         
         NSTask *task = [NSTask new];
         task.launchPath = @"/usr/bin/git";
-        task.arguments = @[ @"clone", @"git://github.com/Adron/paasIt.git", repoPath ];
+        task.arguments = @[ @"clone", @"git://github.com/Adron/goldmind.git", repoPath ];
         [task launch];
         [task waitUntilExit];
         
-        NSURL *nodeTestAppURL = [NSURL fileURLWithPath:[NSString pathWithComponents:[repoPathComponents arrayByAddingObject:@"nodejs_basic_cloudfoundry"]]];
-        
+        NSURL *nodeTestAppURL = [NSURL fileURLWithPath:[NSString pathWithComponents:repoPathComponents]];
         
         NSArray *manifest = CreateSlugManifestFromPath(nodeTestAppURL);
         NSURL *slug = CreateSlugFromManifest(manifest, nodeTestAppURL);
@@ -565,14 +604,14 @@ describe(@"TestDeployment", ^{
         FoundryService *service = [[FoundryService alloc] initWithEndpoint:endpoint];
         
         FoundryApp *app = [FoundryApp new];
-        app.name = @"thor_test_node";
-        app.uris = @[ @"thor_test_node.bvanderveen.cloudfoundry.me" ];
+        app.name = @"goldmind";
+        app.uris = @[ @"goldmind.bvanderveen.cloudfoundry.me" ];
         app.instances = 1;
         //app.state = FoundryAppStateStarted;
         app.memory = 64;
         //app.disk = 2048;
         app.stagingFramework = @"node";
-        app.stagingRuntime = [NSNull null];//@"node";
+        //app.stagingRuntime = [NSNull null];//@"node";
         //app.services = @[];
         
         __block BOOL done = NO, err = NO;
@@ -582,7 +621,7 @@ describe(@"TestDeployment", ^{
             NSLog(@"error: %@", [error localizedDescription]);
             err = YES;
         } completed:^{
-            [[service postSlug:slug manifest:manifest toAppWithName:@"thor_test_node"] subscribeError: ^ (NSError *error) {
+            [[service postSlug:slug manifest:manifest toAppWithName:@"goldmind"] subscribeError: ^ (NSError *error) {
                 NSLog(@"error: %@", [error localizedDescription]);
                 err = YES;
             } completed:^{
@@ -594,7 +633,7 @@ describe(@"TestDeployment", ^{
         while (!done && !err && attempts++ < 1) {
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
         }
-        NSLog(@"done");
+        
         expect(err).to.beFalsy();
         expect(done).to.beTruthy();
         

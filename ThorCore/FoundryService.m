@@ -127,7 +127,7 @@ NSString *AppStateStringFromState(FoundryAppState state) {
         @"name" : name,
         @"staging" : @{
             @"framework" : stagingFramework ? stagingFramework : [NSNull null],
-            @"runtime" : stagingRuntime ? stagingFramework : [NSNull null],
+            @"runtime" : stagingRuntime ? stagingRuntime : [NSNull null],
         },
         @"uris" : uris,
         @"instances" : [NSNumber numberWithInteger:instances],
@@ -186,6 +186,12 @@ BOOL URLIsDirectory(NSURL *url) {
     return [attributes[NSFileType] isEqual:NSFileTypeDirectory];
 }
 
+BOOL URLIsInGitDirectory(NSURL *url) {
+    BOOL result = [url.path rangeOfString:@".git"].location != NSNotFound;
+    NSLog(@"URLIsInGitDirectory %@ = %d", url, result);
+    return result;
+}
+
 NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
     NSString *stripped = [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
     if ([[stripped substringToIndex:1] isEqual:@"/"])
@@ -218,7 +224,7 @@ NSArray *GetItemsOnPath(NSURL *path) {
 
 NSArray *CreateSlugManifestFromPath(NSURL *path) {
     return [[GetItemsOnPath(path) filter:^BOOL(id url) {
-        return !URLIsDirectory(url);
+        return !URLIsDirectory(url) && !URLIsInGitDirectory(url);
     }] map:^ id (id f) {
         return @{
         @"fn" : StripBasePath(path, f),
@@ -287,6 +293,10 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
 
 - (RACSubscribable *)createApp:(FoundryApp *)app {
     return [endpoint authenticatedRequestWithMethod:@"POST" path:@"/apps" headers:nil body:[app dictionaryRepresentation]];
+}
+
+- (RACSubscribable *)deleteAppWithName:(NSString *)name {
+    return [endpoint authenticatedRequestWithMethod:@"DELETE" path:[NSString stringWithFormat:@"/apps/%@", name] headers:nil body:nil];
 }
 
 - (RACSubscribable *)postSlug:(NSURL *)slug manifest:(NSArray *)manifest toAppWithName:(NSString *)name {
