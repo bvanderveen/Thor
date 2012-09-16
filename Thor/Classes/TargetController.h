@@ -9,5 +9,6 @@
 @property (nonatomic, strong) IBOutlet TargetView *targetView;
 
 - (IBAction)editClicked:(id)sender;
+- (IBAction)deleteClicked:(id)sender;
 
 @end

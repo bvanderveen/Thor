@@ -106,4 +106,16 @@ static NSArray *appColumns = nil;
     [sheet orderOut:self];
 }
 
+- (void)deleteClicked:(id)sender {
+    [[ThorBackend sharedContext] deleteObject:self.target];
+    NSError *error;
+    
+    if (![[ThorBackend sharedContext] save:&error]) {
+        [NSApp presentError:error];
+        return;
+    }
+    
+    [self.breadcrumbController popViewControllerAnimated:YES];
+}
+
 @end
