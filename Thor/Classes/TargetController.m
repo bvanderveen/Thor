@@ -82,13 +82,11 @@ static NSArray *appColumns = nil;
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
+    return;
+    
     FoundryApp *app = [apps objectAtIndex:row];
-    
-    DeploymentInfo *deploymentInfo = [DeploymentInfo new];
-    deploymentInfo.appName = app.name;
-    deploymentInfo.endpoint = service.endpoint;
-    
-    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
+    Deployment *deployment = nil; // TODO lookup by app/target
+    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 

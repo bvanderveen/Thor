@@ -2,12 +2,6 @@
 #import "NSObject+AssociateDisposable.h"
 #import "RACSubscribable+ShowLoadingView.h"
 
-@implementation DeploymentInfo
-
-@synthesize appName, endpoint;
-
-@end
-
 @interface DeploymentController ()
 
 @property (nonatomic, strong) FoundryService *service;
@@ -18,17 +12,17 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize service, deploymentInfo, app, title, deploymentView, breadcrumbController, instanceStats;
+@synthesize service, deployment, app, title, deploymentView, breadcrumbController, instanceStats;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
 }
 
-- (id)initWithDeploymentInfo:(DeploymentInfo *)leDeploymentInfo {
+- (id)initWithDeployment:(Deployment *)leDeployment {
     if (self = [super initWithNibName:@"DeploymentView" bundle:[NSBundle mainBundle]]) {
-        self.title = leDeploymentInfo.appName;
-        self.deploymentInfo = leDeploymentInfo;
-        self.service = [[FoundryService alloc] initWithEndpoint:deploymentInfo.endpoint];
+        self.title = leDeployment.appName;
+        self.deployment = leDeployment;
+        self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     }
     return self;
 }
@@ -37,8 +31,8 @@ static NSArray *instanceColumns = nil;
     NSError *error = nil;
     
     NSArray *subscribables = @[
-        [service getStatsForAppWithName:deploymentInfo.appName],
-        [service getAppWithName:deploymentInfo.appName]];
+        [service getStatsForAppWithName:deployment.appName],
+        [service getAppWithName:deployment.appName]];
     
     RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
     
@@ -94,6 +88,22 @@ static NSArray *instanceColumns = nil;
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
     NSLog(@"Clicked at index %lu", row);
+}
+
+- (IBAction)deleteClicked:(id)sender {
+    self.associatedDisposable = [[service deleteAppWithName:deployment.appName] subscribeError:^(NSError *error) {
+        [NSApp presentError:error];
+    } completed:^{
+        [[ThorBackend sharedContext] deleteObject:deployment];
+        NSError *error;
+        
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+            return;
+        }
+        
+        [self.breadcrumbController popViewControllerAnimated:YES];
+    }];
 }
 
 @end

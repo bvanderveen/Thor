@@ -96,14 +96,8 @@ static NSArray *deploymentColumns = nil;
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
     Deployment *deployment = [deployments objectAtIndex:row];
-    NSError *error = nil;
-    Target *targetOfDeployment = [[ThorBackend shared] getTargetForDeployment:deployment error:&error];
     
-    DeploymentInfo *deploymentInfo = [DeploymentInfo new];
-    deploymentInfo.appName = deployment.appName;
-    deploymentInfo.endpoint = [FoundryEndpoint endpointWithTarget:targetOfDeployment];
-    
-    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeploymentInfo:deploymentInfo];
+    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
