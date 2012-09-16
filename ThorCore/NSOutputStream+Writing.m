@@ -10,12 +10,13 @@
     
     while (bytesCopied < data.length) {
         NSUInteger bytesToCopy = MIN(bufferSize, data.length - bytesCopied);
-        [data getBytes:buffer length:bytesToCopy];
+        [data getBytes:buffer range:NSMakeRange(bytesCopied, bytesToCopy)];
         
         int bytesWritten = 0;
         while (bytesWritten < bytesToCopy)
         {
-            bytesWritten += [self write:(&buffer)[bytesWritten] maxLength:bytesToCopy - bytesWritten];
+            NSInteger written = [self write:(&buffer)[bytesWritten] maxLength:bytesToCopy - bytesWritten];
+            bytesWritten += written;
         }
         
         bytesCopied += bytesToCopy;
@@ -27,15 +28,18 @@
 }
 
 - (void)writeStream:(NSInputStream *)stream {
-    NSInteger bytesRead = 0;
     int bufferSize = 1024 * 4;
     uint8_t buffer[bufferSize];
     
     while (true) {
+        NSInteger bytesRead = [stream read:&buffer maxLength:bufferSize];
         
-        bytesRead = [stream read:(&buffer)[bytesRead] maxLength:bufferSize];
+        if (bytesRead == -1) {
+            NSLog(@"Error while reading stream: %@", [stream.streamError localizedDescription]);
+            break;
+        }
         
-        if (bytesRead <= 0)
+        if (bytesRead == 0)
             break;
         
         int bytesWritten = 0;
