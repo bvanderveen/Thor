@@ -34,7 +34,7 @@
         openPanel.allowsMultipleSelection = NO;
         [openPanel beginSheetModalForWindow:self.view.window completionHandler:^ void (NSInteger result) {
             if (result == NSFileHandlingPanelOKButton) {
-                app.localRoot = [[openPanel.URLs objectAtIndex:0] absoluteString];
+                app.localRoot = [[openPanel.URLs objectAtIndex:0] path];
             }
         }];
     }
