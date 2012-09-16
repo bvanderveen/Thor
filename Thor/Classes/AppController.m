@@ -24,7 +24,7 @@ static NSArray *deploymentColumns = nil;
 @implementation AppController
 
 + (void)initialize {
-    deploymentColumns = @[@"Title", @"App name", @"Cloud name", @"Cloud hostname"];
+    deploymentColumns = @[@"Title", @"App name", @"Cloud name", @"Cloud hostname", @"Push"];
 }
 
 @synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
@@ -84,12 +84,27 @@ static NSArray *deploymentColumns = nil;
     switch (columnIndex) {
         case 0:
             labelTitle = deployment.displayName;
+            break;
         case 1:
             labelTitle = deployment.appName;
+            break;
         case 2:
             labelTitle = deployment.target.displayName;
+            break;
         case 3:
             labelTitle = deployment.target.hostname;
+            break;
+        case 4:
+        {
+            NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
+            button.title = @"Push";
+            button.bezelStyle = NSTexturedRoundedBezelStyle;
+            
+            [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
+                [self pushDeployment:deployment];
+            }]];
+            return button;
+        }
     }
     
     return [GridLabel labelWithTitle:labelTitle];
@@ -146,6 +161,10 @@ static NSArray *deploymentColumns = nil;
     }
         
     [self.breadcrumbController popViewControllerAnimated:YES];
+}
+
+- (void)pushDeployment:(Deployment *)deployment {
+    NSLog(@"push shit");
 }
 
 @end

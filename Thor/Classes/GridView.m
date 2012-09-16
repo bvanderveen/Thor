@@ -132,7 +132,7 @@
 }
 
 - (CGFloat)rowHeight {
-    return 30;
+    return 34;
 }
 
 - (CGFloat)totalHeight {
@@ -155,9 +155,12 @@
         
         CGFloat x = 0;
         for (int j = 0; j < row.cells.count; j++) {
-            NSTextField *cell = [row.cells objectAtIndex:j];
+            NSView *cell = [row.cells objectAtIndex:j];
             CGFloat columnWidth = [self widthOfColumn:j];
-            cell.frame = NSMakeRect(x, -5, columnWidth, rowHeight);
+            CGFloat y = [cell isKindOfClass:[NSTextField class]] ? -7 : 1;
+            CGFloat width = [cell isKindOfClass:[NSTextField class]] ? columnWidth : columnWidth - 10;
+            CGFloat xAdjusted = [cell isKindOfClass:[NSTextField class]] ? x : x + 5;
+            cell.frame = NSMakeRect(xAdjusted, y, width, rowHeight);
             x += columnWidth;
         }
         
