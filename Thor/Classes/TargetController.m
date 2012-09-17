@@ -69,17 +69,22 @@ static NSArray *appColumns = nil;
     switch (columnIndex) {
         case 0:
             labelTitle = app.name;
+            break;
         case 1:
-            labelTitle = [app.uris objectAtIndex:0];
+            labelTitle = app.uris.count ? [app.uris objectAtIndex:0] : @"";
+            break;
         case 2:
             labelTitle = [NSString stringWithFormat:@"%ld", app.instances];
+            break;
         case 3:
             labelTitle = [NSString stringWithFormat:@"%ld", app.memory];
+            break;
         case 4:
             labelTitle = [NSString stringWithFormat:@"%ld", app.disk];
+            break;
     }
     
-    return [GridLabel labelWithTitle:title];
+    return [GridLabel labelWithTitle:labelTitle];
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {

@@ -72,19 +72,25 @@ static NSArray *instanceColumns = nil;
     switch (columnIndex) {
         case 0:
             labelTitle = stats.ID;
+            break;
         case 1:
             labelTitle = stats.host;
+            break;
         case 2:
             labelTitle = [NSString stringWithFormat:@"%f", stats.cpu];
+            break;
         case 3:
             labelTitle = [NSString stringWithFormat:@"%f", stats.memory];
+            break;
         case 4:
             labelTitle = [NSString stringWithFormat:@"%ld", stats.disk];
+            break;
         case 5:
             labelTitle = [NSString stringWithFormat:@"%f", stats.uptime];
+            break;
     }
     
-    return [GridLabel labelWithTitle:title];
+    return [GridLabel labelWithTitle:labelTitle];
 }
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
