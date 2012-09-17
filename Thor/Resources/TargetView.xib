@@ -333,12 +333,12 @@
 															<object class="NSCustomView" id="554338724">
 																<reference key="NSNextResponder" ref="968936066"/>
 																<int key="NSvFlags">268</int>
-																<string key="NSFrame">{{2, 3}, {440, 180}}</string>
+																<string key="NSFrame">{{1, 3}, {440, 180}}</string>
 																<reference key="NSSuperview" ref="968936066"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="232039823"/>
 																<string key="NSReuseIdentifierKey">_NS:9</string>
-																<string key="NSClassName">GridView</string>
+																<string key="NSClassName">ListView</string>
 															</object>
 														</array>
 														<string key="NSFrame">{{1, 1}, {444, 188}}</string>
@@ -394,6 +394,7 @@
 								<string key="NSFrame">{{475, 0}, {16, 427}}</string>
 								<reference key="NSSuperview" ref="1025701711"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:15</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="1025701711"/>
@@ -481,14 +482,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">deploymentsGrid</string>
-						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="554338724"/>
-					</object>
-					<int key="connectionID">267</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">deploymentsBox</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="764591424"/>
@@ -510,6 +503,14 @@
 						<reference key="destination" ref="892346521"/>
 					</object>
 					<int key="connectionID">677</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">deploymentsList</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="554338724"/>
+					</object>
+					<int key="connectionID">683</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -839,7 +840,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">682</int>
+			<int key="maxID">683</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -852,7 +853,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">GridView</string>
+					<string key="className">ListView</string>
 					<string key="superclassName">NSView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="dataSource">id</string>
@@ -870,7 +871,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GridView.h</string>
+						<string key="minorKey">./Classes/ListView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -930,7 +931,7 @@
 					<string key="superclassName">NSView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="deploymentsBox">NSBox</string>
-						<string key="deploymentsGrid">GridView</string>
+						<string key="deploymentsList">ListView</string>
 						<string key="scrollView">NSScrollView</string>
 						<string key="settingsBox">NSBox</string>
 						<string key="settingsView">NSView</string>
@@ -940,9 +941,9 @@
 							<string key="name">deploymentsBox</string>
 							<string key="candidateClassName">NSBox</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="deploymentsGrid">
-							<string key="name">deploymentsGrid</string>
-							<string key="candidateClassName">GridView</string>
+						<object class="IBToOneOutletInfo" key="deploymentsList">
+							<string key="name">deploymentsList</string>
+							<string key="candidateClassName">ListView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="scrollView">
 							<string key="name">scrollView</string>

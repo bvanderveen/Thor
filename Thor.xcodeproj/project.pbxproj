@@ -51,6 +51,7 @@
 		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
 		419E73C216068B6F009FA6D3 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 419E73C116068B6F009FA6D3 /* icon.icns */; };
+		419E73C51607E13F009FA6D3 /* ListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C41607E13F009FA6D3 /* ListView.m */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -325,6 +326,8 @@
 		418BF29715BF43B600E313C7 /* ItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsView.h; path = Classes/ItemsView.h; sourceTree = "<group>"; };
 		418BF29815BF43B600E313C7 /* ItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsView.m; path = Classes/ItemsView.m; sourceTree = "<group>"; };
 		419E73C116068B6F009FA6D3 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		419E73C31607E13F009FA6D3 /* ListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListView.h; path = Classes/ListView.h; sourceTree = "<group>"; };
+		419E73C41607E13F009FA6D3 /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListView.m; path = Classes/ListView.m; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
@@ -530,6 +533,8 @@
 				414E185115C0B55F007C9508 /* CollectionView.m */,
 				414E185815C1BC0E007C9508 /* GridView.h */,
 				414E185915C1BC0E007C9508 /* GridView.m */,
+				419E73C31607E13F009FA6D3 /* ListView.h */,
+				419E73C41607E13F009FA6D3 /* ListView.m */,
 				41D286CF15C87B9200206E3A /* SheetWindow.h */,
 				41D286D015C87B9200206E3A /* SheetWindow.m */,
 				4165678F15D5DE2000EF93DF /* NSString+ShadowedTextDrawing.h */,
@@ -1257,6 +1262,7 @@
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
 				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
 				413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */,
+				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -103,7 +103,7 @@
         r.selectable = YES;
         NSMutableArray *cells = [NSMutableArray array];
         for (int j = 0; j < columns; j++) {
-            [cells addObject:[self viewForCellAtRow:i column:j]];
+            [cells addObject:[dataSource gridView:self viewForRow:i column:j]];
         }
         r.cells = cells;
         [newGridRows addObject:r];
@@ -124,10 +124,6 @@
     label.textColor = [NSColor colorWithCalibratedWhite:.66 alpha:1];
     label.stringValue = title;
     return label;
-}
-
-- (NSView *)viewForCellAtRow:(NSUInteger)row column:(NSUInteger)column {
-    return [dataSource gridView:self viewForRow:row column:column];
 }
 
 - (CGFloat)widthOfColumn:(NSUInteger)column {
