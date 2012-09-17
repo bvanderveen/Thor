@@ -11,22 +11,22 @@
 
 @property (nonatomic, copy) NSArray *cells;
 @property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, assign) BOOL selectable;
 @property (nonatomic, unsafe_unretained) GridView *gridView;
 
 @end
 
 @implementation GridRow
 
-@synthesize cells = _cells, highlighted, gridView;
+@synthesize cells = _cells, selectable = _selectable, highlighted, gridView;
 
-- (id)initWithFrame:(NSRect)frameRect {
-    if (self = [super initWithFrame:frameRect]) {
-        //self.translatesAutoresizingMaskIntoConstraints = NO;
-        //self.autoresizesSubviews = NO;
+- (void)setSelectable:(BOOL)selectable {
+    _selectable = selectable;
+    
+    if (selectable) {
         NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:trackingArea];
     }
-    return self;
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
@@ -44,7 +44,10 @@
 }
 
 - (void)cursorUpdate:(NSEvent *)event {
-    [[NSCursor pointingHandCursor] set];
+    if (_selectable)
+        [[NSCursor pointingHandCursor] set];
+    else
+        [[NSCursor arrowCursor] set];
 }
 
 - (void)setCells:(NSArray *)cells {
@@ -97,6 +100,7 @@
     
     for (int i = 0; i < rows; i++) {
         GridRow *r = [GridRow new];
+        r.selectable = YES;
         NSMutableArray *cells = [NSMutableArray array];
         for (int j = 0; j < columns; j++) {
             [cells addObject:[self viewForCellAtRow:i column:j]];
