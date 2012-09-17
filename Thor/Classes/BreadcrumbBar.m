@@ -169,6 +169,8 @@
     NSUInteger index = [stack indexOfObject:itemView.item];
     if (stack.count == 1) return;
     NSUInteger currentIndex = stack.count - 1;
+    if (index == 0)
+        index = MAX(0, stack.count - 2);
     while (currentIndex > index) {
         id<BreadcrumbItem> itemAtIndex = [stack objectAtIndex:currentIndex];
         [delegate breadcrumbBar:self willPopItem:itemAtIndex];
