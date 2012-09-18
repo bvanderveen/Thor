@@ -46,3 +46,63 @@
 }
 
 @end
+
+
+@interface ListCell ()
+
+@property (nonatomic, unsafe_unretained) ListView *listView;
+
+@end
+
+@implementation ListCell
+
+@synthesize selectable = _selectable, highlighted, listView;
+
+- (id)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        self.selectable = YES;
+    }
+    return self;
+}
+
+- (void)setSelectable:(BOOL)selectable {
+    _selectable = selectable;
+    
+    if (selectable) {
+        NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        [self addTrackingArea:trackingArea];
+    }
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+    highlighted = YES;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+    highlighted = NO;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+    [listView.delegate listView:listView didSelectRowAtIndex:[listView.cells indexOfObject:self] - 1];
+}
+
+- (void)cursorUpdate:(NSEvent *)event {
+    if (_selectable)
+        [[NSCursor pointingHandCursor] set];
+    else
+        [[NSCursor arrowCursor] set];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    if (highlighted) {
+        [[NSColor colorWithCalibratedRed:.84 green:.93 blue:.96 alpha:1] set];
+        NSRectFill(self.bounds);
+    }
+    
+    [[NSColor colorWithCalibratedWhite:.9 alpha:1] set];
+    NSRectFill(NSMakeRect(0, 0, self.bounds.size.width, 1));
+}
+
+@end

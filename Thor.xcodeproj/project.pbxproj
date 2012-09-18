@@ -52,6 +52,7 @@
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
 		419E73C216068B6F009FA6D3 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 419E73C116068B6F009FA6D3 /* icon.icns */; };
 		419E73C51607E13F009FA6D3 /* ListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C41607E13F009FA6D3 /* ListView.m */; };
+		419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -328,6 +329,8 @@
 		419E73C116068B6F009FA6D3 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		419E73C31607E13F009FA6D3 /* ListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListView.h; path = Classes/ListView.h; sourceTree = "<group>"; };
 		419E73C41607E13F009FA6D3 /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListView.m; path = Classes/ListView.m; sourceTree = "<group>"; };
+		419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFont+LineHeight.h"; path = "Classes/NSFont+LineHeight.h"; sourceTree = "<group>"; };
+		419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFont+LineHeight.m"; path = "Classes/NSFont+LineHeight.m"; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
@@ -547,6 +550,8 @@
 				410E277A15ED78D100636BBE /* DrawerBar.m */,
 				413C2DE715F9282A00C80B4C /* LoadingView.h */,
 				413C2DE815F9282A00C80B4C /* LoadingView.m */,
+				419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */,
+				419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1263,6 +1268,7 @@
 				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
 				413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */,
 				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
+				419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,3 +24,10 @@
 - (void)reloadData;
 
 @end
+
+@interface ListCell : NSView
+
+@property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, assign) BOOL selectable;
+
+@end

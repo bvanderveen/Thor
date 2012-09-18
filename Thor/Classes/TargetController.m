@@ -3,9 +3,10 @@
 #import "SheetWindow.h"
 #import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
-#import "GridView.h"
+#import "DeploymentMemoryTransformer.h"
+#import "NSFont+LineHeight.h"
 
-@interface AppCell : NSView
+@interface AppCell : ListCell
 
 @property (nonatomic, strong) FoundryApp *app;
 
@@ -21,7 +22,20 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [_app.name drawInRect:dirtyRect withAttributes:nil];
+    [super drawRect:dirtyRect];
+    
+    NSFont *nameFont = [NSFont boldSystemFontOfSize:12];
+    
+    [_app.name drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight, self.bounds.size.width, nameFont.lineHeight) withAttributes:@{
+        NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha:1],
+         NSFontAttributeName : nameFont
+     }];
+    
+    NSFont *memoryFont = [NSFont systemFontOfSize:12];
+    [[NSString stringWithFormat:@"%ld MB memory", _app.memory] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
+        NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha:1],
+        NSFontAttributeName : memoryFont
+     }];
 }
 
 @end
