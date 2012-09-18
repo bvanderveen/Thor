@@ -49,6 +49,7 @@
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */; };
 		41826E8F1608F6A40094F5C2 /* DeploymentIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */; };
+		41826E921608FD900094F5C2 /* DeploymentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41826E911608FD900094F5C2 /* DeploymentCell.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
@@ -325,6 +326,8 @@
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
 		41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentIcon.png; path = Resources/DeploymentIcon.png; sourceTree = "<group>"; };
 		41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentIconSelected.png; path = Resources/DeploymentIconSelected.png; sourceTree = "<group>"; };
+		41826E901608FD900094F5C2 /* DeploymentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentCell.h; path = Classes/DeploymentCell.h; sourceTree = "<group>"; };
+		41826E911608FD900094F5C2 /* DeploymentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentCell.m; path = Classes/DeploymentCell.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		418BF28F15BF16CE00E313C7 /* ItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsController.h; path = Classes/ItemsController.h; sourceTree = "<group>"; };
 		418BF29015BF16CE00E313C7 /* ItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsController.m; path = Classes/ItemsController.m; sourceTree = "<group>"; };
@@ -643,6 +646,8 @@
 		41B9233B15D187B00004D167 /* App View */ = {
 			isa = PBXGroup;
 			children = (
+				41826E901608FD900094F5C2 /* DeploymentCell.h */,
+				41826E911608FD900094F5C2 /* DeploymentCell.m */,
 				41FA11D715E433EB0079FD30 /* AppView.xib */,
 				41B9238215D1909F0004D167 /* AppView.h */,
 				41B9238315D1909F0004D167 /* AppView.m */,
@@ -1277,6 +1282,7 @@
 				413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */,
 				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
 				419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */,
+				41826E921608FD900094F5C2 /* DeploymentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

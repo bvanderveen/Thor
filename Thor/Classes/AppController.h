@@ -1,5 +1,4 @@
 #import "BreadcrumbController.h"
-#import "GridView.h"
 #import "AppView.h"
 #import "ItemsController.h"
 #import "ThorCore.h"
