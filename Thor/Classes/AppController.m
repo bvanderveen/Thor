@@ -7,6 +7,22 @@
 #import "ThorCore.h"
 #import "GridView.h"
 
+@interface DeploymentCell : ListCell
+
+@property (nonatomic, strong) Deployment *deployment;
+
+@end
+
+@implementation DeploymentCell
+
+@synthesize deployment;
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+}
+
+@end
+
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
 
@@ -19,13 +35,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 @end
 
-static NSArray *deploymentColumns = nil;
-
 @implementation AppController
-
-+ (void)initialize {
-    deploymentColumns = @[@"Title", @"App name", @"Cloud name", @"Cloud hostname", @"Push"];
-}
 
 @synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
 
@@ -39,7 +49,7 @@ static NSArray *deploymentColumns = nil;
 - (void)updateDeployments {
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
-    [appView.appContentView.deploymentsGrid reloadData];
+    [appView.appContentView.deploymentsList reloadData];
     appView.appContentView.needsLayout = YES;
 }
 
@@ -64,55 +74,19 @@ static NSArray *deploymentColumns = nil;
     return self;
 }
 
-- (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
-    return deploymentColumns.count;
-}
-
-- (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex {
-    return [deploymentColumns objectAtIndex:columnIndex];
-}
-
-- (NSUInteger)numberOfRowsForGridView:(GridView *)gridView {
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
     return deployments.count;
 }
 
-- (NSView *)gridView:(GridView *)gridView viewForRow:(NSUInteger)row column:(NSUInteger)columnIndex {
-    Deployment *deployment = [deployments objectAtIndex:row];
-    
-    NSString *labelTitle;
-    
-    switch (columnIndex) {
-        case 0:
-            labelTitle = deployment.displayName;
-            break;
-        case 1:
-            labelTitle = deployment.appName;
-            break;
-        case 2:
-            labelTitle = deployment.target.displayName;
-            break;
-        case 3:
-            labelTitle = deployment.target.hostname;
-            break;
-        case 4:
-        {
-            NSButton *button = [[NSButton alloc] initWithFrame:NSZeroRect];
-            button.title = @"Push";
-            button.bezelStyle = NSTexturedRoundedBezelStyle;
-            
-            [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
-                [self pushDeployment:deployment sender:button];
-            }]];
-            return button;
-        }
-    }
-    
-    return [GridLabel labelWithTitle:labelTitle];
+- (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    Deployment *deployment = deployments[row];
+    DeploymentCell *cell = [[DeploymentCell alloc] initWithFrame:NSZeroRect];
+    cell.deployment = deployment;
+    return cell;
 }
 
-- (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
-    Deployment *deployment = [deployments objectAtIndex:row];
-    
+- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
+    Deployment *deployment = deployments[row];
     DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
