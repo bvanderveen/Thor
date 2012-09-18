@@ -47,6 +47,8 @@
 		417FEFA615ACBFE300E64503 /* ToolbarTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFA515ACBFE300E64503 /* ToolbarTabController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
+		41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */; };
+		41826E8F1608F6A40094F5C2 /* DeploymentIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
 		418BF29115BF16CF00E313C7 /* ItemsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29015BF16CE00E313C7 /* ItemsController.m */; };
 		418BF29915BF43B700E313C7 /* ItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 418BF29815BF43B600E313C7 /* ItemsView.m */; };
@@ -321,6 +323,8 @@
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
 		417FEFB415AD211800E64503 /* BreadcrumbBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbBar.m; path = Classes/BreadcrumbBar.m; sourceTree = "<group>"; };
+		41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentIcon.png; path = Resources/DeploymentIcon.png; sourceTree = "<group>"; };
+		41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentIconSelected.png; path = Resources/DeploymentIconSelected.png; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		418BF28F15BF16CE00E313C7 /* ItemsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsController.h; path = Classes/ItemsController.h; sourceTree = "<group>"; };
 		418BF29015BF16CE00E313C7 /* ItemsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsController.m; path = Classes/ItemsController.m; sourceTree = "<group>"; };
@@ -514,6 +518,8 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */,
+				41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */,
 				413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */,
 				4135F59415D33BEE0054D961 /* AppIcon.png */,
 				4135F59515D33BEE0054D961 /* AppIconSelected.png */,
@@ -1159,6 +1165,8 @@
 				41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */,
 				41EE94F215F6939700A45951 /* DeploymentPropertiesView.xib in Resources */,
 				419E73C216068B6F009FA6D3 /* icon.icns in Resources */,
+				41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */,
+				41826E8F1608F6A40094F5C2 /* DeploymentIconSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

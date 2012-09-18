@@ -28,6 +28,10 @@
 
 @synthesize scrollView, deploymentsList, deploymentsBox, settingsBox, settingsView;
 
+- (void)awakeFromNib {
+    deploymentsList.rowHeight = 50;
+}
+
 - (void)layout {
     [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView box1:settingsBox boxContent1:settingsView box2:deploymentsBox boxContent2:deploymentsList];
     
