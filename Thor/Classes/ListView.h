@@ -1,10 +1,10 @@
 
-@class ListView;
+@class ListView, ListCell;
 
 @protocol ListViewDataSource <NSObject>
 
 - (NSUInteger)numberOfRowsForListView:(ListView *)listView;
-- (NSView *)listView:(ListView *)listView viewForRow:(NSUInteger)row;
+- (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row;
 
 @end
 

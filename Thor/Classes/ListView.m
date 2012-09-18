@@ -1,5 +1,11 @@
 #import "ListView.h"
 
+@interface ListCell ()
+
+@property (nonatomic, unsafe_unretained) ListView *listView;
+
+@end
+
 @interface ListView ()
 
 @property (nonatomic, copy) NSArray *cells;
@@ -25,7 +31,8 @@
     
     NSMutableArray *newCells = [NSMutableArray array];
     for (int i = 0; i < rows; i++) {
-        NSView *cell = [dataSource listView:self viewForRow:i];
+        ListCell *cell = [dataSource listView:self cellForRow:i];
+        cell.listView = self;
         [newCells addObject:cell];
         [self addSubview:cell];
     }
@@ -44,13 +51,6 @@
 - (CGSize)intrinsicContentSize {
     return NSMakeSize(NSViewNoInstrinsicMetric, self.cells.count * rowHeight);
 }
-
-@end
-
-
-@interface ListCell ()
-
-@property (nonatomic, unsafe_unretained) ListView *listView;
 
 @end
 
@@ -85,7 +85,7 @@
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-    [listView.delegate listView:listView didSelectRowAtIndex:[listView.cells indexOfObject:self] - 1];
+    [listView.delegate listView:listView didSelectRowAtIndex:[listView.cells indexOfObject:self]];
 }
 
 - (void)cursorUpdate:(NSEvent *)event {

@@ -82,7 +82,7 @@
     return apps.count;
 }
 
-- (NSView *)listView:(ListView *)listView viewForRow:(NSUInteger)row {
+- (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
     AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
     cell.app = apps[row];
     return cell;
