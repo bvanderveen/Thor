@@ -6,55 +6,7 @@
 #import "DeploymentPropertiesController.h"
 #import "ThorCore.h"
 #import "DeploymentCell.h"
-
-
-#import "NSFont+LineHeight.h"
-@interface NoResultsCell : ListCell
-@end
-
-@implementation NoResultsCell
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    
-    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-    style.alignment = NSCenterTextAlignment;
-    NSFont *font = [NSFont boldSystemFontOfSize:12];
-    [@"No results" drawInRect:NSMakeRect(0, (self.bounds.size.height - font.lineHeight) / 2 + 2, self.bounds.size.width, font.lineHeight) withAttributes:@{
-        NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:.8 alpha:1],
-        NSFontAttributeName : font,
-        NSParagraphStyleAttributeName : style
-     }];
-}
-
-@end
-
-@interface NoResultsListViewDataSource : NSObject <ListViewDataSource>
-
-@property (nonatomic, unsafe_unretained) id<ListViewDataSource> dataSource;
-
-@end
-
-@implementation NoResultsListViewDataSource
-
-@synthesize dataSource;
-
-- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
-    NSUInteger result = [dataSource numberOfRowsForListView:listView];
-    if (result == 0)
-        return 1;
-    return result;
-}
-- (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
-    NSUInteger result = [dataSource numberOfRowsForListView:listView];
-    if (result == 0)
-        return [[NoResultsCell alloc] initWithFrame:NSZeroRect];
-    else
-        return [dataSource listView:listView cellForRow:row];
-}
-
-
-@end
+#import "NoResultsListViewDataSource.h"
 
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
