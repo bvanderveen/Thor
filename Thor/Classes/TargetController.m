@@ -4,18 +4,20 @@
 #import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
 #import "AppCell.h"
+#import "NoResultsListViewDataSource.h"
 
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
 @property (nonatomic, strong) FoundryService *service;
 @property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
+@property (nonatomic, strong) NoResultsListViewDataSource *dataSource;
 
 @end
 
 @implementation TargetController
 
-@synthesize target = _target, targetView, breadcrumbController, title, apps, service, targetPropertiesController;
+@synthesize target = _target, targetView, breadcrumbController, title, apps, service, targetPropertiesController, dataSource;
 
 - (void)setTarget:(Target *)value {
     _target = value;
@@ -31,6 +33,12 @@
         self.title = @"Cloud";
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    self.dataSource = [[NoResultsListViewDataSource alloc] init];
+    dataSource.dataSource = self;
+    self.targetView.deploymentsList.dataSource = dataSource;
 }
 
 - (void)viewWillAppear {
