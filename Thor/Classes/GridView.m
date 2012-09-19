@@ -1,5 +1,6 @@
 #import "GridView.h"
 #import "CollectionView.h"
+#import "NoResultsCell.h"
 
 @interface GridView ()
 
@@ -84,34 +85,43 @@
 - (void)reloadData {
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    NSUInteger columns = [dataSource numberOfColumnsForGridView:self];
-    NSUInteger rows = [dataSource numberOfRowsForGridView:self];
     
     NSMutableArray *newGridRows = [NSMutableArray array];
-    
-    GridRow *header = [GridRow new];
-    NSMutableArray *cells = [NSMutableArray array];
-    for (int i = 0; i < columns; i++) {
-        [cells addObject:[self headerViewForColumn:i]];
+    NSUInteger rows = [dataSource numberOfRowsForGridView:self];
+    if (!rows) {
+        NoResultsCell *cell = [[NoResultsCell alloc] initWithFrame:NSZeroRect];
+        [newGridRows addObject:cell];
+        [self addSubview:cell];
     }
-    header.cells = cells;
-    [newGridRows addObject:header];
-    [self addSubview:header];
-    
-    for (int i = 0; i < rows; i++) {
-        GridRow *r = [GridRow new];
-        r.selectable = YES;
+    else {
+        
+        NSUInteger columns = [dataSource numberOfColumnsForGridView:self];
+        
+        
+        GridRow *header = [GridRow new];
         NSMutableArray *cells = [NSMutableArray array];
-        for (int j = 0; j < columns; j++) {
-            [cells addObject:[dataSource gridView:self viewForRow:i column:j]];
+        for (int i = 0; i < columns; i++) {
+            [cells addObject:[self headerViewForColumn:i]];
         }
-        r.cells = cells;
-        [newGridRows addObject:r];
-        [self addSubview:r];
+        header.cells = cells;
+        [newGridRows addObject:header];
+        [self addSubview:header];
+        
+        for (int i = 0; i < rows; i++) {
+            GridRow *r = [GridRow new];
+            r.selectable = YES;
+            r.gridView = self;
+            NSMutableArray *cells = [NSMutableArray array];
+            for (int j = 0; j < columns; j++) {
+                [cells addObject:[dataSource gridView:self viewForRow:i column:j]];
+            }
+            r.cells = cells;
+            [newGridRows addObject:r];
+            [self addSubview:r];
+        }
     }
     
     self.gridRows = newGridRows;
-    [gridRows makeObjectsPerformSelector:@selector(setGridView:) withObject:self];
     self.needsLayout = YES;
 }
 
@@ -148,20 +158,23 @@
     
     CGFloat y = 0;
     for (int i = 0; i < gridRows.count; i++) {
-        GridRow *row = [gridRows objectAtIndex:i];
+        NSView *row = [gridRows objectAtIndex:i];
         
         assert([row superview] == self);
         row.frame = NSMakeRect(0, self.bounds.size.height - rowHeight * (i + 1), self.bounds.size.width, rowHeight);
         
         CGFloat x = 0;
-        for (int j = 0; j < row.cells.count; j++) {
-            NSView *cell = [row.cells objectAtIndex:j];
-            CGFloat columnWidth = [self widthOfColumn:j];
-            CGFloat y = [cell isKindOfClass:[NSTextField class]] ? -7 : 1;
-            CGFloat width = [cell isKindOfClass:[NSTextField class]] ? columnWidth : columnWidth - 10;
-            CGFloat xAdjusted = [cell isKindOfClass:[NSTextField class]] ? x : x + 5;
-            cell.frame = NSMakeRect(xAdjusted, y, width, rowHeight);
-            x += columnWidth;
+        if ([row isKindOfClass:[GridRow class]]) {
+            GridRow *gridRow = (GridRow *)row;
+            for (int j = 0; j < gridRow.cells.count; j++) {
+                NSView *cell = [gridRow.cells objectAtIndex:j];
+                CGFloat columnWidth = [self widthOfColumn:j];
+                CGFloat y = [cell isKindOfClass:[NSTextField class]] ? -7 : 1;
+                CGFloat width = [cell isKindOfClass:[NSTextField class]] ? columnWidth : columnWidth - 10;
+                CGFloat xAdjusted = [cell isKindOfClass:[NSTextField class]] ? x : x + 5;
+                cell.frame = NSMakeRect(xAdjusted, y, width, rowHeight);
+                x += columnWidth;
+            }
         }
         
         y += row.frame.size.height;
