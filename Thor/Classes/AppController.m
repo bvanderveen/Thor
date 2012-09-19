@@ -7,6 +7,55 @@
 #import "ThorCore.h"
 #import "DeploymentCell.h"
 
+
+#import "NSFont+LineHeight.h"
+@interface NoResultsCell : ListCell
+@end
+
+@implementation NoResultsCell
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+    
+    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+    style.alignment = NSCenterTextAlignment;
+    NSFont *font = [NSFont boldSystemFontOfSize:12];
+    [@"No results" drawInRect:NSMakeRect(0, (self.bounds.size.height - font.lineHeight) / 2 + 2, self.bounds.size.width, font.lineHeight) withAttributes:@{
+        NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:.8 alpha:1],
+        NSFontAttributeName : font,
+        NSParagraphStyleAttributeName : style
+     }];
+}
+
+@end
+
+@interface NoResultsListViewDataSource : NSObject <ListViewDataSource>
+
+@property (nonatomic, unsafe_unretained) id<ListViewDataSource> dataSource;
+
+@end
+
+@implementation NoResultsListViewDataSource
+
+@synthesize dataSource;
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    NSUInteger result = [dataSource numberOfRowsForListView:listView];
+    if (result == 0)
+        return 1;
+    return result;
+}
+- (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    NSUInteger result = [dataSource numberOfRowsForListView:listView];
+    if (result == 0)
+        return [[NoResultsCell alloc] initWithFrame:NSZeroRect];
+    else
+        return [dataSource listView:listView cellForRow:row];
+}
+
+
+@end
+
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
 
@@ -16,12 +65,13 @@ static NSInteger DeploymentPropertiesControllerContext;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) ItemsController *targetsController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
+@property (nonatomic, strong) id<ListViewDataSource> deploymentsDataSource;
 
 @end
 
 @implementation AppController
 
-@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource;
+@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource, deploymentsDataSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -42,6 +92,11 @@ static NSInteger DeploymentPropertiesControllerContext;
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
         [self displayDeploymentDialogWithTarget:(Target *)item];
     }];
+    
+    NoResultsListViewDataSource *noResultsSource = [[NoResultsListViewDataSource alloc] init];
+    noResultsSource.dataSource = self;
+    self.deploymentsDataSource = noResultsSource;
+    self.appView.appContentView.deploymentsList.dataSource = deploymentsDataSource;
     self.appView.drawerBar.drawerView = targetsController.view;
 }
 
@@ -59,7 +114,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 }
 
 - (NSUInteger)numberOfRowsForListView:(ListView *)listView {
-    return deployments.count;
+    return 0;//deployments.count;
 }
 
 - (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
