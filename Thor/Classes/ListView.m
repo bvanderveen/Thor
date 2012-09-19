@@ -3,6 +3,7 @@
 @interface ListCell ()
 
 @property (nonatomic, unsafe_unretained) ListView *listView;
+@property (nonatomic, strong) NSTrackingArea *trackingArea;
 
 @end
 
@@ -56,7 +57,7 @@
 
 @implementation ListCell
 
-@synthesize selectable = _selectable, highlighted, listView;
+@synthesize selectable = _selectable, highlighted, listView, trackingArea;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -69,8 +70,10 @@
     _selectable = selectable;
     
     if (selectable) {
-        NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+        self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingInVisibleRect | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
         [self addTrackingArea:trackingArea];
+    } else {
+        [self removeTrackingArea:trackingArea];
     }
 }
 
