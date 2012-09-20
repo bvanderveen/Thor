@@ -1,7 +1,7 @@
 #import "ListView.h"
 
-@interface NoResultsListViewDataSource : NSObject <ListViewDataSource>
+@interface NoResultsListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
 
-@property (nonatomic, unsafe_unretained) id<ListViewDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) id<ListViewDataSource, ListViewDelegate> source;
 
 @end

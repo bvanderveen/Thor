@@ -7,6 +7,61 @@
 #import "ThorCore.h"
 #import "DeploymentCell.h"
 #import "NoResultsListViewDataSource.h"
+#import "NSFont+LineHeight.h"
+
+@interface AddDeploymentCell : ListCell
+
+@end
+
+@implementation AddDeploymentCell
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+    style.alignment = NSCenterTextAlignment;
+    NSFont *font = [NSFont boldSystemFontOfSize:12];
+    [@"New deployment…" drawInRect:NSMakeRect(0, (self.bounds.size.height - font.lineHeight) / 2 + 2, self.bounds.size.width, font.lineHeight) withAttributes:@{
+NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:.2 alpha:1],
+         NSFontAttributeName : font,
+NSParagraphStyleAttributeName : style
+     }];
+}
+
+@end
+
+@interface AddDeploymentListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
+
+@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> source;
+@property (nonatomic, copy) void (^action)();
+
+@end
+
+@implementation AddDeploymentListViewSource
+
+@synthesize source, action;
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    return [source numberOfRowsForListView:listView] + 1;
+}
+
+- (BOOL)rowInListView:(ListView *)listView isWrappedCell:(NSUInteger)row {
+    return row < [source numberOfRowsForListView:listView];
+}
+
+- (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    return [self rowInListView:listView isWrappedCell:row] ?
+        [source listView:listView cellForRow:row] :
+        [[AddDeploymentCell alloc] initWithFrame:NSZeroRect];
+}
+
+- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
+    if ([self rowInListView:listView isWrappedCell:row])
+        [source listView:listView didSelectRowAtIndex:row];
+    else
+        action();
+}
+
+@end
 
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
@@ -17,13 +72,13 @@ static NSInteger DeploymentPropertiesControllerContext;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) ItemsController *targetsController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
-@property (nonatomic, strong) id<ListViewDataSource> deploymentsDataSource;
+@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
 @end
 
 @implementation AppController
 
-@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource, deploymentsDataSource;
+@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource, listSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -35,30 +90,30 @@ static NSInteger DeploymentPropertiesControllerContext;
 - (void)updateDeployments {
     NSError *error = nil;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
-    [appView.appContentView.deploymentsList reloadData];
-    appView.appContentView.needsLayout = YES;
+    [appView.deploymentsList reloadData];
+    appView.needsLayout = YES;
 }
 
 - (void)awakeFromNib {
-    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
-    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
-        [self displayDeploymentDialogWithTarget:(Target *)item];
-    }];
+//    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
+//    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
+//        [self displayDeploymentDialogWithTarget:(Target *)item];
+//    }];
+//    self.appView.drawerBar.drawerView = targetsController.view;
     
-    NoResultsListViewDataSource *noResultsSource = [[NoResultsListViewDataSource alloc] init];
-    noResultsSource.dataSource = self;
-    self.deploymentsDataSource = noResultsSource;
-    self.appView.appContentView.deploymentsList.dataSource = deploymentsDataSource;
-    self.appView.drawerBar.drawerView = targetsController.view;
+    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
+    noResultsSource.source = self;
+    AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
+    addDeploymentSource.source = noResultsSource;
+    addDeploymentSource.action = ^ { [self displayDeploymentDialog]; };
+    self.listSource = addDeploymentSource;
+    self.appView.deploymentsList.dataSource = listSource;
+    self.appView.deploymentsList.delegate = listSource;
+
 }
 
 - (void)viewWillAppear {
     [self updateDeployments];
-    
-    // TODO really this should be done by the drawer view.
-    // but I'm gonna rip the drawer view out and everything
-    // will make more sense.
-    [targetsController viewWillAppear];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -66,7 +121,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 }
 
 - (NSUInteger)numberOfRowsForListView:(ListView *)listView {
-    return 0;//deployments.count;
+    return deployments.count;
 }
 
 - (ListCell *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
@@ -100,10 +155,14 @@ static NSInteger DeploymentPropertiesControllerContext;
     }
     else if (contextInfo == &DeploymentPropertiesControllerContext) {
         self.deploymentPropertiesController = nil;
-        self.appView.drawerBar.expanded = NO;
+        //self.appView.drawerBar.expanded = NO;
         [self updateDeployments];
     }
     [sheet orderOut:self];
+}
+
+- (void)displayDeploymentDialog {
+    NSLog(@"stuff");
 }
 
 - (void)displayDeploymentDialogWithTarget:(Target *)target {
