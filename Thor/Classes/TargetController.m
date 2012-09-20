@@ -5,6 +5,7 @@
 #import "DeploymentController.h"
 #import "AppCell.h"
 #import "NoResultsListViewDataSource.h"
+#import "RACSubscribable+ShowLoadingView.h"
 
 @interface TargetController ()
 
@@ -42,7 +43,14 @@
 }
 
 - (void)viewWillAppear {
-    self.associatedDisposable = [[service getApps] subscribeNext:^(id x) {
+    // force a re-layout so loading view is properly sized.
+    // right now, this called right after the view is added
+    // to the hierarchy but not yet laid out, so frames are all zero.
+    // TODO force layout at breadcrumbcontroller level
+    self.view.superview.needsLayout = YES;
+    [self.view.superview layoutSubtreeIfNeeded];
+    
+    self.associatedDisposable = [[[service getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsList reloadData];
         targetView.needsLayout = YES;
