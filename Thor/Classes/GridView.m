@@ -85,7 +85,6 @@
 - (void)reloadData {
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    
     NSMutableArray *newGridRows = [NSMutableArray array];
     NSUInteger rows = [dataSource numberOfRowsForGridView:self];
     if (!rows) {
@@ -94,9 +93,7 @@
         [self addSubview:cell];
     }
     else {
-        
         NSUInteger columns = [dataSource numberOfColumnsForGridView:self];
-        
         
         GridRow *header = [GridRow new];
         NSMutableArray *cells = [NSMutableArray array];
