@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
+		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
 		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
@@ -273,6 +275,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4104099B160D2CE000AF93AF /* WizardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizardController.h; path = Classes/WizardController.h; sourceTree = "<group>"; };
+		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
+		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
@@ -459,6 +464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */,
 				41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */,
 				41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */,
 				41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */,
@@ -489,6 +495,8 @@
 				417FEFB415AD211800E64503 /* BreadcrumbBar.m */,
 				41C7FE6B15B89281006B3468 /* BottomBar.h */,
 				41C7FE6C15B89281006B3468 /* BottomBar.m */,
+				4104099B160D2CE000AF93AF /* WizardController.h */,
+				4104099C160D2CE000AF93AF /* WizardController.m */,
 			);
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
@@ -797,6 +805,7 @@
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
+				410409A1160D350C00AF93AF /* QuartzCore.framework */,
 				419E73C116068B6F009FA6D3 /* icon.icns */,
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
@@ -1295,6 +1304,7 @@
 				41826E951608FE590094F5C2 /* AppCell.m in Sources */,
 				41826E9E160A84280094F5C2 /* NoResultsCell.m in Sources */,
 				41826EA1160A84630094F5C2 /* NoResultsListViewDataSource.m in Sources */,
+				4104099D160D2CE000AF93AF /* WizardController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
