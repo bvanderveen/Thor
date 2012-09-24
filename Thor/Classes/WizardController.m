@@ -42,8 +42,13 @@
     [self.view addSubview:currentController.view];
 }
 
+- (void)viewWillAppearForController:(NSViewController<WizardControllerAware> *)controller {
+    if ([controller respondsToSelector:@selector(viewWillAppear)])
+        [controller viewWillAppear];
+}
+
 - (void)viewWillAppear {
-    [currentController viewWillAppear];
+    [self viewWillAppearForController:currentController];
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {
@@ -54,7 +59,7 @@
     self.view.animations = @{ @"subviews" : transition };
     
     controller.wizardController = self;
-    [(id)controller viewWillAppear];
+    [self viewWillAppearForController:controller];
     [self.view.animator replaceSubview:currentController.view with:controller.view];
     currentController = controller;
     
@@ -68,7 +73,8 @@
     
     self.view.animations = @{ @"subviews" : transition };
     
-    NSViewController *controller = stack[stack.count - 2];
+    NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
+    [self viewWillAppearForController:controller];
     [self.view.animator replaceSubview:currentController.view with:controller.view];
     
     NSMutableArray *newStack = [stack mutableCopy];
