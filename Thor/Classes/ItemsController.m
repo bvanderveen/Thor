@@ -13,7 +13,7 @@
 
 @implementation ItemsController
 
-@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource;
+@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource, wizardController;
 
 - (ItemsView *)itemsView {
     return (ItemsView *)self.view;

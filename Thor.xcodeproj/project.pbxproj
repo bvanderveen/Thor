@@ -278,6 +278,7 @@
 		4104099B160D2CE000AF93AF /* WizardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizardController.h; path = Classes/WizardController.h; sourceTree = "<group>"; };
 		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		410409A41610E77800AF93AF /* ViewVisibilityAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVisibilityAware.h; path = Classes/ViewVisibilityAware.h; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
@@ -484,6 +485,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		410409A3160D39FC00AF93AF /* Deployment Wizard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Deployment Wizard";
+			sourceTree = "<group>";
+		};
 		412DA0F915AB86EF00087F6B /* Navigation Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -579,6 +587,7 @@
 				413C2DE815F9282A00C80B4C /* LoadingView.m */,
 				419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */,
 				419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */,
+				410409A41610E77800AF93AF /* ViewVisibilityAware.h */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -792,6 +801,7 @@
 		41FA11BA15E431990079FD30 /* Deployments */ = {
 			isa = PBXGroup;
 			children = (
+				410409A3160D39FC00AF93AF /* Deployment Wizard */,
 				41EE94EA15F6931700A45951 /* Deployment Properties Dialog */,
 				41FA11C315E4334D0079FD30 /* DeploymentView.xib */,
 				41FA11BE15E431ED0079FD30 /* DeploymentView.h */,

@@ -1,20 +1,17 @@
 #import <Foundation/Foundation.h>
 #import "BreadcrumbBar.h"
+#import "ViewVisibilityAware.h"
 
 @class BreadcrumbController;
 
-@protocol BreadcrumbControllerAware <NSObject>
+@protocol BreadcrumbControllerAware <NSObject, ViewVisibilityAware>
 
 @property (nonatomic, unsafe_unretained) BreadcrumbController *breadcrumbController;
 @property (nonatomic, readonly) id<BreadcrumbItem> breadcrumbItem;
 
-// TODO move this somewhere else.
-@optional
-- (void)viewWillAppear;
-
 @end
 
-@interface BreadcrumbController : NSViewController <BreadcrumbBarDelegate>
+@interface BreadcrumbController : NSViewController <BreadcrumbBarDelegate, ViewVisibilityAware>
 
 - (id)initWithRootViewController:(NSViewController<BreadcrumbControllerAware> *)controller;
 

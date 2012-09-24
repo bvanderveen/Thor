@@ -83,9 +83,9 @@
     self.view = breadcrumbView;
 }
 
-- (void)viewWillAppearForController:(NSViewController *)controller {
+- (void)viewWillAppearForController:(NSViewController<BreadcrumbControllerAware> *)controller {
     if ([controller respondsToSelector:@selector(viewWillAppear)])
-        [(id<BreadcrumbControllerAware>)controller viewWillAppear];
+        [controller viewWillAppear];
 }
 
 - (void)pushViewController:(NSViewController<BreadcrumbControllerAware> *)controller animated:(BOOL)animated {
@@ -98,14 +98,14 @@
 - (void)popViewControllerAnimated:(BOOL)animated {
     [self.breadcrumbView.bar popItemAnimated:animated];
     
-    NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack lastObject];
+    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack lastObject];
     [self viewWillAppearForController:controller];
     
     [self.breadcrumbView popToView:controller.view animated:animated];
 }
 
 - (void)breadcrumbBar:(BreadcrumbBar *)bar willPopItem:(id<BreadcrumbItem>)item {
-    NSViewController *controller = (NSViewController *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
+    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
     
     [self viewWillAppearForController:controller];
     

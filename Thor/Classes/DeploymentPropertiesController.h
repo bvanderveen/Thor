@@ -1,7 +1,8 @@
 #import "DeploymentPropertiesView.h"
 #import "ThorCore.h"
+#import "WizardController.h"
 
-@interface DeploymentPropertiesController : NSViewController
+@interface DeploymentPropertiesController : NSViewController <WizardControllerAware>
 
 @property (nonatomic, strong) IBOutlet NSObjectController *objectController;
 @property (nonatomic, strong) IBOutlet Deployment *deployment;

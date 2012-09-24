@@ -7,6 +7,7 @@
 #import "Sequence.h"
 #import "TargetController.h"
 #import "AppController.h"
+#import "ViewVisibilityAware.h"
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
 NSString *ToolbarAppsItemIdentifier = @"ToolbarAppsItemIdentifier";
@@ -43,7 +44,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
 
 @interface ToolbarTabController ()
 
-@property (nonatomic, strong) NSViewController *appsController, *targetsController, *servicesController, *activeController;
+@property (nonatomic, strong) NSViewController<ViewVisibilityAware> *appsController, *targetsController, *servicesController, *activeController;
 
 @end
 
@@ -138,13 +139,13 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         self.activeController = servicesController;
 }
 
-- (void)setActiveController:(NSViewController *)value {
+- (void)setActiveController:(NSViewController<ViewVisibilityAware> *)value {
     _activeController = value;
     if (self.view.subviews.count) 
         [[self.view.subviews objectAtIndex:0] removeFromSuperview];
     
     if ([value respondsToSelector:@selector(viewWillAppear)])
-        [(id)value viewWillAppear];
+        [value viewWillAppear];
     
     [self.view addSubview:value.view];
 }

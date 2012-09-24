@@ -8,6 +8,7 @@
 #import "DeploymentCell.h"
 #import "NoResultsListViewDataSource.h"
 #import "NSFont+LineHeight.h"
+#import "WizardController.h"
 
 @interface AddDeploymentCell : ListCell
 
@@ -162,7 +163,20 @@ static NSInteger DeploymentPropertiesControllerContext;
 }
 
 - (void)displayDeploymentDialog {
-    NSLog(@"stuff");
+    __block WizardController *wizard;
+    
+    
+    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
+    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
+        DeploymentPropertiesController *wizardRoot = [[DeploymentPropertiesController alloc] init];
+        [wizard pushViewController:wizardRoot animated:YES];
+    }];
+
+    
+    wizard = [[WizardController alloc] initWithRootViewController:targetsController];
+    NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
+    [wizard viewWillAppear];
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
 }
 
 - (void)displayDeploymentDialogWithTarget:(Target *)target {
@@ -175,7 +189,7 @@ static NSInteger DeploymentPropertiesControllerContext;
     deploymentPropertiesController.deployment = deployment;
     
     NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];    
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
 }
 
 - (void)deleteClicked:(id)sender {

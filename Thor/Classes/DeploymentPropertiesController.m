@@ -10,7 +10,7 @@
 
 @implementation DeploymentPropertiesController
 
-@synthesize objectController, deployment, deploymentPropertiesView, apps;
+@synthesize objectController, deployment, deploymentPropertiesView, apps, wizardController;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {

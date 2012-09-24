@@ -1,4 +1,5 @@
 #import "BreadcrumbController.h"
+#import "WizardController.h"
 
 @class ItemsController;
 
@@ -10,7 +11,7 @@
 
 @end
 
-@interface ItemsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
+@interface ItemsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, WizardControllerAware>
 
 @property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, strong) IBOutlet NSMutableArray *items;
