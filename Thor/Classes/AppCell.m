@@ -22,7 +22,7 @@ NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha
      }];
     
     NSFont *memoryFont = [NSFont systemFontOfSize:12];
-    [[NSString stringWithFormat:@"%ld MB memory", _app.memory] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
+    [[NSString stringWithFormat:@"%@ - %ld MB memory", _app.uris.count ? _app.uris[0] : @"no URIs", _app.memory] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
                                           NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha:1],
                                                      NSFontAttributeName : memoryFont
      }];
