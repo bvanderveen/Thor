@@ -7,6 +7,7 @@
 #import "NoResultsListViewDataSource.h"
 #import "RACSubscribable+ShowLoadingView.h"
 #import "Sequence.h"
+#import "AppItemsDataSource.h"
 
 @interface TargetController ()
 
@@ -65,12 +66,40 @@
     return [deployments any:^ BOOL (id d) { return ((Deployment *)d).appName == app.name; }];
 }
 
+- (void)createDeploymentForApp:(FoundryApp *)app {    
+    __block WizardController *wizard;
+    __block NSWindow *wizardWindow;
+    
+    ItemsController *appsController = [[ItemsController alloc] initWithTitle:@"Apps"];
+    appsController.dataSource = [[AppItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
+        Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+        deployment.appName = app.name;
+        deployment.app = (App *)item;
+        deployment.target = self.target;
+        
+        NSError *error;
+        
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+        }
+        
+        [NSApp endSheet:wizardWindow returnCode:NSOKButton];
+    }];
+    
+    wizard = [[WizardController alloc] initWithRootViewController:appsController];
+    wizardWindow = [SheetWindow sheetWindowWithView:wizard.view];
+    [wizard viewWillAppear];
+    [NSApp beginSheet:wizardWindow modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
 - (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
     AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
     FoundryApp *app = apps[row];
     cell.app = app;
-    cell.button.title = @"+";
     cell.button.hidden = [self hasDeploymentForApp:app];
+    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [self createDeploymentForApp:app];
+    }]];
     return cell;
 }
 

@@ -10,7 +10,7 @@
     if (self = [super initWithFrame:frameRect]) {
         self.button = [[NSButton alloc] initWithFrame:NSZeroRect];
         button.bezelStyle = NSTexturedRoundedBezelStyle;
-        
+        button.title = @"+";
         [self addSubview:button];
     }
     return self;

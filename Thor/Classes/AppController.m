@@ -71,7 +71,6 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 @property (nonatomic, strong) AppPropertiesController *appPropertiesController;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
-@property (nonatomic, strong) ItemsController *targetsController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
@@ -79,7 +78,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 @implementation AppController
 
-@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetsController, targetItemsDataSource, listSource;
+@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetItemsDataSource, listSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -96,11 +95,6 @@ static NSInteger DeploymentPropertiesControllerContext;
 }
 
 - (void)awakeFromNib {
-//    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
-//    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
-//        [self displayDeploymentDialogWithTarget:(Target *)item];
-//    }];
-//    self.appView.drawerBar.drawerView = targetsController.view;
     
     NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
     noResultsSource.source = self;
@@ -165,7 +159,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 - (void)displayDeploymentDialog {
     __block WizardController *wizard;
     
-    self.targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
+    ItemsController *targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
         DeploymentPropertiesController *wizardRoot = [[DeploymentPropertiesController alloc] init];
         wizardRoot.deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
@@ -174,7 +168,6 @@ static NSInteger DeploymentPropertiesControllerContext;
         [wizard pushViewController:wizardRoot animated:YES];
     }];
 
-    
     wizard = [[WizardController alloc] initWithRootViewController:targetsController];
     NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
     [wizard viewWillAppear];
