@@ -4,11 +4,27 @@
 
 @implementation AppCell
 
-@synthesize app = _app;
+@synthesize app = _app, button;
+
+- (id)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        self.button = [[NSButton alloc] initWithFrame:NSZeroRect];
+        button.bezelStyle = NSTexturedRoundedBezelStyle;
+        
+        [self addSubview:button];
+    }
+    return self;
+}
 
 - (void)setApp:(FoundryApp *)app {
     _app = app;
     self.needsDisplay = YES;
+}
+
+- (void)layout {
+    NSSize buttonSize = button.intrinsicContentSize;
+    button.frame = NSMakeRect(self.bounds.size.width - buttonSize.width - 20, (self.bounds.size.height - buttonSize.height) / 2, buttonSize.width, buttonSize.height);
+    [super layout];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
