@@ -6,6 +6,7 @@
 #import "AppCell.h"
 #import "NoResultsListViewDataSource.h"
 #import "RACSubscribable+ShowLoadingView.h"
+#import "Sequence.h"
 
 @interface TargetController ()
 
@@ -58,9 +59,18 @@
     return apps.count;
 }
 
+- (BOOL)hasDeploymentForApp:(FoundryApp *)app {
+    NSError *error;
+    NSArray *deployments = [[ThorBackend shared] getDeploymentsForTarget:self.target error:&error];
+    return [deployments any:^ BOOL (id d) { return ((Deployment *)d).appName == app.name; }];
+}
+
 - (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
     AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
-    cell.app = apps[row];
+    FoundryApp *app = apps[row];
+    cell.app = app;
+    cell.button.title = @"+";
+    cell.button.hidden = [self hasDeploymentForApp:app];
     return cell;
 }
 

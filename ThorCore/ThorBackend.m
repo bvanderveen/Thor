@@ -416,6 +416,10 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self.context executeFetchRequest:request error:error];
 }
 
+- (NSArray *)getDeploymentsForTarget:(Target *)target error:(NSError **)error {
+    return @[];
+}
+
 - (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {
     NSFetchRequest *request = [Target fetchRequest];
     return [[self.context executeFetchRequest:request error:error] objectAtIndex:0];
