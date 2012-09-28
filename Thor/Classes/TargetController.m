@@ -9,6 +9,7 @@
 #import "Sequence.h"
 #import "AppItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
+#import "AddDeploymentListViewSource.h"
 
 @interface TargetController ()
 
@@ -40,9 +41,12 @@
 }
 
 - (void)awakeFromNib {
-    NoResultsListViewSource *source = [[NoResultsListViewSource alloc] init];
-    source.source = self;
-    self.listSource = source;
+    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
+    noResultsSource.source = self;
+    AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
+    addDeploymentSource.source = noResultsSource;
+    addDeploymentSource.action = ^ { [self createNewDeployment]; };
+    self.listSource = addDeploymentSource;
     self.targetView.deploymentsList.dataSource = listSource;
     self.targetView.deploymentsList.delegate = listSource;
 }
@@ -83,7 +87,7 @@
 }
 
 - (void)createNewDeployment {
-    WizardController *wizardController;
+    __block WizardController *wizardController;
     
     ItemsController *appsController = [self appItemsControllerWithSelectionAction:^ (ItemsController *itemsController, id app){
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:self.target app:app];
