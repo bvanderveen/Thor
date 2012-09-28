@@ -39,7 +39,7 @@ typedef enum {
 
 @property (strong) Target *target;
 @property (strong) App *app;
-@property (copy) NSString *displayName, *appName;
+@property (copy) NSString *appName;
 @property (assign) NSInteger memory, instances;
 
 + (NSFetchRequest *)fetchRequest;

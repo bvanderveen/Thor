@@ -31,7 +31,7 @@
     
     NSFont *titleFont = [NSFont boldSystemFontOfSize:12];
     
-    [[NSString stringWithFormat:@"%@ – %@", deployment.displayName, deployment.target.displayName] drawInRect:NSMakeRect(85, self.bounds.size.height - titleFont.lineHeight - 8, self.bounds.size.width, titleFont.lineHeight) withAttributes:@{
+    [[NSString stringWithFormat:@"%@", deployment.target.displayName] drawInRect:NSMakeRect(85, self.bounds.size.height - titleFont.lineHeight - 8, self.bounds.size.width, titleFont.lineHeight) withAttributes:@{
                                                                               NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha:1],
                                                                                          NSFontAttributeName : titleFont
      }];

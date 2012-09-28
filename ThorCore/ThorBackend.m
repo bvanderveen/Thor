@@ -160,11 +160,6 @@ NSEntityDescription *getDeploymentEntity(NSEntityDescription *appEntity, NSEntit
         entity.name = @"Deployment";
         entity.managedObjectClassName = @"Deployment";
         
-        NSAttributeDescription *displayName = [NSAttributeDescription new];
-        displayName.name = @"displayName";
-        displayName.attributeType = NSStringAttributeType;
-        displayName.optional = YES; // TODO NO
-        
         NSAttributeDescription *appName = [NSAttributeDescription new];
         appName.name = @"appName";
         appName.attributeType = NSStringAttributeType;
@@ -206,7 +201,7 @@ NSEntityDescription *getDeploymentEntity(NSEntityDescription *appEntity, NSEntit
         
         targetEntity.properties = [targetEntity.properties arrayByAddingObject:targetInv];
         
-        entity.properties = @[displayName, appName, app, target];
+        entity.properties = @[appName, app, target];
     }
     
     return entity;
@@ -361,7 +356,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @implementation Deployment
 
-@dynamic displayName, target, app, appName;
+@dynamic target, app, appName;
 @synthesize memory, instances;
 
 + (NSFetchRequest *)fetchRequest {
