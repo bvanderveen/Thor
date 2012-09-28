@@ -28,6 +28,14 @@
 
 @implementation DeploymentPropertiesController
 
++ (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app {
+    DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
+    result.deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+    result.deployment.app = app;
+    result.deployment.target = target;
+    return result;
+}
+
 @synthesize objectController, deployment, deploymentPropertiesView, apps, wizardController;
 
 - (id)init {

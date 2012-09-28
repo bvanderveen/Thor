@@ -160,12 +160,9 @@ static NSInteger DeploymentPropertiesControllerContext;
     __block WizardController *wizard;
     
     ItemsController *targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
-    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id item) {
-        DeploymentPropertiesController *wizardRoot = [[DeploymentPropertiesController alloc] init];
-        wizardRoot.deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-        wizardRoot.deployment.app = app;
-        wizardRoot.deployment.target = item;
-        [wizard pushViewController:wizardRoot animated:YES];
+    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id target) {
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:target app:app];
+        [wizard pushViewController:deploymentController animated:YES];
     }];
 
     wizard = [[WizardController alloc] initWithRootViewController:targetsController];

@@ -10,4 +10,6 @@
 
 - (IBAction)buttonClicked:(id)sender;
 
++ (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app;
+
 @end
