@@ -406,7 +406,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 - (NSArray *)getDeploymentsForApp:(App *)app error:(NSError **)error {
     NSFetchRequest *request = [Deployment fetchRequest];
-    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES]];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"appName" ascending:YES]];
     request.predicate = [NSPredicate predicateWithFormat:@"app == %@", app];
     return [self.context executeFetchRequest:request error:error];
 }
