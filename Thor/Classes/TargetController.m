@@ -51,7 +51,7 @@
     self.targetView.deploymentsList.delegate = listSource;
 }
 
-- (void)viewWillAppear {
+- (void)updateApps {
     self.associatedDisposable = [[[service getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsList reloadData];
@@ -59,6 +59,10 @@
     } error:^(NSError *error) {
         [NSApp presentError:error];
     }];
+}
+
+- (void)viewWillAppear {
+    [self updateApps];
 }
 
 - (NSUInteger)numberOfRowsForListView:(ListView *)listView {
@@ -153,6 +157,7 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     self.targetPropertiesController = nil;
     [sheet orderOut:self];
+    [self updateApps];
 }
 
 - (void)deleteClicked:(id)sender {
