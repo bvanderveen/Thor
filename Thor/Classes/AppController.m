@@ -108,6 +108,7 @@ static NSInteger DeploymentPropertiesControllerContext;
     ItemsController *targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
     targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id target) {
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:target app:app];
+        deploymentController.title = @"Create deployment";
         [wizard pushViewController:deploymentController animated:YES];
     }];
 

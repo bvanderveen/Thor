@@ -5,7 +5,7 @@
 @protocol WizardControllerAware <NSObject, ViewVisibilityAware>
 
 @property (nonatomic, unsafe_unretained) WizardController *wizardController;
-@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 @end
 
