@@ -1,5 +1,5 @@
 #import "GridView.h"
-#import "CollectionView.h"
+#import "Label.h"
 #import "NoResultsCell.h"
 
 @interface GridView ()

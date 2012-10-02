@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410207D3161A74480077BCCA /* Label.m in Sources */ = {isa = PBXBuildFile; fileRef = 410207D2161A74470077BCCA /* Label.m */; };
 		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
@@ -276,6 +277,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		410207D1161A74470077BCCA /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = Classes/Label.h; sourceTree = "<group>"; };
+		410207D2161A74470077BCCA /* Label.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Label.m; path = Classes/Label.m; sourceTree = "<group>"; };
 		4104099B160D2CE000AF93AF /* WizardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizardController.h; path = Classes/WizardController.h; sourceTree = "<group>"; };
 		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -591,6 +594,8 @@
 				419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */,
 				419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */,
 				410409A41610E77800AF93AF /* ViewVisibilityAware.h */,
+				410207D1161A74470077BCCA /* Label.h */,
+				410207D2161A74470077BCCA /* Label.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1321,6 +1326,7 @@
 				41826EA1160A84630094F5C2 /* NoResultsListViewDataSource.m in Sources */,
 				4104099D160D2CE000AF93AF /* WizardController.m in Sources */,
 				414FBC4416164EFD0021E1B2 /* AddDeploymentListViewSource.m in Sources */,
+				410207D3161A74480077BCCA /* Label.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

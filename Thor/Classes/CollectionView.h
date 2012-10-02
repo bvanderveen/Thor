@@ -16,9 +16,3 @@
 @property (nonatomic, unsafe_unretained) id dataSource;
 
 @end
-
-@interface Label : NSTextField
-
-+ (NSTextField *)label;
-
-@end
