@@ -1,17 +1,19 @@
 #import "WizardController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Label.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface WizardControllerView : NSView
 
 @property (nonatomic, strong) NSView *contentView;
 @property (nonatomic, strong) NSTextField *titleLabel;
+@property (nonatomic, strong) NSButton *cancelButton, *nextButton, *prevButton;
 
 @end
 
 @implementation WizardControllerView;
 
-@synthesize contentView = _contentView, titleLabel;
+@synthesize contentView = _contentView, titleLabel, cancelButton, nextButton, prevButton;
 
 - (void)setContentView:(NSView *)value {
     if (_contentView)
@@ -25,7 +27,26 @@
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         self.titleLabel = [Label label];
+        self.titleLabel.font = [NSFont boldSystemFontOfSize:14];
+        self.titleLabel.alignment = NSLeftTextAlignment;
         [self addSubview:titleLabel];
+        
+        self.cancelButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        cancelButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        cancelButton.title = @"Cancel";
+        cancelButton.keyEquivalent = @"\E";
+        [self addSubview:cancelButton];
+        
+        self.prevButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        prevButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        prevButton.title = @"Back";
+        [self addSubview:prevButton];
+        
+        self.nextButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        nextButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        nextButton.title = @"Next";
+        [self addSubview:nextButton];
+        nextButton.keyEquivalent = @"\r";
     }
     return self;
 }
@@ -35,12 +56,29 @@
 }
 
 - (void)layout {
-    CGSize size = [self intrinsicContentSize];
+    NSSize size = [self intrinsicContentSize];
     
-    CGSize titleLabelSize = [titleLabel intrinsicContentSize];
-    titleLabel.frame = NSMakeRect(0, size.height - titleLabelSize.height, titleLabelSize.width, titleLabelSize.height);
+    NSEdgeInsets titleInsets = NSEdgeInsetsMake(20, 20, 20, 20);
     
-    self.contentView.frame = NSMakeRect(0, 0, size.width, size.height - titleLabelSize.height);
+    NSSize titleLabelSize = [titleLabel intrinsicContentSize];
+    titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
+    
+    NSSize buttonSize = [self.cancelButton intrinsicContentSize];
+    buttonSize.width = 60;
+    
+    NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(20, 20, 20, 20);
+    
+    self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    
+    self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    
+    self.prevButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width - 10, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    
+    CGFloat titleAreaHeight = titleLabelSize.height + titleInsets.top + titleInsets.bottom;
+    CGFloat buttonAreaHeight = buttonSize.height + buttonAreaInsets.top + buttonAreaInsets.bottom;
+    
+    self.contentView.frame = NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight);
+    
     [super layout];
 }
 
@@ -72,6 +110,9 @@
 - (void)loadView {
     self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.view.wantsLayer = YES;
+    [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [NSApp endSheet:self.view.window returnCode:NSCancelButton];
+    }]];
 }
 
 - (void)viewWillAppearForController:(NSViewController<WizardControllerAware> *)controller {
