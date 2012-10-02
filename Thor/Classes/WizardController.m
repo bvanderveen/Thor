@@ -32,21 +32,21 @@
         [self addSubview:titleLabel];
         
         self.cancelButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        cancelButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        cancelButton.bezelStyle = NSRoundedBezelStyle;
         cancelButton.title = @"Cancel";
         cancelButton.keyEquivalent = @"\E";
         [self addSubview:cancelButton];
         
         self.prevButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        prevButton.bezelStyle = NSTexturedRoundedBezelStyle;
-        prevButton.title = @"Back";
+        prevButton.bezelStyle = NSRoundedBezelStyle;
+        prevButton.title = @"Previous";
         [self addSubview:prevButton];
         
         self.nextButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        nextButton.bezelStyle = NSTexturedRoundedBezelStyle;
+        nextButton.bezelStyle = NSRoundedBezelStyle;
+        nextButton.keyEquivalent = @"\r";
         nextButton.title = @"Next";
         [self addSubview:nextButton];
-        nextButton.keyEquivalent = @"\r";
     }
     return self;
 }
@@ -63,14 +63,17 @@
     NSSize titleLabelSize = [titleLabel intrinsicContentSize];
     titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
-    NSSize buttonSize = [self.cancelButton intrinsicContentSize];
-    buttonSize.width = 60;
+    NSSize buttonSize = [self.prevButton intrinsicContentSize];
+    NSSize nextButtonSize = [self.nextButton intrinsicContentSize];
+    buttonSize.width = nextButtonSize.width = 100;
+    buttonSize.height = [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height;
+    nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
     
     NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(20, 20, 20, 20);
     
     self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
-    self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height);
     
     self.prevButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width - 10, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
@@ -103,6 +106,7 @@
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.currentController = rootController;
+        self.stack = @[rootController];
     }
     return self;
 }
@@ -125,6 +129,12 @@
     self.wizardControllerView.contentView = currentController.view;
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
     self.view.needsLayout = YES;
+    
+    [self updateButtonState];
+}
+
+- (void)updateButtonState {
+    self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {
@@ -142,6 +152,8 @@
     currentController = controller;
     
     self.stack = [stack arrayByAddingObject:controller];
+    
+    [self updateButtonState];
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated {
@@ -161,6 +173,8 @@
     NSMutableArray *newStack = [stack mutableCopy];
     [newStack removeObject:controller];
     self.stack = newStack;
+    
+    [self updateButtonState];
 }
 
 @end
