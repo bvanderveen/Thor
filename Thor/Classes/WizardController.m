@@ -125,8 +125,8 @@
 }
 
 - (void)viewWillAppear {
-    [self viewWillAppearForController:currentController];
     self.wizardControllerView.contentView = currentController.view;
+    [self viewWillAppearForController:currentController];
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
     self.view.needsLayout = YES;
     
@@ -146,8 +146,8 @@
     
     controller.wizardController = self;
     
-    [self viewWillAppearForController:controller];
     wizardControllerView.contentView = controller.view;
+    [self viewWillAppearForController:controller];
     wizardControllerView.titleLabel.stringValue = controller.title;
     currentController = controller;
     
@@ -165,8 +165,8 @@
     
     NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
     
-    [self viewWillAppearForController:controller];
     wizardControllerView.contentView = controller.view;
+    [self viewWillAppearForController:controller];
     wizardControllerView.titleLabel.stringValue = controller.title;
     currentController = controller;
     
