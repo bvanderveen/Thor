@@ -106,7 +106,7 @@
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.currentController = rootController;
-        self.stack = @[rootController];
+        self.stack = @[ rootController ];
     }
     return self;
 }
@@ -127,6 +127,7 @@
 - (void)viewWillAppear {
     self.wizardControllerView.contentView = currentController.view;
     [self viewWillAppearForController:currentController];
+    assert(currentController.title != nil);
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
     self.view.needsLayout = YES;
     
@@ -146,9 +147,10 @@
     
     controller.wizardController = self;
     
-    wizardControllerView.contentView = controller.view;
+    self.wizardControllerView.contentView = controller.view;
     [self viewWillAppearForController:controller];
-    wizardControllerView.titleLabel.stringValue = controller.title;
+    assert(controller.title != nil);
+    self.wizardControllerView.titleLabel.stringValue = controller.title;
     currentController = controller;
     
     self.stack = [stack arrayByAddingObject:controller];
@@ -165,9 +167,10 @@
     
     NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
     
-    wizardControllerView.contentView = controller.view;
+    self.wizardControllerView.contentView = controller.view;
     [self viewWillAppearForController:controller];
-    wizardControllerView.titleLabel.stringValue = controller.title;
+    assert(controller.title != nil);
+    self.wizardControllerView.titleLabel.stringValue = controller.title;
     currentController = controller;
     
     NSMutableArray *newStack = [stack mutableCopy];
