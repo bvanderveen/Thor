@@ -7,9 +7,16 @@
 @property (nonatomic, unsafe_unretained) WizardController *wizardController;
 @property (nonatomic, copy) NSString *title;
 
+@optional
+- (void)commitWizardPanel;
+- (void)rollbackWizardPanel;
+
 @end
 
 @interface WizardController : NSViewController <ViewVisibilityAware>
+
+@property (nonatomic) NSString *commitButtonTitle;
+@property (nonatomic) BOOL commitButtonEnabled;
 
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController;
 

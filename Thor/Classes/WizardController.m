@@ -69,13 +69,13 @@
     buttonSize.height = [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height;
     nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
     
-    NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(20, 20, 20, 20);
+    NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(10, 10, 10, 10);
     
     self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
     self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height);
     
-    self.prevButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width - 10, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    self.prevButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
     CGFloat titleAreaHeight = titleLabelSize.height + titleInsets.top + titleInsets.bottom;
     CGFloat buttonAreaHeight = buttonSize.height + buttonAreaInsets.top + buttonAreaInsets.bottom;
@@ -99,6 +99,22 @@
 
 @synthesize currentController, stack, wizardControllerView;
 
+- (void)setCommitButtonTitle:(NSString *)commitButtonTitle {
+    self.wizardControllerView.nextButton.stringValue = commitButtonTitle;
+}
+
+- (NSString *)commitButtonTitle {
+    return self.wizardControllerView.nextButton.stringValue;
+}
+
+- (void)setCommitButtonEnabled:(BOOL)commitButtonEnabled {
+    self.wizardControllerView.nextButton.enabled = commitButtonEnabled;
+}
+
+- (BOOL)commitButtonEnabled {
+    return self.wizardControllerView.nextButton.isEnabled;
+}
+
 - (WizardControllerView *)wizardControllerView {
     return (WizardControllerView *)self.view;
 }
@@ -106,6 +122,7 @@
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.currentController = rootController;
+        currentController.wizardController = self;
         self.stack = @[ rootController ];
     }
     return self;
@@ -115,7 +132,17 @@
     self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.view.wantsLayer = YES;
     [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        
+        for (NSInteger i = stack.count - 1; i >= 0; i--)
+            [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
+        
         [NSApp endSheet:self.view.window returnCode:NSCancelButton];
+    }]];
+    [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [currentController rollbackWizardPanel];
+    }]];
+    [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [currentController commitWizardPanel];
     }]];
 }
 
@@ -135,7 +162,7 @@
 }
 
 - (void)updateButtonState {
-    self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+    self.commitButtonEnabled = self.stack.count > 1;
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {
@@ -165,6 +192,7 @@
     
     self.view.animations = @{ @"subviews" : transition };
     
+    NSViewController<WizardControllerAware> *outgoingController = stack[stack.count - 1];
     NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
     
     self.wizardControllerView.contentView = controller.view;
@@ -174,7 +202,8 @@
     currentController = controller;
     
     NSMutableArray *newStack = [stack mutableCopy];
-    [newStack removeObject:controller];
+    [newStack removeObject:outgoingController];
+    outgoingController.wizardController = nil;
     self.stack = newStack;
     
     [self updateButtonState];

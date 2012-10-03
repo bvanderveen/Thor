@@ -2,7 +2,7 @@
 
 @implementation DeploymentPropertiesView
 
-@synthesize confirmButton, contentView;
+@synthesize contentView;
 
 - (NSSize)intrinsicContentSize {
     return NSMakeSize(480, 279);

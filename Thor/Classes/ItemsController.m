@@ -13,7 +13,7 @@
 
 @implementation ItemsController
 
-@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource, wizardController;
+@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource;
 
 - (ItemsView *)itemsView {
     return (ItemsView *)self.view;
@@ -47,7 +47,6 @@
     self.itemsView.bar.barButton.title = @"New…";
     self.itemsView.bar.barButton.target = self;
     self.itemsView.bar.barButton.action = @selector(addItemClicked);
-//    [self.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)viewWillAppear {
@@ -56,20 +55,6 @@
 
 - (void)insertObject:(Target *)t inTargetsAtIndex:(NSUInteger)index {
     [items insertObject:t atIndex:index];
-}
-
-- (void)clearSelection {
-    arrayController.selectionIndexes = [NSIndexSet indexSet];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (object == arrayController) {
-        if (arrayController.selectionIndexes.count)
-            [self performSelector:@selector(clearSelection) withObject:nil afterDelay:0];
-    }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 - (void)removeObjectFromTargetsAtIndex:(NSUInteger)index {
@@ -88,6 +73,62 @@
     [self updateItems];
     self.itemPropertiesController = nil;
     [sheet orderOut:self];
+}
+
+- (void)commitWizardPanel {
+    
+}
+
+@end
+
+
+@interface WizardItemsController ()
+
+@property (nonatomic, copy) void (^commit)();
+@property (nonatomic, copy) void (^rollback)();
+@property (nonatomic, strong) ItemsController *itemsController;
+
+@end
+
+@implementation WizardItemsController
+
+@synthesize title, wizardController, commit, rollback, itemsController;
+
+- (id)initWithItemsController:(ItemsController *)lItemsController commitBlock:(void (^)())commitBlock rollbackBlock:(void (^)())rollbackBlock {
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.itemsController = lItemsController;
+        self.commit = commitBlock;
+        self.rollback = rollbackBlock;
+    }
+    return self;
+}
+
+- (void)loadView {
+    self.view = itemsController.view;
+}
+
+- (void)viewWillAppear {
+    [itemsController.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+    [itemsController viewWillAppear];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == itemsController.arrayController && [keyPath isEqual:@"selection"]) {
+        self.wizardController.commitButtonEnabled = itemsController.arrayController.selectionIndexes.count > 0;
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)commitWizardPanel {
+    if (commit)
+        commit();
+}
+
+- (void)rollbackWizardPanel {
+    if (rollback)
+        rollback();
 }
 
 @end

@@ -49,7 +49,10 @@ static NSNib *nib = nil;
     [button bind:@"label" toObject:item withKeyPath:@"displayName" options:nil];
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
-        action(itemsController, item);
+        assert([itemsController.arrayController setSelectedObjects:@[ item ]]);
+        
+        if (action)
+            action(itemsController, item);
     }]];
         
     return [[topLevelObjects filter:^ BOOL (id o) { 

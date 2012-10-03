@@ -93,13 +93,18 @@
 - (void)createNewDeployment {
     __block WizardController *wizardController;
     
-    ItemsController *appsController = [self appItemsControllerWithSelectionAction:^ (ItemsController *itemsController, id app){
+    ItemsController *appsController = [self appItemsControllerWithSelectionAction:nil];
+    
+    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
+        App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:self.target app:app];
         [wizardController pushViewController:deploymentController animated:YES];
-    }];
+    } rollbackBlock:nil];
+    
+    wizardItemsController.title = @"Deploy app";
     
     NSWindow *wizardWindow;
-    [self showWizardWithController:appsController wizardController:&wizardController sheetWindow:&wizardWindow];
+    [self showWizardWithController:wizardItemsController wizardController:&wizardController sheetWindow:&wizardWindow];
 }
 
 - (void)createDeploymentForApp:(FoundryApp *)app {

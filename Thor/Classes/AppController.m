@@ -106,13 +106,18 @@ static NSInteger DeploymentPropertiesControllerContext;
     __block WizardController *wizard;
     
     ItemsController *targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
-    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^(ItemsController *itemsController, id target) {
+    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:nil];
+    
+    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:targetsController commitBlock:^{
+        Target *target = [targetsController.arrayController.selectedObjects objectAtIndex:0];
+        
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:target app:app];
-        deploymentController.title = @"Create deployment";
         [wizard pushViewController:deploymentController animated:YES];
-    }];
+    } rollbackBlock:nil];
+    
+    wizardItemsController.title = @"Deploy to cloud";
 
-    wizard = [[WizardController alloc] initWithRootViewController:targetsController];
+    wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
     [wizard viewWillAppear];
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];

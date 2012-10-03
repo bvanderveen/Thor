@@ -571,8 +571,6 @@
 			isa = PBXGroup;
 			children = (
 				41B9232B15D076600004D167 /* Items View */,
-				414E185015C0B55F007C9508 /* CollectionView.h */,
-				414E185115C0B55F007C9508 /* CollectionView.m */,
 				414E185815C1BC0E007C9508 /* GridView.h */,
 				414E185915C1BC0E007C9508 /* GridView.m */,
 				419E73C31607E13F009FA6D3 /* ListView.h */,
@@ -662,6 +660,8 @@
 				418BF29815BF43B600E313C7 /* ItemsView.m */,
 				418BF28F15BF16CE00E313C7 /* ItemsController.h */,
 				418BF29015BF16CE00E313C7 /* ItemsController.m */,
+				414E185015C0B55F007C9508 /* CollectionView.h */,
+				414E185115C0B55F007C9508 /* CollectionView.m */,
 			);
 			name = "Items View";
 			sourceTree = "<group>";

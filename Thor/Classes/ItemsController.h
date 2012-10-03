@@ -11,7 +11,7 @@
 
 @end
 
-@interface ItemsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, WizardControllerAware>
+@interface ItemsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
 
 @property (nonatomic, strong) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, strong) IBOutlet NSMutableArray *items;
@@ -19,5 +19,11 @@
 @property (nonatomic, strong) id<ItemsControllerDataSource> dataSource;
 
 - (id)initWithTitle:(NSString *)leTitle;
+
+@end
+
+@interface WizardItemsController : NSViewController <WizardControllerAware>
+
+- (id)initWithItemsController:(ItemsController *)itemsController commitBlock:(void (^)())commit rollbackBlock:(void (^)())rollback;
 
 @end
