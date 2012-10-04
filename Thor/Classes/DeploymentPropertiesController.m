@@ -105,7 +105,6 @@
 
 - (void)rollbackWizardPanel {
     [[ThorBackend sharedContext] rollback];
-    [NSApp endSheet:self.view.window];
 }
 
 @end

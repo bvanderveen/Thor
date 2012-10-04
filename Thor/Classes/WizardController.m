@@ -13,16 +13,7 @@
 
 @implementation WizardControllerView;
 
-@synthesize contentView = _contentView, titleLabel, cancelButton, nextButton, prevButton;
-
-- (void)setContentView:(NSView *)value {
-    if (_contentView)
-        [self.animator replaceSubview:_contentView with:value];
-    else
-        [self addSubview:value];
-    
-    _contentView = value;
-}
+@synthesize contentView, titleLabel, cancelButton, nextButton, prevButton;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -47,6 +38,9 @@
         nextButton.keyEquivalent = @"\r";
         nextButton.title = @"Next";
         [self addSubview:nextButton];
+        
+        self.contentView = [[NSView alloc] initWithFrame:NSZeroRect];
+        [self addSubview:contentView];
     }
     return self;
 }
@@ -82,6 +76,7 @@
     CGFloat buttonAreaHeight = buttonSize.height + buttonAreaInsets.top + buttonAreaInsets.bottom;
     
     self.contentView.frame = NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight);
+    ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
     
     [super layout];
 }
@@ -131,7 +126,7 @@
 
 - (void)loadView {
     self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
-    self.view.wantsLayer = YES;
+    self.wizardControllerView.contentView.wantsLayer = YES;
     [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         
         for (NSInteger i = stack.count - 1; i >= 0; i--)
@@ -141,6 +136,8 @@
     }]];
     [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [currentController rollbackWizardPanel];
+        
+        [self popViewControllerAnimated:YES];
     }]];
     [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [currentController commitWizardPanel];
@@ -153,7 +150,7 @@
 }
 
 - (void)viewWillAppear {
-    self.wizardControllerView.contentView = currentController.view;
+    [self.wizardControllerView.contentView addSubview:currentController.view];
     [self viewWillAppearForController:currentController];
     assert(currentController.title != nil);
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
@@ -163,19 +160,19 @@
 }
 
 - (void)updateButtonState {
-    self.commitButtonEnabled = self.stack.count > 1;
+    self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {
     CATransition *transition = [CATransition animation];
-    transition.type = kCATransition;
-    transition.subtype = kCATransitionFromLeft;
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
     
-    self.view.animations = @{ @"subviews" : transition };
+    self.wizardControllerView.contentView.animations = @{ @"subviews" : transition };
     
     controller.wizardController = self;
     
-    self.wizardControllerView.contentView = controller.view;
+    [self.wizardControllerView.contentView.animator replaceSubview:currentController.view with:controller.view];
     [self viewWillAppearForController:controller];
     assert(controller.title != nil);
     self.wizardControllerView.titleLabel.stringValue = controller.title;
@@ -191,12 +188,12 @@
     transition.type = kCATransitionPush;
     transition.subtype = kCATransitionFromLeft;
     
-    self.view.animations = @{ @"subviews" : transition };
+    self.wizardControllerView.contentView.animations = @{ @"subviews" : transition };
     
-    NSViewController<WizardControllerAware> *outgoingController = stack[stack.count - 1];
+    NSViewController<WizardControllerAware> *outgoingController = currentController;
     NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
     
-    self.wizardControllerView.contentView = controller.view;
+    [self.wizardControllerView.contentView.animator replaceSubview:currentController.view with:controller.view];
     [self viewWillAppearForController:controller];
     assert(controller.title != nil);
     self.wizardControllerView.titleLabel.stringValue = controller.title;
