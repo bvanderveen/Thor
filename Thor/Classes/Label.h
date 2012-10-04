@@ -2,6 +2,6 @@
 
 @interface Label : NSTextField
 
-+ (NSTextField *)label;
++ (Label *)label;
 
 @end

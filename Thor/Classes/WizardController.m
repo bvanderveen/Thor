@@ -27,8 +27,8 @@
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         self.titleLabel = [Label label];
-        self.titleLabel.font = [NSFont boldSystemFontOfSize:14];
-        self.titleLabel.alignment = NSLeftTextAlignment;
+        titleLabel.font = [NSFont boldSystemFontOfSize:14];
+        titleLabel.alignment = NSLeftTextAlignment;
         [self addSubview:titleLabel];
         
         self.cancelButton = [[NSButton alloc] initWithFrame:NSZeroRect];
@@ -61,7 +61,6 @@
     NSEdgeInsets titleInsets = NSEdgeInsetsMake(20, 20, 20, 20);
     
     NSSize titleLabelSize = [titleLabel intrinsicContentSize];
-    titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
     NSSize buttonSize = [self.prevButton intrinsicContentSize];
     NSSize nextButtonSize = [self.nextButton intrinsicContentSize];
@@ -70,6 +69,8 @@
     nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
     
     NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(10, 10, 10, 10);
+    
+    self.titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
     self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     

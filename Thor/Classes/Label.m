@@ -2,14 +2,13 @@
 
 @implementation Label
 
-+ (NSTextField *)label {
-    NSTextField *result = [[NSTextField alloc] initWithFrame:NSZeroRect];
++ (Label *)label {
+    Label *result = [[Label alloc] initWithFrame:NSZeroRect];
     result.editable = NO;
     result.bordered = NO;
-    result.translatesAutoresizingMaskIntoConstraints = NO;
     result.drawsBackground = NO;
     result.alignment = NSRightTextAlignment;
-    return  result;
+    return result;
 }
 
 @end
