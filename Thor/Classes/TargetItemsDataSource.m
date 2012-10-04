@@ -50,7 +50,9 @@ static NSNib *nib = nil;
         return [o isKindOfClass:[NSView class]];
     }] objectAtIndex:0];
     
-    CollectionItemViewButton *button = [view.subviews objectAtIndex:0];
+    CollectionItemViewButton *button = [[view.subviews filter:^ BOOL (id o) {
+        return [o isKindOfClass:[CollectionItemViewButton class]];
+    }] objectAtIndex:0];
     [button bind:@"label" toObject:item withKeyPath:@"displayName" options:nil];
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
