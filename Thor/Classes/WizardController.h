@@ -23,4 +23,7 @@
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated;
 - (void)popViewControllerAnimated:(BOOL)animated;
 
+- (void)presentModalForWindow:(NSWindow *)window didEndBlock:(void (^)(NSInteger))didEndBlock;
+- (void)dismissWithReturnCode:(NSInteger)returnCode;
+
 @end

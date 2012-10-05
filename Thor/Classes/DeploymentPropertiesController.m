@@ -98,7 +98,7 @@
             [NSApp presentError:error];
             self.wizardController.commitButtonEnabled = YES;
         } completed:^{
-            [NSApp endSheet:self.view.window];
+            [self.wizardController dismissWithReturnCode:NSOKButton];
         }];
     }
 }

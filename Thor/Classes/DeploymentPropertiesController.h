@@ -8,8 +8,6 @@
 @property (nonatomic, strong) IBOutlet Deployment *deployment;
 @property (nonatomic, strong) IBOutlet DeploymentPropertiesView *deploymentPropertiesView;
 
-- (IBAction)buttonClicked:(id)sender;
-
 + (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app;
 
 @end

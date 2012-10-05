@@ -2,6 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Label.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "SheetWindow.h"
 
 @interface WizardControllerView : NSView
 
@@ -88,12 +89,13 @@
 @property (nonatomic, strong) NSViewController<WizardControllerAware> *currentController;
 @property (nonatomic, strong) NSArray *stack;
 @property (nonatomic, readonly) WizardControllerView *wizardControllerView;
+@property (nonatomic, copy) void (^didEndBlock)();
 
 @end
 
 @implementation WizardController
 
-@synthesize currentController, stack, wizardControllerView;
+@synthesize currentController, stack, wizardControllerView, didEndBlock;
 
 - (void)setCommitButtonTitle:(NSString *)commitButtonTitle {
     self.wizardControllerView.nextButton.stringValue = commitButtonTitle;
@@ -132,15 +134,15 @@
         for (NSInteger i = stack.count - 1; i >= 0; i--)
             [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
         
-        [NSApp endSheet:self.view.window returnCode:NSCancelButton];
+        [self dismissWithReturnCode:NSCancelButton];
     }]];
     [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-        [currentController rollbackWizardPanel];
+        [self.currentController rollbackWizardPanel];
         
         [self popViewControllerAnimated:YES];
     }]];
     [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-        [currentController commitWizardPanel];
+        [self.currentController commitWizardPanel];
     }]];
 }
 
@@ -205,6 +207,23 @@
     self.stack = newStack;
     
     [self updateButtonState];
+}
+
+- (void)presentModalForWindow:(NSWindow *)window didEndBlock:(void(^)(NSInteger))block {
+    self.didEndBlock = block;
+    NSWindow *wizardWindow = [SheetWindow sheetWindowWithView:self.view];
+    [self viewWillAppear];
+    [NSApp beginSheet:wizardWindow modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    [sheet orderOut:self];
+    didEndBlock(returnCode);
+    self.didEndBlock = nil;
+}
+
+- (void)dismissWithReturnCode:(NSInteger)returnCode {
+    [NSApp endSheet:self.view.window returnCode:returnCode];
 }
 
 @end
