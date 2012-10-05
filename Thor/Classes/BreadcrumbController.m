@@ -108,11 +108,11 @@
     NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
     
     [self viewWillAppearForController:controller];
-    
-    [self.breadcrumbView popToView:controller.view animated:NO];
 }
 
 - (void)breadcrumbBar:(BreadcrumbBar *)bar didPopItem:(id<BreadcrumbItem>)item {
+    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 1];
+    [self.breadcrumbView popToView:controller.view animated:NO];
     
 }
 - (void)breadcrumbBar:(BreadcrumbBar *)bar willPushItem:(id<BreadcrumbItem>)item {
