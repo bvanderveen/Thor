@@ -60,6 +60,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         
         ItemsController *targets = [[ItemsController alloc] initWithTitle:@"Clouds"];
         targets.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^ (ItemsController *itemsController, id item) {
+            itemsController.arrayController.selectedObjects = @[];
             TargetController *targetController = [[TargetController alloc] init];
             targetController.target = (Target *)item;
             [itemsController.breadcrumbController pushViewController:targetController animated:YES];
@@ -67,6 +68,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         
         ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
         apps.dataSource = [[AppItemsDataSource alloc] initWithSelectionAction:^ (ItemsController *itemsController, id item) {
+            itemsController.arrayController.selectedObjects = @[];
             AppController *appController = [[AppController alloc] init];
             appController.app = (App *)item;
             [itemsController.breadcrumbController pushViewController:appController animated:YES];
