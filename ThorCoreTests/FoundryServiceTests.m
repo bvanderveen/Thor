@@ -441,7 +441,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
         }];
     };
     
-    __block NSArray *intendedFiles;
+    __block NSSet *intendedFiles;
     
     beforeEach(^{
         intendedFiles = createFiles(@[
@@ -575,72 +575,72 @@ describe(@"CreateSlugFromManifest", ^{
         expect(files).to.equal(createdFiles);
     });
 });
-
-describe(@"TestDeployment", ^{
-    it(@"should deploy a thing", ^{
-        
-        NSArray *repoPathComponents = @[ NSTemporaryDirectory(), @"paasIt" ];
-        NSString *repoPath = [NSString pathWithComponents:repoPathComponents];
-        
-        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:nil];
-        NSURL *repoURL = [NSURL fileURLWithPath:repoPath];
-        
-        NSTask *task = [NSTask new];
-        task.launchPath = @"/usr/bin/git";
-        task.arguments = @[ @"clone", @"git://github.com/Adron/goldmind.git", repoPath ];
-        [task launch];
-        [task waitUntilExit];
-        
-        NSURL *nodeTestAppURL = [NSURL fileURLWithPath:[NSString pathWithComponents:repoPathComponents]];
-        
-        NSArray *manifest = CreateSlugManifestFromPath(nodeTestAppURL);
-        NSURL *slug = CreateSlugFromManifest(manifest, nodeTestAppURL);
-        
-        FoundryEndpoint *endpoint = [FoundryEndpoint new];
-        endpoint.email = @"b@bvanderveen.com";
-        endpoint.password = @"secret";
-        endpoint.hostname = @"api.bvanderveen.cloudfoundry.me";
-        
-        FoundryService *service = [[FoundryService alloc] initWithEndpoint:endpoint];
-        
-        FoundryApp *app = [FoundryApp new];
-        app.name = @"goldmind";
-        app.uris = @[ @"goldmind.bvanderveen.cloudfoundry.me" ];
-        app.instances = 1;
-        //app.state = FoundryAppStateStarted;
-        app.memory = 64;
-        //app.disk = 2048;
-        app.stagingFramework = @"node";
-        //app.stagingRuntime = [NSNull null];//@"node";
-        //app.services = @[];
-        
-        __block BOOL done = NO, err = NO;
-        int attempts = 0;
-        
-        [[service createApp:app] subscribeError:^ (NSError *error) {
-            NSLog(@"error: %@", [error localizedDescription]);
-            err = YES;
-        } completed:^{
-            [[service postSlug:slug manifest:manifest toAppWithName:@"goldmind"] subscribeError: ^ (NSError *error) {
-                NSLog(@"error: %@", [error localizedDescription]);
-                err = YES;
-            } completed:^{
-                done = YES;
-                NSError *error = nil;
-            }];
-        }];
-        
-        while (!done && !err && attempts++ < 1) {
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
-        }
-        
-        expect(err).to.beFalsy();
-        expect(done).to.beTruthy();
-        
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:&error];
-        [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
-    });
-});
+//
+//describe(@"TestDeployment", ^{
+//    it(@"should deploy a thing", ^{
+//        
+//        NSArray *repoPathComponents = @[ NSTemporaryDirectory(), @"paasIt" ];
+//        NSString *repoPath = [NSString pathWithComponents:repoPathComponents];
+//        
+//        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:nil];
+//        NSURL *repoURL = [NSURL fileURLWithPath:repoPath];
+//        
+//        NSTask *task = [NSTask new];
+//        task.launchPath = @"/usr/bin/git";
+//        task.arguments = @[ @"clone", @"git://github.com/Adron/goldmind.git", repoPath ];
+//        [task launch];
+//        [task waitUntilExit];
+//        
+//        NSURL *nodeTestAppURL = [NSURL fileURLWithPath:[NSString pathWithComponents:repoPathComponents]];
+//        
+//        NSArray *manifest = CreateSlugManifestFromPath(nodeTestAppURL);
+//        NSURL *slug = CreateSlugFromManifest(manifest, nodeTestAppURL);
+//        
+//        FoundryEndpoint *endpoint = [FoundryEndpoint new];
+//        endpoint.email = @"b@bvanderveen.com";
+//        endpoint.password = @"secret";
+//        endpoint.hostname = @"api.bvanderveen.cloudfoundry.me";
+//        
+//        FoundryService *service = [[FoundryService alloc] initWithEndpoint:endpoint];
+//        
+//        FoundryApp *app = [FoundryApp new];
+//        app.name = @"goldmind-test";
+//        app.uris = @[ [NSString stringWithFormat:@"%@.bvanderveen.cloudfoundry.me", app.name] ];
+//        app.instances = 1;
+//        //app.state = FoundryAppStateStarted;
+//        app.memory = 64;
+//        //app.disk = 2048;
+//        app.stagingFramework = @"node";
+//        //app.stagingRuntime = [NSNull null];//@"node";
+//        //app.services = @[];
+//        
+//        __block BOOL done = NO, err = NO;
+//        int attempts = 0;
+//        
+//        [[service createApp:app] subscribeError:^ (NSError *error) {
+//            NSLog(@"error: %@", [error localizedDescription]);
+//            err = YES;
+//        } completed:^{
+//            [[service postSlug:slug manifest:manifest toAppWithName:app.name] subscribeError: ^ (NSError *error) {
+//                NSLog(@"error: %@", [error localizedDescription]);
+//                err = YES;
+//            } completed:^{
+//                done = YES;
+//                NSError *error = nil;
+//            }];
+//        }];
+//        
+//        while (!done && !err && attempts++ < 1) {
+//            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:15.0]];
+//        }
+//        
+//        expect(err).to.beFalsy();
+//        expect(done).to.beTruthy();
+//        
+//        NSError *error;
+//        [[NSFileManager defaultManager] removeItemAtPath:repoPath error:&error];
+//        [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
+//    });
+//});
 
 SpecEnd
