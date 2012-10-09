@@ -74,8 +74,13 @@ NSString *ThorBackendErrorDomain = @"com.tier3.thor.BackendErrorDomain";
 static NSString *ThorDataStoreFile = @"ThorDataStore";
 
 NSURL *ThorGetStoreURL(NSError **error) {
-    NSFileManager *fileManager = [NSFileManager new];
-    return [[fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:error] URLByAppendingPathComponent:ThorDataStoreFile];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *applicationSupportDir = [fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:error];
+    
+    NSURL *thorDir = [applicationSupportDir URLByAppendingPathComponent:@"Thor"];
+    [fileManager createDirectoryAtURL:thorDir withIntermediateDirectories:YES attributes:nil error:error];
+    
+    return [thorDir URLByAppendingPathComponent:ThorDataStoreFile];
 }
 
 NSEntityDescription *getAppEntity() {
@@ -348,7 +353,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return [self performValidation:error];
 }
 
-- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
+- (BOOL)validateForUpdate:(NSError **)error {
     if (![super validateForUpdate:error])
         return NO;
     
