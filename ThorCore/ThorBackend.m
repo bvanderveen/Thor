@@ -64,7 +64,6 @@ static NSManagedObjectContext *sharedContext = nil;
     
     *outResult = matching.count > 0;
     
-    NSLog(@"matching %@", matching);
     return YES;
 }
 
