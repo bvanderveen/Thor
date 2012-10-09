@@ -72,7 +72,7 @@
 - (BOOL)hasDeploymentForApp:(FoundryApp *)app {
     NSError *error;
     NSArray *deployments = [[ThorBackend shared] getDeploymentsForTarget:self.target error:&error];
-    return [deployments any:^ BOOL (id d) { return ((Deployment *)d).appName == app.name; }];
+    return [deployments any:^ BOOL (id d) { return [((Deployment *)d).appName isEqual:app.name]; }];
 }
 
 - (ItemsController *)appItemsControllerWithSelectionAction:(void (^)(ItemsController *, id))selectionAction {
