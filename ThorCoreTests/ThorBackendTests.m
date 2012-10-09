@@ -73,9 +73,9 @@
 }
 
 - (void)assertError:(NSError *)error hasDomain:(NSString *)domain andCode:(NSInteger)code {
-    STAssertNotNil(error, @"Expected non-nil error");
-    STAssertEqualObjects(error.domain, domain, @"Unexpected error domain");
-    STAssertEquals(error.code, code, @"Unexpected error code");
+    STAssertNotNil(error, @"Expected non-nil error.");
+    STAssertEqualObjects(error.domain, domain, @"Unexpected error domain. Localized description: %@", error.localizedDescription);
+    STAssertEquals(error.code, code, @"Unexpected error code. Localized description: %@", error.localizedDescription);
 }
 
 @end
@@ -204,5 +204,136 @@
 //- (void)testCreateConfiguredTargetThrowsExceptionIfHostnameIsInvalid {
 //    
 //}
+
+- (void)testCreateDeploymentFailsIfAppNotSet {
+    Target *target = [self createTarget];
+    NSError *error;
+    [context save:&error];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.appName = @"foo";
+    deployment.target = target;
+    
+    [context save:&error];
+    
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:DeploymentAppNotGiven];
+}
+
+- (void)testCreateDeploymentFailsIfTargetNotSet {
+    App *app = [self createApp];
+    NSError *error;
+    [context save:&error];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.appName = @"foo";
+    deployment.app = app;
+    
+    [context save:&error];
+    
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:DeploymentTargetNotGiven];
+}
+
+- (void)testCreateDeploymentFailsIfAppNameNotSet {
+    App *app = [self createApp];
+    Target *target = [self createTarget];
+    NSError *error;
+    [context save:&error];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.app = app;
+    deployment.target = target;
+    
+    [context save:&error];
+    
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:DeploymentAppNameNotGiven];
+}
+
+- (void)testCreateDeploymentFailsIfAppNameAlreadyUsed {
+    App *app = [self createApp];
+    Target *target = [self createTarget];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.app = app;
+    deployment.target = target;
+    deployment.appName = @"foo";
+    
+    NSError *error;
+    [context save:&error];
+    
+    Deployment *deployment2 = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment2.app = app;
+    deployment2.target = target;
+    deployment2.appName = @"foo";
+    
+    [context save:&error];
+    
+    [self assertError:error hasDomain:ThorBackendErrorDomain andCode:DeploymentAppNameInUse];
+}
+
+- (void)testGetDeploymentsForAppReturnsNoDeploymentsIfAppHasNoDeployments {
+    App *app = [self createApp];
+    NSError *error;
+    [context save:&error];
+    
+    NSArray *result = [backend getDeploymentsForApp:app error:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    STAssertEquals(((NSUInteger)result.count), ((NSUInteger)0), @"Expected no results.");
+}
+
+- (void)testGetDeploymentsForAppReturnsDeploymentsForApp {
+    App *app = [self createApp];
+    Target *target = [self createTarget];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.app = app;
+    deployment.target = target;
+    deployment.appName = @"foo";
+    
+    NSError *error;
+    [context save:&error];
+    
+    NSArray *result = [backend getDeploymentsForApp:app error:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    NSUInteger count = result.count;
+    NSUInteger expected = 1;
+    STAssertEquals(count, expected, @"Expected 1 result.");
+    STAssertEquals(((Deployment *)result[0]).appName, @"foo", @"Expected app named 'foo'.");
+}
+
+- (void)testGetDeploymentsForTargetReturnsNoDeploymentsIfTargetHasNoDeployments {
+    Target *target = [self createTarget];
+    NSError *error;
+    [context save:&error];
+    
+    NSArray *result = [backend getDeploymentsForTarget:target error:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    NSUInteger count = result.count;
+    NSUInteger expected = 0;
+    STAssertEquals(count, expected, @"Expected no results.");
+}
+
+- (void)testGetDeploymentsForTargetReturnsDeploymentsForTarget {
+    App *app = [self createApp];
+    Target *target = [self createTarget];
+    
+    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
+    deployment.app = app;
+    deployment.target = target;
+    deployment.appName = @"foo";
+    
+    NSError *error;
+    [context save:&error];
+    
+    NSArray *result = [backend getDeploymentsForTarget:target error:&error];
+    
+    STAssertNil(error, @"Unexpected error %@", error.localizedDescription);
+    NSUInteger count = result.count;
+    NSUInteger expectedCount = 1;
+    STAssertEquals(count, expectedCount, @"Expected 1 result.");
+    STAssertEquals(((Deployment *)result[0]).appName, @"foo", @"Expected app named 'foo'.");
+}
 
 @end

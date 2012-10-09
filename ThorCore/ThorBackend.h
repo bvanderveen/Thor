@@ -56,6 +56,10 @@ extern NSString *ThorBackendErrorDomain;
 static NSInteger AppLocalRootInvalid = 1;
 static NSInteger TargetHostnameInvalid = 2;
 static NSInteger TargetHostnameAndEmailPreviouslyConfigured = 3;
+static NSInteger DeploymentTargetNotGiven = 4;
+static NSInteger DeploymentAppNotGiven = 5;
+static NSInteger DeploymentAppNameNotGiven = 6;
+static NSInteger DeploymentAppNameInUse = 7;
 
 @protocol ThorBackend <NSObject>
 

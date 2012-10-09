@@ -246,6 +246,20 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     return context;
 }
 
+@interface NSError (ThorError)
+
++ (NSError *)thorErrorWithCode:(NSInteger)code localizedDescription:(NSString *)localizedDescription;
+
+@end
+
+@implementation NSError (ThorError)
+
++ (NSError *)thorErrorWithCode:(NSInteger)code localizedDescription:(NSString *)localizedDescription {
+    return [NSError errorWithDomain:ThorBackendErrorDomain code:code userInfo:@{ NSLocalizedDescriptionKey : localizedDescription }];
+}
+
+@end
+
 @implementation App
 
 @dynamic displayName, localRoot;
@@ -304,8 +318,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return YES;
     
     if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
-        NSError *error = [[NSError alloc] initWithDomain:ThorBackendErrorDomain code:TargetHostnameInvalid userInfo:[NSDictionary dictionaryWithObject:@"Hostname must start with \"api.\"" forKey:NSLocalizedDescriptionKey]];
-        *outError = error;
+        *outError = [NSError thorErrorWithCode:TargetHostnameInvalid localizedDescription:@"Hostname must start with \"api.\""];
         return NO;
     }
     return YES;
@@ -321,7 +334,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return NO;
     
     if (any) {
-        *error = [NSError errorWithDomain:ThorBackendErrorDomain code:TargetHostnameAndEmailPreviouslyConfigured userInfo:[NSDictionary dictionaryWithObject:@"There is already a target with the given email and hostname" forKey:NSLocalizedDescriptionKey]];
+        *error = [NSError thorErrorWithCode:TargetHostnameAndEmailPreviouslyConfigured localizedDescription:@"There is already a target with the given email and hostname."];
         return NO;
     }
     
@@ -358,6 +371,53 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @dynamic target, app, appName;
 @synthesize memory, instances;
+
+- (BOOL)performValidation:(NSError **)error {
+    
+    if (!self.target) {
+        *error = [NSError thorErrorWithCode:DeploymentTargetNotGiven localizedDescription:@"Target for deployment was not given."];
+        return NO;
+    }
+    
+    if (!self.app) {
+        *error = [NSError thorErrorWithCode:DeploymentAppNotGiven localizedDescription:@"App for deployment was not given."];
+        return NO;
+    }
+    
+    if (!self.appName) {
+        *error = [NSError thorErrorWithCode:DeploymentAppNameNotGiven localizedDescription:@"App name for deployment was not given."];
+        return NO;
+    }
+    
+    NSFetchRequest *request = [Deployment fetchRequest];
+    request.predicate = [NSPredicate predicateWithFormat:@"target == %@ AND app == %@ AND appName == %@ AND self != %@", self.target, self.app, self.appName, self];
+    
+    BOOL any = NO;
+    
+    if (![request anyInContext:self.managedObjectContext result:&any error:error])
+        return NO;
+    
+    if (any) {
+        *error = [NSError thorErrorWithCode:DeploymentAppNameInUse localizedDescription:@"An app with the given name is already configued for the target."];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)validateForInsert:(NSError **)error {
+    if (![self performValidation:error])
+        return NO;
+    
+    return [super validateForInsert:error];
+}
+
+- (BOOL)validateForUpdate:(NSError *__autoreleasing *)error {
+    if (![self performValidation:error])
+        return NO;
+    
+    return [super validateForUpdate:error];
+}
 
 + (NSFetchRequest *)fetchRequest {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -412,7 +472,10 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 }
 
 - (NSArray *)getDeploymentsForTarget:(Target *)target error:(NSError **)error {
-    return @[];
+    NSFetchRequest *request = [Deployment fetchRequest];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"appName" ascending:YES]];
+    request.predicate = [NSPredicate predicateWithFormat:@"target == %@", target];
+    return [self.context executeFetchRequest:request error:error];
 }
 
 - (Target *)getTargetForDeployment:(Deployment *)deployment error:(NSError **)error {
