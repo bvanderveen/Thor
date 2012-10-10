@@ -6,6 +6,7 @@
 
 @property (nonatomic, unsafe_unretained) WizardController *wizardController;
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *commitButtonTitle;
 
 @optional
 - (void)commitWizardPanel;

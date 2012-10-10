@@ -28,7 +28,7 @@
 
 @implementation DeploymentPropertiesController
 
-@synthesize title;
+@synthesize title, commitButtonTitle;
 
 + (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
@@ -44,6 +44,7 @@
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
+        self.commitButtonTitle = @"Done";
     }
     return self;
 }

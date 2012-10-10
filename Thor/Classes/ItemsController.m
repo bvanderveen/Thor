@@ -177,17 +177,23 @@
 @property (nonatomic, copy) void (^commit)();
 @property (nonatomic, copy) void (^rollback)();
 @property (nonatomic, strong) ItemsController *itemsController;
+@property (nonatomic, strong) NSArrayController *arrayController;
 
 @end
 
 @implementation WizardItemsController
 
-@synthesize title, wizardController, commit, rollback, itemsController;
+@synthesize title, commitButtonTitle, wizardController, commit, rollback, itemsController, arrayController = _arrayController;
+
+- (void)setArrayController:(NSArrayController *)value {
+    [_arrayController removeObserver:self forKeyPath:@"selection"];
+    _arrayController = value;
+    [_arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+}
 
 - (id)initWithItemsController:(ItemsController *)lItemsController commitBlock:(void (^)())commitBlock rollbackBlock:(void (^)())rollbackBlock {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.itemsController = lItemsController;
-        [itemsController.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
         self.commit = commitBlock;
         self.rollback = rollbackBlock;
     }
@@ -195,11 +201,12 @@
 }
 
 - (void)dealloc {
-    [itemsController.arrayController removeObserver:self forKeyPath:@"selection"];
+    self.arrayController = nil;
 }
 
 - (void)loadView {
     self.view = itemsController.view;
+    self.arrayController = itemsController.arrayController;
 }
 
 - (void)viewWillAppear {

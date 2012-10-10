@@ -98,11 +98,11 @@
 @synthesize currentController, stack, wizardControllerView, didEndBlock;
 
 - (void)setCommitButtonTitle:(NSString *)commitButtonTitle {
-    self.wizardControllerView.nextButton.stringValue = commitButtonTitle;
+    self.wizardControllerView.nextButton.title = commitButtonTitle;
 }
 
 - (NSString *)commitButtonTitle {
-    return self.wizardControllerView.nextButton.stringValue;
+    return self.wizardControllerView.nextButton.title;
 }
 
 - (void)setCommitButtonEnabled:(BOOL)commitButtonEnabled {
@@ -163,6 +163,7 @@
 
 - (void)updateButtonState {
     self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+    self.commitButtonTitle = currentController.commitButtonTitle;
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {

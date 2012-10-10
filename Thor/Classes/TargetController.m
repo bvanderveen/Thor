@@ -93,6 +93,7 @@
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Deploy app";
+    wizardItemsController.commitButtonTitle = @"Next";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
@@ -124,6 +125,7 @@
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Associate deployment with app";
+    wizardItemsController.commitButtonTitle = @"Done";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {

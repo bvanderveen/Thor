@@ -116,6 +116,7 @@ static NSInteger DeploymentPropertiesControllerContext;
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Deploy to cloud";
+    wizardItemsController.commitButtonTitle = @"Next";
 
     wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
