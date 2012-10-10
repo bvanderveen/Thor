@@ -75,16 +75,16 @@
     return [deployments any:^ BOOL (id d) { return [((Deployment *)d).appName isEqual:app.name]; }];
 }
 
-- (ItemsController *)appItemsControllerWithSelectionAction:(void (^)(ItemsController *, id))selectionAction {
-    ItemsController *appsController = [[ItemsController alloc] initWithTitle:@"Apps"];
-    appsController.dataSource = [[AppItemsDataSource alloc] initWithSelectionAction:selectionAction];
+- (ItemsController *)createAppItemsController {
+    ItemsController *appsController = [[ItemsController alloc] init];
+    appsController.dataSource = [[AppItemsDataSource alloc] init];
     return appsController;
 }
 
 - (void)createNewDeployment {
     __block WizardController *wizardController;
     
-    ItemsController *appsController = [self appItemsControllerWithSelectionAction:nil];
+    ItemsController *appsController = [self createAppItemsController];
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
@@ -104,7 +104,7 @@
 - (void)createDeploymentForApp:(FoundryApp *)foundryApp {
     __block WizardController *wizardController;
     
-    ItemsController *appsController = [self appItemsControllerWithSelectionAction:nil];
+    ItemsController *appsController = [self createAppItemsController];
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];

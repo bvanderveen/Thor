@@ -6,7 +6,9 @@
 #import "BreadcrumbController.h"
 #import "Sequence.h"
 #import "TargetController.h"
+#import "TargetPropertiesController.h"
 #import "AppController.h"
+#import "AppPropertiesController.h"
 #import "ViewVisibilityAware.h"
 
 NSString *ToolbarTargetsItemIdentifier = @"ToolbarTargetsItemIdentifier";
@@ -58,24 +60,37 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         toolbar.delegate = self;
         toolbar.selectedItemIdentifier = ToolbarAppsItemIdentifier;
         
-        ItemsController *targets = [[ItemsController alloc] initWithTitle:@"Clouds"];
-        targets.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:^ (ItemsController *itemsController, id item) {
-            itemsController.arrayController.selectedObjects = @[];
+        ItemsController *targets = [[ItemsController alloc] init];
+        targets.dataSource = [[TargetItemsDataSource alloc] init];
+        
+        BreadcrumbItemsController *targetsWrapper = [[BreadcrumbItemsController alloc] initWithItemsController:targets newItemBlock:^ NSViewController * {
+            TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
+            targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+            return targetPropertiesController;
+        } selectionBlock:^ (BreadcrumbItemsController *breadcrumbItemsController, id item) {
             TargetController *targetController = [[TargetController alloc] init];
             targetController.target = (Target *)item;
-            [itemsController.breadcrumbController pushViewController:targetController animated:YES];
+            [breadcrumbItemsController.breadcrumbController pushViewController:targetController animated:YES];
         }];
+        targetsWrapper.title = @"Clouds";
         
-        ItemsController *apps = [[ItemsController alloc] initWithTitle:@"Apps"];
-        apps.dataSource = [[AppItemsDataSource alloc] initWithSelectionAction:^ (ItemsController *itemsController, id item) {
-            itemsController.arrayController.selectedObjects = @[];
+        ItemsController *apps = [[ItemsController alloc] init];
+        apps.dataSource = [[AppItemsDataSource alloc] init];
+        
+        BreadcrumbItemsController *appsWrapper = [[BreadcrumbItemsController alloc]initWithItemsController:apps newItemBlock:^ NSViewController * {
+            
+            AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
+            appPropertiesController.app = [App appInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+            return appPropertiesController;
+        } selectionBlock:^(BreadcrumbItemsController *breadcrumbItemsController, id item) {
             AppController *appController = [[AppController alloc] init];
             appController.app = (App *)item;
-            [itemsController.breadcrumbController pushViewController:appController animated:YES];
+            [breadcrumbItemsController.breadcrumbController pushViewController:appController animated:YES];
         }];
+        appsWrapper.title = @"Apps";
         
-        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:apps];
-        self.targetsController = [[BreadcrumbController alloc] initWithRootViewController:targets];
+        self.appsController = [[BreadcrumbController alloc] initWithRootViewController:appsWrapper];
+        self.targetsController = [[BreadcrumbController alloc] initWithRootViewController:targetsWrapper];
         
         self.servicesController = [[ServicesController alloc] init];
     }

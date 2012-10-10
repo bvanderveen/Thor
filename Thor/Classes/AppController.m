@@ -105,8 +105,8 @@ static NSInteger DeploymentPropertiesControllerContext;
 - (void)displayDeploymentDialog {
     __block WizardController *wizard;
     
-    ItemsController *targetsController = [[ItemsController alloc] initWithTitle:@"Clouds"];
-    targetsController.dataSource = [[TargetItemsDataSource alloc] initWithSelectionAction:nil];
+    ItemsController *targetsController = [[ItemsController alloc] init];
+    targetsController.dataSource = [[TargetItemsDataSource alloc] init];
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:targetsController commitBlock:^{
         Target *target = [targetsController.arrayController.selectedObjects objectAtIndex:0];

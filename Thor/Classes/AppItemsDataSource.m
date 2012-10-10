@@ -1,40 +1,18 @@
 #import "AppItemsDataSource.h"
-#import "AppPropertiesController.h"
 #import "AppController.h"
 #import "CollectionItemView.h"
 #import "Sequence.h"
 
 static NSNib *nib = nil;
 
-@interface AppItemsDataSource ()
-
-@property (nonatomic, copy) void (^action)(ItemsController *, id);
-
-@end
-
 @implementation AppItemsDataSource
-
-@synthesize action;
 
 + (void)initialize {
     nib = [[NSNib alloc] initWithNibNamed:@"AppCollectionItemView" bundle:nil];
 }
 
-- (id)initWithSelectionAction:(void (^)(ItemsController *, id))lAction {
-    if (self = [super init]) {
-        self.action = lAction;
-    }
-    return self;
-}
-
 - (NSArray *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
     return [[ThorBackend shared] getConfiguredApps:error];
-}
-
-- (NSViewController *)newItemPropertiesControllerForItemsController:(ItemsController *)itemsController {
-    AppPropertiesController *appPropertiesController = [[AppPropertiesController alloc] init];
-    appPropertiesController.app = [App appInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-    return appPropertiesController;
 }
 
 - (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *)collectionView item:(id)item   {
@@ -53,9 +31,6 @@ static NSNib *nib = nil;
     
     [button addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
         assert([itemsController.arrayController setSelectedObjects:@[ item ]]);
-        
-        if (action)
-            action(itemsController, item);
     }]];
         
     return [[topLevelObjects filter:^ BOOL (id o) { 

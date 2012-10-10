@@ -6,27 +6,21 @@
 
 @interface ItemsController ()
 
-@property (nonatomic, strong) NSViewController *itemPropertiesController;
 @property (nonatomic, readonly) ItemsView *itemsView;
 
 @end
 
 @implementation ItemsController
 
-@synthesize title, breadcrumbController, itemPropertiesController, items, arrayController, dataSource;
+@synthesize items, arrayController, dataSource;
 
 - (ItemsView *)itemsView {
     return (ItemsView *)self.view;
 }
 
-- (id)initWithTitle:(NSString *)leTitle {
+- (id)init {
     if (self = [super initWithNibName:@"ItemsView" bundle:[NSBundle mainBundle]]) {
-        self.title = leTitle;
     }
-    return self;
-}
-
-- (id<BreadcrumbItem>)breadcrumbItem {
     return self;
 }
 
@@ -44,9 +38,6 @@
     
     self.itemsView.collectionView.dataSource = self;
     
-    self.itemsView.bar.barButton.title = @"New…";
-    self.itemsView.bar.barButton.target = self;
-    self.itemsView.bar.barButton.action = @selector(addItemClicked);
 }
 
 - (void)viewWillAppear {
@@ -61,8 +52,96 @@
     [items removeObjectAtIndex:index];
 }
 
+@end
+
+@interface BreadcrumbItemsControllerView : NSView
+
+@property (nonatomic, strong) BottomBar *bottomBar;
+@property (nonatomic, strong) NSView *contentView;
+
+@end
+
+@implementation BreadcrumbItemsControllerView
+
+@synthesize bottomBar, contentView;
+
+- (id)initWithContentView:(NSView *)lContentView {
+    if (self = [super initWithFrame:CGRectZero]) {
+        self.bottomBar = [[BottomBar alloc] initWithFrame:CGRectZero];
+        [self addSubview:bottomBar];
+        
+        self.contentView = lContentView;
+        [self addSubview:contentView];
+    }
+    return self;
+}
+
+- (void)layout {
+    NSSize bottomBarSize = [bottomBar intrinsicContentSize];
+    bottomBar.frame = NSMakeRect(0, 0, self.bounds.size.width, bottomBarSize.height);
+    
+    contentView.frame = NSMakeRect(0, bottomBarSize.height, self.bounds.size.width, self.bounds.size.height - bottomBarSize.height);
+    
+    [super layout];
+}
+
+@end
+
+@interface BreadcrumbItemsController ()
+
+@property (nonatomic, strong) NSViewController *itemPropertiesController;
+@property (nonatomic, copy) NSViewController *(^newItem)();
+@property (nonatomic, copy) void (^selection)(BreadcrumbItemsController *, id);
+@property (nonatomic, strong) ItemsController *itemsController;
+@property (nonatomic, assign) NSArrayController *arrayController;
+
+@end
+
+@implementation BreadcrumbItemsController
+
+@synthesize arrayController = _arrayController, itemPropertiesController, newItem, selection, itemsController, breadcrumbController, title;
+
+- (void)setArrayController:(NSArrayController *)value {
+    [_arrayController removeObserver:self forKeyPath:@"selection"];
+    _arrayController = value;
+    [_arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (id<BreadcrumbItem>)breadcrumbItem {
+    return self;
+}
+
+- (id)initWithItemsController:(ItemsController *)lItemsController newItemBlock:(NSViewController *(^)())newItemBlock selectionBlock:(void (^)(BreadcrumbItemsController *, id))selectionBlock {
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        self.itemsController = lItemsController;
+        self.newItem = newItemBlock;
+        self.selection = selectionBlock;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    self.arrayController = nil;
+}
+
+- (void)loadView {
+    BreadcrumbItemsControllerView *breadcrumbItemsControllerView = [[BreadcrumbItemsControllerView alloc] initWithContentView:itemsController.view];
+    
+    self.arrayController = itemsController.arrayController;
+    
+    breadcrumbItemsControllerView.bottomBar.barButton.title = @"New…";
+    breadcrumbItemsControllerView.bottomBar.barButton.target = self;
+    breadcrumbItemsControllerView.bottomBar.barButton.action = @selector(addItemClicked);
+    
+    self.view = breadcrumbItemsControllerView;
+}
+
+- (void)viewWillAppear {
+    [itemsController viewWillAppear];
+}
+
 - (void)addItemClicked {
-    self.itemPropertiesController = [dataSource newItemPropertiesControllerForItemsController:self];
+    self.itemPropertiesController = newItem();
     
     NSWindow *window = [SheetWindow sheetWindowWithView:itemPropertiesController.view];
     
@@ -70,17 +149,28 @@
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    [self updateItems];
+    [self.itemsController updateItems];
     self.itemPropertiesController = nil;
     [sheet orderOut:self];
 }
 
-- (void)commitWizardPanel {
-    
+- (void)deselectItems {
+    itemsController.arrayController.selectedObjects = @[];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == self.arrayController && [keyPath isEqual:@"selection"]) {
+        [self performSelector:@selector(deselectItems) withObject:nil afterDelay:0];
+        
+        if (itemsController.arrayController.selectedObjects.count)
+            selection(self, itemsController.arrayController.selectedObjects[0]);
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 @end
-
 
 @interface WizardItemsController ()
 
@@ -97,10 +187,15 @@
 - (id)initWithItemsController:(ItemsController *)lItemsController commitBlock:(void (^)())commitBlock rollbackBlock:(void (^)())rollbackBlock {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.itemsController = lItemsController;
+        [itemsController.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
         self.commit = commitBlock;
         self.rollback = rollbackBlock;
     }
     return self;
+}
+
+- (void)dealloc {
+    [itemsController.arrayController removeObserver:self forKeyPath:@"selection"];
 }
 
 - (void)loadView {
@@ -108,7 +203,6 @@
 }
 
 - (void)viewWillAppear {
-    [itemsController.arrayController addObserver:self forKeyPath:@"selection" options:NSKeyValueObservingOptionNew context:nil];
     [itemsController viewWillAppear];
 }
 
