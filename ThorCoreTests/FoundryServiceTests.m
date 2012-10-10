@@ -671,19 +671,68 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"dotnet");
     });
     
-    it(@"should detect grails apps", ^{
+    it(@"should detect grails apps on root path", ^{
+        createFiles(@[
+                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+                    @[ @[ @"WEB-INF", @"lib", @"grails-web-1.3.1.jar" ], @"blob" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"grails");
+    });
+    
+    it(@"should detect lift apps on root path", ^{
+        createFiles(@[
+                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+                    @[ @[ @"WEB-INF", @"lib", @"lift-webkit-1.0.1.jar" ], @"blob" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"lift");
+    });
+    
+    it(@"should detect spring apps on root path with spring-core jar", ^{
+        createFiles(@[
+                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+                    @[ @[ @"WEB-INF", @"lib", @"spring-core-2.0.1.jar" ], @"blob" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    
+    it(@"should detect spring apps on root path with org.springframework.core jar", ^{
+        createFiles(@[
+                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+                    @[ @[ @"WEB-INF", @"lib", @"org.springframework.core-2.0.1.jar" ], @"blob" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect spring apps on root path with springframework classes", ^{
+        createFiles(@[
+                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+                    @[ @[ @"WEB-INF", @"classes", @"org", @"springframework", @"whatever.class" ], @"blob" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect other java web apps on root path", ^{
         expect(NO).to.beTruthy();
     });
+    
     
     it(@"should detect play apps", ^{
-        expect(NO).to.beTruthy();
-    });
-    
-    it(@"should detect lift apps", ^{
-        expect(NO).to.beTruthy();
-    });
-    
-    it(@"should detect spring apps", ^{
         expect(NO).to.beTruthy();
     });
 });

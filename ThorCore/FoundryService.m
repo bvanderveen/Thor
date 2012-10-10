@@ -252,9 +252,24 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     return path;
 }
 
+BOOL StringEndsWithString(NSString *string, NSString *suffix) {
+    return string.length >= suffix.length && [[string substringFromIndex:string.length - suffix.length] isEqual:suffix];
+}
+
+BOOL StringStartsWithString(NSString *string, NSString *prefix) {
+    return string.length >= prefix.length && [[string substringToIndex:prefix.length] isEqual:prefix];
+}
+
+BOOL IsJarNamed(NSString *string, NSString *jarName) {
+    return
+        StringStartsWithString(string, [NSString stringWithFormat:@"WEB-INF/lib/%@", jarName]) &&
+        StringEndsWithString(string, @".jar");
+}
+
 NSString *DetectFrameworkFromPath(NSURL *rootURL) {
-    
-    NSArray *items = [GetItemsOnPath(rootURL) map:^ id (id i) {
+    NSArray *items = [[GetItemsOnPath(rootURL) filter:^BOOL(id url) {
+        return !URLIsDirectory(url) && !URLIsInGitDirectory(url);
+    }] map:^ id (id i) {
         return StripBasePath(rootURL, i);
     }];
     
@@ -273,10 +288,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     if ([items containsObject:@"manage.py"] && [items containsObject:@"settings.py"])
         return @"django";
     
-    if ([items any:^ BOOL (id i) {
-        NSString *item = i;
-        return item.length > 4 && [[i substringFromIndex:item.length - 4] isEqual:@".php"];
-    }])
+    if ([items any:^ BOOL (id i) { return StringEndsWithString(i, @".php"); }])
         return @"php";
     
     if ([items containsObject:@"wsgi.py"])
@@ -285,7 +297,25 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     if ([items containsObject:@"web.config"])
         return @"dotnet";
     
+    if ([items containsObject:@"WEB-INF/web.xml"]) {
+        if ([items any:^BOOL(id i) { return IsJarNamed(i, @"grails-web"); }])
+            return @"grails";
         
+        if ([items any:^BOOL(id i) { return IsJarNamed(i, @"lift-webkit"); }])
+            return @"lift";
+        
+        if ([items any:^BOOL(id i) { return IsJarNamed(i, @"spring-core"); }])
+            return @"spring";
+        
+        if ([items any:^BOOL(id i) { return IsJarNamed(i, @"org.springframework.core"); }])
+            return @"spring";
+        
+        if ([items any:^BOOL(id i) {
+            return StringStartsWithString(i, @"WEB-INF/classes/org/springframework");
+        }])
+            return @"spring";
+    }
+    
     return nil;
 }
 
