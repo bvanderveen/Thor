@@ -575,6 +575,101 @@ describe(@"CreateSlugFromManifest", ^{
         expect(files).to.equal(createdFiles);
     });
 });
+
+describe(@"detect framework", ^{
+    
+    void (^cleanup)() = ^ {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+    };
+    
+    afterEach(^{
+        cleanup();
+    });
+    
+    it(@"should detect rails apps", ^{
+        createFiles(@[
+                    @[ @[@"config", @"environment.rb" ], @"use rails or whatever" ],
+                    ]);
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"rails");
+    });
+    
+    it(@"should detect rack apps", ^{
+        createFiles(@[
+                    @[ @[ @"config.ru" ], @"use rack or whatever" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"rack");
+    });
+    
+    it(@"should detect sinatra apps", ^{
+        
+    });
+    
+    it(@"should detect node apps", ^{
+        NSArray *nodeSentinels = @[ @"server.js", @"app.js", @"index.js", @"main.js" ];
+        
+        [nodeSentinels each:^(id s) {
+            createFiles(@[
+                        @[ @[ s ], @"some javascript or whatever" ]
+                        ]);
+            
+            NSString *framework = DetectFrameworkFromPath(rootURL);
+            
+            cleanup();
+            
+            expect(framework).to.equal(@"node");
+        }];
+    });
+    
+    it(@"should detect django apps", ^{
+        
+    });
+    
+    it(@"should detect php apps", ^{
+        
+    });
+    
+    it(@"should detect erlang/otp rebar apps", ^{
+        
+    });
+    
+    it(@"should detect WSGI apps", ^{
+        
+    });
+    
+    it(@"should detect ASP.NET apps", ^{
+        
+    });
+    
+    it(@"should detect grails apps", ^{
+        
+    });
+    
+    it(@"should detect play apps", ^{
+        
+    });
+    
+    it(@"should detect lift apps", ^{
+        
+    });
+    
+    it(@"should detect spring apps", ^{
+        
+    });
+    
+    it(@"should detect grails apps", ^{
+        
+    });
+});
+
+// this tests a full create/post slug deployment to a CF service. it's disabled
+// because it assumes a CF service exists and we don't want test failures
+// if that is not the case. so it's here for posterity i guess.
 //
 //describe(@"TestDeployment", ^{
 //    it(@"should deploy a thing", ^{
@@ -642,5 +737,7 @@ describe(@"CreateSlugFromManifest", ^{
 //        [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
 //    });
 //});
+
+
 
 SpecEnd

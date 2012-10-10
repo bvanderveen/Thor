@@ -252,6 +252,10 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     return path;
 }
 
+NSString *DetectFrameworkFromPath(NSURL *rootURL) {
+    return nil;
+}
+
 @interface FoundryService ()
 
 @property (nonatomic, copy) NSString *token;

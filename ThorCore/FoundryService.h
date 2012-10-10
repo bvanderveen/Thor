@@ -57,6 +57,8 @@ NSArray *CreateSlugManifestFromPath(NSURL *rootURL);
 // you should delete the file when you're done with it.
 NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *rootURL);
 
+NSString *DetectFrameworkFromPath(NSURL *rootURL);
+
 @protocol FoundryService <NSObject>
 
 - (RACSubscribable *)getApps; // NSArray of FoundryApp
