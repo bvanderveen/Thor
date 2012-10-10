@@ -627,11 +627,24 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect django apps", ^{
+        createFiles(@[
+                    @[ @[ @"manage.py" ], @"boot django or whatever" ],
+                    @[ @[ @"settings.py" ], @"DEBUG = lol" ],
+                    ]);
         
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"django");
     });
     
     it(@"should detect php apps", ^{
+        createFiles(@[
+                    @[ @[ @"anything.php" ], @"$phpinfo()" ]
+                    ]);
         
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"php");
     });
     
     it(@"should detect erlang/otp rebar apps", ^{
@@ -639,11 +652,23 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect WSGI apps", ^{
+        createFiles(@[
+                    @[ @[ @"wsgi.py" ], @"$phpinfo()" ]
+                    ]);
         
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"wsgi");
     });
     
     it(@"should detect ASP.NET apps", ^{
+        createFiles(@[
+                    @[ @[ @"web.config" ], @"<inscrutable><opaque><soup>blech</soup></opaque></inscrutable>" ]
+                    ]);
         
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"dotnet");
     });
     
     it(@"should detect grails apps", ^{
@@ -659,10 +684,6 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect spring apps", ^{
-        
-    });
-    
-    it(@"should detect grails apps", ^{
         
     });
 });
