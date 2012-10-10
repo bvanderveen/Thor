@@ -253,6 +253,39 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
 }
 
 NSString *DetectFrameworkFromPath(NSURL *rootURL) {
+    
+    NSArray *items = [GetItemsOnPath(rootURL) map:^ id (id i) {
+        return StripBasePath(rootURL, i);
+    }];
+    
+    if ([items containsObject:@"config/environment.rb"])
+        return @"rails";
+    
+    if ([items containsObject:@"config.ru"])
+        return @"rack";
+    
+    if ([items containsObject:@"server.js"] ||
+        [items containsObject:@"main.js"] ||
+        [items containsObject:@"app.js"] ||
+        [items containsObject:@"index.js"])
+        return @"node";
+    
+    if ([items containsObject:@"manage.py"] && [items containsObject:@"settings.py"])
+        return @"django";
+    
+    if ([items any:^ BOOL (id i) {
+        NSString *item = i;
+        return item.length > 4 && [[i substringFromIndex:item.length - 4] isEqual:@".php"];
+    }])
+        return @"php";
+    
+    if ([items containsObject:@"wsgi.py"])
+        return @"wsgi";
+    
+    if ([items containsObject:@"web.config"])
+        return @"dotnet";
+    
+        
     return nil;
 }
 

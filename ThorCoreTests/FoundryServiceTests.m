@@ -607,7 +607,7 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect sinatra apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
     
     it(@"should detect node apps", ^{
@@ -639,7 +639,7 @@ describe(@"detect framework", ^{
     
     it(@"should detect php apps", ^{
         createFiles(@[
-                    @[ @[ @"anything.php" ], @"$phpinfo()" ]
+                    @[ @[ @"anything.php" ], @"$phpinfolol()" ]
                     ]);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
@@ -648,12 +648,12 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect erlang/otp rebar apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
     
     it(@"should detect WSGI apps", ^{
         createFiles(@[
-                    @[ @[ @"wsgi.py" ], @"$phpinfo()" ]
+                    @[ @[ @"wsgi.py" ], @"def application(req, start_res):\n\t\return process(req)\n" ]
                     ]);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
@@ -672,19 +672,19 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect grails apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
     
     it(@"should detect play apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
     
     it(@"should detect lift apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
     
     it(@"should detect spring apps", ^{
-        
+        expect(NO).to.beTruthy();
     });
 });
 
