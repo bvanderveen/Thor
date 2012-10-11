@@ -386,24 +386,25 @@ describe(@"postSlug", ^ {
     });
 });
 
-NSArray *root = @[NSTemporaryDirectory(), @"TestZipDir"];
-NSString *rootPath = [NSString pathWithComponents:root];
-NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+void (^ensureDirectoryForFile)(NSArray *, NSArray *) = ^ void (NSArray *rootPathComponents, NSArray *pathComponents) {
+    NSString *directory = [NSString pathWithComponents:[[rootPathComponents concat:pathComponents] take:rootPathComponents.count + pathComponents.count - 1]];
+    NSError *error = nil;
+    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+    
+    if (error) {
+        NSLog(@"error: %@", [error localizedDescription]);
+        assert(NO);
+    }
+};
 
-NSSet *(^createFiles)(NSArray *) = ^ (NSArray *files) {
+NSSet *(^createFilesAtRoot)(NSArray *, NSArray *) = ^ (NSArray *files, NSArray *root) {
     NSSet *created = [NSSet set];
     for (NSArray *f in files) {
         NSArray *pathComponents = f[0];
         NSString *contents = f[1];
         
-        NSString *directory = [NSString pathWithComponents:[[root concat:pathComponents] take:root.count + pathComponents.count - 1]];
-        NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+        ensureDirectoryForFile(root, pathComponents);
         
-        if (error) {
-            NSLog(@"error: %@", [error localizedDescription]);
-            assert(NO);
-        }
         
         NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
         
@@ -417,9 +418,9 @@ NSSet *(^createFiles)(NSArray *) = ^ (NSArray *files) {
     return created;
 };
 
-void (^removeCreatedFiles)() = ^ {
+void (^removeCreatedFiles)(NSString *) = ^ (NSString *path) {
     NSError *error = nil;
-    [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 };
 
 describe(@"CreateSlugManifestFromPath", ^ {
@@ -435,7 +436,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
         expect(filenames).to.contain(@"subdir2/subdir3/bar3");
     };
     
-    id (^filesInManifest)() = ^ id () {
+    id (^filesInManifest)(NSURL *) = ^ id (NSURL *rootURL) {
         return [CreateSlugManifestFromPath(rootURL) map:^id(id r) {
             return [r objectForKey:@"fn"];
         }];
@@ -443,8 +444,12 @@ describe(@"CreateSlugManifestFromPath", ^ {
     
     __block NSSet *intendedFiles;
     
+    NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
+    NSString *rootPath = [NSString pathWithComponents:root];
+    NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+    
     beforeEach(^{
-        intendedFiles = createFiles(@[
+        intendedFiles = createFilesAtRoot(@[
                     @[ @[@"foo"], @"this is /foo" ],
                     @[ @[@"bar"], @"this is /bar" ],
                     @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
@@ -453,26 +458,26 @@ describe(@"CreateSlugManifestFromPath", ^ {
                     @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
                     @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
                     @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                    ]);
+                    ], root);
     });
     
     afterEach(^{
-        removeCreatedFiles();
+        removeCreatedFiles(rootPath);
     });
 
     it(@"should list files recursively", ^{
-        expectToBeIntendedFiles(filesInManifest());
+        expectToBeIntendedFiles(filesInManifest(rootURL));
     });
     
     it(@"should exclude .git directories", ^ {
-        createFiles(@[
+        createFilesAtRoot(@[
                     @[ @[@".git", @"index-n-stuff"], @"blah blah blah" ],
                     @[ @[@".git", @"objects"], @"tree or whatever" ],
                     @[ @[@".git", @"whateverelse"], @"wish I understood git more" ]
-                    ]);
+                    ], root);
         
         
-        expectToBeIntendedFiles(filesInManifest());
+        expectToBeIntendedFiles(filesInManifest(rootURL));
     });
     
     it(@"should provide file sizes", ^ {
@@ -544,8 +549,12 @@ NSSet *(^filesUnderRoot)(NSURL *) = ^ NSSet * (NSURL *root) {
 describe(@"CreateSlugFromManifest", ^{
     __block NSSet *createdFiles;
     
+    NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
+    NSString *rootPath = [NSString pathWithComponents:root];
+    NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+    
     beforeEach(^{
-        createdFiles = createFiles(@[
+        createdFiles = createFilesAtRoot(@[
                     @[ @[@"foo"], @"this is /foo" ],
                     @[ @[@"bar"], @"this is /bar" ],
                     @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
@@ -554,7 +563,7 @@ describe(@"CreateSlugFromManifest", ^{
                     @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
                     @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
                     @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                    ]);
+                    ], root);
     });
     
     afterEach(^{
@@ -576,11 +585,39 @@ describe(@"CreateSlugFromManifest", ^{
     });
 });
 
+void (^createZipFile)(NSArray *, NSArray *, NSArray *) = ^ void (NSArray *basePathComponents, NSArray *outputFileComponents, NSArray *manifest) {
+    
+    ensureDirectoryForFile(basePathComponents, outputFileComponents);
+    
+    NSTask *task = [NSTask new];
+    task.launchPath = @"/usr/bin/zip";
+    task.currentDirectoryPath = [basePathComponents componentsJoinedByString:@"/"];
+    task.arguments = [@[[outputFileComponents componentsJoinedByString:@"/"]] concat:[manifest map:^id(id i) {
+        return [i componentsJoinedByString:@"/"];
+    }]];
+    
+    [task launch];
+    [task waitUntilExit];
+};
+
 describe(@"detect framework", ^{
+    
+    NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
+    NSString *rootPath = [NSString pathWithComponents:root];
+    NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+    
+    NSArray *zipScratchRoot = @[NSTemporaryDirectory(), @"ThorZipScratchDir"];
+    NSString *zipScratchRootPath = [NSString pathWithComponents:zipScratchRoot];
+    NSURL *zipScratchRootURL = [NSURL fileURLWithPath:zipScratchRootPath];
     
     void (^cleanup)() = ^ {
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:zipScratchRootPath error:&error];
+    };
+    
+    void (^createFiles)(NSArray *) = ^ (NSArray *manifest) {
+        createFilesAtRoot(manifest, root);
     };
     
     afterEach(^{
@@ -671,11 +708,37 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"dotnet");
     });
     
+    // java stuff is a little crazy. while the file structures are all about the same
+    // they can be found a few different ways.
+    //
+    // - on the root path
+    // - in a war file *in* the root path
+    // - in a war file that *is* the root path
+    
+    
+    void (^createWarOnRootPath)(NSArray *) = ^ (NSArray *manifest) {
+        createFilesAtRoot(manifest, zipScratchRoot);
+        
+        createZipFile(zipScratchRoot, [root concat:@[ @"foo.war" ]], [manifest map:^id(id i) {
+            return ((NSArray *)i)[0];
+        }]);
+    };
+    
+    id grailsManifest = @[
+        @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+        @[ @[ @"WEB-INF", @"lib", @"grails-web-1.3.1.jar" ], @"blob" ]
+    ];
+    
     it(@"should detect grails apps on root path", ^{
-        createFiles(@[
-                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-                    @[ @[ @"WEB-INF", @"lib", @"grails-web-1.3.1.jar" ], @"blob" ]
-                    ]);
+        createFiles(grailsManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"grails");
+    });
+    
+    it(@"should detect grails apps in war on root path", ^{
+        createWarOnRootPath(grailsManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
         
@@ -703,7 +766,6 @@ describe(@"detect framework", ^{
         
         expect(framework).to.equal(@"spring");
     });
-    
     
     it(@"should detect spring apps on root path with org.springframework.core jar", ^{
         createFiles(@[
