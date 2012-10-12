@@ -187,12 +187,6 @@ BOOL URLIsDirectory(NSURL *url) {
     return [attributes[NSFileType] isEqual:NSFileTypeDirectory];
 }
 
-BOOL URLIsInGitDirectory(NSURL *url) {
-    BOOL result = [url.path rangeOfString:@".git"].location != NSNotFound;
-    NSLog(@"URLIsInGitDirectory %@ = %d", url, result);
-    return result;
-}
-
 NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
     NSString *stripped = [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
     if ([[stripped substringToIndex:1] isEqual:@"/"])
@@ -215,7 +209,7 @@ NSArray *GetItemsOnPath(NSURL *path) {
     NSMutableArray *result = [NSMutableArray array];
     path = [path URLByResolvingSymlinksInPath];
     id i = nil;
-    for (id u in [[NSFileManager defaultManager] enumeratorAtURL:path includingPropertiesForKeys:nil options:0 errorHandler:nil]) {
+    for (id u in [[NSFileManager defaultManager] enumeratorAtURL:path includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil]) {
         NSURL *url = [u URLByResolvingSymlinksInPath];
         [result addObject:url];
     }
@@ -225,7 +219,7 @@ NSArray *GetItemsOnPath(NSURL *path) {
 
 NSArray *CreateSlugManifestFromPath(NSURL *path) {
     return [[GetItemsOnPath(path) filter:^BOOL(id url) {
-        return !URLIsDirectory(url) && !URLIsInGitDirectory(url);
+        return !URLIsDirectory(url);
     }] map:^ id (id f) {
         return @{
         @"fn" : StripBasePath(path, f),
@@ -252,6 +246,20 @@ NSURL *CreateSlugFromManifest(NSArray *manifest, NSURL *basePath) {
     return path;
 }
 
+NSURL *ExtractZipFile(NSURL *zipFilePath) {
+    NSString *tempExtractionPath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorFrameworkDetectionTemp"]];
+    [[NSFileManager defaultManager] removeItemAtPath:tempExtractionPath error:nil];
+    NSURL *path = [NSURL fileURLWithPath:tempExtractionPath];
+    
+    NSTask *task = [NSTask new];
+    task.launchPath = @"/usr/bin/unzip";
+    task.arguments = @[ zipFilePath.path, @"-d", tempExtractionPath ];
+    [task launch];
+    [task waitUntilExit];
+    
+    return path;
+}
+
 BOOL StringEndsWithString(NSString *string, NSString *suffix) {
     return string.length >= suffix.length && [[string substringFromIndex:string.length - suffix.length] isEqual:suffix];
 }
@@ -268,7 +276,7 @@ BOOL IsJarNamed(NSString *string, NSString *jarName) {
 
 NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     NSArray *items = [[GetItemsOnPath(rootURL) filter:^BOOL(id url) {
-        return !URLIsDirectory(url) && !URLIsInGitDirectory(url);
+        return !URLIsDirectory(url);
     }] map:^ id (id i) {
         return StripBasePath(rootURL, i);
     }];
@@ -314,6 +322,21 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             return StringStartsWithString(i, @"WEB-INF/classes/org/springframework");
         }])
             return @"spring";
+    }
+    
+    NSArray *wars = [items filter:^ BOOL (id i) { return StringEndsWithString(i, @".war"); }];
+    
+    if (wars.count) {
+        NSString *warPath = wars[0];
+        NSURL *warURL = [NSURL URLWithString:[NSString pathWithComponents:@[ rootURL.path, warPath ]]];
+        NSURL *tempDir = ExtractZipFile(warURL);
+        
+        NSString *result = DetectFrameworkFromPath(tempDir);
+        
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:tempDir.path error:&error];
+        
+        return result;
     }
     
     return nil;

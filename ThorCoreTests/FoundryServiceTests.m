@@ -312,7 +312,6 @@ describe(@"createApp", ^ {
 });
 
 describe(@"deleteApp", ^ {
-    
     __block MockEndpoint *endpoint;
     __block FoundryService *service;
     
@@ -369,8 +368,6 @@ describe(@"postSlug", ^ {
         "this is some data in a file\r\n"
         "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n";
         
-        
-        
         id expectedCalls = @[
         @{
             @"method" : @"PUT",
@@ -404,7 +401,6 @@ NSSet *(^createFilesAtRoot)(NSArray *, NSArray *) = ^ (NSArray *files, NSArray *
         NSString *contents = f[1];
         
         ensureDirectoryForFile(root, pathComponents);
-        
         
         NSString *path = [NSString pathWithComponents:[root arrayByAddingObjectsFromArray:pathComponents]];
         
@@ -459,6 +455,12 @@ describe(@"CreateSlugManifestFromPath", ^ {
                     @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
                     @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
                     ], root);
+        createFilesAtRoot(@[
+                          @[ @[ @".DS_Store" ], @"stuff things" ],
+                          @[ @[ @"subdir1", @".DS_Store" ], @"stuff things" ],
+                          @[ @[ @".git", @"index" ], @"things stuff" ],
+                          @[ @[ @".git", @"objects", @"abcdef" ], @"things stuff" ]
+                          ], root);
     });
     
     afterEach(^{
@@ -587,7 +589,7 @@ describe(@"CreateSlugFromManifest", ^{
 
 void (^createZipFile)(NSArray *, NSArray *, NSArray *) = ^ void (NSArray *basePathComponents, NSArray *outputFileComponents, NSArray *manifest) {
     
-    ensureDirectoryForFile(basePathComponents, outputFileComponents);
+    ensureDirectoryForFile(outputFileComponents, nil);
     
     NSTask *task = [NSTask new];
     task.launchPath = @"/usr/bin/zip";
@@ -745,11 +747,21 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"grails");
     });
     
+    id liftManifest = @[
+    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+    @[ @[ @"WEB-INF", @"lib", @"lift-webkit-1.0.1.jar" ], @"blob" ]
+    ];
+    
     it(@"should detect lift apps on root path", ^{
-        createFiles(@[
-                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-                    @[ @[ @"WEB-INF", @"lib", @"lift-webkit-1.0.1.jar" ], @"blob" ]
-                    ]);
+        createFiles(liftManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"lift");
+    });
+    
+    it(@"should detect lift apps in war on root path", ^{
+        createWarOnRootPath(liftManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
         
