@@ -762,7 +762,7 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"grails");
     });
     
-    it(@"should detect grails apps in war root path", ^{
+    it(@"should detect grails apps in war at root path", ^{
         createWarAtRootPath(grailsManifest);
         
         NSString *framework = DetectFrameworkFromPath(warRootURL);
@@ -771,8 +771,8 @@ describe(@"detect framework", ^{
     });
     
     id liftManifest = @[
-    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-    @[ @[ @"WEB-INF", @"lib", @"lift-webkit-1.0.1.jar" ], @"blob" ]
+        @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+        @[ @[ @"WEB-INF", @"lib", @"lift-webkit-1.0.1.jar" ], @"blob" ]
     ];
     
     it(@"should detect lift apps on root path", ^{
@@ -791,35 +791,97 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"lift");
     });
     
+    it(@"should detect lift apps in war at root path", ^{
+        createWarAtRootPath(liftManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        
+        expect(framework).to.equal(@"lift");
+    });
+    
+    id springCoreManifest = @[
+        @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+        @[ @[ @"WEB-INF", @"lib", @"spring-core-2.0.1.jar" ], @"blob" ]
+    ];
+    
     it(@"should detect spring apps on root path with spring-core jar", ^{
-        createFiles(@[
-                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-                    @[ @[ @"WEB-INF", @"lib", @"spring-core-2.0.1.jar" ], @"blob" ]
-                    ]);
+        createFiles(springCoreManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
         
         expect(framework).to.equal(@"spring");
     });
+    
+    it(@"should detect spring apps in war on root path with spring-core jar", ^{
+        createWarOnRootPath(springCoreManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect spring apps in war at root path with spring-core jar", ^{
+        createWarAtRootPath(springCoreManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    id springFrameworkCoreManifest = @[
+        @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+        @[ @[ @"WEB-INF", @"lib", @"org.springframework.core-2.0.1.jar" ], @"blob" ]
+    ];
     
     it(@"should detect spring apps on root path with org.springframework.core jar", ^{
-        createFiles(@[
-                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-                    @[ @[ @"WEB-INF", @"lib", @"org.springframework.core-2.0.1.jar" ], @"blob" ]
-                    ]);
+        createFiles(springCoreManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
         
         expect(framework).to.equal(@"spring");
     });
     
-    it(@"should detect spring apps on root path with springframework classes", ^{
-        createFiles(@[
-                    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
-                    @[ @[ @"WEB-INF", @"classes", @"org", @"springframework", @"whatever.class" ], @"blob" ]
-                    ]);
+    it(@"should detect spring apps in war on root path with org.springframework.core jar", ^{
+        createWarOnRootPath(springCoreManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect spring apps in war at root path with org.springframework.core jar", ^{
+        createWarAtRootPath(springCoreManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    id springFrameworkClassesManifest = @[
+    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+    @[ @[ @"WEB-INF", @"classes", @"org", @"springframework", @"whatever.class" ], @"blob" ]
+    ];
+    
+    it(@"should detect spring apps on root path with springframework classes", ^{
+        createFiles(springFrameworkClassesManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect spring apps in war on root path with springframework classes", ^{
+        createWarOnRootPath(springFrameworkClassesManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"spring");
+    });
+    
+    it(@"should detect spring apps in war at root path with springframework classes", ^{
+        createWarAtRootPath(springFrameworkClassesManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(warRootURL);
         
         expect(framework).to.equal(@"spring");
     });
