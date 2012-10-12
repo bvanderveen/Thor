@@ -691,7 +691,14 @@ describe(@"detect framework", ^{
     });
     
     it(@"should detect erlang/otp rebar apps", ^{
-        expect(NO).to.beTruthy();
+        createFiles(@[
+                    @[ @[ @"releases", @"foo", @"foo.rel" ], @"whatever this contains" ],
+                    @[ @[ @"releases", @"bar", @"bar.boot" ], @"whatever that contains" ]
+                    ]);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"otp_rebar");
     });
     
     it(@"should detect WSGI apps", ^{

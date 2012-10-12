@@ -320,6 +320,16 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     if ([items containsObject:@"web.config"])
         return @"dotnet";
     
+    if (
+        [items any:^BOOL(id i) {
+            return StringStartsWithString(i, @"releases/") && StringEndsWithString(i, @".rel");
+        }] &&
+        [items any:^BOOL(id i) {
+        return StringStartsWithString(i, @"releases/") && StringEndsWithString(i, @".boot");
+    }])
+        return @"otp_rebar";
+        
+    
     if ([items containsObject:@"WEB-INF/web.xml"]) {
         if ([items any:^BOOL(id i) { return IsJarNamed(i, @"grails-web"); }])
             return @"grails";
