@@ -612,10 +612,14 @@ describe(@"detect framework", ^{
     NSString *zipScratchRootPath = [NSString pathWithComponents:zipScratchRoot];
     NSURL *zipScratchRootURL = [NSURL fileURLWithPath:zipScratchRootPath];
     
+    __block NSString *warPathToCleanUp;
+    __block NSURL *warRootURL;
+    
     void (^cleanup)() = ^ {
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
         [[NSFileManager defaultManager] removeItemAtPath:zipScratchRootPath error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:warPathToCleanUp error:&error];
     };
     
     void (^createFiles)(NSArray *) = ^ (NSArray *manifest) {
@@ -726,6 +730,17 @@ describe(@"detect framework", ^{
         }]);
     };
     
+    void (^createWarAtRootPath)(NSArray *) = ^ void (NSArray *manifest) {
+        createFilesAtRoot(manifest, zipScratchRoot);
+        
+        NSArray *warPathComponents = @[NSTemporaryDirectory(), @"ThorTestWar.war"];
+        warPathToCleanUp = [NSString pathWithComponents:warPathComponents];
+        warRootURL = [NSURL fileURLWithPath:warPathToCleanUp];
+        createZipFile(zipScratchRoot, warPathComponents, [manifest map:^id(id i) {
+            return ((NSArray *)i)[0];
+        }]);
+    };
+    
     id grailsManifest = @[
         @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
         @[ @[ @"WEB-INF", @"lib", @"grails-web-1.3.1.jar" ], @"blob" ]
@@ -743,6 +758,14 @@ describe(@"detect framework", ^{
         createWarOnRootPath(grailsManifest);
         
         NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"grails");
+    });
+    
+    it(@"should detect grails apps in war root path", ^{
+        createWarAtRootPath(grailsManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(warRootURL);
         
         expect(framework).to.equal(@"grails");
     });

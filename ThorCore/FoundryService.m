@@ -274,7 +274,22 @@ BOOL IsJarNamed(NSString *string, NSString *jarName) {
         StringEndsWithString(string, @".jar");
 }
 
+NSString *DetectFrameworkInWar(NSURL *warURL) {
+    NSURL *tempDir = ExtractZipFile(warURL);
+    
+    NSString *result = DetectFrameworkFromPath(tempDir);
+    
+    NSError *error;
+    [[NSFileManager defaultManager] removeItemAtPath:tempDir.path error:&error];
+    
+    return result;
+}
+
 NSString *DetectFrameworkFromPath(NSURL *rootURL) {
+    if (StringEndsWithString(rootURL.path, @".war")) {
+        return DetectFrameworkInWar(rootURL);
+    }
+    
     NSArray *items = [[GetItemsOnPath(rootURL) filter:^BOOL(id url) {
         return !URLIsDirectory(url);
     }] map:^ id (id i) {
@@ -329,14 +344,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     if (wars.count) {
         NSString *warPath = wars[0];
         NSURL *warURL = [NSURL URLWithString:[NSString pathWithComponents:@[ rootURL.path, warPath ]]];
-        NSURL *tempDir = ExtractZipFile(warURL);
-        
-        NSString *result = DetectFrameworkFromPath(tempDir);
-        
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:tempDir.path error:&error];
-        
-        return result;
+        return DetectFrameworkInWar(warURL);
     }
     
     return nil;
