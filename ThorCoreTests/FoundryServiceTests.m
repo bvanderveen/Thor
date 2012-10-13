@@ -612,14 +612,14 @@ describe(@"detect framework", ^{
     NSString *zipScratchRootPath = [NSString pathWithComponents:zipScratchRoot];
     NSURL *zipScratchRootURL = [NSURL fileURLWithPath:zipScratchRootPath];
     
-    __block NSString *warPathToCleanUp;
-    __block NSURL *warRootURL;
+    __block NSString *archivePathToCleanUp;
+    __block NSURL *archiveRootURL;
     
     void (^cleanup)() = ^ {
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
         [[NSFileManager defaultManager] removeItemAtPath:zipScratchRootPath error:&error];
-        [[NSFileManager defaultManager] removeItemAtPath:warPathToCleanUp error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:archivePathToCleanUp error:&error];
     };
     
     void (^createFiles)(NSArray *) = ^ (NSArray *manifest) {
@@ -729,23 +729,40 @@ describe(@"detect framework", ^{
     // - in a war file that *is* the root path
     
     
-    void (^createWarOnRootPath)(NSArray *) = ^ (NSArray *manifest) {
+    void (^createArchiveOnRootPath)(NSArray *, NSString *) = ^ (NSArray *manifest, NSString *name) {
         createFilesAtRoot(manifest, zipScratchRoot);
         
-        createZipFile(zipScratchRoot, [root concat:@[ @"foo.war" ]], [manifest map:^id(id i) {
+        createZipFile(zipScratchRoot, [root concat:@[ name ]], [manifest map:^id(id i) {
+            return ((NSArray *)i)[0];
+        }]);
+    };
+    
+    void (^createWarOnRootPath)(NSArray *) = ^ (NSArray *manifest) {
+        createArchiveOnRootPath(manifest, @"foo.war");
+    };
+    
+    void (^createZipOnRootPath)(NSArray *) = ^ (NSArray *manifest) {
+        createArchiveOnRootPath(manifest, @"foo.zip");
+    };
+    
+    
+    void (^createArchiveAtRootPath)(NSArray *, NSString *name) = ^ void (NSArray *manifest, NSString *name) {
+        createFilesAtRoot(manifest, zipScratchRoot);
+        
+        NSArray *archivePathComponents = @[NSTemporaryDirectory(), name];
+        archivePathToCleanUp = [NSString pathWithComponents:archivePathComponents];
+        archiveRootURL = [NSURL fileURLWithPath:archivePathToCleanUp];
+        createZipFile(zipScratchRoot, archivePathComponents, [manifest map:^id(id i) {
             return ((NSArray *)i)[0];
         }]);
     };
     
     void (^createWarAtRootPath)(NSArray *) = ^ void (NSArray *manifest) {
-        createFilesAtRoot(manifest, zipScratchRoot);
-        
-        NSArray *warPathComponents = @[NSTemporaryDirectory(), @"ThorTestWar.war"];
-        warPathToCleanUp = [NSString pathWithComponents:warPathComponents];
-        warRootURL = [NSURL fileURLWithPath:warPathToCleanUp];
-        createZipFile(zipScratchRoot, warPathComponents, [manifest map:^id(id i) {
-            return ((NSArray *)i)[0];
-        }]);
+        createArchiveAtRootPath(manifest, @"ThorTestWar.war");
+    };
+    
+    void (^createZipAtRootPath)(NSArray *) = ^ void (NSArray *manifest) {
+        createArchiveAtRootPath(manifest, @"ThorTestZip.zip");
     };
     
     id grailsManifest = @[
@@ -772,7 +789,7 @@ describe(@"detect framework", ^{
     it(@"should detect grails apps in war at root path", ^{
         createWarAtRootPath(grailsManifest);
         
-        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
         
         expect(framework).to.equal(@"grails");
     });
@@ -801,7 +818,7 @@ describe(@"detect framework", ^{
     it(@"should detect lift apps in war at root path", ^{
         createWarAtRootPath(liftManifest);
         
-        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
         
         expect(framework).to.equal(@"lift");
     });
@@ -830,7 +847,7 @@ describe(@"detect framework", ^{
     it(@"should detect spring apps in war at root path with spring-core jar", ^{
         createWarAtRootPath(springCoreManifest);
         
-        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
         
         expect(framework).to.equal(@"spring");
     });
@@ -859,7 +876,7 @@ describe(@"detect framework", ^{
     it(@"should detect spring apps in war at root path with org.springframework.core jar", ^{
         createWarAtRootPath(springCoreManifest);
         
-        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
         
         expect(framework).to.equal(@"spring");
     });
@@ -888,7 +905,7 @@ describe(@"detect framework", ^{
     it(@"should detect spring apps in war at root path with springframework classes", ^{
         createWarAtRootPath(springFrameworkClassesManifest);
         
-        NSString *framework = DetectFrameworkFromPath(warRootURL);
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
         
         expect(framework).to.equal(@"spring");
     });
@@ -897,9 +914,24 @@ describe(@"detect framework", ^{
         expect(NO).to.beTruthy();
     });
     
+    id playManifest = @[
+        @[ @[ @"lib", @"play.1.0.jar" ], @"stuff" ]
+    ];
     
-    it(@"should detect play apps", ^{
-        expect(NO).to.beTruthy();
+    it(@"should detect play apps in zip on root path", ^{
+        createZipOnRootPath(playManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"play");
+    });
+    
+    it(@"should detect play apps in zip at root path", ^{
+        createZipAtRootPath(playManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
+        
+        expect(framework).to.equal(@"play");
     });
 });
 

@@ -274,7 +274,7 @@ BOOL IsJarNamed(NSString *string, NSString *jarName) {
         StringEndsWithString(string, @".jar");
 }
 
-NSString *DetectFrameworkInWar(NSURL *warURL) {
+NSString *DetectFrameworkInArchive(NSURL *warURL) {
     NSURL *tempDir = ExtractZipFile(warURL);
     
     NSString *result = DetectFrameworkFromPath(tempDir);
@@ -286,9 +286,9 @@ NSString *DetectFrameworkInWar(NSURL *warURL) {
 }
 
 NSString *DetectFrameworkFromPath(NSURL *rootURL) {
-    if (StringEndsWithString(rootURL.path, @".war")) {
-        return DetectFrameworkInWar(rootURL);
-    }
+    if (StringEndsWithString(rootURL.path, @".war") ||
+        StringEndsWithString(rootURL.path, @".zip"))
+        return DetectFrameworkInArchive(rootURL);
     
     NSArray *items = [[GetItemsOnPath(rootURL) filter:^BOOL(id url) {
         return !URLIsDirectory(url);
@@ -349,12 +349,25 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             return @"spring";
     }
     
+    if ([items any:^BOOL(id i) {
+        return StringStartsWithString(i, @"lib/play") && StringEndsWithString(i, @".jar");
+    }])
+        return @"play";
+    
+    NSArray *zips = [items filter:^ BOOL (id i) { return StringEndsWithString(i, @".zip"); }];
+    
+    if (zips.count) {
+        NSString *zipPath = zips[0];
+        NSURL *zipURL = [NSURL URLWithString:[NSString pathWithComponents:@[ rootURL.path, zipPath ]]];
+        return DetectFrameworkInArchive(zipURL);
+    }
+    
     NSArray *wars = [items filter:^ BOOL (id i) { return StringEndsWithString(i, @".war"); }];
     
     if (wars.count) {
         NSString *warPath = wars[0];
         NSURL *warURL = [NSURL URLWithString:[NSString pathWithComponents:@[ rootURL.path, warPath ]]];
-        return DetectFrameworkInWar(warURL);
+        return DetectFrameworkInArchive(warURL);
     }
     
     return nil;
