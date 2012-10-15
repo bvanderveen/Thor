@@ -2,6 +2,7 @@
 #import "NSObject+AssociateDisposable.h"
 #import "RACSubscribable+ShowLoadingView.h"
 #import "GridView.h"
+#import "FileSizeInMBTransformer.h"
 
 @interface DeploymentController ()
 
@@ -69,6 +70,8 @@ static NSArray *instanceColumns = nil;
     
     NSString *labelTitle;
     
+    NSValueTransformer *transformer = [FileSizeInMBTransformer new];
+    
     switch (columnIndex) {
         case 0:
             labelTitle = stats.ID;
@@ -77,16 +80,22 @@ static NSArray *instanceColumns = nil;
             labelTitle = stats.host;
             break;
         case 2:
-            labelTitle = [NSString stringWithFormat:@"%f", stats.cpu];
+            labelTitle = [NSString stringWithFormat:@"%2.0f%%", stats.cpu];
             break;
         case 3:
-            labelTitle = [NSString stringWithFormat:@"%f", stats.memory];
+            labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.memory]];
             break;
         case 4:
-            labelTitle = [NSString stringWithFormat:@"%ld", stats.disk];
+            labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.disk]];
             break;
         case 5:
-            labelTitle = [NSString stringWithFormat:@"%f", stats.uptime];
+            ;
+            NSInteger ti = (NSInteger)roundf(stats.uptime + 23483.0);
+            NSInteger seconds = ti % 60;
+            NSInteger minutes = (ti / 60) % 60;
+            NSInteger hours = (ti / 3600);
+            
+            labelTitle = [NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds];
             break;
     }
     
