@@ -630,6 +630,17 @@ describe(@"detect framework", ^{
         cleanup();
     });
     
+    it(@"should default to standalone", ^{
+        createFiles(@[
+                    @[ @[@"foo", @"bar" ], @"augh nyeah" ],
+                    @[ @[@"yay", ], @"argh blargh" ],
+                    @[ @[@"lumps", ], @"hay" ],
+                    ]);
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"standalone");
+    });
+    
     it(@"should detect rails apps", ^{
         createFiles(@[
                     @[ @[@"config", @"environment.rb" ], @"use rails or whatever" ],
@@ -647,10 +658,6 @@ describe(@"detect framework", ^{
         NSString *framework = DetectFrameworkFromPath(rootURL);
         
         expect(framework).to.equal(@"rack");
-    });
-    
-    it(@"should detect sinatra apps", ^{
-        expect(NO).to.beTruthy();
     });
     
     it(@"should detect node apps", ^{
@@ -910,8 +917,33 @@ describe(@"detect framework", ^{
         expect(framework).to.equal(@"spring");
     });
     
+    id otherFrameworkManifest = @[
+    @[ @[ @"WEB-INF", @"web.xml" ], @"whatever" ],
+    @[ @[ @"WEB-INF", @"classes", @"some", @"other", @"framework.class" ], @"blob" ]
+    ];
+    
     it(@"should detect other java web apps on root path", ^{
-        expect(NO).to.beTruthy();
+        createFiles(otherFrameworkManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"java_web");
+    });
+    
+    it(@"should detect other java web apps in war on root path", ^{
+        createWarOnRootPath(otherFrameworkManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(rootURL);
+        
+        expect(framework).to.equal(@"java_web");
+    });
+    
+    it(@"should detect other java web apps in war at root path", ^{
+        createWarAtRootPath(otherFrameworkManifest);
+        
+        NSString *framework = DetectFrameworkFromPath(archiveRootURL);
+        
+        expect(framework).to.equal(@"java_web");
     });
     
     id playManifest = @[

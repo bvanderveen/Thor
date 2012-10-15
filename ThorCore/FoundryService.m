@@ -347,6 +347,8 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             return StringStartsWithString(i, @"WEB-INF/classes/org/springframework");
         }])
             return @"spring";
+        
+        return @"java_web";
     }
     
     if ([items any:^BOOL(id i) {
@@ -370,7 +372,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
         return DetectFrameworkInArchive(warURL);
     }
     
-    return nil;
+    return @"standalone";
 }
 
 @interface FoundryService ()
