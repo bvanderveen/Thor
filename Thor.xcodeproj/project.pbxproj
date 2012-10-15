@@ -32,6 +32,7 @@
 		413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E261603007800C80B4C /* NSOutputStream+Writing.h */; };
 		413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E271603007900C80B4C /* NSOutputStream+Writing.m */; };
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
+		414AC843162C8164005D8423 /* FoundryAppStatusTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 414AC842162C8164005D8423 /* FoundryAppStatusTransformer.m */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
 		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
@@ -309,6 +310,8 @@
 		413C2E261603007800C80B4C /* NSOutputStream+Writing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOutputStream+Writing.h"; sourceTree = "<group>"; };
 		413C2E271603007900C80B4C /* NSOutputStream+Writing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOutputStream+Writing.m"; sourceTree = "<group>"; };
 		414779E715C0B1C000B733EF /* CollectionViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CollectionViewBackground.png; path = Resources/CollectionViewBackground.png; sourceTree = "<group>"; };
+		414AC841162C8164005D8423 /* FoundryAppStatusTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoundryAppStatusTransformer.h; path = Classes/FoundryAppStatusTransformer.h; sourceTree = "<group>"; };
+		414AC842162C8164005D8423 /* FoundryAppStatusTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoundryAppStatusTransformer.m; path = Classes/FoundryAppStatusTransformer.m; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
 		414E185315C0BF63007C9508 /* TargetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetController.h; path = Classes/TargetController.h; sourceTree = "<group>"; };
@@ -530,6 +533,8 @@
 			children = (
 				413C2DE415F6B0B600C80B4C /* DeploymentMemoryTransformer.h */,
 				413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */,
+				414AC841162C8164005D8423 /* FoundryAppStatusTransformer.h */,
+				414AC842162C8164005D8423 /* FoundryAppStatusTransformer.m */,
 			);
 			name = "Value Transformers";
 			sourceTree = "<group>";
@@ -1327,6 +1332,7 @@
 				4104099D160D2CE000AF93AF /* WizardController.m in Sources */,
 				414FBC4416164EFD0021E1B2 /* AddDeploymentListViewSource.m in Sources */,
 				410207D3161A74480077BCCA /* Label.m in Sources */,
+				414AC843162C8164005D8423 /* FoundryAppStatusTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

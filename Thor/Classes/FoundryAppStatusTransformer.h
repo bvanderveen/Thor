@@ -1,0 +1,4 @@
+
+@interface FoundryAppStatusTransformer : NSValueTransformer
+
+@end
