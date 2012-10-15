@@ -1,0 +1,4 @@
+
+@interface FileSizeInMBTransformer : NSValueTransformer
+
+@end
