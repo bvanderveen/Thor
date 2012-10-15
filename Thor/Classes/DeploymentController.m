@@ -88,14 +88,13 @@ static NSArray *instanceColumns = nil;
         case 4:
             labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.disk]];
             break;
-        case 5:
-            ;
+        case 5:;
             NSInteger ti = (NSInteger)roundf(stats.uptime + 23483.0);
             NSInteger seconds = ti % 60;
             NSInteger minutes = (ti / 60) % 60;
             NSInteger hours = (ti / 3600);
             
-            labelTitle = [NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds];
+            labelTitle = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", hours, minutes, seconds];
             break;
     }
     

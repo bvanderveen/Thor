@@ -32,7 +32,7 @@
     uint8_t buffer[bufferSize];
     
     while (true) {
-        NSInteger bytesRead = [stream read:&buffer maxLength:bufferSize];
+        NSInteger bytesRead = [stream read:(uint8_t *)&buffer maxLength:bufferSize];
         
         if (bytesRead == -1) {
             NSLog(@"Error while reading stream: %@", [stream.streamError localizedDescription]);
