@@ -11,4 +11,13 @@
     }];
 }
 
+- (RACSubscribable *)continueWith:(RACSubscribable *)subscribable {
+    return [[self select:^id(id x) {
+        return subscribable;
+    }] selectMany:^id<RACSubscribable>(id x) {
+        return x;
+    }];
+}
+
 @end
+

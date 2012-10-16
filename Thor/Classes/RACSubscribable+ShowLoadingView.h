@@ -7,4 +7,9 @@
 // - (RACSubscribable *)showLoadingViewDuring:(RACSubscribable *)subscribable;
 - (RACSubscribable *)showLoadingViewInView:(NSView *)view;
 
+// subscribe to the given subscribable after the reciever has completed.
+// discards recievers values.
+- (RACSubscribable *)continueWith:(RACSubscribable *)subscribable;
+
 @end
+

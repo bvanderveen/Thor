@@ -34,6 +34,8 @@
 		414779E815C0B1C000B733EF /* CollectionViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 414779E715C0B1C000B733EF /* CollectionViewBackground.png */; };
 		414AC843162C8164005D8423 /* FoundryAppStatusTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 414AC842162C8164005D8423 /* FoundryAppStatusTransformer.m */; };
 		414AC846162C8C9B005D8423 /* FileSizeInMBTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 414AC845162C8C9B005D8423 /* FileSizeInMBTransformer.m */; };
+		414AC849162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h in Headers */ = {isa = PBXBuildFile; fileRef = 414AC847162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h */; };
+		414AC84A162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */; };
 		414E185215C0B55F007C9508 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185115C0B55F007C9508 /* CollectionView.m */; };
 		414E185515C0BF63007C9508 /* TargetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185415C0BF63007C9508 /* TargetController.m */; };
 		414E185A15C1BC0E007C9508 /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 414E185915C1BC0E007C9508 /* GridView.m */; };
@@ -315,6 +317,8 @@
 		414AC842162C8164005D8423 /* FoundryAppStatusTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoundryAppStatusTransformer.m; path = Classes/FoundryAppStatusTransformer.m; sourceTree = "<group>"; };
 		414AC844162C8C9B005D8423 /* FileSizeInMBTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSizeInMBTransformer.h; path = Classes/FileSizeInMBTransformer.h; sourceTree = "<group>"; };
 		414AC845162C8C9B005D8423 /* FileSizeInMBTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileSizeInMBTransformer.m; path = Classes/FileSizeInMBTransformer.m; sourceTree = "<group>"; };
+		414AC847162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FoundryApp+CreateFromDeployment.h"; sourceTree = "<group>"; };
+		414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FoundryApp+CreateFromDeployment.m"; sourceTree = "<group>"; };
 		414E185015C0B55F007C9508 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionView.h; path = Classes/CollectionView.h; sourceTree = "<group>"; };
 		414E185115C0B55F007C9508 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionView.m; path = Classes/CollectionView.m; sourceTree = "<group>"; };
 		414E185315C0BF63007C9508 /* TargetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetController.h; path = Classes/TargetController.h; sourceTree = "<group>"; };
@@ -779,6 +783,8 @@
 				41F902A015AF592A00550870 /* ThorBackend.m */,
 				41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */,
 				41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */,
+				414AC847162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h */,
+				414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 				413C2E22160009CC00C80B4C /* SHA1.h */,
@@ -943,6 +949,7 @@
 				41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */,
 				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
 				413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */,
+				414AC849162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1277,6 +1284,7 @@
 				41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */,
 				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
 				413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */,
+				414AC84A162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

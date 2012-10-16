@@ -29,47 +29,67 @@ static NSArray *instanceColumns = nil;
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)updateAppAndStatsAfterSubscribable:(RACSubscribable *)antecedent {
     NSError *error = nil;
     
     NSArray *subscribables = @[
-        [service getStatsForAppWithName:deployment.appName],
-        [service getAppWithName:deployment.appName]];
+    [[service getStatsForAppWithName:deployment.appName] doNext:^(id x) {
+        self.instanceStats = x;
+    }],
+    [[service getAppWithName:deployment.appName] doNext:^(id x) {
+        self.app = x;
+    }]];
     
     RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
     
-    self.associatedDisposable = [call subscribeNext:^ (id x) {
-        RACTuple *tuple = (RACTuple *)x;
-        self.instanceStats = tuple.first;
-        self.app = tuple.second;
-        [deploymentView.instancesGrid reloadData];
-        deploymentView.needsLayout = YES;
-    } error:^ (NSError *error) {
+    if (antecedent)
+        call = [antecedent continueWith:call];
+    
+    self.associatedDisposable = [call subscribeError:^ (NSError *error) {
         if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
-            NSAlert *alert = [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to re-create it or forget about it?"];
-            [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+            [self presentMissingDeploymentDialog];
         }
         else {
             [NSApp presentError:error];
         }
+    } completed:^ {
+        [deploymentView.instancesGrid reloadData];
+        deploymentView.needsLayout = YES;
     }];
 }
+
+- (void)awakeFromNib {
+    [self updateAppAndStatsAfterSubscribable:nil];
+}
+
+- (void)presentMissingDeploymentDialog {
+    NSAlert *alert = [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to re-create it or forget about it?"];
+    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)deleteDeployment {
+    [[ThorBackend sharedContext] deleteObject:deployment];
+    
+    NSError *error;
+    if (![[ThorBackend sharedContext] save:&error]) {
+        [NSApp presentError:error];
+    }
+    
+    [self.breadcrumbController popViewControllerAnimated:YES];
+}
+
+- (void)recreateDeployment {
+    RACSubscribable *createApp = [service createApp:[FoundryApp appWithDeployment:deployment]];
+    [self updateAppAndStatsAfterSubscribable:createApp];
+}
+
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     switch (returnCode) {
         case NSAlertDefaultReturn:
-        {
-            [[ThorBackend sharedContext] deleteObject:deployment];
-
-            NSError *error;
-            if (![[ThorBackend sharedContext] save:&error]) {
-                [NSApp presentError:error];
-            }
-            
-            [self.breadcrumbController popViewControllerAnimated:YES];
-            
+            [self deleteDeployment];
             break;
-        }
         case NSAlertAlternateReturn:
+            [self recreateDeployment];
             break;
     }
     
