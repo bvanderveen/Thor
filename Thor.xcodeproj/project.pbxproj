@@ -25,7 +25,7 @@
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
 		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
-		413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */; };
+		413C2E1915F96C3800C80B4C /* RACSubscribable+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */; };
 		413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 413C2E20160006D600C80B4C /* libcommonCrypto.dylib */; };
 		413C2E24160009CD00C80B4C /* SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E22160009CC00C80B4C /* SHA1.h */; };
 		413C2E25160009CD00C80B4C /* SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E23160009CC00C80B4C /* SHA1.m */; };
@@ -84,8 +84,8 @@
 		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
 		41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B215F038F500A45951 /* FoundryServiceTests.m */; };
-		41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */; };
-		41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */; };
+		41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */; };
+		41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */; };
 		41EE94B915F13FB700A45951 /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41EE94E815F15EFE00A45951 /* libExpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EE94E615F15EFC00A45951 /* libExpecta.a */; };
 		41EE94E915F15EFE00A45951 /* libSpecta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EE94E715F15EFD00A45951 /* libSpecta.a */; };
@@ -305,8 +305,8 @@
 		413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentMemoryTransformer.m; path = Classes/DeploymentMemoryTransformer.m; sourceTree = "<group>"; };
 		413C2DE715F9282A00C80B4C /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Classes/LoadingView.h; sourceTree = "<group>"; };
 		413C2DE815F9282A00C80B4C /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Classes/LoadingView.m; sourceTree = "<group>"; };
-		413C2E1715F96C3800C80B4C /* RACSubscribable+ShowLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSubscribable+ShowLoadingView.h"; path = "Classes/RACSubscribable+ShowLoadingView.h"; sourceTree = "<group>"; };
-		413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSubscribable+ShowLoadingView.m"; path = "Classes/RACSubscribable+ShowLoadingView.m"; sourceTree = "<group>"; };
+		413C2E1715F96C3800C80B4C /* RACSubscribable+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSubscribable+Extensions.h"; path = "Classes/RACSubscribable+Extensions.h"; sourceTree = "<group>"; };
+		413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSubscribable+Extensions.m"; path = "Classes/RACSubscribable+Extensions.m"; sourceTree = "<group>"; };
 		413C2E20160006D600C80B4C /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		413C2E22160009CC00C80B4C /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
 		413C2E23160009CC00C80B4C /* SHA1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1.m; sourceTree = "<group>"; };
@@ -395,8 +395,8 @@
 		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
 		41EE94B115F038F500A45951 /* FoundryServiceTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryServiceTests.h; sourceTree = "<group>"; };
 		41EE94B215F038F500A45951 /* FoundryServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryServiceTests.m; sourceTree = "<group>"; };
-		41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Target+FoundryEndpointCreation.h"; sourceTree = "<group>"; };
-		41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Target+FoundryEndpointCreation.m"; sourceTree = "<group>"; };
+		41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FoundryEndpoint+CreateFromTarget.h"; sourceTree = "<group>"; };
+		41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FoundryEndpoint+CreateFromTarget.m"; sourceTree = "<group>"; };
 		41EE94BA15F143A000A45951 /* Expecta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Expecta.xcodeproj; path = expecta/Expecta.xcodeproj; sourceTree = "<group>"; };
 		41EE94CC15F143B900A45951 /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = specta/Specta.xcodeproj; sourceTree = "<group>"; };
 		41EE94E615F15EFC00A45951 /* libExpecta.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libExpecta.a; path = "../../Library/Developer/Xcode/DerivedData/Thor-atwtqicqmpmqtyexmgdlhsptxosy/Build/Products/Debug/libExpecta.a"; sourceTree = "<group>"; };
@@ -721,8 +721,8 @@
 			children = (
 				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
 				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
-				413C2E1715F96C3800C80B4C /* RACSubscribable+ShowLoadingView.h */,
-				413C2E1815F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m */,
+				413C2E1715F96C3800C80B4C /* RACSubscribable+Extensions.h */,
+				413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -781,8 +781,8 @@
 				413912F215E5D0A900DB464E /* FoundryService.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
-				41EE94B515F03D4100A45951 /* Target+FoundryEndpointCreation.h */,
-				41EE94B615F03D4200A45951 /* Target+FoundryEndpointCreation.m */,
+				41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */,
+				41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */,
 				414AC847162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h */,
 				414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
@@ -946,7 +946,7 @@
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
 				413912F315E5D0A900DB464E /* FoundryService.h in Headers */,
 				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
-				41EE94B715F03D4200A45951 /* Target+FoundryEndpointCreation.h in Headers */,
+				41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */,
 				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
 				413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */,
 				414AC849162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h in Headers */,
@@ -1281,7 +1281,7 @@
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
 				413912F415E5D0A900DB464E /* FoundryService.m in Sources */,
 				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
-				41EE94B815F03D4200A45951 /* Target+FoundryEndpointCreation.m in Sources */,
+				41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */,
 				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
 				413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */,
 				414AC84A162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m in Sources */,
@@ -1335,7 +1335,7 @@
 				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
 				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
-				413C2E1915F96C3800C80B4C /* RACSubscribable+ShowLoadingView.m in Sources */,
+				413C2E1915F96C3800C80B4C /* RACSubscribable+Extensions.m in Sources */,
 				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
 				419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */,
 				41826E921608FD900094F5C2 /* DeploymentCell.m in Sources */,

@@ -1,6 +1,6 @@
 #import "DeploymentPropertiesController.h"
 #import "NSObject+AssociateDisposable.h"
-#import "RACSubscribable+ShowLoadingView.h"
+#import "RACSubscribable+Extensions.h"
 
 @interface DeploymentPropertiesController ()
 

@@ -1,6 +1,6 @@
 #import "DeploymentController.h"
 #import "NSObject+AssociateDisposable.h"
-#import "RACSubscribable+ShowLoadingView.h"
+#import "RACSubscribable+Extensions.h"
 #import "GridView.h"
 #import "FileSizeInMBTransformer.h"
 

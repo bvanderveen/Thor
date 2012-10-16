@@ -5,7 +5,7 @@
 #import "DeploymentController.h"
 #import "AppCell.h"
 #import "NoResultsListViewDataSource.h"
-#import "RACSubscribable+ShowLoadingView.h"
+#import "RACSubscribable+Extensions.h"
 #import "Sequence.h"
 #import "AppItemsDataSource.h"
 #import "DeploymentPropertiesController.h"

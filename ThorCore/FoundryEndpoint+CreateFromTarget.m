@@ -1,6 +1,6 @@
-#import "Target+FoundryEndpointCreation.h"
+#import "FoundryEndpoint+CreateFromTarget.h"
 
-@implementation FoundryEndpoint (FoundryEndpointCreation)
+@implementation FoundryEndpoint (CreateFromTarget)
 
 + (FoundryEndpoint *)endpointWithTarget:(Target *)target {
     FoundryEndpoint *result = [FoundryEndpoint new];

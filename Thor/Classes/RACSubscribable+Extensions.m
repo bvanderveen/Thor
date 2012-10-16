@@ -1,6 +1,6 @@
-#import "RACSubscribable+ShowLoadingView.h"
+#import "RACSubscribable+Extensions.h"
 
-@implementation RACSubscribable (ShowLoadingView)
+@implementation RACSubscribable (Extensions)
 
 - (RACSubscribable *)showLoadingViewInView:(NSView *)view {
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {

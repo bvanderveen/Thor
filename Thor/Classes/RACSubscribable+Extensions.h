@@ -1,7 +1,7 @@
 #import "LoadingView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-@interface RACSubscribable (ShowLoadingView)
+@interface RACSubscribable (Extensions)
 
 // probably would make more sense to make this a category on view
 // - (RACSubscribable *)showLoadingViewDuring:(RACSubscribable *)subscribable;
