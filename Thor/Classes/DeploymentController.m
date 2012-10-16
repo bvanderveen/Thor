@@ -45,8 +45,35 @@ static NSArray *instanceColumns = nil;
         [deploymentView.instancesGrid reloadData];
         deploymentView.needsLayout = YES;
     } error:^ (NSError *error) {
-        [NSApp presentError:error];
+        if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to re-create it or forget about it?"];
+            [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+        }
+        else {
+            [NSApp presentError:error];
+        }
     }];
+}
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    switch (returnCode) {
+        case NSAlertDefaultReturn:
+        {
+            [[ThorBackend sharedContext] deleteObject:deployment];
+
+            NSError *error;
+            if (![[ThorBackend sharedContext] save:&error]) {
+                [NSApp presentError:error];
+            }
+            
+            [self.breadcrumbController popViewControllerAnimated:YES];
+            
+            break;
+        }
+        case NSAlertAlternateReturn:
+            break;
+    }
+    
+    [NSApp endSheet:alert.window];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
