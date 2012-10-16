@@ -9,6 +9,7 @@
 #import "NoResultsListViewDataSource.h"
 #import "WizardController.h"
 #import "AddDeploymentListViewSource.h"
+#import "Sequence.h"
 
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
@@ -29,8 +30,14 @@ static NSInteger DeploymentPropertiesControllerContext;
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
         self.title = @"App";
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidChange:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)updateDeployments {
@@ -38,6 +45,21 @@ static NSInteger DeploymentPropertiesControllerContext;
     self.deployments = [[ThorBackend shared] getDeploymentsForApp:app error:&error];
     [appView.deploymentsList reloadData];
     appView.needsLayout = YES;
+}
+
+- (void)managedObjectContextDidChange:(NSNotification *)notification {
+    if ([notification.name isEqual:NSManagedObjectContextObjectsDidChangeNotification]) {
+        
+        BOOL (^isRelevantDeployment)(id) = ^BOOL(id d) {
+            return [d isKindOfClass:[Deployment class]] && [((Deployment *)d).app isEqual:app];
+        };
+        
+        NSArray *inserted =  [notification.userInfo[NSInsertedObjectsKey] allObjects];
+        NSArray *deleted = [notification.userInfo[NSDeletedObjectsKey] allObjects];
+        
+        if ([[inserted concat:deleted] any:isRelevantDeployment])
+            [self updateDeployments];
+    }
 }
 
 - (void)awakeFromNib {
