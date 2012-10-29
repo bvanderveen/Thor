@@ -54,10 +54,10 @@ static NSInteger DeploymentPropertiesControllerContext;
             return [d isKindOfClass:[Deployment class]] && [((Deployment *)d).app isEqual:app];
         };
         
-        NSArray *inserted =  [notification.userInfo[NSInsertedObjectsKey] allObjects];
+        NSArray *inserted = [notification.userInfo[NSInsertedObjectsKey] allObjects];
         NSArray *deleted = [notification.userInfo[NSDeletedObjectsKey] allObjects];
         
-        if ([[inserted concat:deleted] any:isRelevantDeployment])
+        if ([[[@[] concat:inserted] concat:deleted] any:isRelevantDeployment])
             [self updateDeployments];
     }
 }

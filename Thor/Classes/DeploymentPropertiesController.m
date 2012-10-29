@@ -52,33 +52,30 @@
 }
 
 - (void)commitWizardPanel {
-    NSError *error = nil;
     [objectController commitEditing];
     
-    // TODO revert this if the remote creation fails.
-    if (![[ThorBackend sharedContext] save:&error]) {
+    FoundryService *service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    
+    FoundryApp *app = [FoundryApp appWithDeployment:deployment];
+    
+    // TODO display spinner while waiting.
+    self.wizardController.commitButtonEnabled = NO;
+    
+    RACSubscribable *subscribable = [[self ensureService:service doesNotHaveAppWithName:deployment.appName] continueWith:[service createApp:app]];
+    
+    self.associatedDisposable = [subscribable subscribeNext: ^ (id n) {
+        NSLog(@"%@", n);
+    } error:^(NSError *error) {
         [NSApp presentError:error];
-        NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
-    }
-    else {
-        FoundryService *service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
-        
-        FoundryApp *app = [FoundryApp appWithDeployment:deployment];
-        
-        // TODO display spinner while waiting.
-        self.wizardController.commitButtonEnabled = NO;
-        
-        RACSubscribable *subscribable = [[self ensureService:service doesNotHaveAppWithName:deployment.appName] continueWith:[service createApp:app]];
-        
-        self.associatedDisposable = [subscribable subscribeNext: ^ (id n) {
-            NSLog(@"%@", n);
-        } error:^(NSError *error) {
+        self.wizardController.commitButtonEnabled = YES;
+    } completed:^{
+        NSError *error = nil;
+        if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];
-            self.wizardController.commitButtonEnabled = YES;
-        } completed:^{
-            [self.wizardController dismissWithReturnCode:NSOKButton];
-        }];
-    }
+            NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+        }
+        [self.wizardController dismissWithReturnCode:NSOKButton];
+    }];
 }
 
 - (void)rollbackWizardPanel {

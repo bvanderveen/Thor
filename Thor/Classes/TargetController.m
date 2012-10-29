@@ -22,12 +22,7 @@
 
 @implementation TargetController
 
-@synthesize target = _target, targetView, breadcrumbController, title, apps, service, targetPropertiesController, listSource;
-
-- (void)setTarget:(Target *)value {
-    _target = value;
-    self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:value]];
-}
+@synthesize target, targetView, breadcrumbController, title, apps, service, targetPropertiesController, listSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -37,7 +32,8 @@
     if (self = [super initWithNibName:@"TargetView" bundle:[NSBundle mainBundle]]) {
         self.title = @"Cloud";
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidChange:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     }
     return self;
 }
@@ -46,18 +42,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)managedObjectContextDidChange:(NSNotification *)notification {
-    if ([notification.name isEqual:NSManagedObjectContextDidSaveNotification]) {
-        
+- (void)managedObjectContextNotification:(NSNotification *)notification {
+    if ([notification.name isEqual:NSManagedObjectContextObjectsDidChangeNotification] ||
+        [notification.name isEqual:NSManagedObjectContextDidSaveNotification]) {
         BOOL (^isRelevantDeployment)(id) = ^BOOL(id d) {
             return [d isKindOfClass:[Deployment class]] && [((Deployment *)d).target isEqual:self.target];
         };
         
-        NSArray *inserted =  [notification.userInfo[NSInsertedObjectsKey] allObjects];
-        inserted = inserted ? inserted : @[];
+        NSArray *inserted = [notification.userInfo[NSInsertedObjectsKey] allObjects];
         NSArray *deleted = [notification.userInfo[NSDeletedObjectsKey] allObjects];
         
-        if ([[inserted concat:deleted] any:isRelevantDeployment])
+        if ([[[@[] concat:inserted] concat:deleted] any:isRelevantDeployment])
             [self updateApps];
     }
 }
@@ -74,6 +69,7 @@
 }
 
 - (void)updateApps {
+    self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     self.associatedDisposable = [[[service getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsList reloadData];
