@@ -10,7 +10,8 @@
 @property (nonatomic, copy) NSArray *instanceStats;
 @property (nonatomic, strong) IBOutlet DeploymentView *deploymentView;
 
-- (id)initWithDeployment:(Deployment *)deployment;
++ (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment;
++ (DeploymentController *)deploymentControllerWithAppName:(NSString *)name target:(Target *)target;
 
 - (IBAction)deleteClicked:(id)sender;
 

@@ -36,8 +36,30 @@
 - (id)init {
     if (self = [super initWithNibName:@"TargetView" bundle:[NSBundle mainBundle]]) {
         self.title = @"Cloud";
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidChange:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)managedObjectContextDidChange:(NSNotification *)notification {
+    if ([notification.name isEqual:NSManagedObjectContextDidSaveNotification]) {
+        
+        BOOL (^isRelevantDeployment)(id) = ^BOOL(id d) {
+            return [d isKindOfClass:[Deployment class]] && [((Deployment *)d).target isEqual:self.target];
+        };
+        
+        NSArray *inserted =  [notification.userInfo[NSInsertedObjectsKey] allObjects];
+        inserted = inserted ? inserted : @[];
+        NSArray *deleted = [notification.userInfo[NSDeletedObjectsKey] allObjects];
+        
+        if ([[inserted concat:deleted] any:isRelevantDeployment])
+            [self updateApps];
+    }
 }
 
 - (void)awakeFromNib {
@@ -69,10 +91,10 @@
     return apps.count;
 }
 
-- (BOOL)hasDeploymentForApp:(FoundryApp *)app {
+- (Deployment *)deploymentForApp:(FoundryApp *)app {
     NSError *error;
-    NSArray *deployments = [[ThorBackend shared] getDeploymentsForTarget:self.target error:&error];
-    return [deployments any:^ BOOL (id d) { return [((Deployment *)d).appName isEqual:app.name]; }];
+    NSArray *deployments = [[[ThorBackend shared] getDeploymentsForTarget:self.target error:&error] filter:^ BOOL (id d) { return [((Deployment *)d).appName isEqual:app.name]; }];
+    return deployments.count ? deployments[0] : nil;
 }
 
 - (ItemsController *)createAppItemsController {
@@ -138,7 +160,7 @@
     AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
     FoundryApp *app = apps[row];
     cell.app = app;
-    cell.button.hidden = [self hasDeploymentForApp:app];
+    cell.button.hidden = [self deploymentForApp:app] != nil;
     [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self createDeploymentForApp:app];
     }]];
@@ -147,11 +169,13 @@
 
 - (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
     FoundryApp *app = apps[row];
-    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-    deployment.appName = app.name;
-    deployment.target = self.target;
     
-    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
+    Deployment *deployment = [self deploymentForApp:app];
+    
+    DeploymentController *deploymentController = deployment ?
+        [DeploymentController deploymentControllerWithDeployment:deployment] :
+        [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
+    
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 

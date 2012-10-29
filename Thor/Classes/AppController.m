@@ -99,7 +99,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 - (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
     Deployment *deployment = deployments[row];
-    DeploymentController *deploymentController = [[DeploymentController alloc] initWithDeployment:deployment];
+    DeploymentController *deploymentController = [DeploymentController deploymentControllerWithDeployment:deployment];
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
