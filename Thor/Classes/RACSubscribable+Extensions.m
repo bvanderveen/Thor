@@ -5,9 +5,10 @@
 - (RACSubscribable *)showLoadingViewInView:(NSView *)view {
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
         [view showModalLoadingView];
-        return [[self doCompleted:^ {
+        void (^hideLoadingView)() = ^ {
             [view hideLoadingView];
-        }] subscribe:subscriber];
+        };
+        return [[[self doCompleted:hideLoadingView] doError:hideLoadingView] subscribe:subscriber];
     }];
 }
 

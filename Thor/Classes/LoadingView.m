@@ -40,12 +40,14 @@
 
 - (void)showModalLoadingView {
     LoadingView *loadingView = [[LoadingView alloc] initWithFrame:self.frame];
+    [loadingView.progressIndicator startAnimation:self];
     self.hidden = YES;
     [self.superview addSubview:loadingView];
 }
 
 - (void)hideLoadingView {
-    NSView *loadingView = [self.superview viewWithTag:LOADING_VIEW_TAG];
+    LoadingView *loadingView = (LoadingView *)[self.superview viewWithTag:LOADING_VIEW_TAG];
+    [loadingView.progressIndicator stopAnimation:self];
     self.hidden = NO;
     [loadingView removeFromSuperview];
 }
