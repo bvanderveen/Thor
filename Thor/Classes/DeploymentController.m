@@ -212,6 +212,7 @@ static NSArray *instanceColumns = nil;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     self.deploymentPropertiesController = nil;
     [sheet orderOut:self];
+    [self updateAppAndStatsAfterSubscribable:nil];
 }
 
 - (IBAction)deleteClicked:(id)sender {
