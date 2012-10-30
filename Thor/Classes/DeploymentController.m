@@ -6,6 +6,7 @@
 
 #define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
 #define NOT_FOUND_ALERT_CONTEXT @"NotFound"
+#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
 
 @interface DeploymentController ()
 
@@ -88,6 +89,11 @@ static NSArray *instanceColumns = nil;
     [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:MISSING_DEPLOYMENT_ALERT_CONTEXT];
 }
 
+- (void)presentConfirmDeletionDialog {
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this deployment?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The deployment will be removed from the cloud. This action cannot be undone."];
+    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
+}
+
 - (void)deleteDeployment {
     [[ThorBackend sharedContext] deleteObject:deployment];
     
@@ -118,6 +124,17 @@ static NSArray *instanceColumns = nil;
     }
     else if ([contextString isEqual:NOT_FOUND_ALERT_CONTEXT]) {
         [self.breadcrumbController popViewControllerAnimated:YES];
+    }
+    else if ([contextString isEqual:CONFIRM_DELETION_ALERT_CONTEXT]) {
+        if (returnCode == NSAlertDefaultReturn) {
+            self.associatedDisposable = [[service deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
+                [NSApp presentError:error];
+            } completed:^{
+                if (deployment)
+                    [self deleteDeployment];
+                [self.breadcrumbController popViewControllerAnimated:YES];
+            }];
+        }
     }
     
     [NSApp endSheet:alert.window];
@@ -180,13 +197,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (IBAction)deleteClicked:(id)sender {
-    self.associatedDisposable = [[service deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
-        [NSApp presentError:error];
-    } completed:^{
-        if (deployment)
-            [self deleteDeployment];
-        [self.breadcrumbController popViewControllerAnimated:YES];
-    }];
+    [self presentConfirmDeletionDialog];
 }
 
 @end
