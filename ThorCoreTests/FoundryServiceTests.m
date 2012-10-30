@@ -26,7 +26,7 @@
 - (NSString *)stringFromStream:(NSInputStream *)stream {
     NSMutableString *result = [NSMutableString string];
     
-    int bytesRead = 0;
+    NSInteger bytesRead = 0;
     NSUInteger bufferSize = 1024 * 20;
     uint8_t buffer[bufferSize];
     
@@ -268,7 +268,7 @@ describe(@"createApp", ^ {
     it(@"should call endpoint", ^ {
         
         FoundryApp *app = [FoundryApp new];
-
+        
         app.name = @"appname";
         app.stagingFramework = @"rack";
         app.stagingRuntime = @"ruby18";
@@ -286,17 +286,73 @@ describe(@"createApp", ^ {
         @"path" : @"/apps",
         @"headers" : [NSNull null],
         @"body" : @{
-            @"name" : @"appname",
+        @"name" : @"appname",
         @"staging" : @{
-            @"framework" : @"rack",
-            @"runtime" : @"ruby18",
+        @"framework" : @"rack",
+        @"runtime" : @"ruby18",
         },
         @"uris" : @[ @"app.foo.bar.com" ],
         //@"services" : @[],
         @"instances": @3,
         @"resources" : @{
-            @"memory" : @256//,
-            //@"disk" : @512
+        @"memory" : @256//,
+        //@"disk" : @512
+        },
+        //@"state" : @"STARTED",
+        //@"env" : @[],
+        //@"meta" : @{
+        //@"debug" : @0
+        //}
+        }
+        
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
+
+describe(@"updateApp", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryService *service;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        
+        FoundryApp *app = [FoundryApp new];
+        
+        app.name = @"appname";
+        app.stagingFramework = @"rack";
+        app.stagingRuntime = @"ruby18";
+        app.uris = @[ @"app.foo.bar.com" ];
+        //app.services = @[];
+        app.instances = 3;
+        app.memory = 256;
+        //app.disk = 512;
+        app.state = FoundryAppStateStarted;
+        
+        [[service updateApp:app] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"PUT",
+        @"path" : @"/apps/appname",
+        @"headers" : [NSNull null],
+        @"body" : @{
+        @"name" : @"appname",
+        @"staging" : @{
+        @"framework" : @"rack",
+        @"runtime" : @"ruby18",
+        },
+        @"uris" : @[ @"app.foo.bar.com" ],
+        //@"services" : @[],
+        @"instances": @3,
+        @"resources" : @{
+        @"memory" : @256//,
+        //@"disk" : @512
         },
         //@"state" : @"STARTED",
         //@"env" : @[],

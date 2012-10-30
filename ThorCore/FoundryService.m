@@ -418,6 +418,10 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     return [endpoint authenticatedRequestWithMethod:@"POST" path:@"/apps" headers:nil body:[app dictionaryRepresentation]];
 }
 
+- (RACSubscribable *)updateApp:(FoundryApp *)app {
+    return [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]];
+}
+
 - (RACSubscribable *)deleteAppWithName:(NSString *)name {
     return [endpoint authenticatedRequestWithMethod:@"DELETE" path:[NSString stringWithFormat:@"/apps/%@", name] headers:nil body:nil];
 }
