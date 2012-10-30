@@ -1,4 +1,5 @@
 #import "DeploymentMemoryTransformer.h"
+#import "ThorBackend.h"
 
 @implementation DeploymentMemoryTransformer
 
@@ -15,17 +16,17 @@
     int intValue = [value intValue];
     
     switch (intValue) {
-        case 0:
+        case DeploymentMemoryAmount64:
             return @"64MB";
-        case 1:
+        case DeploymentMemoryAmount128:
             return @"128MB";
-        case 2:
+        case DeploymentMemoryAmount256:
             return @"256MB";
-        case 3:
+        case DeploymentMemoryAmount512:
             return @"512MB";
-        case 4:
+        case DeploymentMemoryAmount1024:
             return @"1GB";
-        case 5:
+        case DeploymentMemoryAmount2048:
             return @"2GB";
         default:
             return @"??";
@@ -34,17 +35,17 @@
 
 - (id)reverseTransformedValue:(id)value {
     if ([value isEqual:@"64MB"])
-        return @0;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount64];
     else if ([value isEqual:@"128MB"])
-        return @1;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount128];
     else if ([value isEqual:@"256MB"])
-        return @2;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount256];
     else if ([value isEqual:@"512MB"])
-        return @3;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount512];
     else if ([value isEqual:@"1GB"])
-        return @4;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount1024];
     else if ([value isEqual:@"2GB"])
-        return @5;
+        return [NSNumber numberWithInteger:DeploymentMemoryAmount2048];
     else
         return @-1;
 }
