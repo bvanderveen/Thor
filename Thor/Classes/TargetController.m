@@ -11,6 +11,8 @@
 #import "DeploymentPropertiesController.h"
 #import "AddDeploymentListViewSource.h"
 
+#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
+
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
@@ -190,16 +192,28 @@
     [self updateApps];
 }
 
-- (void)deleteClicked:(id)sender {
-    [[ThorBackend sharedContext] deleteObject:self.target];
-    NSError *error;
-    
-    if (![[ThorBackend sharedContext] save:&error]) {
-        [NSApp presentError:error];
-        return;
+- (void)presentConfirmDeletionDialog {
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this cloud?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The cloud and its deployments will no longer appear in Thor. The cloud itself will not be changed."];
+    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
+}
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    NSString *contextString = (__bridge NSString *)contextInfo;
+    if ([contextString isEqual:CONFIRM_DELETION_ALERT_CONTEXT]) {
+        [[ThorBackend sharedContext] deleteObject:target];
+        NSError *error;
+        
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+            return;
+        }
+        
+        [self.breadcrumbController popViewControllerAnimated:YES];
     }
-    
-    [self.breadcrumbController popViewControllerAnimated:YES];
+}
+
+- (void)deleteClicked:(id)sender {
+    [self presentConfirmDeletionDialog];
 }
 
 @end
