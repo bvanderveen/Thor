@@ -11,6 +11,8 @@
 #import "AddDeploymentListViewSource.h"
 #import "Sequence.h"
 
+#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
+
 static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
 
@@ -159,16 +161,28 @@ static NSInteger DeploymentPropertiesControllerContext;
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
 }
 
-- (void)deleteClicked:(id)sender {
-    [[ThorBackend sharedContext] deleteObject:app];
-    NSError *error;
-    
-    if (![[ThorBackend sharedContext] save:&error]) {
-        [NSApp presentError:error];
-        return;
-    }
+- (void)presentConfirmDeletionDialog {
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this application?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The application will no longer appear in Thor. It will not be removed from your hard drive or from any cloud."];
+    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
+}
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    NSString *contextString = (__bridge NSString *)contextInfo;
+    if ([contextString isEqual:CONFIRM_DELETION_ALERT_CONTEXT]) {
+        [[ThorBackend sharedContext] deleteObject:app];
+        NSError *error;
         
-    [self.breadcrumbController popViewControllerAnimated:YES];
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+            return;
+        }
+        
+        [self.breadcrumbController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)deleteClicked:(id)sender {
+    [self presentConfirmDeletionDialog];
 }
 
 - (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
