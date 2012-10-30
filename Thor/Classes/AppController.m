@@ -147,19 +147,19 @@ static NSInteger DeploymentPropertiesControllerContext;
     [wizard viewWillAppear];
     [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
 }
-
-- (void)displayDeploymentDialogWithTarget:(Target *)target {
-    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-    deployment.app = app;
-    deployment.target = target;
-    deployment.instances = 1;
-    
-    self.deploymentPropertiesController = [DeploymentPropertiesController new];
-    deploymentPropertiesController.deployment = deployment;
-    
-    NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
-}
+//
+//- (void)displayDeploymentDialogWithTarget:(Target *)target {
+//    Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+//    deployment.app = app;
+//    deployment.target = target;
+//    deployment.instances = 1;
+//    
+//    self.deploymentPropertiesController = [DeploymentPropertiesController new];
+//    deploymentPropertiesController.deployment = deployment;
+//    
+//    NSWindow *window = [SheetWindow sheetWindowWithView:deploymentPropertiesController.view];
+//    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
+//}
 
 - (void)presentConfirmDeletionDialog {
     NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this application?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The application will no longer appear in Thor. It will not be removed from your hard drive or from any cloud."];

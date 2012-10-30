@@ -13,6 +13,7 @@
 + (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment;
 + (DeploymentController *)deploymentControllerWithAppName:(NSString *)name target:(Target *)target;
 
+- (IBAction)editClicked:(id)sender;
 - (IBAction)deleteClicked:(id)sender;
 
 @end

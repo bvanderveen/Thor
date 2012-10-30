@@ -3,6 +3,9 @@
 #import "RACSubscribable+Extensions.h"
 #import "GridView.h"
 #import "FileSizeInMBTransformer.h"
+#import "DeploymentPropertiesController.h"
+#import "WizardController.h"
+#import "SheetWindow.h"
 
 #define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
 #define NOT_FOUND_ALERT_CONTEXT @"NotFound"
@@ -12,6 +15,7 @@
 
 @property (nonatomic, strong) FoundryService *service;
 @property (nonatomic, copy) NSString *appName;
+@property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 
 @end
 
@@ -19,7 +23,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize service, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats;
+@synthesize service, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
@@ -194,6 +198,20 @@ static NSArray *instanceColumns = nil;
 
 - (void)gridView:(GridView *)gridView didSelectRowAtIndex:(NSUInteger)row {
     NSLog(@"Clicked at index %lu", row);
+}
+
+- (IBAction)editClicked:(id)sender {
+    self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
+    
+    WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
+    NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
+    [wizard viewWillAppear];
+    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    self.deploymentPropertiesController = nil;
+    [sheet orderOut:self];
 }
 
 - (IBAction)deleteClicked:(id)sender {

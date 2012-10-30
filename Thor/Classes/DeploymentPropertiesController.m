@@ -4,7 +4,7 @@
 
 @interface DeploymentPropertiesController ()
 
-@property (nonatomic, strong) NSArray *apps; // of FoundryApp
+@property (nonatomic, assign) BOOL isNewDeployment;
 
 @end
 
@@ -19,10 +19,18 @@
     result.deployment.appName = [((NSURL *)[NSURL fileURLWithPath:app.localRoot]).pathComponents lastObject];
     result.deployment.target = target;
     result.title = @"Create deployment";
+    result.isNewDeployment = YES;
     return result;
 }
 
-@synthesize objectController, deployment, deploymentPropertiesView, apps, wizardController;
++ (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment {
+    DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
+    result.deployment = deployment;
+    result.title = @"Update deployment";
+    return result;
+}
+
+@synthesize objectController, deployment, deploymentPropertiesView, wizardController, isNewDeployment;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -61,14 +69,21 @@
     // TODO display spinner while waiting.
     self.wizardController.commitButtonEnabled = NO;
     
-    RACSubscribable *subscribable = [[self ensureService:service doesNotHaveAppWithName:deployment.appName] continueWith:[service createApp:app]];
+    RACSubscribable *subscribable;
     
-    self.associatedDisposable = [subscribable subscribeNext: ^ (id n) {
+    if (isNewDeployment) {
+        subscribable = [[self ensureService:service doesNotHaveAppWithName:deployment.appName] continueWith:[service createApp:app]];
+    }
+    else {
+        subscribable = [service updateApp:app];
+    }
+    
+    self.associatedDisposable = [subscribable subscribeNext:^ (id n) {
         NSLog(@"%@", n);
-    } error:^(NSError *error) {
+    } error:^ (NSError *error) {
         [NSApp presentError:error];
         self.wizardController.commitButtonEnabled = YES;
-    } completed:^{
+    } completed:^ {
         NSError *error = nil;
         if (![[ThorBackend sharedContext] save:&error]) {
             [NSApp presentError:error];

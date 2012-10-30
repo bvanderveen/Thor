@@ -9,5 +9,6 @@
 @property (nonatomic, strong) IBOutlet DeploymentPropertiesView *deploymentPropertiesView;
 
 + (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app;
++ (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment;
 
 @end
