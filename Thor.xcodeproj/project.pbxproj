@@ -72,6 +72,7 @@
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
 		41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
+		41B547EF1641A44E00C5C68F /* DeploymentToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
 		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
 		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
@@ -373,6 +374,8 @@
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
+		41B547ED1641A44E00C5C68F /* DeploymentToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentToolbarView.h; path = Classes/DeploymentToolbarView.h; sourceTree = "<group>"; };
+		41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentToolbarView.m; path = Classes/DeploymentToolbarView.m; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
 		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
@@ -612,6 +615,8 @@
 				410409A41610E77800AF93AF /* ViewVisibilityAware.h */,
 				410207D1161A74470077BCCA /* Label.h */,
 				410207D2161A74470077BCCA /* Label.m */,
+				41B547ED1641A44E00C5C68F /* DeploymentToolbarView.h */,
+				41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1355,6 +1360,7 @@
 				410207D3161A74480077BCCA /* Label.m in Sources */,
 				414AC843162C8164005D8423 /* FoundryAppStatusTransformer.m in Sources */,
 				414AC846162C8C9B005D8423 /* FileSizeInMBTransformer.m in Sources */,
+				41B547EF1641A44E00C5C68F /* DeploymentToolbarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,4 @@
+
+@interface DeploymentToolbarView : NSView
+
+@end
