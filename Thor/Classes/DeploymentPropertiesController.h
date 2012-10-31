@@ -5,10 +5,10 @@
 @interface DeploymentPropertiesController : NSViewController <WizardControllerAware>
 
 @property (nonatomic, strong) IBOutlet NSObjectController *objectController;
-@property (nonatomic, strong) IBOutlet Deployment *deployment;
+@property (nonatomic, strong) IBOutlet NSObject *bindingObject;
 @property (nonatomic, strong) IBOutlet DeploymentPropertiesView *deploymentPropertiesView;
 
-+ (DeploymentPropertiesController *)newDeploymentControllerWithTarget:(Target *)target app:(App *)app;
++ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app service:(FoundryService *)service;
 + (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment;
 
 @end

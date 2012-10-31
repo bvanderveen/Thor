@@ -91,7 +91,7 @@
 
 - (Deployment *)deploymentForApp:(FoundryApp *)app {
     NSError *error;
-    NSArray *deployments = [[[ThorBackend shared] getDeploymentsForTarget:self.target error:&error] filter:^ BOOL (id d) { return [((Deployment *)d).appName isEqual:app.name]; }];
+    NSArray *deployments = [[[ThorBackend shared] getDeploymentsForTarget:self.target error:&error] filter:^ BOOL (id d) { return [((Deployment *)d).name isEqual:app.name]; }];
     return deployments.count ? deployments[0] : nil;
 }
 
@@ -108,7 +108,7 @@
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentControllerWithTarget:self.target app:app];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentControllerWithDeployment:[Deployment deploymentWithApp:app target:target]];
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
@@ -131,7 +131,7 @@
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
         
         Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
-        deployment.appName = foundryApp.name;
+        deployment.name = foundryApp.name;
         deployment.app = app;
         deployment.target = self.target;
         

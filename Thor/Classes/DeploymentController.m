@@ -40,7 +40,7 @@ static NSArray *instanceColumns = nil;
 }
 
 + (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment {
-    return [[DeploymentController alloc] initWithTarget:deployment.target appName:deployment.appName deployment:deployment];
+    return [[DeploymentController alloc] initWithTarget:deployment.target appName:deployment.name deployment:deployment];
 }
 
 + (DeploymentController *)deploymentControllerWithAppName:(NSString *)name target:(Target *)target {
@@ -201,7 +201,12 @@ static NSArray *instanceColumns = nil;
 }
 
 - (IBAction)editClicked:(id)sender {
-    self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
+    if (deployment)
+        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
+    else
+        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithApp:app service:service];
+    
+    deploymentPropertiesController.title = @"Update deployment";
     
     WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
     NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];

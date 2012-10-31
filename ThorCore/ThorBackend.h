@@ -39,8 +39,9 @@ typedef enum {
 
 @property (strong) Target *target;
 @property (strong) App *app;
-@property (copy) NSString *appName;
-@property (assign) NSInteger memory, instances;
+@property (copy) NSString *name;
+@property (assign) DeploymentMemoryAmount memory;
+@property (assign) NSInteger instances;
 
 + (NSFetchRequest *)fetchRequest;
 + (Deployment *)deploymentInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;

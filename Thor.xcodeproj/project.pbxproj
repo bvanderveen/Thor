@@ -10,6 +10,8 @@
 		410207D3161A74480077BCCA /* Label.m in Sources */ = {isa = PBXBuildFile; fileRef = 410207D2161A74470077BCCA /* Label.m */; };
 		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
+		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
+		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
 		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
@@ -287,6 +289,8 @@
 		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		410409A41610E77800AF93AF /* ViewVisibilityAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVisibilityAware.h; path = Classes/ViewVisibilityAware.h; sourceTree = "<group>"; };
+		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
+		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
@@ -785,6 +789,8 @@
 				41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */,
 				414AC847162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h */,
 				414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */,
+				411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */,
+				411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 				413C2E22160009CC00C80B4C /* SHA1.h */,
@@ -950,6 +956,7 @@
 				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
 				413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */,
 				414AC849162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h in Headers */,
+				411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1285,6 +1292,7 @@
 				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
 				413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */,
 				414AC84A162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m in Sources */,
+				411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

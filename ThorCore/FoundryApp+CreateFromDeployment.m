@@ -4,7 +4,7 @@
 
 + (FoundryApp *)appWithDeployment:(Deployment *)deployment {
     FoundryApp *app = [FoundryApp new];
-    app.name = deployment.appName;
+    app.name = deployment.name;
     app.uris = @[];
     app.stagingFramework = DetectFrameworkFromPath([NSURL fileURLWithPath:deployment.app.localRoot]);
     app.stagingRuntime = nil;

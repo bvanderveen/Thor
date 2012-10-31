@@ -164,10 +164,10 @@ NSEntityDescription *getDeploymentEntity(NSEntityDescription *appEntity, NSEntit
         entity.name = @"Deployment";
         entity.managedObjectClassName = @"Deployment";
         
-        NSAttributeDescription *appName = [NSAttributeDescription new];
-        appName.name = @"appName";
-        appName.attributeType = NSStringAttributeType;
-        appName.optional = NO;
+        NSAttributeDescription *name = [NSAttributeDescription new];
+        name.name = @"name";
+        name.attributeType = NSStringAttributeType;
+        name.optional = NO;
         
         NSRelationshipDescription *app = [NSRelationshipDescription new];
         app.name = @"app";
@@ -205,7 +205,7 @@ NSEntityDescription *getDeploymentEntity(NSEntityDescription *appEntity, NSEntit
         
         targetEntity.properties = [targetEntity.properties arrayByAddingObject:targetInv];
         
-        entity.properties = @[appName, app, target];
+        entity.properties = @[name, app, target];
     }
     
     return entity;
@@ -373,7 +373,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @implementation Deployment
 
-@dynamic target, app, appName;
+@dynamic target, app, name;
 @synthesize memory, instances;
 
 - (BOOL)performValidation:(NSError **)error {
@@ -388,13 +388,13 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
         return NO;
     }
     
-    if (!self.appName) {
+    if (!self.name) {
         *error = [NSError thorErrorWithCode:DeploymentAppNameNotGiven localizedDescription:@"App name for deployment was not given."];
         return NO;
     }
     
     NSFetchRequest *request = [Deployment fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"target == %@ AND app == %@ AND appName == %@ AND self != %@", self.target, self.app, self.appName, self];
+    request.predicate = [NSPredicate predicateWithFormat:@"target == %@ AND app == %@ AND name == %@ AND self != %@", self.target, self.app, self.name, self];
     
     BOOL any = NO;
     
@@ -470,14 +470,14 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 - (NSArray *)getDeploymentsForApp:(App *)app error:(NSError **)error {
     NSFetchRequest *request = [Deployment fetchRequest];
-    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"appName" ascending:YES]];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
     request.predicate = [NSPredicate predicateWithFormat:@"app == %@", app];
     return [self.context executeFetchRequest:request error:error];
 }
 
 - (NSArray *)getDeploymentsForTarget:(Target *)target error:(NSError **)error {
     NSFetchRequest *request = [Deployment fetchRequest];
-    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"appName" ascending:YES]];
+    request.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
     request.predicate = [NSPredicate predicateWithFormat:@"target == %@", target];
     return [self.context executeFetchRequest:request error:error];
 }

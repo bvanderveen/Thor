@@ -37,7 +37,7 @@
      }];
     
     NSFont *subtitleFont = [NSFont systemFontOfSize:12];
-    [deployment.appName drawInRect:NSMakeRect(85, self.bounds.size.height - titleFont.lineHeight - subtitleFont.lineHeight - 8, self.bounds.size.width, subtitleFont.lineHeight) withAttributes:@{
+    [deployment.name drawInRect:NSMakeRect(85, self.bounds.size.height - titleFont.lineHeight - subtitleFont.lineHeight - 8, self.bounds.size.width, subtitleFont.lineHeight) withAttributes:@{
    NSForegroundColorAttributeName : [NSColor colorWithGenericGamma22White:.20 alpha:1],
               NSFontAttributeName : subtitleFont
      }];
