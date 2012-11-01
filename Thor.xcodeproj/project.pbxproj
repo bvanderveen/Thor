@@ -73,6 +73,16 @@
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
 		41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41B547EF1641A44E00C5C68F /* DeploymentToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */; };
+		41B547F71641ABC800C5C68F /* ToolbarButton_bottomcenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F01641ABC800C5C68F /* ToolbarButton_bottomcenter.png */; };
+		41B547F81641ABC800C5C68F /* ToolbarButton_bottomleft.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F11641ABC800C5C68F /* ToolbarButton_bottomleft.png */; };
+		41B547F91641ABC800C5C68F /* ToolbarButton_bottomright.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F21641ABC800C5C68F /* ToolbarButton_bottomright.png */; };
+		41B547FA1641ABC800C5C68F /* ToolbarButton_divider.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F31641ABC800C5C68F /* ToolbarButton_divider.png */; };
+		41B547FB1641ABC800C5C68F /* ToolbarButton_topcenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F41641ABC800C5C68F /* ToolbarButton_topcenter.png */; };
+		41B547FC1641ABC800C5C68F /* ToolbarButton_topleft.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F51641ABC800C5C68F /* ToolbarButton_topleft.png */; };
+		41B547FD1641ABC800C5C68F /* ToolbarButton_topright.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547F61641ABC800C5C68F /* ToolbarButton_topright.png */; };
+		41B54801164327A900C5C68F /* DeploymentRestart.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547FE164327A900C5C68F /* DeploymentRestart.png */; };
+		41B54802164327A900C5C68F /* DeploymentStart.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547FF164327A900C5C68F /* DeploymentStart.png */; };
+		41B54803164327A900C5C68F /* DeploymentStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B54800164327A900C5C68F /* DeploymentStop.png */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
 		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
 		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
@@ -376,6 +386,16 @@
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
 		41B547ED1641A44E00C5C68F /* DeploymentToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentToolbarView.h; path = Classes/DeploymentToolbarView.h; sourceTree = "<group>"; };
 		41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentToolbarView.m; path = Classes/DeploymentToolbarView.m; sourceTree = "<group>"; };
+		41B547F01641ABC800C5C68F /* ToolbarButton_bottomcenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_bottomcenter.png; path = Resources/ToolbarButton_bottomcenter.png; sourceTree = "<group>"; };
+		41B547F11641ABC800C5C68F /* ToolbarButton_bottomleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_bottomleft.png; path = Resources/ToolbarButton_bottomleft.png; sourceTree = "<group>"; };
+		41B547F21641ABC800C5C68F /* ToolbarButton_bottomright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_bottomright.png; path = Resources/ToolbarButton_bottomright.png; sourceTree = "<group>"; };
+		41B547F31641ABC800C5C68F /* ToolbarButton_divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_divider.png; path = Resources/ToolbarButton_divider.png; sourceTree = "<group>"; };
+		41B547F41641ABC800C5C68F /* ToolbarButton_topcenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_topcenter.png; path = Resources/ToolbarButton_topcenter.png; sourceTree = "<group>"; };
+		41B547F51641ABC800C5C68F /* ToolbarButton_topleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_topleft.png; path = Resources/ToolbarButton_topleft.png; sourceTree = "<group>"; };
+		41B547F61641ABC800C5C68F /* ToolbarButton_topright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarButton_topright.png; path = Resources/ToolbarButton_topright.png; sourceTree = "<group>"; };
+		41B547FE164327A900C5C68F /* DeploymentRestart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentRestart.png; path = Resources/DeploymentRestart.png; sourceTree = "<group>"; };
+		41B547FF164327A900C5C68F /* DeploymentStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentStart.png; path = Resources/DeploymentStart.png; sourceTree = "<group>"; };
+		41B54800164327A900C5C68F /* DeploymentStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentStop.png; path = Resources/DeploymentStop.png; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
 		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
@@ -572,6 +592,16 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41B547FE164327A900C5C68F /* DeploymentRestart.png */,
+				41B547FF164327A900C5C68F /* DeploymentStart.png */,
+				41B54800164327A900C5C68F /* DeploymentStop.png */,
+				41B547F01641ABC800C5C68F /* ToolbarButton_bottomcenter.png */,
+				41B547F11641ABC800C5C68F /* ToolbarButton_bottomleft.png */,
+				41B547F21641ABC800C5C68F /* ToolbarButton_bottomright.png */,
+				41B547F31641ABC800C5C68F /* ToolbarButton_divider.png */,
+				41B547F41641ABC800C5C68F /* ToolbarButton_topcenter.png */,
+				41B547F51641ABC800C5C68F /* ToolbarButton_topleft.png */,
+				41B547F61641ABC800C5C68F /* ToolbarButton_topright.png */,
 				41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */,
 				41826E8D1608F6A40094F5C2 /* DeploymentIconSelected.png */,
 				413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */,
@@ -1240,6 +1270,16 @@
 				419E73C216068B6F009FA6D3 /* icon.icns in Resources */,
 				41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */,
 				41826E8F1608F6A40094F5C2 /* DeploymentIconSelected.png in Resources */,
+				41B547F71641ABC800C5C68F /* ToolbarButton_bottomcenter.png in Resources */,
+				41B547F81641ABC800C5C68F /* ToolbarButton_bottomleft.png in Resources */,
+				41B547F91641ABC800C5C68F /* ToolbarButton_bottomright.png in Resources */,
+				41B547FA1641ABC800C5C68F /* ToolbarButton_divider.png in Resources */,
+				41B547FB1641ABC800C5C68F /* ToolbarButton_topcenter.png in Resources */,
+				41B547FC1641ABC800C5C68F /* ToolbarButton_topleft.png in Resources */,
+				41B547FD1641ABC800C5C68F /* ToolbarButton_topright.png in Resources */,
+				41B54801164327A900C5C68F /* DeploymentRestart.png in Resources */,
+				41B54802164327A900C5C68F /* DeploymentStart.png in Resources */,
+				41B54803164327A900C5C68F /* DeploymentStop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
