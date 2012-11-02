@@ -882,7 +882,6 @@
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
-				410409A1160D350C00AF93AF /* QuartzCore.framework */,
 				419E73C116068B6F009FA6D3 /* icon.icns */,
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
@@ -914,6 +913,7 @@
 				413C2E20160006D600C80B4C /* libcommonCrypto.dylib */,
 				41EE94E615F15EFC00A45951 /* libExpecta.a */,
 				41EE94E715F15EFD00A45951 /* libSpecta.a */,
+				410409A1160D350C00AF93AF /* QuartzCore.framework */,
 				4131290915B61264005F6D54 /* CoreData.framework */,
 				F32F9743154908CB002CCF27 /* Cocoa.framework */,
 				F32F9764154908CC002CCF27 /* SenTestingKit.framework */,

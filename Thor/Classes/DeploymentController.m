@@ -80,6 +80,13 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)awakeFromNib {
+    deploymentView.toolbarView.startButton.target = self;
+    deploymentView.toolbarView.startButton.action = @selector(startClicked:);
+    deploymentView.toolbarView.stopButton.target = self;
+    deploymentView.toolbarView.stopButton.action = @selector(stopClicked:);
+    deploymentView.toolbarView.restartButton.target = self;
+    deploymentView.toolbarView.restartButton.action = @selector(restartClicked:);
+    
     [self updateAppAndStatsAfterSubscribable:nil];
 }
 
@@ -222,6 +229,19 @@ static NSArray *instanceColumns = nil;
 
 - (IBAction)deleteClicked:(id)sender {
     [self presentConfirmDeletionDialog];
+}
+
+- (void)startClicked:(id)sender {
+    // app.state = FoundryAppStateStarted;
+    NSLog(@"start clicked");
+}
+
+- (void)stopClicked:(id)sender {
+    NSLog(@"stop clicked");
+}
+
+- (void)restartClicked:(id)sender {
+    NSLog(@"restart clicked");
 }
 
 @end
