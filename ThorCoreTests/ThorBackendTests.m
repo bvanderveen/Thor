@@ -211,7 +211,7 @@
     [context save:&error];
     
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
-    deployment.appName = @"foo";
+    deployment.name = @"foo";
     deployment.target = target;
     
     [context save:&error];
@@ -225,7 +225,7 @@
     [context save:&error];
     
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
-    deployment.appName = @"foo";
+    deployment.name = @"foo";
     deployment.app = app;
     
     [context save:&error];
@@ -255,7 +255,7 @@
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
     deployment.app = app;
     deployment.target = target;
-    deployment.appName = @"foo";
+    deployment.name = @"foo";
     
     NSError *error;
     [context save:&error];
@@ -263,7 +263,7 @@
     Deployment *deployment2 = [Deployment deploymentInsertedIntoManagedObjectContext:context];
     deployment2.app = app;
     deployment2.target = target;
-    deployment2.appName = @"foo";
+    deployment2.name = @"foo";
     
     [context save:&error];
     
@@ -288,7 +288,7 @@
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
     deployment.app = app;
     deployment.target = target;
-    deployment.appName = @"foo";
+    deployment.name = @"foo";
     
     NSError *error;
     [context save:&error];
@@ -299,7 +299,7 @@
     NSUInteger count = result.count;
     NSUInteger expected = 1;
     STAssertEquals(count, expected, @"Expected 1 result.");
-    STAssertEquals(((Deployment *)result[0]).appName, @"foo", @"Expected app named 'foo'.");
+    STAssertEquals(((Deployment *)result[0]).name, @"foo", @"Expected app named 'foo'.");
 }
 
 - (void)testGetDeploymentsForTargetReturnsNoDeploymentsIfTargetHasNoDeployments {
@@ -322,7 +322,7 @@
     Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:context];
     deployment.app = app;
     deployment.target = target;
-    deployment.appName = @"foo";
+    deployment.name = @"foo";
     
     NSError *error;
     [context save:&error];
@@ -333,7 +333,7 @@
     NSUInteger count = result.count;
     NSUInteger expectedCount = 1;
     STAssertEquals(count, expectedCount, @"Expected 1 result.");
-    STAssertEquals(((Deployment *)result[0]).appName, @"foo", @"Expected app named 'foo'.");
+    STAssertEquals(((Deployment *)result[0]).name, @"foo", @"Expected app named 'foo'.");
 }
 
 @end
