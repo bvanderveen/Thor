@@ -11,5 +11,7 @@
 // discards recievers values.
 - (RACSubscribable *)continueWith:(RACSubscribable *)subscribable;
 
+- (RACSubscribable *)continueAfter:(RACSubscribable *(^)(id))subscribable;
+
 @end
 

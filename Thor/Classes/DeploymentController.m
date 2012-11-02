@@ -231,17 +231,24 @@ static NSArray *instanceColumns = nil;
     [self presentConfirmDeletionDialog];
 }
 
+- (RACSubscribable *)updateWithState:(FoundryAppState)state {
+    return [[service getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        latestApp.state = state;
+        return [service updateApp:latestApp];
+    }];
+}
+
 - (void)startClicked:(id)sender {
-    // app.state = FoundryAppStateStarted;
-    NSLog(@"start clicked");
+    [self updateAppAndStatsAfterSubscribable:[self updateWithState:FoundryAppStateStarted]];
 }
 
 - (void)stopClicked:(id)sender {
-    NSLog(@"stop clicked");
+    [self updateAppAndStatsAfterSubscribable:[self updateWithState:FoundryAppStateStopped]];
 }
 
 - (void)restartClicked:(id)sender {
-    NSLog(@"restart clicked");
+    [self updateAppAndStatsAfterSubscribable:[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]]];
 }
 
 @end

@@ -13,8 +13,14 @@
 }
 
 - (RACSubscribable *)continueWith:(RACSubscribable *)subscribable {
-    return [[self select:^id(id x) {
+    return [self continueAfter:^ RACSubscribable * (id x) {
         return subscribable;
+    }];
+}
+
+- (RACSubscribable *)continueAfter:(RACSubscribable *(^)(id))subscribable {
+    return [[self select:^id(id x) {
+        return subscribable(x);
     }] selectMany:^id<RACSubscribable>(id x) {
         return x;
     }];
