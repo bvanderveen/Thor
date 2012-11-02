@@ -84,8 +84,6 @@
 		41B54802164327A900C5C68F /* DeploymentStart.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B547FF164327A900C5C68F /* DeploymentStart.png */; };
 		41B54803164327A900C5C68F /* DeploymentStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B54800164327A900C5C68F /* DeploymentStop.png */; };
 		41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233015D07A280004D167 /* AppItemsDataSource.m */; };
-		41B9233715D085480004D167 /* AppPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233615D085480004D167 /* AppPropertiesView.m */; };
-		41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9233915D085870004D167 /* AppPropertiesController.m */; };
 		41B9238115D18E600004D167 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238015D18E600004D167 /* AppController.m */; };
 		41B9238415D190A00004D167 /* AppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238315D1909F0004D167 /* AppView.m */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
@@ -122,7 +120,6 @@
 		41FA11D015E433BB0079FD30 /* ItemsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11CF15E433BB0079FD30 /* ItemsView.xib */; };
 		41FA11D215E433C70079FD30 /* TargetPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D115E433C70079FD30 /* TargetPropertiesView.xib */; };
 		41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */; };
-		41FA11D615E433E00079FD30 /* AppPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D515E433E00079FD30 /* AppPropertiesView.xib */; };
 		41FA11D815E433EB0079FD30 /* AppView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D715E433EB0079FD30 /* AppView.xib */; };
 		41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA11DA15E436570079FD30 /* BoxGroupView.m */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
@@ -398,10 +395,6 @@
 		41B54800164327A900C5C68F /* DeploymentStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentStop.png; path = Resources/DeploymentStop.png; sourceTree = "<group>"; };
 		41B9232F15D07A280004D167 /* AppItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppItemsDataSource.h; path = Classes/AppItemsDataSource.h; sourceTree = "<group>"; };
 		41B9233015D07A280004D167 /* AppItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppItemsDataSource.m; path = Classes/AppItemsDataSource.m; sourceTree = "<group>"; };
-		41B9233515D085480004D167 /* AppPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesView.h; path = Classes/AppPropertiesView.h; sourceTree = "<group>"; };
-		41B9233615D085480004D167 /* AppPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesView.m; path = Classes/AppPropertiesView.m; sourceTree = "<group>"; };
-		41B9233815D085870004D167 /* AppPropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppPropertiesController.h; path = Classes/AppPropertiesController.h; sourceTree = "<group>"; };
-		41B9233915D085870004D167 /* AppPropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppPropertiesController.m; path = Classes/AppPropertiesController.m; sourceTree = "<group>"; };
 		41B9237F15D18E600004D167 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Classes/AppController.h; sourceTree = "<group>"; };
 		41B9238015D18E600004D167 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = Classes/AppController.m; sourceTree = "<group>"; };
 		41B9238215D1909F0004D167 /* AppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppView.h; path = Classes/AppView.h; sourceTree = "<group>"; };
@@ -457,7 +450,6 @@
 		41FA11CF15E433BB0079FD30 /* ItemsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemsView.xib; path = Resources/ItemsView.xib; sourceTree = "<group>"; };
 		41FA11D115E433C70079FD30 /* TargetPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TargetPropertiesView.xib; path = Resources/TargetPropertiesView.xib; sourceTree = "<group>"; };
 		41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppCollectionItemView.xib; path = Resources/AppCollectionItemView.xib; sourceTree = "<group>"; };
-		41FA11D515E433E00079FD30 /* AppPropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppPropertiesView.xib; path = Resources/AppPropertiesView.xib; sourceTree = "<group>"; };
 		41FA11D715E433EB0079FD30 /* AppView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppView.xib; path = Resources/AppView.xib; sourceTree = "<group>"; };
 		41FA11D915E436560079FD30 /* BoxGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoxGroupView.h; path = Classes/BoxGroupView.h; sourceTree = "<group>"; };
 		41FA11DA15E436570079FD30 /* BoxGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BoxGroupView.m; path = Classes/BoxGroupView.m; sourceTree = "<group>"; };
@@ -699,7 +691,6 @@
 				41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */,
 				41B9232F15D07A280004D167 /* AppItemsDataSource.h */,
 				41B9233015D07A280004D167 /* AppItemsDataSource.m */,
-				41B9233215D07D0F0004D167 /* App Properties Dialog */,
 				41B9233B15D187B00004D167 /* App View */,
 			);
 			name = Apps;
@@ -719,18 +710,6 @@
 				414E185115C0B55F007C9508 /* CollectionView.m */,
 			);
 			name = "Items View";
-			sourceTree = "<group>";
-		};
-		41B9233215D07D0F0004D167 /* App Properties Dialog */ = {
-			isa = PBXGroup;
-			children = (
-				41FA11D515E433E00079FD30 /* AppPropertiesView.xib */,
-				41B9233515D085480004D167 /* AppPropertiesView.h */,
-				41B9233615D085480004D167 /* AppPropertiesView.m */,
-				41B9233815D085870004D167 /* AppPropertiesController.h */,
-				41B9233915D085870004D167 /* AppPropertiesController.m */,
-			);
-			name = "App Properties Dialog";
 			sourceTree = "<group>";
 		};
 		41B9233B15D187B00004D167 /* App View */ = {
@@ -1261,7 +1240,6 @@
 				41FA11D015E433BB0079FD30 /* ItemsView.xib in Resources */,
 				41FA11D215E433C70079FD30 /* TargetPropertiesView.xib in Resources */,
 				41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */,
-				41FA11D615E433E00079FD30 /* AppPropertiesView.xib in Resources */,
 				41FA11D815E433EB0079FD30 /* AppView.xib in Resources */,
 				413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */,
 				413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */,
@@ -1371,8 +1349,6 @@
 				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
 				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
 				41B9233115D07A280004D167 /* AppItemsDataSource.m in Sources */,
-				41B9233715D085480004D167 /* AppPropertiesView.m in Sources */,
-				41B9233A15D085880004D167 /* AppPropertiesController.m in Sources */,
 				41B9238115D18E600004D167 /* AppController.m in Sources */,
 				41B9238415D190A00004D167 /* AppView.m in Sources */,
 				4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */,

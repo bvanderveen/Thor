@@ -92,7 +92,6 @@
 @property (nonatomic, strong) NSViewController *itemPropertiesController;
 @property (nonatomic, copy) NSViewController *(^newItem)();
 @property (nonatomic, copy) void (^selection)(BreadcrumbItemsController *, id);
-@property (nonatomic, strong) ItemsController *itemsController;
 @property (nonatomic, assign) NSArrayController *arrayController;
 
 @end
@@ -111,7 +110,7 @@
     return self;
 }
 
-- (id)initWithItemsController:(ItemsController *)lItemsController newItemBlock:(NSViewController *(^)())newItemBlock selectionBlock:(void (^)(BreadcrumbItemsController *, id))selectionBlock {
+- (id)initWithItemsController:(ItemsController *)lItemsController newItemBlock:(NSViewController *(^)(BreadcrumbItemsController *))newItemBlock selectionBlock:(void (^)(BreadcrumbItemsController *, id))selectionBlock {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.itemsController = lItemsController;
         self.newItem = newItemBlock;
@@ -143,9 +142,11 @@
 - (void)addItemClicked {
     self.itemPropertiesController = newItem();
     
-    NSWindow *window = [SheetWindow sheetWindowWithView:itemPropertiesController.view];
-    
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+    if (itemPropertiesController) {
+        NSWindow *window = [SheetWindow sheetWindowWithView:itemPropertiesController.view];
+        
+        [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+    }
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {

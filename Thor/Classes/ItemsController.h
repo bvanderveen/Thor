@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) id<ItemsControllerDataSource> dataSource;
 
+- (void)updateItems;
+
 @end
 
 @interface WizardItemsController : NSViewController <WizardControllerAware>
@@ -27,6 +29,8 @@
 
 @interface BreadcrumbItemsController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
 
-- (id)initWithItemsController:(ItemsController *)itemsController newItemBlock:(NSViewController * (^)())newItemBlock selectionBlock:(void (^)(BreadcrumbItemsController *, id))selectionBlock;
+@property (nonatomic, strong) ItemsController *itemsController;
+
+- (id)initWithItemsController:(ItemsController *)itemsController newItemBlock:(NSViewController * (^)(BreadcrumbItemsController *))newItemBlock selectionBlock:(void (^)(BreadcrumbItemsController *, id))selectionBlock;
 
 @end

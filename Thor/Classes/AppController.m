@@ -1,5 +1,4 @@
 #import "AppController.h"
-#import "AppPropertiesController.h"
 #import "SheetWindow.h"
 #import "DeploymentController.h"
 #import "TargetItemsDataSource.h"
@@ -13,12 +12,10 @@
 
 #define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
 
-static NSInteger AppPropertiesControllerContext;
 static NSInteger DeploymentPropertiesControllerContext;
 
 @interface AppController ()
 
-@property (nonatomic, strong) AppPropertiesController *appPropertiesController;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
@@ -27,7 +24,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 @implementation AppController
 
-@synthesize app, deployments, appPropertiesController, deploymentPropertiesController, breadcrumbController, title, appView, targetItemsDataSource, listSource;
+@synthesize app, deployments, deploymentPropertiesController, breadcrumbController, title, appView, targetItemsDataSource, listSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -105,20 +102,8 @@ static NSInteger DeploymentPropertiesControllerContext;
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
-- (void)editClicked:(id)sender {
-    self.appPropertiesController = [[AppPropertiesController alloc] init];
-    appPropertiesController.editing = YES;
-    appPropertiesController.app = app;
-
-    NSWindow *window = [SheetWindow sheetWindowWithView:appPropertiesController.view];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&AppPropertiesControllerContext];
-}
-
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    if (contextInfo == &AppPropertiesControllerContext) {
-        self.appPropertiesController = nil;
-    }
-    else if (contextInfo == &DeploymentPropertiesControllerContext) {
+    if (contextInfo == &DeploymentPropertiesControllerContext) {
         self.deploymentPropertiesController = nil;
         //self.appView.drawerBar.expanded = NO;
         [self updateDeployments];
@@ -135,7 +120,10 @@ static NSInteger DeploymentPropertiesControllerContext;
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:targetsController commitBlock:^{
         Target *target = [targetsController.arrayController.selectedObjects objectAtIndex:0];
         
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentControllerWithDeployment:[Deployment deploymentWithApp:app target:target]];
+        Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:nil];
+        deployment.name = app.displayName;
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
+        deploymentController.title = @"Create deployment";
         [wizard pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
