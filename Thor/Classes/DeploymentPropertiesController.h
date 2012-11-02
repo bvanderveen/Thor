@@ -8,7 +8,7 @@
 @property (nonatomic, strong) IBOutlet NSObject *bindingObject;
 @property (nonatomic, strong) IBOutlet DeploymentPropertiesView *deploymentPropertiesView;
 
-+ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app service:(FoundryService *)service;
++ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app client:(FoundryClient *)service;
 + (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment;
 
 @end

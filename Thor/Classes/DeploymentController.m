@@ -13,7 +13,7 @@
 
 @interface DeploymentController ()
 
-@property (nonatomic, strong) FoundryService *service;
+@property (nonatomic, strong) FoundryClient *client;
 @property (nonatomic, copy) NSString *appName;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 
@@ -23,7 +23,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize service, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController;
+@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
@@ -34,7 +34,7 @@ static NSArray *instanceColumns = nil;
         self.title = lAppName;
         self.appName = lAppName;
         self.deployment = leDeployment;
-        self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
+        self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
     }
     return self;
 }
@@ -51,10 +51,10 @@ static NSArray *instanceColumns = nil;
     NSError *error = nil;
     
     NSArray *subscribables = @[
-    [[service getStatsForAppWithName:appName] doNext:^(id x) {
+    [[client getStatsForAppWithName:appName] doNext:^(id x) {
         self.instanceStats = x;
     }],
-    [[service getAppWithName:appName] doNext:^(id x) {
+    [[client getAppWithName:appName] doNext:^(id x) {
         self.app = x;
     }]];
     
@@ -115,7 +115,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)recreateDeployment {
-    RACSubscribable *createApp = [service createApp:[FoundryApp appWithDeployment:deployment]];
+    RACSubscribable *createApp = [client createApp:[FoundryApp appWithDeployment:deployment]];
     [self updateAppAndStatsAfterSubscribable:createApp];
 }
 
@@ -138,7 +138,7 @@ static NSArray *instanceColumns = nil;
     }
     else if ([contextString isEqual:CONFIRM_DELETION_ALERT_CONTEXT]) {
         if (returnCode == NSAlertDefaultReturn) {
-            self.associatedDisposable = [[service deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
+            self.associatedDisposable = [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
                 [NSApp presentError:error];
             } completed:^{
                 if (deployment)
@@ -211,7 +211,7 @@ static NSArray *instanceColumns = nil;
     if (deployment)
         self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
     else
-        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithApp:app service:service];
+        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentControllerWithApp:app client:client];
     
     deploymentPropertiesController.title = @"Update deployment";
     
@@ -232,10 +232,10 @@ static NSArray *instanceColumns = nil;
 }
 
 - (RACSubscribable *)updateWithState:(FoundryAppState)state {
-    return [[service getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
+    return [[client getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
         FoundryApp *latestApp = (FoundryApp *)x;
         latestApp.state = state;
-        return [service updateApp:latestApp];
+        return [client updateApp:latestApp];
     }];
 }
 

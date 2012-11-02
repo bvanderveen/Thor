@@ -16,7 +16,7 @@
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
-@property (nonatomic, strong) FoundryService *service;
+@property (nonatomic, strong) FoundryClient *client;
 @property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
@@ -24,7 +24,7 @@
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, service, targetPropertiesController, listSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, targetPropertiesController, listSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -71,8 +71,8 @@
 }
 
 - (void)updateApps {
-    self.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
-    self.associatedDisposable = [[[service getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
+    self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
+    self.associatedDisposable = [[[client getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
         self.apps = x;
         [targetView.deploymentsList reloadData];
         targetView.needsLayout = YES;

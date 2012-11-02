@@ -387,13 +387,13 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     return @"standalone";
 }
 
-@interface FoundryService ()
+@interface FoundryClient ()
 
 @property (nonatomic, copy) NSString *token;
 
 @end
 
-@implementation FoundryService
+@implementation FoundryClient
 
 @synthesize endpoint, token;
 
@@ -509,7 +509,6 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             [inner dispose];
         }];
     }];
-    
 }
 
 @end

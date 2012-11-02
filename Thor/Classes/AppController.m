@@ -173,14 +173,14 @@ static NSInteger DeploymentPropertiesControllerContext;
 }
 
 - (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
-    FoundryService *service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
     RACSubscribable *deploy = [[[RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSURL *rootURL = [NSURL fileURLWithPath:deployment.app.localRoot];
         id manifest = CreateSlugManifestFromPath(rootURL);
         NSURL *slug = CreateSlugFromManifest(manifest, rootURL);
         
-        return [[[service postSlug:slug manifest:manifest toAppWithName:deployment.name] subscribeOn:[RACScheduler mainQueueScheduler]] subscribe:subscriber];
+        return [[[client postSlug:slug manifest:manifest toAppWithName:deployment.name] subscribeOn:[RACScheduler mainQueueScheduler]] subscribe:subscriber];
     }] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]];
     
     button.enabled = NO;

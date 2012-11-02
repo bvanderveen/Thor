@@ -4,7 +4,7 @@
 
 @interface DeploymentPropertiesController ()
 
-@property (nonatomic, strong) FoundryService *service;
+@property (nonatomic, strong) FoundryClient *client;
 
 @end
 
@@ -13,18 +13,18 @@
 + (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
     result.bindingObject = deployment;
-    result.service = [[FoundryService alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     return result;
 }
 
-+ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app service:(FoundryService *)service {
++ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app client:(FoundryClient *)client {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
     result.bindingObject = app;
-    result.service = service;
+    result.client = client;
     return result;
 }
 
-@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, service, bindingObject;
+@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, bindingObject;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -38,7 +38,7 @@
 
 - (RACSubscribable *)ensureServiceDoesNotHaveAppWithName:(NSString *)name {
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
-        return [[service getAppWithName:name]
+        return [[client getAppWithName:name]
                 subscribeNext:^ (id i) {
                     [subscriber sendError:[NSError errorWithDomain:ThorDeploymentPropertiesControllerErrorDomain code:ThorAppAlreadyExistsErrorCode userInfo:@{
                             NSLocalizedDescriptionKey : [NSString stringWithFormat:@"An app named %@ already exists on the host.", name]
@@ -68,15 +68,15 @@
         app = [FoundryApp appWithDeployment:deployment];
         
         if (deployment.managedObjectContext)
-            subscribable = [service updateApp:app];
+            subscribable = [client updateApp:app];
         else {
-            subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[service createApp:app]];
+            subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[client createApp:app]];
             [[ThorBackend sharedContext] insertObject:deployment];
         }
     }
     else {
         app = (FoundryApp *)bindingObject;
-        subscribable = [service updateApp:app];
+        subscribable = [client updateApp:app];
     }
         
     self.associatedDisposable = [subscribable subscribeNext:^ (id n) {

@@ -72,15 +72,15 @@ SpecBegin(FoundryService)
 describe(@"getApps", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
-        [[service getApps] subscribeCompleted:^{ }];
+        [[client getApps] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
         @"method" : @"GET",
@@ -117,7 +117,7 @@ describe(@"getApps", ^ {
         ] ];
         
         __block NSArray *result;
-        [[service getApps] subscribeNext:^(id x) {
+        [[client getApps] subscribeNext:^(id x) {
             result = (NSArray *)x;
         }];
         
@@ -147,15 +147,15 @@ describe(@"getApps", ^ {
 describe(@"getAppWithName", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
-        [[service getAppWithName:@"name"] subscribeCompleted:^{ }];
+        [[client getAppWithName:@"name"] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
         @"method" : @"GET",
@@ -182,7 +182,7 @@ describe(@"getAppWithName", ^ {
         
         __block FoundryApp *app;
         
-        [[service getAppWithName:@"the name"] subscribeNext:^(id x) {
+        [[client getAppWithName:@"the name"] subscribeNext:^(id x) {
             app = (FoundryApp *)x;
         }];
         
@@ -199,15 +199,15 @@ describe(@"getAppWithName", ^ {
 describe(@"getStatsForAppWithName", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
-        [[service getStatsForAppWithName:@"name"] subscribeCompleted:^{ }];
+        [[client getStatsForAppWithName:@"name"] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
         @"method" : @"GET",
@@ -237,7 +237,7 @@ describe(@"getStatsForAppWithName", ^ {
         
         __block NSArray *result;
         
-        [[service getStatsForAppWithName:@"the name"] subscribeNext:^(id x) {
+        [[client getStatsForAppWithName:@"the name"] subscribeNext:^(id x) {
             result = (NSArray *)x;
         }];
         
@@ -258,11 +258,11 @@ describe(@"getStatsForAppWithName", ^ {
 describe(@"createApp", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
@@ -279,7 +279,7 @@ describe(@"createApp", ^ {
         //app.disk = 512;
         app.state = FoundryAppStateStarted;
         
-        [[service createApp:app] subscribeCompleted:^{ }];
+        [[client createApp:app] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
         @"method" : @"POST",
@@ -314,11 +314,11 @@ describe(@"createApp", ^ {
 describe(@"updateApp", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
@@ -335,7 +335,7 @@ describe(@"updateApp", ^ {
         //app.disk = 512;
         app.state = FoundryAppStateStarted;
         
-        [[service updateApp:app] subscribeCompleted:^{ }];
+        [[client updateApp:app] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
         @"method" : @"PUT",
@@ -369,15 +369,15 @@ describe(@"updateApp", ^ {
 
 describe(@"deleteApp", ^ {
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
-        [[service deleteAppWithName:@"foobard"] subscribeCompleted:^{ }];
+        [[client deleteAppWithName:@"foobard"] subscribeCompleted:^{ }];
         
         id expectedCalls = @[@{
             @"method" : @"DELETE",
@@ -393,11 +393,11 @@ describe(@"deleteApp", ^ {
 describe(@"postSlug", ^ {
     
     __block MockEndpoint *endpoint;
-    __block FoundryService *service;
+    __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
-        service = [[FoundryService alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
     it(@"should call endpoint", ^ {
@@ -408,7 +408,7 @@ describe(@"postSlug", ^ {
         
         NSArray *manifest = @[ @"a", @"b", @"c" ];
         
-        [[service postSlug:tempFileURL manifest:manifest toAppWithName:@"appname"] subscribeCompleted:^{ }];
+        [[client postSlug:tempFileURL manifest:manifest toAppWithName:@"appname"] subscribeCompleted:^{ }];
         
         NSError *error = nil;
         [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
@@ -1052,7 +1052,7 @@ describe(@"detect framework", ^{
 //        endpoint.password = @"secret";
 //        endpoint.hostname = @"api.bvanderveen.cloudfoundry.me";
 //        
-//        FoundryService *service = [[FoundryService alloc] initWithEndpoint:endpoint];
+//        FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:endpoint];
 //        
 //        FoundryApp *app = [FoundryApp new];
 //        app.name = @"goldmind-test";
@@ -1068,11 +1068,11 @@ describe(@"detect framework", ^{
 //        __block BOOL done = NO, err = NO;
 //        int attempts = 0;
 //        
-//        [[service createApp:app] subscribeError:^ (NSError *error) {
+//        [[client createApp:app] subscribeError:^ (NSError *error) {
 //            NSLog(@"error: %@", [error localizedDescription]);
 //            err = YES;
 //        } completed:^{
-//            [[service postSlug:slug manifest:manifest toAppWithName:app.name] subscribeError: ^ (NSError *error) {
+//            [[client postSlug:slug manifest:manifest toAppWithName:app.name] subscribeError: ^ (NSError *error) {
 //                NSLog(@"error: %@", [error localizedDescription]);
 //                err = YES;
 //            } completed:^{
