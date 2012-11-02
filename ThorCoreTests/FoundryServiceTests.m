@@ -367,7 +367,7 @@ describe(@"updateApp", ^ {
     });
 });
 
-describe(@"deleteApp", ^ {
+describe(@"deleteAppWithName", ^ {
     __block MockEndpoint *endpoint;
     __block FoundryClient *client;
     
@@ -1094,6 +1094,117 @@ describe(@"detect framework", ^{
 //    });
 //});
 
+describe(@"getServices", ^{
+    __block MockEndpoint *endpoint;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[client getServices] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/services",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should parse results", ^ {
+        endpoint.results = @[ @[
+        @{
+        @"name" : @"the name",
+        @"vendor" : @"the vendor",
+        @"version" : @"1.2"
+        },
+        @{
+        @"name" : @"the name 2",
+        @"vendor" : @"the vendor 2",
+        @"version" : @"1.2.2"
+        }
+        ] ];
+        
+        __block NSArray *result;
+        [[client getServices] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(2);
+        
+        FoundryService *service0 = result[0];
+        expect(service0.name).to.equal(@"the name");
+        expect(service0.vendor).to.equal(@"the vendor");
+        expect(service0.version).to.equal(@"1.2");
+        
+        FoundryService *service1 = result[1];
+        expect(service1.name).to.equal(@"the name 2");
+        expect(service1.vendor).to.equal(@"the vendor 2");
+        expect(service1.version).to.equal(@"1.2.2");
+    });
+});
 
+describe(@"createService", ^ {
+    
+    __block MockEndpoint *endpoint;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        
+        FoundryService *service = [FoundryService new];
+        
+        service.name = @"the name";
+        service.vendor = @"the vendor";
+        service.version = @"the version";
+        
+        [[client createService:service] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"POST",
+        @"path" : @"/services",
+        @"headers" : [NSNull null],
+        @"body" : @{
+        @"name" : @"the name",
+        @"vendor" : @"the vendor",
+        @"version" : @"the version",
+        @"tier" : @"free"
+        }}];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
+
+describe(@"deleteServiceWithName", ^ {
+    __block MockEndpoint *endpoint;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[client deleteServiceWithName:@"foobard"] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"DELETE",
+        @"path" : @"/services/foobard",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+});
 
 SpecEnd

@@ -387,6 +387,29 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     return @"standalone";
 }
 
+@implementation FoundryService
+
+@synthesize name, vendor, version;
+
++ (FoundryService *)serviceWithDictionary:(NSDictionary *)dict {
+    FoundryService *result = [FoundryService new];
+    result.name = dict[@"name"];
+    result.vendor = dict[@"vendor"];
+    result.version = dict[@"version"];
+    return result;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+    return @{
+        @"name" : name,
+        @"vendor": vendor,
+        @"version" : version,
+        @"tier" : @"free"
+    };
+}
+
+@end
+
 @interface FoundryClient ()
 
 @property (nonatomic, copy) NSString *token;
@@ -509,6 +532,22 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             [inner dispose];
         }];
     }];
+}
+
+- (RACSubscribable *)getServices {
+    return [[endpoint authenticatedRequestWithMethod:@"GET" path:@"/services" headers:nil body:nil] select:^id(id services) {
+        return [(NSArray *)services map:^ id (id service) {
+            return [FoundryService serviceWithDictionary:service];
+        }];
+    }];
+}
+
+- (RACSubscribable *)createService:(FoundryService *)service {
+    return [endpoint authenticatedRequestWithMethod:@"POST" path:@"/services" headers:nil body:[service dictionaryRepresentation]];
+}
+
+- (RACSubscribable *)deleteServiceWithName:(NSString *)name {
+    return [endpoint authenticatedRequestWithMethod:@"DELETE" path:[NSString stringWithFormat:@"/services/%@", name] headers:nil body:nil];
 }
 
 @end
