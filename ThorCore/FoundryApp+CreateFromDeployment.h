@@ -1,4 +1,4 @@
-#import "FoundryService.h"
+#import "FoundryClient.h"
 #import "ThorBackend.h"
 
 @interface FoundryApp (CreateFromDeployment)

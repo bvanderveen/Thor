@@ -20,8 +20,8 @@
 		4135F59C15D33BEE0054D961 /* CloudIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59715D33BEE0054D961 /* CloudIcon.png */; };
 		4135F59D15D33BEE0054D961 /* CloudIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59815D33BEE0054D961 /* CloudIconSelected.png */; };
 		4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4135F5A115D34D520054D961 /* CollectionItemView.m */; };
-		413912F315E5D0A900DB464E /* FoundryService.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912F115E5D0A900DB464E /* FoundryService.h */; };
-		413912F415E5D0A900DB464E /* FoundryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F215E5D0A900DB464E /* FoundryService.m */; };
+		413912F315E5D0A900DB464E /* FoundryClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912F115E5D0A900DB464E /* FoundryClient.h */; };
+		413912F415E5D0A900DB464E /* FoundryClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F215E5D0A900DB464E /* FoundryClient.m */; };
 		413912F815E5D98800DB464E /* ServicesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F715E5D98800DB464E /* ServicesController.m */; };
 		413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413912F915E5DA1E00DB464E /* ServicesView.xib */; };
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
@@ -310,8 +310,8 @@
 		4135F59815D33BEE0054D961 /* CloudIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSelected.png; path = Resources/CloudIconSelected.png; sourceTree = "<group>"; };
 		4135F5A015D34D520054D961 /* CollectionItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionItemView.h; path = Classes/CollectionItemView.h; sourceTree = "<group>"; };
 		4135F5A115D34D520054D961 /* CollectionItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionItemView.m; path = Classes/CollectionItemView.m; sourceTree = "<group>"; };
-		413912F115E5D0A900DB464E /* FoundryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryService.h; sourceTree = "<group>"; };
-		413912F215E5D0A900DB464E /* FoundryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryService.m; sourceTree = "<group>"; };
+		413912F115E5D0A900DB464E /* FoundryClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryClient.h; sourceTree = "<group>"; };
+		413912F215E5D0A900DB464E /* FoundryClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryClient.m; sourceTree = "<group>"; };
 		413912F615E5D98800DB464E /* ServicesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicesController.h; path = Classes/ServicesController.h; sourceTree = "<group>"; };
 		413912F715E5D98800DB464E /* ServicesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicesController.m; path = Classes/ServicesController.m; sourceTree = "<group>"; };
 		413912F915E5DA1E00DB464E /* ServicesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServicesView.xib; path = Resources/ServicesView.xib; sourceTree = "<group>"; };
@@ -665,6 +665,8 @@
 		416567B215DAE59700EF93DF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				413C2E22160009CC00C80B4C /* SHA1.h */,
+				413C2E23160009CC00C80B4C /* SHA1.m */,
 				41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */,
 				41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */,
 				414E185B15C226DF007C9508 /* Sequence.h */,
@@ -816,8 +818,8 @@
 			isa = PBXGroup;
 			children = (
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
-				413912F115E5D0A900DB464E /* FoundryService.h */,
-				413912F215E5D0A900DB464E /* FoundryService.m */,
+				413912F115E5D0A900DB464E /* FoundryClient.h */,
+				413912F215E5D0A900DB464E /* FoundryClient.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
 				41F902A015AF592A00550870 /* ThorBackend.m */,
 				41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */,
@@ -828,8 +830,6 @@
 				411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
-				413C2E22160009CC00C80B4C /* SHA1.h */,
-				413C2E23160009CC00C80B4C /* SHA1.m */,
 			);
 			path = ThorCore;
 			sourceTree = "<group>";
@@ -985,7 +985,7 @@
 				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
 				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
-				413912F315E5D0A900DB464E /* FoundryService.h in Headers */,
+				413912F315E5D0A900DB464E /* FoundryClient.h in Headers */,
 				41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */,
 				41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */,
 				413C2E24160009CD00C80B4C /* SHA1.h in Headers */,
@@ -1331,7 +1331,7 @@
 				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
 				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
 				416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */,
-				413912F415E5D0A900DB464E /* FoundryService.m in Sources */,
+				413912F415E5D0A900DB464E /* FoundryClient.m in Sources */,
 				41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */,
 				41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */,
 				413C2E25160009CD00C80B4C /* SHA1.m in Sources */,
