@@ -13,3 +13,6 @@
 [submodule "expecta"]
 	path = expecta
 	url = git@github.com:github/expecta
+[submodule "PXSourceList"]
+	path = PXSourceList
+	url = git://github.com/Perspx/PXSourceList.git

@@ -10,6 +10,7 @@
 		410207D3161A74480077BCCA /* Label.m in Sources */ = {isa = PBXBuildFile; fileRef = 410207D2161A74470077BCCA /* Label.m */; };
 		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
+		4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114FFB51649A8DF00B4D3DB /* audiobooks.png */; };
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
 		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
@@ -122,6 +123,9 @@
 		41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D315E433D50079FD30 /* AppCollectionItemView.xib */; };
 		41FA11D815E433EB0079FD30 /* AppView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA11D715E433EB0079FD30 /* AppView.xib */; };
 		41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA11DA15E436570079FD30 /* BoxGroupView.m */; };
+		41FC50D91648755D00C63E43 /* SourceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC50D81648755D00C63E43 /* SourceListController.m */; };
+		41FC50DB1648759900C63E43 /* SourceListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41FC50DA1648759900C63E43 /* SourceListView.xib */; };
+		41FC50F016488DF000C63E43 /* PXSourceList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41FC50ED16488DC100C63E43 /* PXSourceList.framework */; };
 		F32F9744154908CB002CCF27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F32F9743154908CB002CCF27 /* Cocoa.framework */; };
 		F32F974E154908CB002CCF27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F32F974C154908CB002CCF27 /* InfoPlist.strings */; };
 		F32F9750154908CB002CCF27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F974F154908CB002CCF27 /* main.m */; };
@@ -281,6 +285,27 @@
 			remoteGlobalIDString = 41F9029815AF592A00550870;
 			remoteInfo = ThorCore;
 		};
+		41FC50EA16488DC100C63E43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1107320486CEB800E47090;
+			remoteInfo = PXSourceListDemo;
+		};
+		41FC50EC16488DC100C63E43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4CC5EA2A12DC81ED001F282E;
+			remoteInfo = PXSourceList;
+		};
+		41FC50EE16488DDB00C63E43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CC5EA2912DC81ED001F282E;
+			remoteInfo = PXSourceList;
+		};
 		F32F9767154908CC002CCF27 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F32F9736154908CB002CCF27 /* Project object */;
@@ -297,6 +322,7 @@
 		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		410409A41610E77800AF93AF /* ViewVisibilityAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVisibilityAware.h; path = Classes/ViewVisibilityAware.h; sourceTree = "<group>"; };
+		4114FFB51649A8DF00B4D3DB /* audiobooks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = audiobooks.png; path = Resources/audiobooks.png; sourceTree = "<group>"; };
 		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
 		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -453,6 +479,10 @@
 		41FA11D715E433EB0079FD30 /* AppView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppView.xib; path = Resources/AppView.xib; sourceTree = "<group>"; };
 		41FA11D915E436560079FD30 /* BoxGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoxGroupView.h; path = Classes/BoxGroupView.h; sourceTree = "<group>"; };
 		41FA11DA15E436570079FD30 /* BoxGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BoxGroupView.m; path = Classes/BoxGroupView.m; sourceTree = "<group>"; };
+		41FC50D71648755D00C63E43 /* SourceListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SourceListController.h; path = Classes/SourceListController.h; sourceTree = "<group>"; };
+		41FC50D81648755D00C63E43 /* SourceListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SourceListController.m; path = Classes/SourceListController.m; sourceTree = "<group>"; };
+		41FC50DA1648759900C63E43 /* SourceListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SourceListView.xib; path = Resources/SourceListView.xib; sourceTree = "<group>"; };
+		41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PXSourceList.xcodeproj; path = PXSourceList/PXSourceList.xcodeproj; sourceTree = "<group>"; };
 		F32F973F154908CB002CCF27 /* Thor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F32F9743154908CB002CCF27 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F32F9746154908CB002CCF27 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -500,6 +530,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41FC50F016488DF000C63E43 /* PXSourceList.framework in Frameworks */,
 				410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */,
 				41B20A3315E860C900E7ED8B /* SBJson.framework in Frameworks */,
 				41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */,
@@ -530,6 +561,7 @@
 		412DA0F915AB86EF00087F6B /* Navigation Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				41FC50DC16488ABF00C63E43 /* SourceList */,
 				417FEFA415ACBFE300E64503 /* ToolbarTabController.h */,
 				417FEFA515ACBFE300E64503 /* ToolbarTabController.m */,
 				417FEFB015ACD93F00E64503 /* BreadcrumbController.h */,
@@ -584,6 +616,7 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4114FFB51649A8DF00B4D3DB /* audiobooks.png */,
 				41B547FE164327A900C5C68F /* DeploymentRestart.png */,
 				41B547FF164327A900C5C68F /* DeploymentStart.png */,
 				41B54800164327A900C5C68F /* DeploymentStop.png */,
@@ -858,6 +891,25 @@
 			name = Deployments;
 			sourceTree = "<group>";
 		};
+		41FC50DC16488ABF00C63E43 /* SourceList */ = {
+			isa = PBXGroup;
+			children = (
+				41FC50DA1648759900C63E43 /* SourceListView.xib */,
+				41FC50D71648755D00C63E43 /* SourceListController.h */,
+				41FC50D81648755D00C63E43 /* SourceListController.m */,
+			);
+			name = SourceList;
+			sourceTree = "<group>";
+		};
+		41FC50E216488DC100C63E43 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				41FC50EB16488DC100C63E43 /* PXSourceList.app */,
+				41FC50ED16488DC100C63E43 /* PXSourceList.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
@@ -868,6 +920,7 @@
 				41F902AF15AF592A00550870 /* ThorCoreTests */,
 				F32F9742154908CB002CCF27 /* Frameworks */,
 				F32F9740154908CB002CCF27 /* Products */,
+				41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */,
 				41EE94CC15F143B900A45951 /* Specta.xcodeproj */,
 				41EE94BA15F143A000A45951 /* Expecta.xcodeproj */,
 				4165679515DAE39100EF93DF /* SBJson.xcodeproj */,
@@ -1027,6 +1080,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				41FC50EF16488DDB00C63E43 /* PBXTargetDependency */,
 				41C59C1615CB008B00123ABF /* PBXTargetDependency */,
 				41F902D815B5EFF500550870 /* PBXTargetDependency */,
 			);
@@ -1078,6 +1132,10 @@
 				{
 					ProductGroup = 41EE94BB15F143A000A45951 /* Products */;
 					ProjectRef = 41EE94BA15F143A000A45951 /* Expecta.xcodeproj */;
+				},
+				{
+					ProductGroup = 41FC50E216488DC100C63E43 /* Products */;
+					ProjectRef = 41FC50E116488DC100C63E43 /* PXSourceList.xcodeproj */;
 				},
 				{
 					ProductGroup = 41C59C0315CAFD8200123ABF /* Products */;
@@ -1208,6 +1266,20 @@
 			remoteRef = 41EE94DC15F143BA00A45951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		41FC50EB16488DC100C63E43 /* PXSourceList.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PXSourceList.app;
+			remoteRef = 41FC50EA16488DC100C63E43 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		41FC50ED16488DC100C63E43 /* PXSourceList.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PXSourceList.framework;
+			remoteRef = 41FC50EC16488DC100C63E43 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1258,6 +1330,8 @@
 				41B54801164327A900C5C68F /* DeploymentRestart.png in Resources */,
 				41B54802164327A900C5C68F /* DeploymentStart.png in Resources */,
 				41B54803164327A900C5C68F /* DeploymentStop.png in Resources */,
+				41FC50DB1648759900C63E43 /* SourceListView.xib in Resources */,
+				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1377,6 +1451,7 @@
 				414AC843162C8164005D8423 /* FoundryAppStatusTransformer.m in Sources */,
 				414AC846162C8C9B005D8423 /* FileSizeInMBTransformer.m in Sources */,
 				41B547EF1641A44E00C5C68F /* DeploymentToolbarView.m in Sources */,
+				41FC50D91648755D00C63E43 /* SourceListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,6 +1495,11 @@
 			isa = PBXTargetDependency;
 			target = 41F9029815AF592A00550870 /* ThorCore */;
 			targetProxy = 41F902D715B5EFF500550870 /* PBXContainerItemProxy */;
+		};
+		41FC50EF16488DDB00C63E43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PXSourceList;
+			targetProxy = 41FC50EE16488DDB00C63E43 /* PBXContainerItemProxy */;
 		};
 		F32F9768154908CC002CCF27 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
