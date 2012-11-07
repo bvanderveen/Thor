@@ -8,7 +8,10 @@
 
 - (void)layout {
     self.contentView.frame = NSMakeRect(sourceList.frame.size.width, 0, self.bounds.size.width - sourceList.frame.size.width, self.bounds.size.height);
-    ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
+    
+    if (self.contentView.subviews.count)
+        ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
+    
     [super layout];
 }
 
@@ -41,7 +44,7 @@
 
 @implementation SourceListController
 
-@synthesize sourceListItems, targets, apps, controllerForModel, currentController = _currentController;
+@synthesize sourceListItems, targets, apps, controllerForModel, deleteModelConfirmation, currentController = _currentController;
 
 - (SourceListControllerView *)controllerView {
     return (SourceListControllerView *)self.view;
@@ -61,7 +64,7 @@
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)updateAppsAndTargets {
     NSError *error;
     self.targets = [[ThorBackend shared] getConfiguredTargets:&error];
     self.apps = [[ThorBackend shared] getConfiguredApps:&error];
@@ -96,6 +99,10 @@
     [self.controllerView.sourceList reloadData];
 }
 
+- (void)awakeFromNib {
+    [self updateAppsAndTargets];
+}
+
 - (NSUInteger)sourceList:(PXSourceList *)sourceList numberOfChildrenOfItem:(id)item {
     return item ? ((SourceListItem *)item).children.count : sourceListItems.count;
 }
@@ -116,23 +123,21 @@
     return [((SourceListItem *)group).identifier isEqual:SECTION_IDENTIFIER];
 }
 
-- (BOOL)sourceList:(PXSourceList*)aSourceList itemHasIcon:(id)item
-{
+- (BOOL)sourceList:(PXSourceList*)aSourceList itemHasIcon:(id)item {
 	return ((SourceListItem *)item).icon != nil;
 }
 
-- (NSImage*)sourceList:(PXSourceList*)aSourceList iconForItem:(id)item
-{
+- (NSImage*)sourceList:(PXSourceList*)aSourceList iconForItem:(id)item {
 	return ((SourceListItem *)item).icon;
 }
 
-- (void)sourceListSelectionDidChange:(NSNotification *)notification
-{
-	NSIndexSet *selectedIndexes = self.controllerView.sourceList.selectedRowIndexes;
+- (id)modelForIndexSet:(NSIndexSet *)indexSet {
+    NSUInteger selectedIndex = [indexSet firstIndex];
+    if (selectedIndex == NSNotFound)
+        return nil;
     
-    NSUInteger selectedIndex = [selectedIndexes firstIndex];
     while (YES) {
-        NSUInteger nextIndex = [selectedIndexes indexGreaterThanIndex:selectedIndex];
+        NSUInteger nextIndex = [indexSet indexGreaterThanIndex:selectedIndex];
         if (nextIndex == NSNotFound)
             break;
         selectedIndex = nextIndex;
@@ -147,16 +152,38 @@
         selectedModel = self.apps[selectedIndex - 3];
     }
     
+    return selectedModel;
+}
+
+- (void)sourceListSelectionDidChange:(NSNotification *)notification {
+	id selectedModel = [self modelForIndexSet:self.controllerView.sourceList.selectedRowIndexes];
     self.currentController = self.controllerForModel(selectedModel);
 }
 
-- (void)sourceListDeleteKeyPressedOnRows:(NSNotification *)notification
-{
+- (void)sourceListDeleteKeyPressedOnRows:(NSNotification *)notification {
 	NSIndexSet *rows = [[notification userInfo] objectForKey:@"rows"];
-	
-	NSLog(@"Delete key pressed on rows %@", rows);
-	
-	//Do something here
+    id selectedModel = [self modelForIndexSet:rows];
+    
+    NSAlert *alert = self.deleteModelConfirmation(selectedModel);
+    
+    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:(void *)selectedModel];
+}
+
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSOKButton) {
+        id model = (__bridge id)contextInfo;
+
+        [[ThorBackend sharedContext] deleteObject:model];
+        NSError *error;
+
+        if (![[ThorBackend sharedContext] save:&error]) {
+            [NSApp presentError:error];
+            return;
+        }
+        
+        [self updateAppsAndTargets];
+    }
 }
 
 @end

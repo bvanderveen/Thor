@@ -10,21 +10,19 @@
 #import "AppItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
 #import "AddDeploymentListViewSource.h"
-
-#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
+#import "NSAlert+Dialogs.h"
 
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, strong) TargetPropertiesController *targetPropertiesController;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, targetPropertiesController, listSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, listSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -178,22 +176,20 @@
 }
 
 - (void)editClicked:(id)sender {
-    self.targetPropertiesController = [[TargetPropertiesController alloc] init];
-    self.targetPropertiesController.editing = YES;
-    self.targetPropertiesController.target = self.target;
+    TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
+    targetPropertiesController.editing = YES;
+    targetPropertiesController.target = self.target;
+    targetPropertiesController.title = @"Edit Cloud";
     
-    NSWindow *window = [SheetWindow sheetWindowWithView:targetPropertiesController.view];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
-}
-
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    self.targetPropertiesController = nil;
-    [sheet orderOut:self];
-    [self updateApps];
+    WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
+    [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
+        if (returnCode == NSOKButton)
+            [self updateApps];
+    }];
 }
 
 - (void)presentConfirmDeletionDialog {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this cloud?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The cloud and its deployments will no longer appear in Thor. The cloud itself will not be changed."];
+    NSAlert *alert = [NSAlert confirmDeleteTargetDialog];
     [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
 }
 

@@ -1,7 +1,8 @@
 #import "TargetPropertiesView.h"
 #import "ThorCore.h"
+#import "WizardController.h"
 
-@interface TargetPropertiesController : NSViewController {
+@interface TargetPropertiesController : NSViewController <WizardControllerAware> {
     
 }
 
@@ -9,7 +10,5 @@
 @property (nonatomic, assign) BOOL editing;
 @property (nonatomic, strong) IBOutlet Target *target;
 @property (nonatomic, strong) IBOutlet TargetPropertiesView *targetPropertiesView;
-
-- (IBAction)buttonClicked:(NSButton *)button;
 
 @end

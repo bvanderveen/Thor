@@ -3,6 +3,9 @@
 @interface SourceListController : NSViewController <PXSourceListDelegate, PXSourceListDataSource>
 
 @property (nonatomic, copy) NSViewController *(^controllerForModel)(id);
+@property (nonatomic, copy) NSAlert *(^deleteModelConfirmation)(id);
+
+- (void)updateAppsAndTargets;
 
 @end
 

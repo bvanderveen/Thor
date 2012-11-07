@@ -11,6 +11,7 @@
 		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
 		4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114FFB51649A8DF00B4D3DB /* audiobooks.png */; };
+		4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */; };
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
 		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
@@ -323,6 +324,8 @@
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		410409A41610E77800AF93AF /* ViewVisibilityAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVisibilityAware.h; path = Classes/ViewVisibilityAware.h; sourceTree = "<group>"; };
 		4114FFB51649A8DF00B4D3DB /* audiobooks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = audiobooks.png; path = Resources/audiobooks.png; sourceTree = "<group>"; };
+		4114FFB71649FD2400B4D3DB /* NSAlert+Dialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAlert+Dialogs.h"; path = "Classes/NSAlert+Dialogs.h"; sourceTree = "<group>"; };
+		4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAlert+Dialogs.m"; path = "Classes/NSAlert+Dialogs.m"; sourceTree = "<group>"; };
 		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
 		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -672,6 +675,8 @@
 				410207D2161A74470077BCCA /* Label.m */,
 				41B547ED1641A44E00C5C68F /* DeploymentToolbarView.h */,
 				41B547EE1641A44E00C5C68F /* DeploymentToolbarView.m */,
+				4114FFB71649FD2400B4D3DB /* NSAlert+Dialogs.h */,
+				4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1452,6 +1457,7 @@
 				414AC846162C8C9B005D8423 /* FileSizeInMBTransformer.m in Sources */,
 				41B547EF1641A44E00C5C68F /* DeploymentToolbarView.m in Sources */,
 				41FC50D91648755D00C63E43 /* SourceListController.m in Sources */,
+				4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

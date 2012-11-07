@@ -9,14 +9,12 @@
 #import "WizardController.h"
 #import "AddDeploymentListViewSource.h"
 #import "Sequence.h"
+#import "NSAlert+Dialogs.h"
 
 #define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
 
-static NSInteger DeploymentPropertiesControllerContext;
-
 @interface AppController ()
 
-@property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
@@ -24,7 +22,7 @@ static NSInteger DeploymentPropertiesControllerContext;
 
 @implementation AppController
 
-@synthesize app, deployments, deploymentPropertiesController, breadcrumbController, title, appView, targetItemsDataSource, listSource;
+@synthesize app, deployments, breadcrumbController, title, appView, targetItemsDataSource, listSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
@@ -102,15 +100,6 @@ static NSInteger DeploymentPropertiesControllerContext;
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    if (contextInfo == &DeploymentPropertiesControllerContext) {
-        self.deploymentPropertiesController = nil;
-        //self.appView.drawerBar.expanded = NO;
-        [self updateDeployments];
-    }
-    [sheet orderOut:self];
-}
-
 - (void)displayCreateDeploymentDialog {
     __block WizardController *wizard;
     
@@ -131,13 +120,14 @@ static NSInteger DeploymentPropertiesControllerContext;
     wizardItemsController.commitButtonTitle = @"Next";
 
     wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
-    NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
-    [wizard viewWillAppear];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:&DeploymentPropertiesControllerContext];
+    [wizard presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
+        if (returnCode == NSOKButton)
+            [self updateDeployments];
+    }];
 }
 
 - (void)presentConfirmDeletionDialog {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this application?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The application will no longer appear in Thor. It will not be removed from your hard drive or from any cloud."];
+    NSAlert *alert = [NSAlert confirmDeleteAppDialog];
     [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
 }
 

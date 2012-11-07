@@ -77,27 +77,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         apps.dataSource = [[AppItemsDataSource alloc] init];
         
         BreadcrumbItemsController *appsWrapper = [[BreadcrumbItemsController alloc] initWithItemsController:apps newItemBlock:^ NSViewController * (BreadcrumbItemsController *breadcrumbItemsController) {
-            
-            App *app = [App appInsertedIntoManagedObjectContext:nil];
-            
-            NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-            openPanel.canChooseDirectories = YES;
-            openPanel.canChooseFiles = NO;
-            openPanel.allowsMultipleSelection = NO;
-            [openPanel beginSheetModalForWindow:self.view.window completionHandler:^ void (NSInteger result) {
-                if (result == NSFileHandlingPanelOKButton) {
-                    app.localRoot = [[openPanel.URLs objectAtIndex:0] path];
-                    app.displayName = [((NSURL *)[NSURL fileURLWithPath:app.localRoot]).pathComponents lastObject];
-                    [[ThorBackend sharedContext] insertObject:app];
-                    
-                    NSError *error = nil;
-                    if (![[ThorBackend sharedContext] save:&error]) {
-                        [NSApp presentError:error];
-                        NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
-                    }
-                    [breadcrumbItemsController.itemsController updateItems];
-                }
-            }];
+            //[((id)[NSApplication sharedApplication].delegate) newApp:nil];
             return nil;
         } selectionBlock:^(BreadcrumbItemsController *breadcrumbItemsController, id item) {
             AppController *appController = [[AppController alloc] init];
