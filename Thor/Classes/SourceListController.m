@@ -133,6 +133,7 @@
 
 - (id)modelForIndexSet:(NSIndexSet *)indexSet {
     NSUInteger selectedIndex = [indexSet firstIndex];
+    
     if (selectedIndex == NSNotFound)
         return nil;
     
@@ -149,7 +150,7 @@
         selectedModel = self.targets[selectedIndex - 1];
     }
     else {
-        selectedModel = self.apps[selectedIndex - 3];
+        selectedModel = self.apps[selectedIndex - 2 - self.targets.count];
     }
     
     return selectedModel;
