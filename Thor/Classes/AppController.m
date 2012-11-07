@@ -111,7 +111,7 @@
         
         Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:nil];
         deployment.name = app.displayName;
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentControllerWithDeployment:deployment];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment];
         deploymentController.title = @"Create deployment";
         [wizard pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];

@@ -106,7 +106,7 @@
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentControllerWithDeployment:[Deployment deploymentWithApp:app target:target]];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:[Deployment deploymentWithApp:app target:target]];
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     

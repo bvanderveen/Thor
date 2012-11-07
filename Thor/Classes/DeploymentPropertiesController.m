@@ -10,14 +10,14 @@
 
 @implementation DeploymentPropertiesController
 
-+ (DeploymentPropertiesController *)deploymentControllerWithDeployment:(Deployment *)deployment {
++ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
     result.bindingObject = deployment;
     result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     return result;
 }
 
-+ (DeploymentPropertiesController *)deploymentControllerWithApp:(FoundryApp *)app client:(FoundryClient *)client {
++ (DeploymentPropertiesController *)deploymentPropertiesControllerWithApp:(FoundryApp *)app client:(FoundryClient *)client {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
     result.bindingObject = app;
     result.client = client;
