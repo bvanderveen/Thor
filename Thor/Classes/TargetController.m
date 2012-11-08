@@ -87,10 +87,6 @@
     [self updateApps];
 }
 
-- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
-    return apps.count;
-}
-
 - (Deployment *)deploymentForApp:(FoundryApp *)app {
     NSError *error;
     NSArray *deployments = [[[ThorBackend shared] getDeploymentsForTarget:self.target error:&error] filter:^ BOOL (id d) { return [((Deployment *)d).name isEqual:app.name]; }];
@@ -154,6 +150,10 @@
         if (returnCode == NSOKButton)
             [self updateApps];
     }];
+}
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    return apps.count;
 }
 
 - (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {

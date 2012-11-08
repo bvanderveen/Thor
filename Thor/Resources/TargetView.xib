@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2840</string>
+			<string key="NS.object.0">2844</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSBox</string>
@@ -287,7 +287,7 @@
 														<string key="NSReuseIdentifierKey">_NS:11</string>
 													</object>
 												</array>
-												<string key="NSFrame">{{17, 253}, {446, 154}}</string>
+												<string key="NSFrame">{{17, 371}, {446, 154}}</string>
 												<reference key="NSSuperview" ref="484229403"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="764000298"/>
@@ -336,7 +336,7 @@
 																<string key="NSFrame">{{1, 3}, {440, 180}}</string>
 																<reference key="NSSuperview" ref="968936066"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="232039823"/>
+																<reference key="NSNextKeyView" ref="528719813"/>
 																<string key="NSReuseIdentifierKey">_NS:9</string>
 																<string key="NSClassName">ListView</string>
 															</object>
@@ -348,7 +348,7 @@
 														<string key="NSReuseIdentifierKey">_NS:11</string>
 													</object>
 												</array>
-												<string key="NSFrame">{{17, 45}, {446, 204}}</string>
+												<string key="NSFrame">{{17, 163}, {446, 204}}</string>
 												<reference key="NSSuperview" ref="484229403"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="968936066"/>
@@ -371,15 +371,64 @@
 												<int key="NSTitlePosition">2</int>
 												<bool key="NSTransparent">NO</bool>
 											</object>
+											<object class="NSBox" id="528719813">
+												<reference key="NSNextResponder" ref="484229403"/>
+												<int key="NSvFlags">12</int>
+												<array class="NSMutableArray" key="NSSubviews">
+													<object class="NSView" id="147049277">
+														<reference key="NSNextResponder" ref="528719813"/>
+														<int key="NSvFlags">274</int>
+														<array class="NSMutableArray" key="NSSubviews">
+															<object class="NSCustomView" id="130370364">
+																<reference key="NSNextResponder" ref="147049277"/>
+																<int key="NSvFlags">268</int>
+																<string key="NSFrame">{{2, 0}, {440, 109}}</string>
+																<reference key="NSSuperview" ref="147049277"/>
+																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="232039823"/>
+																<string key="NSReuseIdentifierKey">_NS:9</string>
+																<string key="NSClassName">ListView</string>
+															</object>
+														</array>
+														<string key="NSFrame">{{1, 1}, {444, 119}}</string>
+														<reference key="NSSuperview" ref="528719813"/>
+														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="130370364"/>
+														<string key="NSReuseIdentifierKey">_NS:11</string>
+													</object>
+												</array>
+												<string key="NSFrame">{{17, 24}, {446, 135}}</string>
+												<reference key="NSSuperview" ref="484229403"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="147049277"/>
+												<string key="NSReuseIdentifierKey">_NS:9</string>
+												<string key="NSOffsets">{0, 0}</string>
+												<object class="NSTextFieldCell" key="NSTitleCell">
+													<int key="NSCellFlags">67108864</int>
+													<int key="NSCellFlags2">0</int>
+													<string key="NSContents">Provisioned services</string>
+													<reference key="NSSupport" ref="26"/>
+													<reference key="NSBackgroundColor" ref="842862140"/>
+													<object class="NSColor" key="NSTextColor">
+														<int key="NSColorSpace">3</int>
+														<bytes key="NSWhite">MCAwLjgwMDAwMDAxMTkAA</bytes>
+													</object>
+												</object>
+												<reference key="NSContentView" ref="147049277"/>
+												<int key="NSBorderType">1</int>
+												<int key="NSBoxType">0</int>
+												<int key="NSTitlePosition">2</int>
+												<bool key="NSTransparent">NO</bool>
+											</object>
 										</array>
-										<string key="NSFrameSize">{491, 427}</string>
+										<string key="NSFrameSize">{491, 545}</string>
 										<reference key="NSSuperview" ref="380080326"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="237095048"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 									</object>
 								</array>
-								<string key="NSFrameSize">{491, 427}</string>
+								<string key="NSFrameSize">{491, 545}</string>
 								<reference key="NSSuperview" ref="1025701711"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="484229403"/>
@@ -391,9 +440,10 @@
 							<object class="NSScroller" id="662735970">
 								<reference key="NSNextResponder" ref="1025701711"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{475, 0}, {16, 427}}</string>
+								<string key="NSFrame">{{475, 0}, {16, 545}}</string>
 								<reference key="NSSuperview" ref="1025701711"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:15</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="1025701711"/>
@@ -404,7 +454,7 @@
 							<object class="NSScroller" id="232039823">
 								<reference key="NSNextResponder" ref="1025701711"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{0, 411}, {491, 16}}</string>
+								<string key="NSFrame">{{0, 529}, {491, 16}}</string>
 								<reference key="NSSuperview" ref="1025701711"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="662735970"/>
@@ -416,7 +466,7 @@
 								<double key="NSPercent">0.50602412223815918</double>
 							</object>
 						</array>
-						<string key="NSFrameSize">{491, 427}</string>
+						<string key="NSFrameSize">{491, 545}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="380080326"/>
@@ -430,7 +480,7 @@
 						<double key="NSMagnification">1</double>
 					</object>
 				</array>
-				<string key="NSFrameSize">{491, 427}</string>
+				<string key="NSFrameSize">{491, 545}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1025701711"/>
@@ -481,14 +531,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">deploymentsBox</string>
-						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="764591424"/>
-					</object>
-					<int key="connectionID">225</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">scrollView</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="1025701711"/>
@@ -510,6 +552,30 @@
 						<reference key="destination" ref="554338724"/>
 					</object>
 					<int key="connectionID">683</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">servicesList</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="130370364"/>
+					</object>
+					<int key="connectionID">687</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">servicesBox</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="528719813"/>
+					</object>
+					<int key="connectionID">688</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">deploymentsBox</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="764591424"/>
+					</object>
+					<int key="connectionID">689</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -641,6 +707,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="237095048"/>
 							<reference ref="764591424"/>
+							<reference ref="528719813"/>
 						</array>
 						<reference key="parent" ref="1025701711"/>
 					</object>
@@ -784,6 +851,19 @@
 						<reference key="object" ref="961793583"/>
 						<reference key="parent" ref="430878534"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">684</int>
+						<reference key="object" ref="528719813"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="130370364"/>
+						</array>
+						<reference key="parent" ref="484229403"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">685</int>
+						<reference key="object" ref="130370364"/>
+						<reference key="parent" ref="528719813"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -813,6 +893,9 @@
 				<string key="673.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="679.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="680.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="684.CustomClassName">Box</string>
+				<string key="684.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="685.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="75.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -823,7 +906,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">683</int>
+			<int key="maxID">689</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -916,6 +999,8 @@
 						<string key="deploymentsBox">NSBox</string>
 						<string key="deploymentsList">ListView</string>
 						<string key="scrollView">NSScrollView</string>
+						<string key="servicesBox">NSBox</string>
+						<string key="servicesList">ListView</string>
 						<string key="settingsBox">NSBox</string>
 						<string key="settingsView">NSView</string>
 					</dictionary>
@@ -931,6 +1016,14 @@
 						<object class="IBToOneOutletInfo" key="scrollView">
 							<string key="name">scrollView</string>
 							<string key="candidateClassName">NSScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="servicesBox">
+							<string key="name">servicesBox</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="servicesList">
+							<string key="name">servicesList</string>
+							<string key="candidateClassName">ListView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="settingsBox">
 							<string key="name">settingsBox</string>
