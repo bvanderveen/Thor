@@ -22,7 +22,7 @@
 }
 
 - (void)layout {
-    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView box1:settingsBox boxContent1:settingsView box2:deploymentsBox boxContent2:deploymentsList];
+    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView boxes:@[ settingsBox, deploymentsBox ] contentViews:@[ settingsView, deploymentsList ]];
     
     [super layout];
 }

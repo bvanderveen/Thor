@@ -69,8 +69,13 @@
 
 - (void)updateApps {
     self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
-    self.associatedDisposable = [[[client getApps] showLoadingViewInView:self.view] subscribeNext:^(id x) {
-        self.apps = x;
+    
+    NSArray *subscriables = @[[client getApps], [client getServices] ];
+    
+    self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^(id x) {
+        RACTuple *t = (RACTuple *)x;
+        self.apps = t.first;
+        NSLog(@"services: %@", t.second);
         [targetView.deploymentsList reloadData];
         targetView.needsLayout = YES;
     } error:^(NSError *error) {

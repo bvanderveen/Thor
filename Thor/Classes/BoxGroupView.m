@@ -1,27 +1,26 @@
 #import "BoxGroupView.h"
+#import "Sequence.h"
 
 @implementation BoxGroupView
 
-+ (void)layoutInBounds:(NSRect)bounds scrollView:(NSScrollView *)scrollView box1:(NSBox *)box1 boxContent1:(NSView *)boxContent1 box2:(NSBox *)box2 boxContent2:(NSView *)boxContent2 {
++ (void)layoutInBounds:(NSRect)bounds scrollView:(NSScrollView *)scrollView boxes:(NSArray *)boxes contentViews:(NSArray *)contentViews {
     
     scrollView.frame = bounds;
     
-    CGFloat boxTopMargin = 50;
-    CGFloat boxBottomMargin = 20;
-    
     NSEdgeInsets boxContentInsets = NSEdgeInsetsMake(35, 0, -2, 0);
     
-    NSSize boxContent1Size = boxContent1.intrinsicContentSize;
-    CGFloat box1Height = boxContent1Size.height + boxContentInsets.top + boxContentInsets.bottom;
-    
-    NSSize boxContent2Size = boxContent2.intrinsicContentSize;
-    CGFloat box2Height = boxContent2Size.height + boxContentInsets.top + boxContentInsets.bottom;
+    NSArray *boxHeights = [contentViews map:^ id (id c) {
+        NSView *contentView = (NSView *)c;
+        return [NSNumber numberWithFloat:contentView.intrinsicContentSize.height];
+    }];
     
     NSView *documentView = ((NSView *)scrollView.documentView);
     
     CGFloat verticalMargin = 20;
     
-    CGFloat documentViewHeight = verticalMargin + box1Height + verticalMargin + box2Height + verticalMargin;
+    CGFloat documentViewHeight = [[boxHeights reduce:^id(id acc, id i) {
+        return [NSNumber numberWithFloat:[(NSNumber *)acc floatValue] + [i floatValue]];
+    } seed:@0.0] floatValue] + (boxContentInsets.top + boxContentInsets.bottom) * boxHeights.count + verticalMargin * (boxHeights.count + 1);
     
     if (documentViewHeight < bounds.size.height)
         documentViewHeight = bounds.size.height;
@@ -31,11 +30,18 @@
     
     documentView.frame = NSMakeRect(0, 0, bounds.size.width - 2, documentViewHeight);
     
-    box1.frame = NSMakeRect(horizontalMargin, documentViewHeight - (box1Height + verticalMargin), boxWidth, box1Height);
-    boxContent1.frame = NSMakeRect(0, boxContentInsets.bottom, boxWidth, boxContent1Size.height);
+    CGFloat y = documentViewHeight;
     
-    box2.frame = NSMakeRect(horizontalMargin, documentViewHeight - (box1Height + verticalMargin + box2Height + verticalMargin), boxWidth, box2Height);
-    boxContent2.frame = NSMakeRect(0, boxContentInsets.bottom, boxWidth, boxContent2Size.height);
+    for (int i = 0; i < boxes.count; i++) {
+        NSBox *box = boxes[i];
+        NSView *contentView = contentViews[i];
+        CGFloat contentHeight = [boxHeights[i] floatValue];
+        CGFloat boxHeight = contentHeight + boxContentInsets.top + boxContentInsets.bottom;
+        y -= boxHeight + verticalMargin;
+        
+        box.frame = NSMakeRect(horizontalMargin, y, boxWidth, boxHeight);
+        contentView.frame = NSMakeRect(0, boxContentInsets.bottom, boxWidth, contentHeight);
+    }
     
     // probably this should not happen at every layout. but it works for now.
     [documentView scrollPoint:NSMakePoint(0, NSMaxY(documentView.frame) - NSHeight(scrollView.contentView.bounds))];
