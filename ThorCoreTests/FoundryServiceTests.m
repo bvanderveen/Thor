@@ -1207,4 +1207,111 @@ describe(@"deleteServiceWithName", ^ {
     });
 });
 
+
+describe(@"getServicesInfo", ^{
+    __block MockEndpoint *endpoint;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[client getServicesInfo] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/info/services",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should parse results", ^ {
+        endpoint.results = @[
+        @{
+            @"key-value":@{
+                @"mongodb":@{
+                    @"1.8":@{
+                        @"id":@3,
+                        @"vendor":@"mongodb",
+                        @"version":@"1.8",
+                        @"tiers":@{
+                            @"free":@{
+                                @"options":@{
+                                },
+                                @"order":@1
+                            }
+                        },
+                        @"type":@"key-value",
+                        @"description":@"MongoDB NoSQL store"
+                    }
+                },
+                @"redis":@{
+                    @"2.2":@{
+                        @"id":@4,
+                        @"vendor":@"redis",
+                        @"version":@"2.2",
+                        @"tiers":@{
+                            @"free":@{
+                                @"options":@{
+                                },
+                                @"order":@1
+                            }
+                        },
+                        @"type":@"key-value",
+                        @"description":@"Redis key-value store service"
+                    }
+                }
+            },
+            @"generic":@{
+                @"mssql":@{
+                    @"10.50.2500":@{
+                        @"id":@7,
+                        @"vendor":@"mssql",
+                        @"version":@"10.50.2500",
+                        @"tiers":@{
+                            @"free":@{
+                                @"options":@{
+                                    
+                                },
+                                @"order":@1
+                            }
+                        },
+                        @"type":@"generic",
+                        @"description":@"MS SQL database service"
+                    }
+                },
+            }
+        }
+        ];
+        
+        __block NSArray *result;
+        [[client getServicesInfo] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(3);
+        
+        void (^assertAnyEqual)(NSString *, NSString *, NSString *) = ^ void (NSString *description, NSString *vendor, NSString *version) {
+            BOOL anyEqual = [result any:^BOOL(id i) {
+                FoundryServiceInfo *info = (FoundryServiceInfo *)i;
+                return
+                [info.description isEqual:description] &&
+                [info.vendor isEqual:vendor] &&
+                [info.version isEqual:version];
+            }];
+            expect(anyEqual).to.beTruthy();
+        };
+        
+        assertAnyEqual(@"MongoDB NoSQL store", @"mongodb", @"1.8");
+        assertAnyEqual(@"Redis key-value store service", @"redis", @"2.2");
+        assertAnyEqual(@"MS SQL database service", @"mssql", @"10.50.2500");
+    });
+});
+
+
 SpecEnd

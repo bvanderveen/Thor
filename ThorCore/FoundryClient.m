@@ -410,6 +410,20 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
 
 @end
 
+@implementation FoundryServiceInfo
+
+@synthesize description, vendor, version;
+
++ (FoundryServiceInfo *)serviceInfoWithDictionary:(NSDictionary *)dict {
+    FoundryServiceInfo *result = [FoundryServiceInfo new];
+    result.description = dict[@"description"];
+    result.vendor = dict[@"vendor"];
+    result.version = dict[@"version"];
+    return result;
+}
+
+@end
+
 @interface FoundryClient ()
 
 @property (nonatomic, copy) NSString *token;
@@ -531,6 +545,18 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
             deleteTempFile();
             [inner dispose];
         }];
+    }];
+}
+- (RACSubscribable *)getServicesInfo {
+    return [[endpoint authenticatedRequestWithMethod:@"GET" path:@"/info/services" headers:nil body:nil] select:^id(id s) {
+        NSDictionary *categories = (NSDictionary *)s;
+        return [[categories allKeys] reduce:^id(id acc0, id i) {
+            return [acc0 concat:[[categories[i] allKeys] reduce:^id(id acc1, id j) {
+                return [acc1 concat:[[categories[i][j] allKeys] reduce:^id (id acc2, id k) {
+                    return [(NSArray *)acc2 concat:@[[FoundryServiceInfo serviceInfoWithDictionary:categories[i][j][k]]]];
+                } seed:@[]]];
+            } seed:@[]]];
+        } seed:@[]];
     }];
 }
 
