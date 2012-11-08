@@ -109,10 +109,9 @@
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:targetsController commitBlock:^{
         Target *target = [targetsController.arrayController.selectedObjects objectAtIndex:0];
         
-        Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:nil];
-        deployment.name = app.displayName;
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment];
-        deploymentController.title = @"Create deployment";
+        Deployment *deployment = [Deployment deploymentWithApp:app target:target];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:YES];
+        deploymentController.title = @"Create Deployment";
         [wizard pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     

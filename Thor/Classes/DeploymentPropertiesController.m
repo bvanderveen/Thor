@@ -5,15 +5,17 @@
 @interface DeploymentPropertiesController ()
 
 @property (nonatomic, strong) FoundryClient *client;
+@property (nonatomic, assign) BOOL create;
 
 @end
 
 @implementation DeploymentPropertiesController
 
-+ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment {
++ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment create:(BOOL)create {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
     result.bindingObject = deployment;
     result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    result.create = create;
     return result;
 }
 
@@ -24,7 +26,7 @@
     return result;
 }
 
-@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, bindingObject;
+@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, bindingObject, create;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -41,7 +43,7 @@
         return [[client getAppWithName:name]
                 subscribeNext:^ (id i) {
                     [subscriber sendError:[NSError errorWithDomain:ThorDeploymentPropertiesControllerErrorDomain code:ThorAppAlreadyExistsErrorCode userInfo:@{
-                            NSLocalizedDescriptionKey : [NSString stringWithFormat:@"An app named %@ already exists on the host.", name]
+                            NSLocalizedDescriptionKey : [NSString stringWithFormat:@"An app named \"%@\" already exists on the host.", name]
                     }]];
                 }
                 error:^ (NSError *error) {
@@ -67,11 +69,11 @@
         deployment = (Deployment *)bindingObject;
         app = [FoundryApp appWithDeployment:deployment];
         
-        if (deployment.managedObjectContext)
-            subscribable = [client updateApp:app];
-        else {
+        if (create) {
             subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[client createApp:app]];
-            [[ThorBackend sharedContext] insertObject:deployment];
+        }
+        else {
+            subscribable = [client updateApp:app];
         }
     }
     else {

@@ -64,7 +64,7 @@ NSString *ToolbarServicesItemIdentifier = @"ToolbarServicesItemIdentifier";
         
         BreadcrumbItemsController *targetsWrapper = [[BreadcrumbItemsController alloc] initWithItemsController:targets newItemBlock:^ NSViewController * (BreadcrumbItemsController *breadcrumbItemsController) {
             TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
-            targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+            //targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
             return targetPropertiesController;
         } selectionBlock:^ (BreadcrumbItemsController *breadcrumbItemsController, id item) {
             TargetController *targetController = [[TargetController alloc] init];

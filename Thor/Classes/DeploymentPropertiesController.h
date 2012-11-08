@@ -9,6 +9,6 @@
 @property (nonatomic, strong) IBOutlet DeploymentPropertiesView *deploymentPropertiesView;
 
 + (DeploymentPropertiesController *)deploymentPropertiesControllerWithApp:(FoundryApp *)app client:(FoundryClient *)service;
-+ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment;
++ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment create:(BOOL)create;
 
 @end

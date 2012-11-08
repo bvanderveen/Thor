@@ -43,8 +43,7 @@
 }
 
 - (void)managedObjectContextNotification:(NSNotification *)notification {
-    if ([notification.name isEqual:NSManagedObjectContextObjectsDidChangeNotification] ||
-        [notification.name isEqual:NSManagedObjectContextDidSaveNotification]) {
+    if ([notification.name isEqual:NSManagedObjectContextDidSaveNotification]) {
         BOOL (^isRelevantDeployment)(id) = ^BOOL(id d) {
             return [d isKindOfClass:[Deployment class]] && [((Deployment *)d).target isEqual:self.target];
         };
@@ -106,11 +105,13 @@
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:[Deployment deploymentWithApp:app target:target]];
+        Deployment *deployment = [Deployment deploymentWithApp:app target:target];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:YES];
+        deploymentController.title = @"Create Deployment";
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
-    wizardItemsController.title = @"Deploy app";
+    wizardItemsController.title = @"Choose App";
     wizardItemsController.commitButtonTitle = @"Next";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
@@ -128,10 +129,8 @@
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
         
-        Deployment *deployment = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
+        Deployment *deployment = [Deployment deploymentWithApp:app target:self.target];
         deployment.name = foundryApp.name;
-        deployment.app = app;
-        deployment.target = self.target;
         
         NSError *error;
         

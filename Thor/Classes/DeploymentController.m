@@ -209,7 +209,7 @@ static NSArray *instanceColumns = nil;
 
 - (IBAction)editClicked:(id)sender {
     if (deployment)
-        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment];
+        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:NO];
     else
         self.deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithApp:app client:client];
     
