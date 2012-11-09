@@ -3,7 +3,7 @@
 #import "ListView.h"
 #import "ThorCore.h"
 
-@interface TargetController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, ListViewDataSource, ListViewDelegate>
+@interface TargetController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem>
 
 @property (nonatomic, strong) IBOutlet Target *target;
 @property (nonatomic, strong) IBOutlet TargetView *targetView;

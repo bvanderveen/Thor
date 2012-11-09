@@ -12,17 +12,59 @@
 #import "AddDeploymentListViewSource.h"
 #import "NSAlert+Dialogs.h"
 
+@interface NSObject (AppsListViewSourceDelegate)
+
+- (void)accessoryButtonClickedForApp:(FoundryApp *)app;
+- (void)selectedApp:(FoundryApp *)app;
+- (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app;
+
+@end
+
+@interface AppsListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
+
+@property (nonatomic, strong) NSArray *apps;
+@property (nonatomic, weak) id delegate;
+
+@end
+
+@implementation AppsListViewSource
+
+@synthesize apps, delegate;
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    return apps.count;
+}
+
+- (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
+    FoundryApp *app = apps[row];
+    cell.app = app;
+    cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
+    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [delegate accessoryButtonClickedForApp:app];
+    }]];
+    return cell;
+}
+
+- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
+    FoundryApp *app = apps[row];
+    [delegate selectedApp:app];
+}
+
+@end
+
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
+@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource;
+@property (nonatomic, strong) AppsListViewSource *appsListSource;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, listSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, rootAppsListSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -57,14 +99,18 @@
 }
 
 - (void)awakeFromNib {
+    self.appsListSource = [[AppsListViewSource alloc] init];
+    appsListSource.delegate = self;
     NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
-    noResultsSource.source = self;
+    noResultsSource.source = appsListSource;
     AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
     addDeploymentSource.source = noResultsSource;
     addDeploymentSource.action = ^ { [self createNewDeployment]; };
-    self.listSource = addDeploymentSource;
-    self.targetView.deploymentsList.dataSource = listSource;
-    self.targetView.deploymentsList.delegate = listSource;
+    self.rootAppsListSource = addDeploymentSource;
+    
+    
+    self.targetView.deploymentsList.dataSource = rootAppsListSource;
+    self.targetView.deploymentsList.delegate = rootAppsListSource;
 }
 
 - (void)updateApps {
@@ -74,7 +120,7 @@
     
     self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^(id x) {
         RACTuple *t = (RACTuple *)x;
-        self.apps = t.first;
+        appsListSource.apps = t.first;
         NSLog(@"services: %@", t.second);
         [targetView.deploymentsList reloadData];
         targetView.needsLayout = YES;
@@ -85,6 +131,24 @@
 
 - (void)viewWillAppear {
     [self updateApps];
+}
+
+- (void)accessoryButtonClickedForApp:(FoundryApp *)app {
+    [self createDeploymentForApp:app];
+}
+
+- (void)selectedApp:(FoundryApp *)app {
+    Deployment *deployment = [self deploymentForApp:app];
+    
+    DeploymentController *deploymentController = deployment ?
+    [DeploymentController deploymentControllerWithDeployment:deployment] :
+    [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
+    
+    [self.breadcrumbController pushViewController:deploymentController animated:YES];
+}
+
+- (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app {    
+    return [self deploymentForApp:app] == nil;
 }
 
 - (Deployment *)deploymentForApp:(FoundryApp *)app {
@@ -150,33 +214,6 @@
         if (returnCode == NSOKButton)
             [self updateApps];
     }];
-}
-
-- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
-    return apps.count;
-}
-
-- (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
-    AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
-    FoundryApp *app = apps[row];
-    cell.app = app;
-    cell.button.hidden = [self deploymentForApp:app] != nil;
-    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-        [self createDeploymentForApp:app];
-    }]];
-    return cell;
-}
-
-- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
-    FoundryApp *app = apps[row];
-    
-    Deployment *deployment = [self deploymentForApp:app];
-    
-    DeploymentController *deploymentController = deployment ?
-        [DeploymentController deploymentControllerWithDeployment:deployment] :
-        [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
-    
-    [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
 - (void)editClicked:(id)sender {
