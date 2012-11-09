@@ -10,7 +10,7 @@
 #import "Sequence.h"
 #import "AppItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
-#import "AddDeploymentListViewSource.h"
+#import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
@@ -140,7 +140,7 @@
     appsListSource.delegate = self;
     NoResultsListViewSource *noAppResultsSource = [[NoResultsListViewSource alloc] init];
     noAppResultsSource.source = appsListSource;
-    AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
+    AddItemListViewSource *addDeploymentSource = [[AddItemListViewSource alloc] initWithTitle:@"New deployment…"];
     addDeploymentSource.source = noAppResultsSource;
     addDeploymentSource.action = ^ { [self createNewDeployment]; };
     self.rootAppsListSource = addDeploymentSource;
@@ -152,8 +152,11 @@
     servicesListSource.delegate = self;
     NoResultsListViewSource *noServiceResultsSource = [[NoResultsListViewSource alloc] init];
     noServiceResultsSource.source = servicesListSource;
+    AddItemListViewSource *addServiceSource = [[AddItemListViewSource alloc] initWithTitle:@"New service…"];
+    addServiceSource.source = noServiceResultsSource;
+    addServiceSource.action = ^ { [self createNewService]; };
     
-    self.rootServicesListSource = noServiceResultsSource;
+    self.rootServicesListSource = addServiceSource;
     
     self.targetView.servicesList.dataSource = rootServicesListSource;
     self.targetView.servicesList.delegate = rootServicesListSource;
@@ -162,7 +165,7 @@
 - (void)updateApps {
     self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     
-    NSArray *subscriables = @[[client getApps], [client getServices] ];
+    NSArray *subscriables = @[ [client getApps], [client getServices] ];
     
     self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
         RACTuple *t = (RACTuple *)x;
@@ -206,6 +209,10 @@
 
 - (void)selectedService:(FoundryService *)service {
     NSLog(@"clicked on service %@", service);
+}
+
+- (void)createNewService {
+    NSLog(@"clicked new service");
 }
 
 - (ItemsController *)createAppItemsController {

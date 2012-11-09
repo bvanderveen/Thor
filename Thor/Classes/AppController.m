@@ -7,7 +7,7 @@
 #import "DeploymentCell.h"
 #import "NoResultsListViewDataSource.h"
 #import "WizardController.h"
-#import "AddDeploymentListViewSource.h"
+#import "AddItemListViewSource.h"
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
 
@@ -60,16 +60,14 @@
 }
 
 - (void)awakeFromNib {
-    
     NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
     noResultsSource.source = self;
-    AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
+    AddItemListViewSource *addDeploymentSource = [[AddItemListViewSource alloc] initWithTitle:@"New deployment…"];
     addDeploymentSource.source = noResultsSource;
     addDeploymentSource.action = ^ { [self displayCreateDeploymentDialog]; };
     self.listSource = addDeploymentSource;
     self.appView.deploymentsList.dataSource = listSource;
     self.appView.deploymentsList.delegate = listSource;
-
 }
 
 - (void)viewWillAppear {
