@@ -4,6 +4,7 @@
 #import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
 #import "AppCell.h"
+#import "ServiceCell.h"
 #import "NoResultsListViewDataSource.h"
 #import "RACSubscribable+Extensions.h"
 #import "Sequence.h"
@@ -53,18 +54,54 @@
 
 @end
 
+@interface NSObject (ServicesListViewSourceDelegate)
+
+- (void)selectedService:(FoundryService *)service;
+
+@end
+
+@interface ServicesListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
+
+@property (nonatomic, strong) NSArray *services;
+@property (nonatomic, weak) id delegate;
+
+@end
+
+@implementation ServicesListViewSource
+
+@synthesize services, delegate;
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    return services.count;
+}
+
+- (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    ServiceCell *cell = [[ServiceCell alloc] initWithFrame:NSZeroRect];
+    FoundryService *service = services[row];
+    cell.service = service;
+    return cell;
+}
+
+- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
+    FoundryService *service = services[row];
+    [delegate selectedService:service];
+}
+
+@end
+
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource;
+@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource, rootServicesListSource;
 @property (nonatomic, strong) AppsListViewSource *appsListSource;
+@property (nonatomic, strong) ServicesListViewSource *servicesListSource;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, rootAppsListSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -101,16 +138,25 @@
 - (void)awakeFromNib {
     self.appsListSource = [[AppsListViewSource alloc] init];
     appsListSource.delegate = self;
-    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
-    noResultsSource.source = appsListSource;
+    NoResultsListViewSource *noAppResultsSource = [[NoResultsListViewSource alloc] init];
+    noAppResultsSource.source = appsListSource;
     AddDeploymentListViewSource *addDeploymentSource = [[AddDeploymentListViewSource alloc] init];
-    addDeploymentSource.source = noResultsSource;
+    addDeploymentSource.source = noAppResultsSource;
     addDeploymentSource.action = ^ { [self createNewDeployment]; };
     self.rootAppsListSource = addDeploymentSource;
     
-    
     self.targetView.deploymentsList.dataSource = rootAppsListSource;
     self.targetView.deploymentsList.delegate = rootAppsListSource;
+    
+    self.servicesListSource = [[ServicesListViewSource alloc] init];
+    servicesListSource.delegate = self;
+    NoResultsListViewSource *noServiceResultsSource = [[NoResultsListViewSource alloc] init];
+    noServiceResultsSource.source = servicesListSource;
+    
+    self.rootServicesListSource = noServiceResultsSource;
+    
+    self.targetView.servicesList.dataSource = rootServicesListSource;
+    self.targetView.servicesList.delegate = rootServicesListSource;
 }
 
 - (void)updateApps {
@@ -118,11 +164,12 @@
     
     NSArray *subscriables = @[[client getApps], [client getServices] ];
     
-    self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^(id x) {
+    self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
         RACTuple *t = (RACTuple *)x;
         appsListSource.apps = t.first;
-        NSLog(@"services: %@", t.second);
+        servicesListSource.services = t.second;
         [targetView.deploymentsList reloadData];
+        [targetView.servicesList reloadData];
         targetView.needsLayout = YES;
     } error:^(NSError *error) {
         [NSApp presentError:error];
@@ -155,6 +202,10 @@
     NSError *error;
     NSArray *deployments = [[[ThorBackend shared] getDeploymentsForTarget:self.target error:&error] filter:^ BOOL (id d) { return [((Deployment *)d).name isEqual:app.name]; }];
     return deployments.count ? deployments[0] : nil;
+}
+
+- (void)selectedService:(FoundryService *)service {
+    NSLog(@"clicked on service %@", service);
 }
 
 - (ItemsController *)createAppItemsController {
