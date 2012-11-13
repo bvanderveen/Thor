@@ -13,5 +13,7 @@
 
 - (RACSubscribable *)continueAfter:(RACSubscribable *(^)(id))subscribable;
 
++ (RACSubscribable *)performBlockInBackground:(id (^)())block;
+
 @end
 

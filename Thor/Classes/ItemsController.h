@@ -1,11 +1,12 @@
 #import "BreadcrumbController.h"
 #import "WizardController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @class ItemsController;
 
 @protocol ItemsControllerDataSource <NSObject>
 
-- (NSArray *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error;
+- (RACSubscribable *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error;
 - (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *) collectionView item:(id)item;
 
 @end

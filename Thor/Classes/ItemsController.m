@@ -3,6 +3,7 @@
 #import "ItemsView.h"
 #import "TargetController.h"
 #import "SheetWindow.h"
+#import "NSObject+AssociateDisposable.h"
 
 @interface ItemsController ()
 
@@ -26,7 +27,11 @@
 
 - (void)updateItems {
     NSError *error = nil;
-    self.items = [[dataSource itemsForItemsController:self error:&error] mutableCopy];
+    self.associatedDisposable = [[dataSource itemsForItemsController:self error:&error] subscribeNext:^ (id x) {
+        self.items = [x mutableCopy];
+    } error:^(NSError *error) {
+        [NSApp presentError:error];
+    }];
 }
 
 - (NSCollectionViewItem *)collectionView:(CollectionView *)collectionView newItemForRepresentedObject:(id)object {

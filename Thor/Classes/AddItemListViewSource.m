@@ -14,7 +14,6 @@
 - (id)initWithTitle:(NSString *)leTitle {
     if (self = [super initWithFrame:NSZeroRect]) {
         self.title = leTitle;
-        NSLog(@"foo");
     }
     return self;
 }

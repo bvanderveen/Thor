@@ -2,6 +2,7 @@
 #import "AppController.h"
 #import "CollectionItemView.h"
 #import "Sequence.h"
+#import "RACSubscribable+Extensions.h"
 
 static NSNib *nib = nil;
 
@@ -11,8 +12,10 @@ static NSNib *nib = nil;
     nib = [[NSNib alloc] initWithNibNamed:@"AppCollectionItemView" bundle:nil];
 }
 
-- (NSArray *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
-    return [[ThorBackend shared] getConfiguredApps:error];
+- (RACSubscribable *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
+    return [RACSubscribable performBlockInBackground:^ id {
+        return [[ThorBackend shared] getConfiguredApps:error];
+    }];
 }
 
 - (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *)collectionView item:(id)item   {
