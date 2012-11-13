@@ -12,6 +12,7 @@
 #import "DeploymentPropertiesController.h"
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
+#import "ServiceItemsDataSource.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
 
@@ -212,7 +213,34 @@
 }
 
 - (void)createNewService {
-    NSLog(@"clicked new service");
+    ItemsController *servicesInfoController = [[ItemsController alloc] init];
+    servicesInfoController.dataSource = [[ServiceItemsDataSource alloc] initWithClient:self.client];
+    
+    __block WizardController *wizardController;
+    
+    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:servicesInfoController commitBlock:^{
+        FoundryServiceInfo *serviceInfo = [servicesInfoController.arrayController.selectedObjects objectAtIndex:0];
+//        
+//        FoundryService *service = [[FoundryService alloc] init];
+//        service.name = serviceInfo.description;
+//        service.vendor = serviceInfo.vendor;
+//        service.version = servicesInfo.version;
+//        
+//        [self.client createService:service];
+
+        NSLog(@"created %@ %@", serviceInfo.vendor, serviceInfo.version);
+        [wizardController dismissWithReturnCode:NSOKButton];
+    } rollbackBlock:nil];
+    
+    wizardItemsController.title = @"Create new service";
+    wizardItemsController.commitButtonTitle = @"Done";
+    
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        if (returnCode == NSOKButton)
+            [self updateApps];
+    }];
+
 }
 
 - (ItemsController *)createAppItemsController {
