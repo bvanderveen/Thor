@@ -1,4 +1,5 @@
 #import "RACSubscribable+Extensions.h"
+#import "LoadingView.h"
 
 @implementation RACSubscribable (Extensions)
 
