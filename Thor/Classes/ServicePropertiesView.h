@@ -1,0 +1,4 @@
+
+@interface ServicePropertiesView : NSView
+
+@end

@@ -13,6 +13,7 @@
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
 #import "ServiceItemsDataSource.h"
+#import "ServicePropertiesController.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
 
@@ -220,16 +221,19 @@
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:servicesInfoController commitBlock:^{
         FoundryServiceInfo *serviceInfo = [servicesInfoController.arrayController.selectedObjects objectAtIndex:0];
-//        
-//        FoundryService *service = [[FoundryService alloc] init];
-//        service.name = serviceInfo.description;
-//        service.vendor = serviceInfo.vendor;
-//        service.version = servicesInfo.version;
-//        
-//        [self.client createService:service];
-
-        NSLog(@"created %@ %@", serviceInfo.vendor, serviceInfo.version);
-        [wizardController dismissWithReturnCode:NSOKButton];
+        
+        FoundryService *service = [[FoundryService alloc] init];
+        service.name = serviceInfo.vendor;
+        service.vendor = serviceInfo.vendor;
+        service.version = serviceInfo.version;
+        
+        ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:self.client];
+        servicePropertiesController.title = @"Create service";
+        servicePropertiesController.service = service;
+        
+        [wizardController pushViewController:servicePropertiesController animated:YES];
+        
+        //[wizardController dismissWithReturnCode:NSOKButton];
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Create new service";

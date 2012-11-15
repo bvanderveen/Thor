@@ -12,6 +12,9 @@
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
 		4113DE7E1652DEBE009B0965 /* ServiceItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE7D1652DEBE009B0965 /* ServiceItemsDataSource.m */; };
 		4113DE801652E11E009B0965 /* ServiceCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4113DE7F1652E11E009B0965 /* ServiceCollectionItemView.xib */; };
+		4113DE841652E729009B0965 /* ServicePropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE831652E729009B0965 /* ServicePropertiesView.m */; };
+		4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4113DE851652E741009B0965 /* ServicePropertiesView.xib */; };
+		4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE881652F443009B0965 /* ServicePropertiesController.m */; };
 		4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114FFB51649A8DF00B4D3DB /* audiobooks.png */; };
 		4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */; };
 		4116019F164C840C00EDA836 /* ServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4116019E164C840B00EDA836 /* ServiceCell.m */; };
@@ -329,6 +332,11 @@
 		4113DE7C1652DEBE009B0965 /* ServiceItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceItemsDataSource.h; path = Classes/ServiceItemsDataSource.h; sourceTree = "<group>"; };
 		4113DE7D1652DEBE009B0965 /* ServiceItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceItemsDataSource.m; path = Classes/ServiceItemsDataSource.m; sourceTree = "<group>"; };
 		4113DE7F1652E11E009B0965 /* ServiceCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServiceCollectionItemView.xib; path = Resources/ServiceCollectionItemView.xib; sourceTree = "<group>"; };
+		4113DE821652E729009B0965 /* ServicePropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePropertiesView.h; path = Classes/ServicePropertiesView.h; sourceTree = "<group>"; };
+		4113DE831652E729009B0965 /* ServicePropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicePropertiesView.m; path = Classes/ServicePropertiesView.m; sourceTree = "<group>"; };
+		4113DE851652E741009B0965 /* ServicePropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServicePropertiesView.xib; sourceTree = "<group>"; };
+		4113DE871652F443009B0965 /* ServicePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePropertiesController.h; path = Classes/ServicePropertiesController.h; sourceTree = "<group>"; };
+		4113DE881652F443009B0965 /* ServicePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicePropertiesController.m; path = Classes/ServicePropertiesController.m; sourceTree = "<group>"; };
 		4114FFB51649A8DF00B4D3DB /* audiobooks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = audiobooks.png; path = Resources/audiobooks.png; sourceTree = "<group>"; };
 		4114FFB71649FD2400B4D3DB /* NSAlert+Dialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAlert+Dialogs.h"; path = "Classes/NSAlert+Dialogs.h"; sourceTree = "<group>"; };
 		4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAlert+Dialogs.m"; path = "Classes/NSAlert+Dialogs.m"; sourceTree = "<group>"; };
@@ -569,6 +577,18 @@
 			name = "Deployment Wizard";
 			sourceTree = "<group>";
 		};
+		4113DE811652E6FC009B0965 /* Service Properties Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				4113DE851652E741009B0965 /* ServicePropertiesView.xib */,
+				4113DE821652E729009B0965 /* ServicePropertiesView.h */,
+				4113DE831652E729009B0965 /* ServicePropertiesView.m */,
+				4113DE871652F443009B0965 /* ServicePropertiesController.h */,
+				4113DE881652F443009B0965 /* ServicePropertiesController.m */,
+			);
+			name = "Service Properties Dialog";
+			sourceTree = "<group>";
+		};
 		412DA0F915AB86EF00087F6B /* Navigation Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,6 +751,7 @@
 				4113DE7C1652DEBE009B0965 /* ServiceItemsDataSource.h */,
 				4113DE7D1652DEBE009B0965 /* ServiceItemsDataSource.m */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
+				4113DE811652E6FC009B0965 /* Service Properties Dialog */,
 				414779E515C0865B00B733EF /* Target View */,
 			);
 			name = Targets;
@@ -1351,6 +1372,7 @@
 				41FC50DB1648759900C63E43 /* SourceListView.xib in Resources */,
 				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 				4113DE801652E11E009B0965 /* ServiceCollectionItemView.xib in Resources */,
+				4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1474,6 +1496,8 @@
 				4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */,
 				4116019F164C840C00EDA836 /* ServiceCell.m in Sources */,
 				4113DE7E1652DEBE009B0965 /* ServiceItemsDataSource.m in Sources */,
+				4113DE841652E729009B0965 /* ServicePropertiesView.m in Sources */,
+				4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
