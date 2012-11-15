@@ -389,13 +389,14 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
 
 @implementation FoundryService
 
-@synthesize name, vendor, version;
+@synthesize name, vendor, version, type;
 
 + (FoundryService *)serviceWithDictionary:(NSDictionary *)dict {
     FoundryService *result = [FoundryService new];
     result.name = dict[@"name"];
     result.vendor = dict[@"vendor"];
     result.version = dict[@"version"];
+    result.type = dict[@"type"];
     return result;
 }
 
@@ -404,6 +405,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
         @"name" : name,
         @"vendor": vendor,
         @"version" : version,
+        @"type" : type,
         @"tier" : @"free"
     };
 }
@@ -412,13 +414,14 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
 
 @implementation FoundryServiceInfo
 
-@synthesize description, vendor, version;
+@synthesize description, vendor, version, type;
 
 + (FoundryServiceInfo *)serviceInfoWithDictionary:(NSDictionary *)dict {
     FoundryServiceInfo *result = [FoundryServiceInfo new];
     result.description = dict[@"description"];
     result.vendor = dict[@"vendor"];
     result.version = dict[@"version"];
+    result.type = dict[@"type"];
     return result;
 }
 

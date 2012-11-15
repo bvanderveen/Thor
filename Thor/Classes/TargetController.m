@@ -226,6 +226,7 @@
         service.name = serviceInfo.vendor;
         service.vendor = serviceInfo.vendor;
         service.version = serviceInfo.version;
+        service.type = serviceInfo.type;
         
         ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:self.client];
         servicePropertiesController.title = @"Create service";

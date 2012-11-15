@@ -61,13 +61,13 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL);
 
 @interface FoundryServiceInfo : NSObject
 
-@property (nonatomic, copy) NSString *description, *vendor, *version;
+@property (nonatomic, copy) NSString *description, *vendor, *version, *type;
 
 @end
 
 @interface FoundryService : NSObject
 
-@property (nonatomic, copy) NSString *name, *vendor, *version;
+@property (nonatomic, copy) NSString *name, *vendor, *version, *type;
 
 @end
 

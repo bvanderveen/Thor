@@ -19,7 +19,6 @@
 			<string>NSSecureTextFieldCell</string>
 			<string>NSTextField</string>
 			<string>NSTextFieldCell</string>
-			<string>NSViewController</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -152,7 +151,6 @@
 						<string key="NSFrame">{{118, 20}, {342, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSecureTextFieldCell" key="NSCell" id="309266817">
@@ -254,14 +252,12 @@
 				<string key="NSFrameSize">{480, 149}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">TargetPropertiesView</string>
 			</object>
 			<object class="NSObjectController" id="493549119">
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 			</object>
-			<object class="NSViewController" id="639464997"/>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -1220,11 +1216,6 @@
 						<reference key="parent" ref="124453965"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">125</int>
-						<reference key="object" ref="639464997"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">227</int>
 						<reference key="object" ref="1001196375"/>
 						<array class="NSMutableArray" key="children">
@@ -1494,8 +1485,6 @@
 				</array>
 				<boolean value="NO" key="12.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="125.CustomClassName">TargetPropertiesController</string>
-				<string key="125.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="227.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>

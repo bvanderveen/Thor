@@ -30,7 +30,6 @@
     else {
         [self.wizardController dismissWithReturnCode:NSOKButton];
     }
-    
 }
 
 - (void)rollbackWizardPanel {
