@@ -6,16 +6,61 @@
 #import "DeploymentPropertiesController.h"
 #import "WizardController.h"
 #import "SheetWindow.h"
+#import "ServiceCell.h"
+#import "Sequence.h"
+#import "NoResultsListViewDataSource.h"
+#import "AddItemListViewSource.h"
 
 #define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
 #define NOT_FOUND_ALERT_CONTEXT @"NotFound"
 #define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
+
+@interface NSObject (BoundServicesListViewSourceDelegate)
+
+- (void)selectedService:(FoundryService *)service;
+
+@end
+
+@interface BoundServicesListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
+
+@property (nonatomic, strong) NSArray *services;
+@property (nonatomic, weak) id delegate;
+
+@end
+
+@implementation BoundServicesListViewSource
+
+@synthesize services, delegate;
+
+- (NSUInteger)numberOfRowsForListView:(ListView *)listView {
+    return services.count;
+}
+
+- (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
+    ServiceCell *cell = [[ServiceCell alloc] initWithFrame:NSZeroRect];
+    FoundryService *service = services[row];
+    cell.service = service;
+//    cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
+//    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+//        [delegate accessoryButtonClickedForApp:app];
+//    }]];
+    return cell;
+}
+
+- (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
+    FoundryService *app = services[row];
+    [delegate selectedService:app];
+}
+
+@end
 
 @interface DeploymentController ()
 
 @property (nonatomic, strong) FoundryClient *client;
 @property (nonatomic, copy) NSString *appName;
 @property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
+@property (nonatomic, strong) BoundServicesListViewSource *boundServicesSource;
+@property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootBoundServicesSource;
 
 @end
 
@@ -23,7 +68,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController;
+@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController, boundServicesSource, rootBoundServicesSource;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
@@ -54,8 +99,17 @@ static NSArray *instanceColumns = nil;
     [[client getStatsForAppWithName:appName] doNext:^(id x) {
         self.instanceStats = x;
     }],
-    [[client getAppWithName:appName] doNext:^(id x) {
+    [[client getAppWithName:appName] continueAfter:^RACSubscribable *(id x) {
         self.app = x;
+        if (self.app.services.count) {
+            NSArray *serviceSubscribables = [self.app.services map:^ id (id s) {
+                return [client getServiceWithName:s];
+            }];
+            return [[RACSubscribable combineLatest:serviceSubscribables] doNext:^(id x) {
+                boundServicesSource.services = [(RACTuple *)x allObjects];
+            }];
+        }
+        else return [RACSubscribable return:[RACUnit defaultUnit]];
     }]];
     
     RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
@@ -75,6 +129,7 @@ static NSArray *instanceColumns = nil;
         }
     } completed:^ {
         [deploymentView.instancesGrid reloadData];
+        [deploymentView.servicesList reloadData];
         deploymentView.needsLayout = YES;
     }];
 }
@@ -86,6 +141,20 @@ static NSArray *instanceColumns = nil;
     deploymentView.toolbarView.stopButton.action = @selector(stopClicked:);
     deploymentView.toolbarView.restartButton.target = self;
     deploymentView.toolbarView.restartButton.action = @selector(restartClicked:);
+    
+    self.boundServicesSource = [[BoundServicesListViewSource alloc] init];
+
+    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
+    noResultsSource.source = boundServicesSource;
+    
+    AddItemListViewSource *addBoundServiceSource = [[AddItemListViewSource alloc] initWithTitle:@"Bind service…"];
+    addBoundServiceSource.source = noResultsSource;
+    addBoundServiceSource.action = ^ { [self presentBindServiceDialog]; };
+    
+    self.rootBoundServicesSource = addBoundServiceSource;
+    
+    deploymentView.servicesList.delegate = rootBoundServicesSource;
+    deploymentView.servicesList.dataSource = rootBoundServicesSource;
     
     [self updateAppAndStatsAfterSubscribable:nil];
 }
@@ -249,6 +318,14 @@ static NSArray *instanceColumns = nil;
 
 - (void)restartClicked:(id)sender {
     [self updateAppAndStatsAfterSubscribable:[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]]];
+}
+
+- (void)serviceSelected:(FoundryService *)service {
+    NSLog(@"selected service %@", service);
+}
+
+- (void)presentBindServiceDialog {
+    NSLog(@"bind services!");
 }
 
 @end

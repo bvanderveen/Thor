@@ -15,7 +15,7 @@
 
 @implementation DeploymentView
 
-@synthesize scrollView, settingsBox, instancesBox, instancesGrid, settingsView, toolbarView;
+@synthesize scrollView, settingsBox, instancesBox, servicesBox, instancesGrid, settingsView, toolbarView, servicesList;
 
 - (void)layout {
     CGFloat toolbarHeight = toolbarView.intrinsicContentSize.height;
@@ -24,7 +24,7 @@
     
     NSRect groupViewBounds = NSMakeRect(0, 0, self.bounds.size.width, self.bounds.size.height - toolbarHeight);
     
-    [BoxGroupView layoutInBounds:groupViewBounds scrollView:scrollView boxes:@[ settingsBox, instancesBox ] contentViews:@[ settingsView, instancesGrid ]];
+    [BoxGroupView layoutInBounds:groupViewBounds scrollView:scrollView boxes:@[ settingsBox, instancesBox, servicesBox ] contentViews:@[ settingsView, instancesGrid, servicesList ]];
     
     [super layout];
 }
