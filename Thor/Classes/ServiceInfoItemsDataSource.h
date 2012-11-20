@@ -1,7 +1,7 @@
 #import "ItemsController.h"
 #import "ThorCore.h"
 
-@interface ServiceItemsDataSource : NSObject <ItemsControllerDataSource>
+@interface ServiceInfoItemsDataSource : NSObject <ItemsControllerDataSource>
 
 - (id)initWithClient:(FoundryClient *)client;
 

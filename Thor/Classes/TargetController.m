@@ -12,7 +12,7 @@
 #import "DeploymentPropertiesController.h"
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
-#import "ServiceItemsDataSource.h"
+#import "ServiceInfoItemsDataSource.h"
 #import "ServicePropertiesController.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
@@ -215,7 +215,7 @@
 
 - (void)createNewService {
     ItemsController *servicesInfoController = [[ItemsController alloc] init];
-    servicesInfoController.dataSource = [[ServiceItemsDataSource alloc] initWithClient:self.client];
+    servicesInfoController.dataSource = [[ServiceInfoItemsDataSource alloc] initWithClient:self.client];
     
     __block WizardController *wizardController;
     

@@ -1,21 +1,21 @@
-#import "ServiceItemsDataSource.h"
+#import "ServiceInfoItemsDataSource.h"
 #import "CollectionItemView.h"
 #import "Sequence.h"
 
 static NSNib *nib = nil;
 
-@interface ServiceItemsDataSource ()
+@interface ServiceInfoItemsDataSource ()
 
 @property (nonatomic, strong) FoundryClient *client;
 
 @end
 
-@implementation ServiceItemsDataSource
+@implementation ServiceInfoItemsDataSource
 
 @synthesize client;
 
 + (void)initialize {
-    nib = [[NSNib alloc] initWithNibNamed:@"ServiceCollectionItemView" bundle:nil];
+    nib = [[NSNib alloc] initWithNibNamed:@"ServiceInfoCollectionItemView" bundle:nil];
 }
 
 - (id)initWithClient:(id)leClient {
