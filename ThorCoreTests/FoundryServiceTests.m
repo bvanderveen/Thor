@@ -1149,6 +1149,48 @@ describe(@"getServices", ^{
     });
 });
 
+describe(@"getServiceWithName", ^{
+    __block MockEndpoint *endpoint;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[client getServiceWithName:@"service-name"] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"GET",
+        @"path" : @"/services/service-name",
+        @"headers" : [NSNull null],
+        @"body" : [NSNull null]
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should parse results", ^ {
+        endpoint.results = @[
+        @{
+        @"name" : @"the name",
+        @"vendor" : @"the vendor",
+        @"version" : @"1.2"
+        }
+        ];
+        
+        __block FoundryService *result;
+        [[client getServiceWithName:@"the name"] subscribeNext:^(id x) {
+            result = (FoundryService *)x;
+        }];
+        
+        expect(result.name).to.equal(@"the name");
+        expect(result.vendor).to.equal(@"the vendor");
+        expect(result.version).to.equal(@"1.2");
+    });
+});
+
 describe(@"createService", ^ {
     
     __block MockEndpoint *endpoint;

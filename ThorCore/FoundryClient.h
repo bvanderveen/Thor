@@ -84,6 +84,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL);
 
 - (RACSubscribable *)getServicesInfo; // NSArray of FoundryServiceInfo
 - (RACSubscribable *)getServices; // NSArray of FoundryService
+- (RACSubscribable *)getServiceWithName:(NSString *)name;
 - (RACSubscribable *)createService:(FoundryService *)service;
 - (RACSubscribable *)deleteServiceWithName:(NSString *)name;
 

@@ -110,6 +110,7 @@ NSString *AppStateStringFromState(FoundryAppState state) {
     
     app.name = appDict[@"name"];
     app.uris = appDict[@"uris"];
+    app.services = appDict[@"services"];
     app.instances = [appDict[@"instances"] intValue];
     
     NSDictionary *staging = appDict[@"staging"];
@@ -405,7 +406,6 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
         @"name" : name,
         @"vendor": vendor,
         @"version" : version,
-        @"type" : type,
         @"tier" : @"free"
     };
 }
@@ -568,6 +568,12 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
         return [(NSArray *)services map:^ id (id service) {
             return [FoundryService serviceWithDictionary:service];
         }];
+    }];
+}
+
+- (RACSubscribable *)getServiceWithName:(NSString *)name {
+    return [[endpoint authenticatedRequestWithMethod:@"GET" path:[NSString stringWithFormat:@"/services/%@", name] headers:nil body:nil] select:^id(id service) {
+        return [FoundryService serviceWithDictionary:service];
     }];
 }
 
