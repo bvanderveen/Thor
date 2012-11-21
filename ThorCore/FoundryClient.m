@@ -150,7 +150,7 @@ NSString *AppStateStringFromState(FoundryAppState state) {
             //@"disk" : [NSNumber numberWithInteger:disk]
         },
         //@"state" : AppStateStringFromState(state),
-        //@"services" : services,
+        @"services" : services,
         //@"env" : @[],
         //@"meta" : @{
         //    @"debug" : @NO

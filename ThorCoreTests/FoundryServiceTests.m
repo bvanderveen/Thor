@@ -273,7 +273,7 @@ describe(@"createApp", ^ {
         app.stagingFramework = @"rack";
         app.stagingRuntime = @"ruby18";
         app.uris = @[ @"app.foo.bar.com" ];
-        //app.services = @[];
+        app.services = @[];
         app.instances = 3;
         app.memory = 256;
         //app.disk = 512;
@@ -292,7 +292,7 @@ describe(@"createApp", ^ {
         @"runtime" : @"ruby18",
         },
         @"uris" : @[ @"app.foo.bar.com" ],
-        //@"services" : @[],
+        @"services" : @[],
         @"instances": @3,
         @"resources" : @{
         @"memory" : @256//,
@@ -329,7 +329,7 @@ describe(@"updateApp", ^ {
         app.stagingFramework = @"rack";
         app.stagingRuntime = @"ruby18";
         app.uris = @[ @"app.foo.bar.com" ];
-        //app.services = @[];
+        app.services = @[ @"redis", @"postgres" ];
         app.instances = 3;
         app.memory = 256;
         //app.disk = 512;
@@ -348,7 +348,7 @@ describe(@"updateApp", ^ {
         @"runtime" : @"ruby18",
         },
         @"uris" : @[ @"app.foo.bar.com" ],
-        //@"services" : @[],
+        @"services" : @[ @"redis", @"postgres" ],
         @"instances": @3,
         @"resources" : @{
         @"memory" : @256//,
