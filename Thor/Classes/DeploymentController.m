@@ -10,6 +10,8 @@
 #import "Sequence.h"
 #import "NoResultsListViewDataSource.h"
 #import "AddItemListViewSource.h"
+#import "ItemsController.h"
+#import "ServiceItemsDataSource.h"
 
 #define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
 #define NOT_FOUND_ALERT_CONTEXT @"NotFound"
@@ -285,15 +287,10 @@ static NSArray *instanceColumns = nil;
     deploymentPropertiesController.title = @"Update deployment";
     
     WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
-    NSWindow *window = [SheetWindow sheetWindowWithView:wizard.view];
-    [wizard viewWillAppear];
-    [NSApp beginSheet:window modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
-}
-
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    self.deploymentPropertiesController = nil;
-    [sheet orderOut:self];
-    [self updateAppAndStatsAfterSubscribable:nil];
+    [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        self.deploymentPropertiesController = nil;
+        [self updateAppAndStatsAfterSubscribable:nil];
+    }];
 }
 
 - (IBAction)deleteClicked:(id)sender {
@@ -304,6 +301,15 @@ static NSArray *instanceColumns = nil;
     return [[client getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
         FoundryApp *latestApp = (FoundryApp *)x;
         latestApp.state = state;
+        return [client updateApp:latestApp];
+    }];
+}
+
+- (RACSubscribable *)updateByAddingServiceNamed:(NSString *)name {
+    return [[client getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        if (![latestApp.services containsObject:name])
+            latestApp.services = [latestApp.services arrayByAddingObject:name];
         return [client updateApp:latestApp];
     }];
 }
@@ -325,7 +331,24 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)presentBindServiceDialog {
-    NSLog(@"bind services!");
+    ItemsController *itemsController = [[ItemsController alloc] init];
+    itemsController.dataSource = [[ServiceItemsDataSource alloc] initWithClient:self.client];
+    __block WizardController *wizard;
+    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:itemsController commitBlock:^{
+        FoundryService *service = itemsController.arrayController.selectedObjects[0];
+        
+        self.associatedDisposable = [[self updateByAddingServiceNamed:service.name] subscribeCompleted:^{
+            [wizard dismissWithReturnCode:NSOKButton];
+        }];
+    } rollbackBlock:nil];
+    wizardItemsController.title = @"Bind service";
+    wizardItemsController.commitButtonTitle = @"OK";
+    
+    wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        self.deploymentPropertiesController = nil;
+        [self updateAppAndStatsAfterSubscribable:nil];
+    }];
 }
 
 @end

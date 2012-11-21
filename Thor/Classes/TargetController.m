@@ -233,8 +233,6 @@
         servicePropertiesController.service = service;
         
         [wizardController pushViewController:servicePropertiesController animated:YES];
-        
-        //[wizardController dismissWithReturnCode:NSOKButton];
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Create new service";

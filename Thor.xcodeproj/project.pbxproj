@@ -102,6 +102,8 @@
 		41C7FE7415B8BF89006B3468 /* TargetPropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7315B8BF89006B3468 /* TargetPropertiesView.m */; };
 		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
+		41DBDA37165C4F5300FB6420 /* ServiceItemsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DBDA36165C4F5000FB6420 /* ServiceItemsDataSource.m */; };
+		41DBDA39165C4F6900FB6420 /* ServiceCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41DBDA38165C4F6900FB6420 /* ServiceCollectionItemView.xib */; };
 		41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B215F038F500A45951 /* FoundryServiceTests.m */; };
 		41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */; };
 		41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */; };
@@ -458,6 +460,9 @@
 		41D286CC15C879D800206E3A /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetView.m; path = Classes/TargetView.m; sourceTree = "<group>"; };
 		41D286CF15C87B9200206E3A /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SheetWindow.h; path = Classes/SheetWindow.h; sourceTree = "<group>"; };
 		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
+		41DBDA35165C4F4E00FB6420 /* ServiceItemsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceItemsDataSource.h; path = Classes/ServiceItemsDataSource.h; sourceTree = "<group>"; };
+		41DBDA36165C4F5000FB6420 /* ServiceItemsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceItemsDataSource.m; path = Classes/ServiceItemsDataSource.m; sourceTree = "<group>"; };
+		41DBDA38165C4F6900FB6420 /* ServiceCollectionItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServiceCollectionItemView.xib; path = Resources/ServiceCollectionItemView.xib; sourceTree = "<group>"; };
 		41EE94B115F038F500A45951 /* FoundryServiceTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryServiceTests.h; sourceTree = "<group>"; };
 		41EE94B215F038F500A45951 /* FoundryServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryServiceTests.m; sourceTree = "<group>"; };
 		41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FoundryEndpoint+CreateFromTarget.h"; sourceTree = "<group>"; };
@@ -750,6 +755,9 @@
 				4113DE7F1652E11E009B0965 /* ServiceInfoCollectionItemView.xib */,
 				4113DE7C1652DEBE009B0965 /* ServiceInfoItemsDataSource.h */,
 				4113DE7D1652DEBE009B0965 /* ServiceInfoItemsDataSource.m */,
+				41DBDA38165C4F6900FB6420 /* ServiceCollectionItemView.xib */,
+				41DBDA35165C4F4E00FB6420 /* ServiceItemsDataSource.h */,
+				41DBDA36165C4F5000FB6420 /* ServiceItemsDataSource.m */,
 				41C7FE6E15B8BCBD006B3468 /* Target Properties Dialog */,
 				4113DE811652E6FC009B0965 /* Service Properties Dialog */,
 				414779E515C0865B00B733EF /* Target View */,
@@ -1373,6 +1381,7 @@
 				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 				4113DE801652E11E009B0965 /* ServiceInfoCollectionItemView.xib in Resources */,
 				4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */,
+				41DBDA39165C4F6900FB6420 /* ServiceCollectionItemView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1498,6 +1507,7 @@
 				4113DE7E1652DEBE009B0965 /* ServiceInfoItemsDataSource.m in Sources */,
 				4113DE841652E729009B0965 /* ServicePropertiesView.m in Sources */,
 				4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */,
+				41DBDA37165C4F5300FB6420 /* ServiceItemsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
