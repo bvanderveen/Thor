@@ -151,6 +151,7 @@
 						<string key="NSFrame">{{118, 20}, {342, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSecureTextFieldCell" key="NSCell" id="309266817">
@@ -158,6 +159,7 @@
 							<int key="NSCellFlags2">272630848</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="946622875"/>
+							<string key="NSPlaceholderString"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="1001196375"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -196,6 +198,7 @@
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="946622875"/>
+							<string key="NSPlaceholderString"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="141712286"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -218,6 +221,7 @@
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="946622875"/>
+							<string key="NSPlaceholderString"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="707301367"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -240,6 +244,7 @@
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="946622875"/>
+							<string key="NSPlaceholderString"/>
 							<string key="NSCellIdentifier">_NS:9</string>
 							<reference key="NSControlView" ref="77622404"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -252,6 +257,7 @@
 				<string key="NSFrameSize">{480, 149}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="217367438"/>
 				<string key="NSClassName">TargetPropertiesView</string>
 			</object>
 			<object class="NSObjectController" id="493549119">
@@ -368,14 +374,14 @@
 							<string key="NSLabel">value: selection.hostname</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.hostname</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValidatesImmediately</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
+							<dictionary key="NSOptions">
+								<string key="NSNullPlaceholder">api.some-host.cloudfoundry.me</string>
+								<boolean value="YES" key="NSValidatesImmediately"/>
+							</dictionary>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">281</int>
+					<int key="connectionID">1118</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -388,14 +394,14 @@
 							<string key="NSLabel">value: selection.displayName</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.displayName</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValidatesImmediately</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
+							<dictionary key="NSOptions">
+								<string key="NSNullPlaceholder">"Production", "QA", etc</string>
+								<boolean value="YES" key="NSValidatesImmediately"/>
+							</dictionary>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">280</int>
+					<int key="connectionID">1117</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -408,14 +414,14 @@
 							<string key="NSLabel">value: selection.email</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.email</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValidatesImmediately</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
+							<dictionary key="NSOptions">
+								<string key="NSNullPlaceholder">username@domain.com</string>
+								<boolean value="YES" key="NSValidatesImmediately"/>
+							</dictionary>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">282</int>
+					<int key="connectionID">1120</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1559,7 +1565,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1116</int>
+			<int key="maxID">1120</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
