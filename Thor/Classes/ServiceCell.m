@@ -3,10 +3,14 @@
 
 @implementation ServiceCell
 
-@synthesize service = _service;
+@synthesize service = _service, button;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
+        self.button = [[NSButton alloc] initWithFrame:NSZeroRect];
+        button.bezelStyle = NSTexturedRoundedBezelStyle;
+        button.title = @"-";
+        [self addSubview:button];
     }
     return self;
 }
@@ -16,6 +20,11 @@
     self.needsDisplay = YES;
 }
 
+- (void)layout {
+    NSSize buttonSize = button.intrinsicContentSize;
+    button.frame = NSMakeRect(self.bounds.size.width - buttonSize.width - 20, (self.bounds.size.height - buttonSize.height) / 2, buttonSize.width, buttonSize.height);
+    [super layout];
+}
 
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];

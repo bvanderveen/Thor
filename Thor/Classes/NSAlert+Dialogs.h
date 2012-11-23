@@ -5,5 +5,8 @@
 
 + (NSAlert *)confirmDeleteTargetDialog;
 + (NSAlert *)confirmDeleteAppDialog;
++ (NSAlert *)confirmUnbindServiceDialog;
+
+- (void)presentSheetModalForWindow:(NSWindow *)window didEndBlock:(void (^)(NSInteger))didEnd;
 
 @end

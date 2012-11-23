@@ -80,6 +80,7 @@
 - (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
     ServiceCell *cell = [[ServiceCell alloc] initWithFrame:NSZeroRect];
     FoundryService *service = services[row];
+    cell.button.hidden = YES;
     cell.service = service;
     return cell;
 }

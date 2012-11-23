@@ -12,6 +12,7 @@
 #import "AddItemListViewSource.h"
 #import "ItemsController.h"
 #import "ServiceItemsDataSource.h"
+#import "NSAlert+Dialogs.h"
 
 #define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
 #define NOT_FOUND_ALERT_CONTEXT @"NotFound"
@@ -20,6 +21,7 @@
 @interface NSObject (BoundServicesListViewSourceDelegate)
 
 - (void)selectedService:(FoundryService *)service;
+- (void)accessoryButtonClickedForService:(FoundryService *)service;
 
 @end
 
@@ -43,9 +45,9 @@
     FoundryService *service = services[row];
     cell.service = service;
 //    cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
-//    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-//        [delegate accessoryButtonClickedForApp:app];
-//    }]];
+    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [delegate accessoryButtonClickedForService:service];
+    }]];
     return cell;
 }
 
@@ -111,7 +113,10 @@ static NSArray *instanceColumns = nil;
                 boundServicesSource.services = [(RACTuple *)x allObjects];
             }];
         }
-        else return [RACSubscribable return:[RACUnit defaultUnit]];
+        else {
+            boundServicesSource.services = @[];
+            return [RACSubscribable return:[RACUnit defaultUnit]];
+        }
     }]];
     
     RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
@@ -145,6 +150,7 @@ static NSArray *instanceColumns = nil;
     deploymentView.toolbarView.restartButton.action = @selector(restartClicked:);
     
     self.boundServicesSource = [[BoundServicesListViewSource alloc] init];
+    boundServicesSource.delegate = self;
 
     NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
     noResultsSource.source = boundServicesSource;
@@ -314,6 +320,16 @@ static NSArray *instanceColumns = nil;
     }];
 }
 
+- (RACSubscribable *)updateByRemovingServiceNamed:(NSString *)name {
+    return [[client getAppWithName:app.name] continueAfter:^RACSubscribable *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        latestApp.services = [latestApp.services filter:^BOOL(id n) {
+            return ![n isEqual:name];
+        }];
+        return [client updateApp:latestApp];
+    }];
+}
+
 - (void)startClicked:(id)sender {
     [self updateAppAndStatsAfterSubscribable:[self updateWithState:FoundryAppStateStarted]];
 }
@@ -348,6 +364,19 @@ static NSArray *instanceColumns = nil;
     [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         self.deploymentPropertiesController = nil;
         [self updateAppAndStatsAfterSubscribable:nil];
+    }];
+}
+
+- (void)selectedService:(FoundryService *)service {
+    NSLog(@"clicked bound service %@", service);
+}
+
+- (void)accessoryButtonClickedForService:(FoundryService *)service {
+    NSAlert *alert = [NSAlert confirmUnbindServiceDialog];
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        if (returnCode == NSAlertDefaultReturn) {
+            [self updateAppAndStatsAfterSubscribable:[self updateByRemovingServiceNamed:service.name]];
+        }
     }];
 }
 
