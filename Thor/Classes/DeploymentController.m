@@ -168,18 +168,42 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)presentDeploymentNotFoundDialog {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Deployment not found" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud."];
-    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:NOT_FOUND_ALERT_CONTEXT];
+    NSAlert *alert = [NSAlert deploymentNotFoundDialog];
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        [self.breadcrumbController popViewControllerAnimated:YES];
+    }];
 }
 
 - (void)presentMissingDeploymentDialog {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to recreate it or forget about it?"];
-    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:MISSING_DEPLOYMENT_ALERT_CONTEXT];
+    NSAlert *alert = [NSAlert missingDeploymentDialog];
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        assert(deployment != nil);
+        switch (returnCode) {
+            case NSAlertDefaultReturn:
+                [self deleteDeployment];
+                [self.breadcrumbController popViewControllerAnimated:YES];
+                break;
+            case NSAlertAlternateReturn:
+                [self recreateDeployment];
+                break;
+        }
+    }];
 }
 
 - (void)presentConfirmDeletionDialog {
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Are you sure you wish to delete this deployment?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The deployment will be removed from the cloud. This action cannot be undone."];
-    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:CONFIRM_DELETION_ALERT_CONTEXT];
+    NSAlert *alert = [NSAlert confirmDeleteDeploymentDialog];
+    
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        if (returnCode == NSAlertDefaultReturn) {
+            self.associatedDisposable = [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
+                [NSApp presentError:error];
+            } completed:^{
+                if (deployment)
+                    [self deleteDeployment];
+                [self.breadcrumbController popViewControllerAnimated:YES];
+            }];
+        }
+    }];
 }
 
 - (void)deleteDeployment {
@@ -194,38 +218,6 @@ static NSArray *instanceColumns = nil;
 - (void)recreateDeployment {
     RACSubscribable *createApp = [client createApp:[FoundryApp appWithDeployment:deployment]];
     [self updateAppAndStatsAfterSubscribable:createApp];
-}
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    NSString *contextString = (__bridge NSString *)contextInfo;
-    if ([contextString isEqual:MISSING_DEPLOYMENT_ALERT_CONTEXT]) {
-        assert(deployment != nil);    
-        switch (returnCode) {
-            case NSAlertDefaultReturn:
-                [self deleteDeployment];
-                [self.breadcrumbController popViewControllerAnimated:YES];
-                break;
-            case NSAlertAlternateReturn:
-                [self recreateDeployment];
-                break;
-        }
-    }
-    else if ([contextString isEqual:NOT_FOUND_ALERT_CONTEXT]) {
-        [self.breadcrumbController popViewControllerAnimated:YES];
-    }
-    else if ([contextString isEqual:CONFIRM_DELETION_ALERT_CONTEXT]) {
-        if (returnCode == NSAlertDefaultReturn) {
-            self.associatedDisposable = [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
-                [NSApp presentError:error];
-            } completed:^{
-                if (deployment)
-                    [self deleteDeployment];
-                [self.breadcrumbController popViewControllerAnimated:YES];
-            }];
-        }
-    }
-    
-    [NSApp endSheet:alert.window];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {

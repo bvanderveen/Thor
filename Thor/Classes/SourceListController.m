@@ -1,6 +1,7 @@
 #import "SourceListController.h"
 #import "ThorCore.h"
 #import "Sequence.h"
+#import "NSAlert+Dialogs.h"
 
 @implementation SourceListControllerView
 
@@ -167,24 +168,19 @@
     
     NSAlert *alert = self.deleteModelConfirmation(selectedModel);
     
-    [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:(void *)selectedModel];
-}
-
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSOKButton) {
-        id model = (__bridge id)contextInfo;
-
-        [[ThorBackend sharedContext] deleteObject:model];
-        NSError *error;
-
-        if (![[ThorBackend sharedContext] save:&error]) {
-            [NSApp presentError:error];
-            return;
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+        if (returnCode == NSAlertDefaultReturn) {
+            [[ThorBackend sharedContext] deleteObject:selectedModel];
+            NSError *error;
+            
+            if (![[ThorBackend sharedContext] save:&error]) {
+                [NSApp presentError:error];
+                return;
+            }
+            
+            [self updateAppsAndTargets];
         }
-        
-        [self updateAppsAndTargets];
-    }
+    }];
 }
 
 @end

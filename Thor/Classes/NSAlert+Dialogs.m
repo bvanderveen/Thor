@@ -1,7 +1,7 @@
 #import "NSAlert+Dialogs.h"
 #import <objc/runtime.h>
 
-@interface NSAlert (Dialogs)
+@interface NSAlert ()
 
 @property (nonatomic, copy) void (^didEndBlock)(NSInteger);
 
@@ -28,8 +28,20 @@ NSInteger kDidEndBlockKey;
     return [NSAlert alertWithMessageText:@"Are you sure you wish to delete this application?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The application will no longer appear in Thor. It will not be removed from your hard drive or from any cloud."];
 }
 
++ (NSAlert *)confirmDeleteDeploymentDialog {
+    return [NSAlert alertWithMessageText:@"Are you sure you wish to delete this deployment?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The deployment will be removed from the cloud. This action cannot be undone."];
+}
+
 + (NSAlert *)confirmUnbindServiceDialog {
     return [NSAlert alertWithMessageText:@"Are you sure you wish to unbind this service?" defaultButton:@"Unbind" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The service will be unbound from the deployment. This action cannot be undone."];
+}
+
++ (NSAlert *)deploymentNotFoundDialog {
+    return [NSAlert alertWithMessageText:@"Deployment not found" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud."];
+}
+
++ (NSAlert *)missingDeploymentDialog {
+    return [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to recreate it or forget about it?"];
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
