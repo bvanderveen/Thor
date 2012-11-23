@@ -143,14 +143,14 @@ NSString *AppStateStringFromState(FoundryAppState state) {
             @"framework" : stagingFramework ? stagingFramework : [NSNull null],
             @"runtime" : stagingRuntime ? stagingRuntime : [NSNull null],
         },
-        @"uris" : uris,
+        @"uris" : uris ? uris : [NSNull null],
         @"instances" : [NSNumber numberWithInteger:instances],
         @"resources" : @{
             @"memory" : [NSNumber numberWithInteger:memory]//,
             //@"disk" : [NSNumber numberWithInteger:disk]
         },
         //@"state" : AppStateStringFromState(state),
-        @"services" : services,
+        @"services" : services ? services : [NSNull null],
         //@"env" : @[],
         //@"meta" : @{
         //    @"debug" : @NO

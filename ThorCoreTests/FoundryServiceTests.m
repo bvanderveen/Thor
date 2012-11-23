@@ -309,6 +309,51 @@ describe(@"createApp", ^ {
         
         expect(endpoint.calls).to.equal(expectedCalls);
     });
+    
+    it(@"should call endpoint with null framework, runtime, uris, and services", ^ {
+        
+        FoundryApp *app = [FoundryApp new];
+        
+        app.name = @"appname";
+        app.stagingFramework = nil;
+        app.stagingRuntime = nil;
+        app.uris = nil;
+        app.services = nil;
+        app.instances = 3;
+        app.memory = 256;
+        //app.disk = 512;
+        app.state = FoundryAppStateStarted;
+        
+        [[client createApp:app] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"POST",
+        @"path" : @"/apps",
+        @"headers" : [NSNull null],
+        @"body" : @{
+        @"name" : @"appname",
+        @"staging" : @{
+        @"framework" : [NSNull null],
+        @"runtime" : [NSNull null],
+        },
+        @"uris" : [NSNull null],
+        @"services" : [NSNull null],
+        @"instances": @3,
+        @"resources" : @{
+        @"memory" : @256//,
+        //@"disk" : @512
+        },
+        //@"state" : @"STARTED",
+        //@"env" : @[],
+        //@"meta" : @{
+        //@"debug" : @0
+        //}
+        }
+        
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
 });
 
 describe(@"updateApp", ^ {
