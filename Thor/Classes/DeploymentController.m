@@ -14,10 +14,6 @@
 #import "ServiceItemsDataSource.h"
 #import "NSAlert+Dialogs.h"
 
-#define MISSING_DEPLOYMENT_ALERT_CONTEXT @"Missing"
-#define NOT_FOUND_ALERT_CONTEXT @"NotFound"
-#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
-
 @interface NSObject (BoundServicesListViewSourceDelegate)
 
 - (void)selectedService:(FoundryService *)service;

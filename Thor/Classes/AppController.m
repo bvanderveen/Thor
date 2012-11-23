@@ -11,8 +11,6 @@
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
 
-#define CONFIRM_DELETION_ALERT_CONTEXT @"ConfirmDeletion"
-
 @interface AppController ()
 
 @property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
