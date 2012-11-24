@@ -58,7 +58,6 @@
 
 @property (nonatomic, strong) FoundryClient *client;
 @property (nonatomic, copy) NSString *appName;
-@property (nonatomic, strong) DeploymentPropertiesController *deploymentPropertiesController;
 @property (nonatomic, strong) BoundServicesListViewSource *boundServicesSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootBoundServicesSource;
 
@@ -68,7 +67,7 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, deploymentPropertiesController, boundServicesSource, rootBoundServicesSource;
+@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, boundServicesSource, rootBoundServicesSource;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
@@ -273,16 +272,16 @@ static NSArray *instanceColumns = nil;
 }
 
 - (IBAction)editClicked:(id)sender {
+    DeploymentPropertiesController *deploymentPropertiesController;
     if (deployment)
-        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:NO];
+        deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:NO];
     else
-        self.deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithApp:app client:client];
+        deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithApp:app client:client];
     
     deploymentPropertiesController.title = @"Update deployment";
     
     WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
     [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        self.deploymentPropertiesController = nil;
         [self updateAppAndStatsAfterSubscribable:nil];
     }];
 }
@@ -350,7 +349,6 @@ static NSArray *instanceColumns = nil;
     
     wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        self.deploymentPropertiesController = nil;
         [self updateAppAndStatsAfterSubscribable:nil];
     }];
 }
