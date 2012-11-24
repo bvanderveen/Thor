@@ -97,25 +97,24 @@
 }
 
 - (void)displayCreateDeploymentDialog {
-    __block WizardController *wizard;
+    __block WizardController *wizardController;
     
     ItemsController *targetsController = [[ItemsController alloc] init];
     targetsController.dataSource = [[TargetItemsDataSource alloc] init];
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:targetsController commitBlock:^{
         Target *target = [targetsController.arrayController.selectedObjects objectAtIndex:0];
-        
         Deployment *deployment = [Deployment deploymentWithApp:app target:target];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:YES];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment];
         deploymentController.title = @"Create Deployment";
-        [wizard pushViewController:deploymentController animated:YES];
+        [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
-    wizardItemsController.title = @"Deploy to cloud";
+    wizardItemsController.title = @"Choose Cloud";
     wizardItemsController.commitButtonTitle = @"Next";
 
-    wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
-    [wizard presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateDeployments];
     }];
