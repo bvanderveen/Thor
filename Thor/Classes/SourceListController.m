@@ -8,12 +8,17 @@
 @synthesize sourceList, contentView;
 
 - (void)layout {
-    self.contentView.frame = NSMakeRect(sourceList.frame.size.width, 0, self.bounds.size.width - sourceList.frame.size.width, self.bounds.size.height);
+    self.contentView.frame = NSMakeRect(sourceList.frame.size.width + 1, 0, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
     
     if (self.contentView.subviews.count)
         ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
     
     [super layout];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithDeviceWhite:.7 alpha:1] set];
+    NSRectFill(NSMakeRect(sourceList.frame.size.width, 0, 1, self.bounds.size.height));
 }
 
 @end
