@@ -60,6 +60,8 @@
 @property (nonatomic, copy) NSString *appName;
 @property (nonatomic, strong) BoundServicesListViewSource *boundServicesSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootBoundServicesSource;
+@property (nonatomic, strong) Deployment *deployment;
+@property (nonatomic, copy) NSArray *instanceStats;
 
 @end
 

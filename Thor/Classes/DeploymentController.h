@@ -5,9 +5,8 @@
 
 @interface DeploymentController : NSViewController <BreadcrumbControllerAware, BreadcrumbItem, GridDataSource, GridDelegate>
 
-@property (nonatomic, strong) Deployment *deployment;
+
 @property (nonatomic, strong) IBOutlet FoundryApp *app;
-@property (nonatomic, copy) NSArray *instanceStats;
 @property (nonatomic, strong) IBOutlet DeploymentView *deploymentView;
 
 + (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment;
