@@ -30,8 +30,6 @@
 		4135F5A215D34D520054D961 /* CollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4135F5A115D34D520054D961 /* CollectionItemView.m */; };
 		413912F315E5D0A900DB464E /* FoundryClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912F115E5D0A900DB464E /* FoundryClient.h */; };
 		413912F415E5D0A900DB464E /* FoundryClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F215E5D0A900DB464E /* FoundryClient.m */; };
-		413912F815E5D98800DB464E /* ServicesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912F715E5D98800DB464E /* ServicesController.m */; };
-		413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 413912F915E5DA1E00DB464E /* ServicesView.xib */; };
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
 		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
@@ -356,9 +354,6 @@
 		4135F5A115D34D520054D961 /* CollectionItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionItemView.m; path = Classes/CollectionItemView.m; sourceTree = "<group>"; };
 		413912F115E5D0A900DB464E /* FoundryClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryClient.h; sourceTree = "<group>"; };
 		413912F215E5D0A900DB464E /* FoundryClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryClient.m; sourceTree = "<group>"; };
-		413912F615E5D98800DB464E /* ServicesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicesController.h; path = Classes/ServicesController.h; sourceTree = "<group>"; };
-		413912F715E5D98800DB464E /* ServicesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicesController.m; path = Classes/ServicesController.m; sourceTree = "<group>"; };
-		413912F915E5DA1E00DB464E /* ServicesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServicesView.xib; path = Resources/ServicesView.xib; sourceTree = "<group>"; };
 		413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServicesToolbarIcon.png; path = Resources/ServicesToolbarIcon.png; sourceTree = "<group>"; };
 		413C2DE415F6B0B600C80B4C /* DeploymentMemoryTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeploymentMemoryTransformer.h; path = Classes/DeploymentMemoryTransformer.h; sourceTree = "<group>"; };
 		413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentMemoryTransformer.m; path = Classes/DeploymentMemoryTransformer.m; sourceTree = "<group>"; };
@@ -610,16 +605,6 @@
 				4104099C160D2CE000AF93AF /* WizardController.m */,
 			);
 			name = "Navigation Controllers";
-			sourceTree = "<group>";
-		};
-		413912F515E5D94D00DB464E /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				413912F915E5DA1E00DB464E /* ServicesView.xib */,
-				413912F615E5D98800DB464E /* ServicesController.h */,
-				413912F715E5D98800DB464E /* ServicesController.m */,
-			);
-			name = Services;
 			sourceTree = "<group>";
 		};
 		413C2DE315F6AFF400C80B4C /* Value Transformers */ = {
@@ -1011,7 +996,6 @@
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
 				41FA11BA15E431990079FD30 /* Deployments */,
-				413912F515E5D94D00DB464E /* Services */,
 				412DA0F915AB86EF00087F6B /* Navigation Controllers */,
 				414E184E15C0B4F1007C9508 /* Custom Views */,
 				413C2DE315F6AFF400C80B4C /* Value Transformers */,
@@ -1360,7 +1344,6 @@
 				41FA11D215E433C70079FD30 /* TargetPropertiesView.xib in Resources */,
 				41FA11D415E433D50079FD30 /* AppCollectionItemView.xib in Resources */,
 				41FA11D815E433EB0079FD30 /* AppView.xib in Resources */,
-				413912FA15E5DA1E00DB464E /* ServicesView.xib in Resources */,
 				413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */,
 				41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */,
 				41EE94F215F6939700A45951 /* DeploymentPropertiesView.xib in Resources */,
@@ -1483,7 +1466,6 @@
 				41FA11C715E4335D0079FD30 /* AppDelegate.m in Sources */,
 				41FA11CC15E433900079FD30 /* TargetItemsDataSource.m in Sources */,
 				41FA11DB15E436570079FD30 /* BoxGroupView.m in Sources */,
-				413912F815E5D98800DB464E /* ServicesController.m in Sources */,
 				41EE94ED15F6936900A45951 /* DeploymentPropertiesController.m in Sources */,
 				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
