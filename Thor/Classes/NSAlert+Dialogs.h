@@ -4,6 +4,7 @@
 + (NSAlert *)confirmDeleteTargetDialog;
 + (NSAlert *)confirmDeleteAppDialog;
 + (NSAlert *)confirmDeleteDeploymentDialog;
++ (NSAlert *)confirmDeleteServiceDialog;
 + (NSAlert *)confirmUnbindServiceDialog;
 + (NSAlert *)deploymentNotFoundDialog;
 + (NSAlert *)missingDeploymentDialog;

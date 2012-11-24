@@ -36,6 +36,10 @@ NSInteger kDidEndBlockKey;
     return [NSAlert alertWithMessageText:@"Are you sure you wish to unbind this service?" defaultButton:@"Unbind" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The service will be unbound from the deployment. This action cannot be undone."];
 }
 
++ (NSAlert *)confirmDeleteServiceDialog {
+    return [NSAlert alertWithMessageText:@"Are you sure you wish to delete this service?" defaultButton:@"Delete" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"The service will be unbound from any apps to which it is currently bound."];
+}
+
 + (NSAlert *)deploymentNotFoundDialog {
     return [NSAlert alertWithMessageText:@"Deployment not found" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud."];
 }

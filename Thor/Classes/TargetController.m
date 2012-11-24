@@ -59,6 +59,7 @@
 @interface NSObject (ServicesListViewSourceDelegate)
 
 - (void)selectedService:(FoundryService *)service;
+- (void)accessoryButtonClickedForService:(FoundryService *)service;
 
 @end
 
@@ -80,8 +81,10 @@
 - (NSView *)listView:(ListView *)listView cellForRow:(NSUInteger)row {
     ServiceCell *cell = [[ServiceCell alloc] initWithFrame:NSZeroRect];
     FoundryService *service = services[row];
-    cell.button.hidden = YES;
     cell.service = service;
+    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+        [delegate accessoryButtonClickedForService:service];
+    }]];
     return cell;
 }
 
@@ -214,6 +217,20 @@
 
 - (void)selectedService:(FoundryService *)service {
     NSLog(@"clicked on service %@", service);
+}
+
+- (void)accessoryButtonClickedForService:(FoundryService *)service {
+    NSAlert *alert = [NSAlert confirmDeleteServiceDialog];
+    
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
+        if (returnCode == NSAlertDefaultReturn) {
+            self.associatedDisposable = [[client deleteServiceWithName:service.name] subscribeError:^(NSError *error) {
+                [NSApp presentError:error];
+            } completed:^{
+                [self updateApps];
+            }];
+        }
+    }];
 }
 
 - (void)createNewService {
