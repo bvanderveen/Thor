@@ -1,5 +1,4 @@
 #import "AppDelegate.h"
-#import "ToolbarTabController.h"
 #import "DeploymentMemoryTransformer.h"
 #import "SourceListController.h"
 #import "TargetController.h"
@@ -11,14 +10,13 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) ToolbarTabController *toolbarTabController;
 @property (nonatomic, strong) SourceListController *sourceListController;
 
 @end
 
 @implementation AppDelegate
 
-@synthesize toolbarTabController, sourceListController;
+@synthesize sourceListController;
 
 - (id)init {
     if (self = [super init]) {
