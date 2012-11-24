@@ -200,8 +200,10 @@
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
-- (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app {    
-    return [self deploymentForApp:app] == nil;
+- (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app {
+    NSError *error;
+    NSArray *configuredApps = [[ThorBackend shared] getConfiguredApps:&error];
+    return [self deploymentForApp:app] == nil && configuredApps.count > 0;
 }
 
 - (Deployment *)deploymentForApp:(FoundryApp *)app {
