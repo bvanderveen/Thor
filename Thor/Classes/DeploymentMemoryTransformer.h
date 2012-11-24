@@ -1,4 +1,8 @@
 
-@interface DeploymentMemoryTransformer : NSValueTransformer
+@interface FoundryAppMemoryAmountTransformer : NSValueTransformer
+
+@end
+
+@interface FoundryAppMemoryAmountIntegerTransformer : NSValueTransformer
 
 @end

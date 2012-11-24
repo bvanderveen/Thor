@@ -6,7 +6,7 @@
     Deployment *result = [Deployment deploymentInsertedIntoManagedObjectContext:[ThorBackend sharedContext]];
     result.app = app;
     result.target = target;
-    result.name = [((NSURL *)[NSURL fileURLWithPath:app.localRoot]).pathComponents lastObject];
+    result.name = app.lastPathComponent;
     return result;
 }
 

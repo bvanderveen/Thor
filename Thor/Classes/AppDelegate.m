@@ -20,10 +20,6 @@
 
 @synthesize toolbarTabController, sourceListController;
 
-+ (void)initialize {
-    [NSValueTransformer setValueTransformer:[DeploymentMemoryTransformer new] forName:@"DeploymentMemoryTransformer"];
-}
-
 - (id)init {
     if (self = [super init]) {
         self.sourceListController = [[SourceListController alloc] init];
@@ -76,7 +72,7 @@
     [openPanel beginSheetModalForWindow:window completionHandler:^ void (NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             app.localRoot = [[openPanel.URLs objectAtIndex:0] path];
-            app.displayName = [((NSURL *)[NSURL fileURLWithPath:app.localRoot]).pathComponents lastObject];
+            app.displayName = app.lastPathComponent;
             [[ThorBackend sharedContext] insertObject:app];
             
             NSError *error = nil;

@@ -18,7 +18,8 @@
 
 @interface App : NSManagedObject
 
-@property (strong) NSString *displayName, *localRoot;
+@property (copy) NSString *displayName, *localRoot;
+@property (readonly) NSString *lastPathComponent;
 
 + (NSFetchRequest *)fetchRequest;
 
@@ -26,22 +27,11 @@
 
 @end
 
-typedef enum {
-    DeploymentMemoryAmount64 = 0,
-    DeploymentMemoryAmount128 = 1,
-    DeploymentMemoryAmount256 = 2,
-    DeploymentMemoryAmount512 = 3,
-    DeploymentMemoryAmount1024 = 4,
-    DeploymentMemoryAmount2048 = 5,
-} DeploymentMemoryAmount;
-
 @interface Deployment : NSManagedObject
 
 @property (strong) Target *target;
 @property (strong) App *app;
 @property (copy) NSString *name;
-@property (assign) DeploymentMemoryAmount memory;
-@property (assign) NSInteger instances;
 
 + (NSFetchRequest *)fetchRequest;
 + (Deployment *)deploymentInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context;

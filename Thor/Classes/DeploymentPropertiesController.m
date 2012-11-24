@@ -2,31 +2,54 @@
 #import "NSObject+AssociateDisposable.h"
 #import "RACSubscribable+Extensions.h"
 
+@implementation DeploymentProperties
+
+@synthesize name, instances, memory;
+
++ (DeploymentProperties *)defaultDeploymentProperties {
+    DeploymentProperties *result = [[DeploymentProperties alloc] init];
+    result.name = @"";
+    result.instances = 1;
+    result.memory = FoundryAppMemoryAmount64;
+    return result;
+}
+
++ (DeploymentProperties *)deploymentPropertiesWithApp:(FoundryApp *)app {
+    DeploymentProperties *result = [[DeploymentProperties alloc] init];
+    result.name = app.name;
+    result.instances = app.instances;
+    result.memory = FoundryAppMemoryAmountAmountFromInteger(app.memory);
+    return result;
+}
+
+@end
+
 @interface DeploymentPropertiesController ()
 
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, assign) BOOL create;
+@property (nonatomic, strong) Deployment *deployment;
 
 @end
 
 @implementation DeploymentPropertiesController
 
-+ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment create:(BOOL)create {
++ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
-    result.bindingObject = deployment;
     result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
-    result.create = create;
+    result.deploymentProperties = [DeploymentProperties defaultDeploymentProperties];
+    result.deploymentProperties.name = deployment.app.lastPathComponent;
+    result.deployment = deployment;
     return result;
 }
 
 + (DeploymentPropertiesController *)deploymentPropertiesControllerWithApp:(FoundryApp *)app client:(FoundryClient *)client {
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
-    result.bindingObject = app;
     result.client = client;
+    result.deploymentProperties = [DeploymentProperties deploymentPropertiesWithApp:app];
     return result;
 }
 
-@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, bindingObject, create;
+@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, deploymentProperties, deployment;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -50,8 +73,20 @@
                     [subscriber sendNext:[NSNull null]];
                     [subscriber sendCompleted];
                 }
-                completed:^ {
-                }];
+                completed:^ { }];
+    }];
+}
+
+- (void)updateApp:(FoundryApp *)app withProperties:(DeploymentProperties *)properties {
+    app.memory = FoundryAppMemoryAmountIntegerFromAmount(properties.memory);
+    app.instances = properties.instances;
+}
+
+- (RACSubscribable *)updateAppInstancesAndMemory {
+    return [[client getAppWithName:deploymentProperties.name] continueAfter:^ RACSubscribable *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        [self updateApp:latestApp withProperties:deploymentProperties];
+        return [client updateApp:latestApp];
     }];
 }
 
@@ -62,23 +97,19 @@
     self.wizardController.commitButtonEnabled = NO;
     
     FoundryApp *app = nil;
-    Deployment *deployment = nil;
     RACSubscribable *subscribable;
     
-    if ([bindingObject isKindOfClass:[Deployment class]]) {
-        deployment = (Deployment *)bindingObject;
-        app = [FoundryApp appWithDeployment:deployment];
+    if (deployment) {
+        deployment.name = deploymentProperties.name;
         
-        if (create) {
-            subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[client createApp:app]];
-        }
-        else {
-            subscribable = [client updateApp:app];
-        }
+        app = [FoundryApp appWithDeployment:deployment];
+        app.name = deploymentProperties.name;
+        [self updateApp:app withProperties:deploymentProperties];
+        
+        subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[client createApp:app]];
     }
     else {
-        app = (FoundryApp *)bindingObject;
-        subscribable = [client updateApp:app];
+        subscribable = [self updateAppInstancesAndMemory];
     }
         
     self.associatedDisposable = [subscribable subscribeNext:^ (id n) {
@@ -87,10 +118,12 @@
         [NSApp presentError:error];
         self.wizardController.commitButtonEnabled = YES;
     } completed:^ {
-        NSError *error = nil;
-        if (![[ThorBackend sharedContext] save:&error]) {
-            [NSApp presentError:error];
-            NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+        if (deployment) {
+            NSError *error = nil;
+            if (![[ThorBackend sharedContext] save:&error]) {
+                [NSApp presentError:error];
+                NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+            }
         }
         [self.wizardController dismissWithReturnCode:NSOKButton];
     }];

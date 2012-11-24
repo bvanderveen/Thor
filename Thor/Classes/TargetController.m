@@ -263,7 +263,7 @@
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
         Deployment *deployment = [Deployment deploymentWithApp:app target:target];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment create:YES];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController deploymentPropertiesControllerWithDeployment:deployment];
         deploymentController.title = @"Create Deployment";
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
@@ -272,7 +272,7 @@
     wizardItemsController.commitButtonTitle = @"Next";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
-    [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+    [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];
     }];

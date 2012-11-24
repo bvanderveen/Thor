@@ -268,6 +268,10 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @dynamic displayName, localRoot;
 
+- (NSString *)lastPathComponent {
+    return [((NSURL *)[NSURL fileURLWithPath:self.localRoot]).pathComponents lastObject];
+}
+
 + (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {
     return (App *)[[NSManagedObject alloc] initWithEntity:[getManagedObjectModel() entitiesByName][@"App"] insertIntoManagedObjectContext:context];
 }
@@ -374,7 +378,6 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 @implementation Deployment
 
 @dynamic target, app, name;
-@synthesize memory, instances;
 
 - (BOOL)performValidation:(NSError **)error {
     

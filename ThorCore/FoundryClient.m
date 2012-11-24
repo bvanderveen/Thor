@@ -52,7 +52,6 @@ static id (^JsonParser)(id) = ^ id (id d) {
 - (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
     
-    
     if (token) {
         h[@"AUTHORIZATION"] = token;
         return [RACSubscribable return:[self requestWithMethod:method path:path headers:h body:body]];
@@ -97,7 +96,64 @@ NSString *AppStateStringFromState(FoundryAppState state) {
         case FoundryAppStateStopped:
             return @"STOPPED";
         default:
-            return @"???";
+            return @"??";
+    }
+}
+
+NSUInteger FoundryAppMemoryAmountIntegerFromAmount(FoundryAppMemoryAmount amount) {
+    switch (amount) {
+        case FoundryAppMemoryAmount64:
+            return 64;
+        case FoundryAppMemoryAmount128:
+            return 128;
+        case FoundryAppMemoryAmount256:
+            return 256;
+        case FoundryAppMemoryAmount512:
+            return 512;
+        case FoundryAppMemoryAmount1024:
+            return 1024;
+        case FoundryAppMemoryAmount2048:
+            return 2048;
+        default:
+            return -1;
+    }
+}
+
+FoundryAppMemoryAmount FoundryAppMemoryAmountAmountFromInteger(NSUInteger integer) {
+    switch (integer) {
+        case 64:
+            return FoundryAppMemoryAmount64;
+        case 128:
+            return FoundryAppMemoryAmount128;
+        case 256:
+            return FoundryAppMemoryAmount256;
+        case 512:
+            return FoundryAppMemoryAmount512;
+        case 1024:
+            return FoundryAppMemoryAmount1024;
+        case 2048:
+            return FoundryAppMemoryAmount2048;
+        default:
+            return FoundryAppMemoryAmountUnknown;
+    }
+}
+
+NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount) {
+    switch (amount) {
+        case FoundryAppMemoryAmount64:
+            return @"64MB";
+        case FoundryAppMemoryAmount128:
+            return @"128MB";
+        case FoundryAppMemoryAmount256:
+            return @"256MB";
+        case FoundryAppMemoryAmount512:
+            return @"512MB";
+        case FoundryAppMemoryAmount1024:
+            return @"1GB";
+        case FoundryAppMemoryAmount2048:
+            return @"2GB";
+        default:
+            return @"??";
     }
 }
 
