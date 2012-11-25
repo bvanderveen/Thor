@@ -41,6 +41,8 @@
 - (void)showModalLoadingView {
     LoadingView *loadingView = [[LoadingView alloc] initWithFrame:self.frame];
     [loadingView.progressIndicator startAnimation:self];
+    [loadingView setNeedsLayout:YES];
+    [loadingView layoutSubtreeIfNeeded];
     self.hidden = YES;
     [self.superview addSubview:loadingView];
 }

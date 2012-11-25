@@ -115,6 +115,8 @@
 }
 
 - (void)pushItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
+    [delegate breadcrumbBar:self willPushItem:item animated:animated];
+    
     BreadcrumbItemView *itemView = self.stack.count > 0 ?
         [[BreadcrumbTitleItemView alloc] initWithItem:item] :
         [[BreadcrumbBackItemView alloc] initWithItem:item];
@@ -127,9 +129,16 @@
     
     [self addSubview:itemView];
     [self setNeedsLayout:YES];
+    [self layoutSubtreeIfNeeded];
+    
+    [delegate breadcrumbBar:self didPushItem:item animated:animated];
 }
 
 - (void)popItemAnimated:(BOOL)animated {
+    id<BreadcrumbItem> item = [self.stack lastObject];
+    
+    [delegate breadcrumbBar:self willPopItem:item animated:animated];
+    
     NSMutableArray *newStack = [self.stack mutableCopy];
     [newStack removeObjectAtIndex:newStack.count - 1];
     self.stack = newStack;
@@ -140,6 +149,9 @@
     self.crumbViews = newViews;
     
     [self setNeedsLayout:YES];
+    [self layoutSubtreeIfNeeded];
+    
+    [delegate breadcrumbBar:self didPopItem:item animated:animated];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -173,9 +185,7 @@
         index = MAX(0, stack.count - 2);
     while (currentIndex > index) {
         id<BreadcrumbItem> itemAtIndex = [stack objectAtIndex:currentIndex];
-        [delegate breadcrumbBar:self willPopItem:itemAtIndex];
         [self popItemAnimated:NO];
-        [delegate breadcrumbBar:self didPopItem:itemAtIndex];
         currentIndex--;
     }
 }

@@ -56,11 +56,15 @@
     return (SourceListControllerView *)self.view;
 }
 
-- (void)setCurrentController:(NSViewController *)currentController {
+- (void)setCurrentController:(NSViewController<ViewVisibilityAware> *)currentController {
     _currentController = currentController;
     [self.controllerView.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.controllerView.contentView addSubview:currentController.view];
     self.controllerView.needsLayout = YES;
+    [self.controllerView layoutSubtreeIfNeeded];
+    if ([currentController respondsToSelector:@selector(viewWillAppear)]) {
+        [currentController viewWillAppear];
+    }
 }
 
 - (id)init {

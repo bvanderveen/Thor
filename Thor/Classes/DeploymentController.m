@@ -160,7 +160,9 @@ static NSArray *instanceColumns = nil;
     
     deploymentView.servicesList.delegate = rootBoundServicesSource;
     deploymentView.servicesList.dataSource = rootBoundServicesSource;
-    
+}
+
+- (void)viewWillAppear {
     [self updateAppAndStatsAfterSubscribable:nil];
 }
 

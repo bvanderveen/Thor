@@ -1,8 +1,9 @@
 #import <PXSourceList/PXSourceList.h>
+#import "ViewVisibilityAware.h"
 
 @interface SourceListController : NSViewController <PXSourceListDelegate, PXSourceListDataSource>
 
-@property (nonatomic, copy) NSViewController *(^controllerForModel)(id);
+@property (nonatomic, copy) NSViewController<ViewVisibilityAware> *(^controllerForModel)(id);
 @property (nonatomic, copy) NSAlert *(^deleteModelConfirmation)(id);
 
 - (void)updateAppsAndTargets;

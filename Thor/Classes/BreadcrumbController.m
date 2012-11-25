@@ -13,7 +13,6 @@
 
 - (id)initWithFrame:(NSRect)frame {
     if (self = [super initWithFrame:frame]) {
-        
         self.bar = [[BreadcrumbBar alloc] initWithFrame:NSZeroRect];
         [self addSubview:bar];
     }
@@ -79,8 +78,14 @@
 - (void)loadView {
     self.breadcrumbView = [[BreadcrumbControllerView alloc] initWithFrame:NSZeroRect];
     self.breadcrumbView.bar.delegate = self;
-    [self pushViewController:rootController animated:NO];
     self.view = breadcrumbView;
+}
+
+- (void)viewWillAppear {
+    if (!self.breadcrumbView.bar.stack.count)
+        [self pushViewController:rootController animated:NO];
+    else
+        [self viewWillAppearForController:[self topController]];
 }
 
 - (void)viewWillAppearForController:(NSViewController<BreadcrumbControllerAware> *)controller {
@@ -88,40 +93,35 @@
         [controller viewWillAppear];
 }
 
+- (NSViewController<BreadcrumbControllerAware> *)topController {
+    return [self.breadcrumbView.bar.stack lastObject];
+}
+
 - (void)pushViewController:(NSViewController<BreadcrumbControllerAware> *)controller animated:(BOOL)animated {
     controller.breadcrumbController = self;
     [self.breadcrumbView.bar pushItem:controller.breadcrumbItem animated:animated];
-    [self.breadcrumbView pushToView:controller.view animated:animated];
-    [self viewWillAppearForController:controller];
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated {
     [self.breadcrumbView.bar popItemAnimated:animated];
-    
-    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack lastObject];
-    [self viewWillAppearForController:controller];
-    
+}
+
+- (void)breadcrumbBar:(BreadcrumbBar *)bar willPopItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
+}
+
+- (void)breadcrumbBar:(BreadcrumbBar *)bar didPopItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
+    NSViewController<BreadcrumbControllerAware> *controller = [self topController];
     [self.breadcrumbView popToView:controller.view animated:animated];
-}
-
-- (void)breadcrumbBar:(BreadcrumbBar *)bar willPopItem:(id<BreadcrumbItem>)item {
-    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 2];
-    
     [self viewWillAppearForController:controller];
 }
 
-- (void)breadcrumbBar:(BreadcrumbBar *)bar didPopItem:(id<BreadcrumbItem>)item {
-    NSViewController<BreadcrumbControllerAware> *controller = (NSViewController<BreadcrumbControllerAware> *)[self.breadcrumbView.bar.stack objectAtIndex:self.breadcrumbView.bar.stack.count - 1];
-    [self.breadcrumbView popToView:controller.view animated:NO];
-    
-}
-- (void)breadcrumbBar:(BreadcrumbBar *)bar willPushItem:(id<BreadcrumbItem>)item {
-    
-}
-- (void)breadcrumbBar:(BreadcrumbBar *)bar didPushItem:(id<BreadcrumbItem>)item {
-    
+- (void)breadcrumbBar:(BreadcrumbBar *)bar willPushItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
 }
 
-
+- (void)breadcrumbBar:(BreadcrumbBar *)bar didPushItem:(id<BreadcrumbItem>)item animated:(BOOL)animated {
+    NSViewController<BreadcrumbControllerAware> *controller = [self topController];
+    [self.breadcrumbView pushToView:controller.view animated:animated];
+    [self viewWillAppearForController:controller];
+}
 
 @end
