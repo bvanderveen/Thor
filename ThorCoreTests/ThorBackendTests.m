@@ -100,7 +100,7 @@
     self.context = ThorGetObjectContext([NSURL fileURLWithPath:tempStorePath], &error);
     
     if (!self.context)
-        NSLog(@"fail to create test context: %@", error.localizedDescription);
+        NSLog(@"failed to create test context: %@", error.localizedDescription);
     
     self.backend = [[ThorBackendImpl alloc] initWithObjectContext:context];
 }
