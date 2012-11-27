@@ -18,6 +18,7 @@
 
 @property (nonatomic) NSString *commitButtonTitle;
 @property (nonatomic) BOOL commitButtonEnabled;
+@property (nonatomic) BOOL isSinglePage;
 
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController;
 

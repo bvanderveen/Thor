@@ -95,7 +95,7 @@
 
 @implementation WizardController
 
-@synthesize currentController, stack, wizardControllerView, didEndBlock;
+@synthesize isSinglePage, currentController, stack, wizardControllerView, didEndBlock;
 
 - (void)setCommitButtonTitle:(NSString *)commitButtonTitle {
     self.wizardControllerView.nextButton.title = commitButtonTitle;
@@ -129,18 +129,28 @@
 - (void)loadView {
     self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.wizardControllerView.contentView.wantsLayer = YES;
-    [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    RACCommand *dismissCommand = [RACCommand commandWithCanExecute:nil execute:^(id value) {
         
         for (NSInteger i = stack.count - 1; i >= 0; i--)
             [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
         
         [self dismissWithReturnCode:NSCancelButton];
-    }]];
-    [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    }];
+    RACCommand *previousCommand = [RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self.currentController rollbackWizardPanel];
         
         [self popViewControllerAnimated:YES];
-    }]];
+    }];
+    
+    [self.wizardControllerView.cancelButton addCommand:dismissCommand];
+    [self.wizardControllerView.prevButton addCommand:previousCommand];
+    
+    if (isSinglePage) {
+        self.wizardControllerView.prevButton = self.wizardControllerView.cancelButton;
+        self.wizardControllerView.cancelButton = nil;
+    }
+        
+        
     [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self.currentController commitWizardPanel];
     }]];
@@ -162,7 +172,8 @@
 }
 
 - (void)updateButtonState {
-    self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+    if (!isSinglePage)
+        self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
     self.commitButtonTitle = currentController.commitButtonTitle;
 }
 

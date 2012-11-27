@@ -332,6 +332,7 @@
     targetPropertiesController.title = @"Edit Cloud";
     
     WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
+    wizardController.isSinglePage = YES;
     [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];
