@@ -281,6 +281,7 @@ static NSArray *instanceColumns = nil;
     deploymentPropertiesController.title = @"Update deployment";
     
     WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
+    wizard.isSinglePage = YES;
     [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         [self updateAppAndStatsAfterSubscribable:nil];
     }];
@@ -348,6 +349,7 @@ static NSArray *instanceColumns = nil;
     wizardItemsController.commitButtonTitle = @"OK";
     
     wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    wizard.isSinglePage = YES;
     [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         [self updateAppAndStatsAfterSubscribable:nil];
     }];
