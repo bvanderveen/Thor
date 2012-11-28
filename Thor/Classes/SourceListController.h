@@ -1,6 +1,12 @@
 #import <PXSourceList/PXSourceList.h>
 #import "ViewVisibilityAware.h"
 
+@interface SourceListToolbar : NSView
+
+@property (nonatomic, strong) NSButton *button;
+
+@end
+
 @interface SourceListController : NSViewController <PXSourceListDelegate, PXSourceListDataSource>
 
 @property (nonatomic, copy) NSViewController<ViewVisibilityAware> *(^controllerForModel)(id);
@@ -14,5 +20,6 @@
 
 @property (nonatomic, retain) IBOutlet PXSourceList *sourceList;
 @property (nonatomic, strong) IBOutlet NSView *contentView;
+@property (nonatomic, strong) IBOutlet SourceListToolbar *toolbar;
 
 @end

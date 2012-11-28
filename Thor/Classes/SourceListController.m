@@ -3,12 +3,72 @@
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
 
-@implementation SourceListControllerView
 
-@synthesize sourceList, contentView;
+@implementation SourceListToolbar
+
+@synthesize button;
+
+- (id)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        self.button = [[NSButton alloc] initWithFrame:NSZeroRect];
+        self.button.title = @"+";
+        self.button.target = self;
+        self.button.action = @selector(showMenu);
+        [self addSubview:button];
+    }
+    return self;
+}
+
+- (void)showMenu {
+    NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
+    
+    NSMenuItem *newTarget = [[NSMenuItem alloc] initWithTitle:@"New cloud…" action:@selector(newApp:) keyEquivalent:@""];
+    newTarget.target = [NSApplication sharedApplication].delegate;
+    [menu addItem:newTarget];
+    
+    NSMenuItem *newApp = [[NSMenuItem alloc] initWithTitle:@"New app…" action:@selector(newTarget:) keyEquivalent:@""];
+    newApp.target = [NSApplication sharedApplication].delegate;
+    [menu addItem:newApp];
+    
+    [menu popUpMenuPositioningItem:nil atLocation:NSMakePoint(self.button.frame.size.width, 0) inView:self.button];
+}
+
+- (void)newApp {
+}
 
 - (void)layout {
-    self.contentView.frame = NSMakeRect(sourceList.frame.size.width + 1, 0, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
+    self.button.frame = NSMakeRect(0, 0, 24, self.bounds.size.height);
+    [super layout];
+}
+
+- (NSSize)intrinsicContentSize {
+    return NSMakeSize(NSViewNoInstrinsicMetric, 24);
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithDeviceWhite:.8 alpha:1] set];
+    NSRectFill(dirtyRect);
+}
+
+@end
+
+@implementation SourceListControllerView
+
+@synthesize sourceList, contentView, toolbar;
+
+- (void)awakeFromNib {
+    self.needsLayout = YES;
+    [self layoutSubtreeIfNeeded];
+}
+
+- (void)layout {
+    NSSize toolbarSize = [self.toolbar intrinsicContentSize];
+    
+    self.sourceList.frame = NSMakeRect(0, 0, 200, self.bounds.size.height - toolbarSize.height);
+    
+    self.toolbar.frame = NSMakeRect(0, 0, self.sourceList.frame.size.width, toolbarSize.height);
+    
+    self.contentView.frame = NSMakeRect(self.sourceList.frame.size.width + 1, toolbarSize.height, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
     
     if (self.contentView.subviews.count)
         ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
