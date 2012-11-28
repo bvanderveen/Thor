@@ -97,6 +97,10 @@
 }
 
 - (void)displayCreateDeploymentDialog {
+    NSError *error;
+    if (![[ThorBackend shared] getConfiguredTargets:&error].count)
+        [self presentNoConfiguredTargetsDialog];
+    
     __block WizardController *wizardController;
     
     ItemsController *targetsController = [[ItemsController alloc] init];
@@ -118,6 +122,11 @@
         if (returnCode == NSOKButton)
             [self updateDeployments];
     }];
+}
+
+- (void)presentNoConfiguredTargetsDialog {
+    NSAlert *alert = [NSAlert noConfiguredTargetsDialog];
+    [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
 }
 
 - (void)presentConfirmDeletionDialog {

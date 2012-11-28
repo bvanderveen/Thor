@@ -48,8 +48,17 @@ NSInteger kDidEndBlockKey;
     return [NSAlert alertWithMessageText:@"The deployment has disappeared from the cloud." defaultButton:@"Forget deployment" alternateButton:@"Recreate deployment" otherButton:nil informativeTextWithFormat:@"The deployment no longer exists on the cloud. Would you like to recreate it or forget about it?"];
 }
 
++ (NSAlert *)noConfiguredAppsDialog {
+    return [NSAlert alertWithMessageText:@"You have not created any apps." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"To create a new deployment, you must first create an app."];
+}
+
++ (NSAlert *)noConfiguredTargetsDialog {
+    return [NSAlert alertWithMessageText:@"You have not created any clouds." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"To create a new deployment, you must first create a cloud."];
+}
+
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-    self.didEndBlock(returnCode);
+    if (self.didEndBlock)
+        self.didEndBlock(returnCode);
     [NSApp endSheet:self.window];
 }
 
