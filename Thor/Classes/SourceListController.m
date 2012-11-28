@@ -22,11 +22,11 @@
 - (void)showMenu {
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
     
-    NSMenuItem *newTarget = [[NSMenuItem alloc] initWithTitle:@"New cloud…" action:@selector(newApp:) keyEquivalent:@""];
+    NSMenuItem *newTarget = [[NSMenuItem alloc] initWithTitle:@"New cloud…" action:@selector(newTarget:) keyEquivalent:@""];
     newTarget.target = [NSApplication sharedApplication].delegate;
     [menu addItem:newTarget];
     
-    NSMenuItem *newApp = [[NSMenuItem alloc] initWithTitle:@"New app…" action:@selector(newTarget:) keyEquivalent:@""];
+    NSMenuItem *newApp = [[NSMenuItem alloc] initWithTitle:@"New app…" action:@selector(newApp:) keyEquivalent:@""];
     newApp.target = [NSApplication sharedApplication].delegate;
     [menu addItem:newApp];
     
