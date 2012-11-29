@@ -216,6 +216,18 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
 
 @end
 
+@interface NSObject (NumberOrNil)
+
+@end
+
+@implementation NSObject (NumberOrNil)
+
+- (NSNumber *)numberOrNil {
+    return [self isKindOfClass:[NSNumber class]] ? (NSNumber *)self : nil;
+}
+
+@end
+
 @implementation FoundryAppInstanceStats
 
 @synthesize ID, host, port, cpu, memory, disk, uptime;
@@ -224,16 +236,23 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
     FoundryAppInstanceStats *result = [FoundryAppInstanceStats new];
     result.ID = lID;
     
-    NSDictionary *statsDict = dictionary[@"stats"];
-    result.host = statsDict[@"host"];
-    result.port = [statsDict[@"port"] intValue];
+    if ([dictionary[@"state"] isEqual:@"DOWN"]) {
+        NSLog(@"Got a down instance.");
+        result.isDown = YES;
+        return result;
+    }
     
-    result.uptime = [statsDict[@"uptime"] floatValue];
+    NSDictionary *statsDict = dictionary[@"stats"];
+    
+    result.host = statsDict[@"host"];
+    result.port = [[statsDict[@"port"] numberOrNil] intValue];
+    result.uptime = [[statsDict[@"uptime"] numberOrNil] floatValue];
     
     NSDictionary *usageDict = statsDict[@"usage"];
-    result.cpu = [usageDict[@"cpu"] floatValue];
-    result.memory = [usageDict[@"mem"] floatValue];
-    result.disk = [usageDict[@"disk"] intValue];
+    
+    result.cpu = [[usageDict[@"cpu"] numberOrNil] floatValue];
+    result.memory = [[usageDict[@"mem"] numberOrNil] floatValue];
+    result.disk = [[usageDict[@"disk"] numberOrNil] intValue];
  
     return result;
 }

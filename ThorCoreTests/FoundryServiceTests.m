@@ -253,6 +253,69 @@ describe(@"getStatsForAppWithName", ^ {
         expect(stats.memory).to.equal(2048.3);
         expect(stats.disk).to.equal(4096);
     });
+    
+    it(@"should parse result with nulls", ^ {
+        endpoint.results = @[ @{
+        @"0" : @{
+            @"stats" : @{
+                @"host" : @"10.0.0.1",
+                @"port" : [NSNull null],
+                @"uptime": [NSNull null],
+                @"usage" : @{
+                    @"cpu" : [NSNull null],
+                    @"mem" : @2048.3,
+                    @"disk": @4096
+                }
+            }
+        }
+        }];
+        
+        __block NSArray *result;
+        
+        [[client getStatsForAppWithName:@"the name"] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(1);
+        
+        FoundryAppInstanceStats *stats = result[0];
+        
+        expect(stats.ID).to.equal(@"0");
+        expect(stats.host).to.equal(@"10.0.0.1");
+        expect(stats.port).to.equal(0);
+        expect(stats.uptime).to.equal(0);
+        expect(stats.cpu).to.equal(0);
+        expect(stats.memory).to.equal(2048.3);
+        expect(stats.disk).to.equal(4096);
+    });
+    
+    it(@"should parse result with down instances", ^ {
+        endpoint.results = @[ @{
+        @"0" : @{
+            @"since" : @1354230089,
+            @"state" : @"DOWN"
+        }
+        }];
+        
+        __block NSArray *result;
+        
+        [[client getStatsForAppWithName:@"the name"] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result.count).to.equal(1);
+        
+        FoundryAppInstanceStats *stats = result[0];
+        
+        expect(stats.ID).to.equal(@"0");
+        expect(stats.isDown).to.beTruthy();
+        expect(stats.host).to.beNil();
+        expect(stats.port).to.equal(0);
+        expect(stats.uptime).to.equal(0);
+        expect(stats.cpu).to.equal(0);
+        expect(stats.memory).to.equal(0);
+        expect(stats.disk).to.equal(0);
+    });
 });
 
 describe(@"createApp", ^ {
