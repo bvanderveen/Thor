@@ -298,7 +298,7 @@ describe(@"createApp", ^ {
         @"memory" : @256//,
         //@"disk" : @512
         },
-        //@"state" : @"STARTED",
+        @"state" : @"STARTED",
         //@"env" : @[],
         //@"meta" : @{
         //@"debug" : @0
@@ -343,7 +343,7 @@ describe(@"createApp", ^ {
         @"memory" : @256//,
         //@"disk" : @512
         },
-        //@"state" : @"STARTED",
+        @"state" : @"STARTED",
         //@"env" : @[],
         //@"meta" : @{
         //@"debug" : @0
@@ -399,7 +399,52 @@ describe(@"updateApp", ^ {
         @"memory" : @256//,
         //@"disk" : @512
         },
-        //@"state" : @"STARTED",
+        @"state" : @"STARTED",
+        //@"env" : @[],
+        //@"meta" : @{
+        //@"debug" : @0
+        //}
+        }
+        
+        }];
+        
+        expect(endpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should call endpoint with stopped state", ^ {
+        
+        FoundryApp *app = [FoundryApp new];
+        
+        app.name = @"appname";
+        app.stagingFramework = @"rack";
+        app.stagingRuntime = @"ruby18";
+        app.uris = @[ @"app.foo.bar.com" ];
+        app.services = @[ @"redis", @"postgres" ];
+        app.instances = 3;
+        app.memory = 256;
+        //app.disk = 512;
+        app.state = FoundryAppStateStopped;
+        
+        [[client updateApp:app] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"method" : @"PUT",
+        @"path" : @"/apps/appname",
+        @"headers" : [NSNull null],
+        @"body" : @{
+        @"name" : @"appname",
+        @"staging" : @{
+        @"framework" : @"rack",
+        @"runtime" : @"ruby18",
+        },
+        @"uris" : @[ @"app.foo.bar.com" ],
+        @"services" : @[ @"redis", @"postgres" ],
+        @"instances": @3,
+        @"resources" : @{
+        @"memory" : @256//,
+        //@"disk" : @512
+        },
+        @"state" : @"STOPPED",
         //@"env" : @[],
         //@"meta" : @{
         //@"debug" : @0

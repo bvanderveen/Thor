@@ -205,7 +205,7 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
             @"memory" : [NSNumber numberWithInteger:memory]//,
             //@"disk" : [NSNumber numberWithInteger:disk]
         },
-        //@"state" : AppStateStringFromState(state),
+        @"state" : AppStateStringFromState(state),
         @"services" : services ? services : [NSNull null],
         //@"env" : @[],
         //@"meta" : @{
