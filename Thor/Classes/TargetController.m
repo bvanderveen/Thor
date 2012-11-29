@@ -256,7 +256,7 @@
     } rollbackBlock:nil];
     
     wizardItemsController.title = @"Create new service";
-    wizardItemsController.commitButtonTitle = @"Done";
+    wizardItemsController.commitButtonTitle = @"Next";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
