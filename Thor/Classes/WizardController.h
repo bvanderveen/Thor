@@ -18,6 +18,7 @@
 
 @property (nonatomic) NSString *commitButtonTitle;
 @property (nonatomic) BOOL commitButtonEnabled;
+@property (nonatomic) BOOL dismissButtonEnabled;
 @property (nonatomic) BOOL isSinglePage;
 
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController;
@@ -27,5 +28,8 @@
 
 - (void)presentModalForWindow:(NSWindow *)window didEndBlock:(void (^)(NSInteger))didEndBlock;
 - (void)dismissWithReturnCode:(NSInteger)returnCode;
+
+- (void)displayLoadingView;
+- (void)hideLoadingView;
 
 @end

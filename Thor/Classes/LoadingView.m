@@ -2,12 +2,6 @@
 
 #define LOADING_VIEW_TAG 0x10ad
 
-@interface LoadingView : NSView
-
-@property (nonatomic, strong) NSProgressIndicator *progressIndicator;
-
-@end
-
 @implementation LoadingView
 
 @synthesize progressIndicator;

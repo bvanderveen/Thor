@@ -3,18 +3,39 @@
 #import "Label.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "SheetWindow.h"
+#import "LoadingView.h"
 
-@interface WizardControllerView : NSView
+@interface WizardControllerView : NSView {
+    BOOL displaysLoadingView;
+}
 
+@property (nonatomic, strong) LoadingView *loadingView;
 @property (nonatomic, strong) NSView *contentView;
 @property (nonatomic, strong) NSTextField *titleLabel;
 @property (nonatomic, strong) NSButton *cancelButton, *nextButton, *prevButton;
+
+
+- (void)setDisplaysLoadingView:(BOOL)value animated:(BOOL)animated;
+- (BOOL)displaysLoadingView;
 
 @end
 
 @implementation WizardControllerView;
 
-@synthesize contentView, titleLabel, cancelButton, nextButton, prevButton;
+@synthesize loadingView, contentView, titleLabel, cancelButton, nextButton, prevButton;
+
+- (void)setDisplaysLoadingView:(BOOL)value animated:(BOOL)animated {
+    displaysLoadingView = value;
+    loadingView.hidden = !value;
+    if (value)
+        [loadingView.progressIndicator startAnimation:self];
+    else
+        [loadingView.progressIndicator stopAnimation:self];
+}
+
+- (BOOL)displaysLoadingView {
+    return displaysLoadingView;
+}
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
@@ -42,6 +63,10 @@
         
         self.contentView = [[NSView alloc] initWithFrame:NSZeroRect];
         [self addSubview:contentView];
+        
+        self.loadingView = [[LoadingView alloc] initWithFrame:NSZeroRect];
+        self.loadingView.hidden = YES;
+        [self addSubview:loadingView];
     }
     return self;
 }
@@ -67,17 +92,26 @@
     
     self.titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
-    self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
-    
     self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height);
     
-    self.prevButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    
+    NSRect adjacentToNextButtonRect = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+    
+    if (self.prevButton.isHidden) {
+        self.cancelButton.frame = adjacentToNextButtonRect;
+    }
+    else {
+        self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
+        self.prevButton.frame = adjacentToNextButtonRect;
+    }
     
     CGFloat titleAreaHeight = titleLabelSize.height + titleInsets.top + titleInsets.bottom;
     CGFloat buttonAreaHeight = buttonSize.height + buttonAreaInsets.top + buttonAreaInsets.bottom;
     
     self.contentView.frame = NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight);
     ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
+    
+    self.loadingView.frame = self.contentView.frame;
     
     [super layout];
 }
@@ -113,6 +147,14 @@
     return self.wizardControllerView.nextButton.isEnabled;
 }
 
+- (void)setDismissButtonEnabled:(BOOL)dismissButtonEnabled {
+    self.wizardControllerView.cancelButton.enabled = dismissButtonEnabled;
+}
+
+- (BOOL)dismissButtonEnabled {
+    return self.wizardControllerView.cancelButton.isEnabled;
+}
+
 - (WizardControllerView *)wizardControllerView {
     return (WizardControllerView *)self.view;
 }
@@ -129,25 +171,22 @@
 - (void)loadView {
     self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.wizardControllerView.contentView.wantsLayer = YES;
-    RACCommand *dismissCommand = [RACCommand commandWithCanExecute:nil execute:^(id value) {
+    
+    [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         
         for (NSInteger i = stack.count - 1; i >= 0; i--)
             [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
         
         [self dismissWithReturnCode:NSCancelButton];
-    }];
-    RACCommand *previousCommand = [RACCommand commandWithCanExecute:nil execute:^(id value) {
+    }]];
+    [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self.currentController rollbackWizardPanel];
         
         [self popViewControllerAnimated:YES];
-    }];
-    
-    [self.wizardControllerView.cancelButton addCommand:dismissCommand];
-    [self.wizardControllerView.prevButton addCommand:previousCommand];
+    }]];
     
     if (isSinglePage) {
-        self.wizardControllerView.prevButton = self.wizardControllerView.cancelButton;
-        self.wizardControllerView.cancelButton = nil;
+        self.wizardControllerView.prevButton.hidden = YES;
     }
         
         
@@ -236,6 +275,14 @@
 
 - (void)dismissWithReturnCode:(NSInteger)returnCode {
     [NSApp endSheet:self.view.window returnCode:returnCode];
+}
+
+- (void)displayLoadingView {
+    [self.wizardControllerView setDisplaysLoadingView:YES animated:YES];
+}
+
+- (void)hideLoadingView {
+    [self.wizardControllerView setDisplaysLoadingView:NO animated:YES];
 }
 
 @end

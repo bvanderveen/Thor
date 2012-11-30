@@ -111,8 +111,8 @@
     else {
         subscribable = [self updateAppInstancesAndMemory];
     }
-        
-    self.associatedDisposable = [subscribable subscribeNext:^ (id n) {
+    
+    self.associatedDisposable = [[subscribable showLoadingViewInWizard:self.wizardController] subscribeNext:^ (id n) {
         NSLog(@"%@", n);
     } error:^ (NSError *error) {
         [NSApp presentError:error];
