@@ -1,11 +1,20 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
+@interface RestEndpoint : NSObject
+
+- (RACSubscribable *)requestWithHost:(NSString *)host method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+
+@end
+
 @interface FoundryEndpoint : NSObject
 
 @property (nonatomic, copy) NSString *hostname, *email, *password;
 
 // result is parsed JSON of response body
 - (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+
+- (RACSubscribable *)verifyCredentials;
+
 
 @end
 

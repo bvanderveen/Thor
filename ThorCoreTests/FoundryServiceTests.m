@@ -44,14 +44,7 @@
     return [result copy];
 }
 
-- (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    NSDictionary *call = @{
-    @"method" : method ? method : [NSNull null],
-    @"path" : path ? path : [NSNull null],
-    @"headers" : headers ? headers : [NSNull null],
-    @"body" : body ? ([body isKindOfClass:[NSInputStream class]] ? [self stringFromStream:(NSInputStream *)body] : body) : [NSNull null]
-    };
-    
+- (RACSubscribable *)logCallAndGetResult:(NSDictionary *)call {
     calls = [calls arrayByAddingObject:call];
     
     id resultObject = results.count ? results[0] : nil;
@@ -65,7 +58,77 @@
     return [RACSubscribable return:resultObject];
 }
 
+- (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+    NSDictionary *call = @{
+    @"method" : method ? method : [NSNull null],
+    @"path" : path ? path : [NSNull null],
+    @"headers" : headers ? headers : [NSNull null],
+    @"body" : body ? ([body isKindOfClass:[NSInputStream class]] ? [self stringFromStream:(NSInputStream *)body] : body) : [NSNull null]
+    };
+    
+    return [self logCallAndGetResult:call];
+}
+
+- (RACSubscribable *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+    NSDictionary *call = @{
+    @"host": hostname,
+    @"method" : method ? method : [NSNull null],
+    @"path" : path ? path : [NSNull null],
+    @"headers" : headers ? headers : [NSNull null],
+    @"body" : body ? ([body isKindOfClass:[NSInputStream class]] ? [self stringFromStream:(NSInputStream *)body] : body) : [NSNull null]
+    };
+    
+    
+    return [self logCallAndGetResult:call];
+}
+
 @end
+
+SpecBegin(RestEndpoint)
+
+describe(@"verifyCredentials", ^{
+    
+    __block MockEndpoint *wrappedEndpoint;
+    __block FoundryEndpoint *endpoint;
+    
+    beforeEach(^ {
+        wrappedEndpoint = [[MockEndpoint alloc] init];
+        endpoint = [[FoundryEndpoint alloc] init];
+        endpoint.hostname = @"cool.com";
+        endpoint.email = @"thor@tier3.com";
+        endpoint.password = @"passw0rd";
+        
+        wrappedEndpoint.results = @[@{@"token": @"foobs"}];
+        
+        [(id)endpoint setEndpoint:wrappedEndpoint];
+    });
+    
+    it(@"should call endpoint", ^ {
+        [[endpoint verifyCredentials] subscribeCompleted:^{ }];
+        
+        id expectedCalls = @[@{
+        @"host": @"cool.com",
+        @"method" : @"POST",
+        @"path" : @"/users/thor@tier3.com/tokens",
+        @"headers" : [NSNull null],
+        @"body" : @{ @"password": @"passw0rd" }
+        }];
+        
+        expect(wrappedEndpoint.calls).to.equal(expectedCalls);
+    });
+    
+    it(@"should parse results", ^ {
+        
+        __block NSArray *result;
+        [[endpoint verifyCredentials] subscribeNext:^(id x) {
+            result = (NSArray *)x;
+        }];
+        
+        expect(result).to.equal(@"foobs");
+    });
+});
+
+SpecEnd
 
 SpecBegin(FoundryService)
 

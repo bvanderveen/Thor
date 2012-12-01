@@ -6,21 +6,6 @@
 #import "SHA1.h"
 #import "NSOutputStream+Writing.h"
 
-@interface FoundryClientError : NSError
-
-@end
-
-@implementation FoundryClientError
-
-- (NSString *)localizedDescription {
-    switch (self.code) {
-        case FoundryClientInvalidCredentials:
-            return @"Your username and password are invalid. Double check them and try again.";
-    }
-}
-
-@end
-
 NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
 
 static id (^JsonParser)(id) = ^ id (id d) {
@@ -28,17 +13,9 @@ static id (^JsonParser)(id) = ^ id (id d) {
     return data.length ? [data JSONValue] : nil;
 };
 
-@interface FoundryEndpoint ()
+@implementation RestEndpoint
 
-@property (nonatomic, copy) NSString *token;
-
-@end
-
-@implementation FoundryEndpoint
-
-@synthesize hostname, email, password, token;
-
-- (RACSubscribable *)requestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+- (RACSubscribable *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     urlRequest.HTTPMethod = method;
@@ -58,11 +35,47 @@ static id (^JsonParser)(id) = ^ id (id d) {
     return [SMWebRequest requestSubscribableWithURLRequest:urlRequest dataParser:JsonParser];
 }
 
+@end
+
+@interface FoundryClientError : NSError
+
+@end
+
+@implementation FoundryClientError
+
+- (NSString *)localizedDescription {
+    switch (self.code) {
+        case FoundryClientInvalidCredentials:
+            return @"Your username and password are invalid. Double check them and try again.";
+    }
+    return [super localizedDescription];
+}
+
+@end
+
+@interface FoundryEndpoint ()
+
+@property (nonatomic, copy) NSString *token;
+@property (nonatomic, strong) RestEndpoint *endpoint;
+
+@end
+
+@implementation FoundryEndpoint
+
+@synthesize hostname, email, password, token, endpoint;
+
+- (id)init {
+    if (self = [super init]) {
+        self.endpoint = [[RestEndpoint alloc] init];
+    }
+    return self;
+}
+
 - (RACSubscribable *)getToken {
     NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
     
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
-        return [[self requestWithMethod:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
+        return [[self.endpoint requestWithHost:self.hostname method:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
             [subscriber sendNext:((NSDictionary *)r)[@"token"]];
         } error:^(NSError *error) {
             if ([error.domain isEqual:@"SMWebRequest"]) {
@@ -78,19 +91,23 @@ static id (^JsonParser)(id) = ^ id (id d) {
     }];
 }
 
+- (RACSubscribable *)verifyCredentials {
+    return [self getToken];
+}
+
 // result is subscribable
 - (RACSubscribable *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
     
     if (token) {
         h[@"AUTHORIZATION"] = token;
-        return [RACSubscribable return:[self requestWithMethod:method path:path headers:h body:body]];
+        return [RACSubscribable return:[self.endpoint requestWithHost:hostname method:method path:path headers:h body:body]];
     }
     
     return [[self getToken] select:^ id (id t) {
         self.token = t;
         h[@"AUTHORIZATION"] = token;
-        return [self requestWithMethod:method path:path headers:h body:body];
+        return [self.endpoint requestWithHost:hostname method:method path:path headers:h body:body];
     }];
 }
 
