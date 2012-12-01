@@ -106,6 +106,10 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL);
 
 @end
 
+extern NSString *FoundryClientErrorDomain;
+
+const static NSInteger FoundryClientInvalidCredentials = 1;
+
 @interface FoundryClient : NSObject <FoundryClient>
 
 @property (nonatomic, strong) FoundryEndpoint *endpoint;

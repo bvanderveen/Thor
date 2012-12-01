@@ -6,6 +6,23 @@
 #import "SHA1.h"
 #import "NSOutputStream+Writing.h"
 
+@interface FoundryClientError : NSError
+
+@end
+
+@implementation FoundryClientError
+
+- (NSString *)localizedDescription {
+    switch (self.code) {
+        case FoundryClientInvalidCredentials:
+            return @"Your username and password are invalid. Double check them and try again.";
+    }
+}
+
+@end
+
+NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
+
 static id (^JsonParser)(id) = ^ id (id d) {
     NSData *data = (NSData *)d;
     return data.length ? [data JSONValue] : nil;
@@ -43,8 +60,21 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 - (RACSubscribable *)getToken {
     NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
-    return [[self requestWithMethod:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] select:^ id (id r) {
-        return ((NSDictionary *)r)[@"token"];
+    
+    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        return [[self requestWithMethod:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
+            [subscriber sendNext:((NSDictionary *)r)[@"token"]];
+        } error:^(NSError *error) {
+            if ([error.domain isEqual:@"SMWebRequest"]) {
+                SMErrorResponse *errorResponse = error.userInfo[SMErrorResponseKey];
+                if (errorResponse.response.statusCode == 403) {
+                    [subscriber sendError:[FoundryClientError errorWithDomain:FoundryClientErrorDomain code:FoundryClientInvalidCredentials userInfo:nil]];
+                }
+            }
+            else [subscriber sendError:error];
+        } completed:^{
+            [subscriber sendCompleted];
+        }];
     }];
 }
 

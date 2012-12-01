@@ -1,4 +1,20 @@
 #import "SMWebRequest+RAC.h"
+#import <objc/runtime.h>
+
+NSInteger AssociatedWebRequestKey;
+
+@implementation NSObject (SMWebRequestForResult)
+
+- (SMWebRequest *)associatedWebRequest {
+    return objc_getAssociatedObject(self, &AssociatedWebRequestKey);
+}
+
+- (void)setAssociatedWebRequest:(SMWebRequest *)associatedWebRequest {
+    objc_setAssociatedObject(self, &AssociatedWebRequestKey, associatedWebRequest, OBJC_ASSOCIATION_ASSIGN);
+}
+
+@end
+
 //
 //@interface UIApplication (NetworkActivity)
 //

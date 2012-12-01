@@ -1,6 +1,12 @@
 #import "SMWebRequest.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
+@interface NSObject (SMWebRequestForResult)
+
+@property (nonatomic, unsafe_unretained) SMWebRequest *associatedWebRequest;
+
+@end
+
 @interface SMWebRequest (RAC)
 
 + (RACSubscribable *)requestSubscribableWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser; 
