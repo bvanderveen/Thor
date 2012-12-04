@@ -17,7 +17,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 - (RACSubscribable *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:6];
     urlRequest.HTTPMethod = method;
     
     if ([body isKindOfClass:[NSInputStream class]]) {
