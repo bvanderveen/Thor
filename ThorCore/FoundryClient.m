@@ -96,8 +96,10 @@ static id (^JsonParser)(id) = ^ id (id d) {
         return [[self getToken] subscribeNext:^(id x) {
             [subscriber sendNext:[NSNumber numberWithBool:YES]];
         } error:^(NSError *error) {
-            if ([error.domain isEqual:FoundryClientErrorDomain] && error.code == FoundryClientInvalidCredentials)
+            if ([error.domain isEqual:FoundryClientErrorDomain] && error.code == FoundryClientInvalidCredentials) {
                 [subscriber sendNext:[NSNumber numberWithBool:NO]];
+                [subscriber sendCompleted];
+            }
             else
                 [subscriber sendError:error];
         } completed:^{

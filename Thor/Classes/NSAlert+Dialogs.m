@@ -56,6 +56,10 @@ NSInteger kDidEndBlockKey;
     return [NSAlert alertWithMessageText:@"You have not created any clouds." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"To create a new deployment, you must first create a cloud."];
 }
 
++ (NSAlert *)invalidCredentialsDialog {
+    return [NSAlert alertWithMessageText:@"Your credentials appear to be invalid" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please double check your email and password."];
+}
+
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
     if (self.didEndBlock)
         self.didEndBlock(returnCode);

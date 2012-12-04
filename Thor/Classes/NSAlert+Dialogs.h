@@ -10,6 +10,7 @@
 + (NSAlert *)missingDeploymentDialog;
 + (NSAlert *)noConfiguredAppsDialog;
 + (NSAlert *)noConfiguredTargetsDialog;
++ (NSAlert *)invalidCredentialsDialog;
 
 - (void)presentSheetModalForWindow:(NSWindow *)window didEndBlock:(void (^)(NSInteger))didEnd;
 

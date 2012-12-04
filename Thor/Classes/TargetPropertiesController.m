@@ -1,4 +1,7 @@
 #import "TargetPropertiesController.h"
+#import "NSObject+AssociateDisposable.h"
+#import "NSAlert+Dialogs.h"
+#import "RACSubscribable+Extensions.h"
 
 @implementation TargetPropertiesController
 
@@ -18,18 +21,30 @@
 
 - (void)commitWizardPanel {
     [objectController commitEditing];
-    NSError *error = nil;
     
-    if (!target.managedObjectContext)
-        [[ThorBackend sharedContext] insertObject:target];
-    
-    if (![[ThorBackend sharedContext] save:&error]) {
+    self.associatedDisposable = [[[[FoundryEndpoint endpointWithTarget:target] verifyCredentials] showLoadingViewInWizard:self.wizardController] subscribeNext:^(id x) {
+        if ([x boolValue]) {
+            if (!target.managedObjectContext)
+                [[ThorBackend sharedContext] insertObject:target];
+            
+            NSError *error = nil;
+            
+            if (![[ThorBackend sharedContext] save:&error]) {
+                [NSApp presentError:error];
+                NSLog(@"There was an error! %@", error.userInfo[NSLocalizedDescriptionKey]);
+            }
+            else {
+                [self.wizardController dismissWithReturnCode:NSOKButton];
+            }
+        }
+        else {
+            NSAlert *alert = [NSAlert invalidCredentialsDialog];
+            [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
+        }
+    } error:^(NSError *error) {
         [NSApp presentError:error];
-        NSLog(@"There was an error! %@", error.userInfo[NSLocalizedDescriptionKey]);
-    }
-    else {
-        [self.wizardController dismissWithReturnCode:NSOKButton];
-    }
+    } completed:^{
+    }];
 }
 
 - (void)rollbackWizardPanel {
