@@ -9,6 +9,4 @@
 @property (nonatomic, strong) IBOutlet App *app;
 @property (nonatomic, strong) IBOutlet AppView *appView;
 
-- (IBAction)deleteClicked:(id)sender;
-
 @end

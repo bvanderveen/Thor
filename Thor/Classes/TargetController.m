@@ -348,26 +348,4 @@
     [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
 }
 
-- (void)presentConfirmDeletionDialog {
-    NSAlert *alert = [NSAlert confirmDeleteTargetDialog];
-    
-    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        if (returnCode == NSAlertDefaultReturn) {
-            [[ThorBackend sharedContext] deleteObject:target];
-            NSError *error;
-            
-            if (![[ThorBackend sharedContext] save:&error]) {
-                [NSApp presentError:error];
-                return;
-            }
-            
-            [self.breadcrumbController popViewControllerAnimated:YES];
-        }
-    }];
-}
-
-- (void)deleteClicked:(id)sender {
-    [self presentConfirmDeletionDialog];
-}
-
 @end
