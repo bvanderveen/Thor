@@ -57,7 +57,11 @@ NSInteger kDidEndBlockKey;
 }
 
 + (NSAlert *)invalidCredentialsDialog {
-    return [NSAlert alertWithMessageText:@"Your credentials appear to be invalid" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please double check your email and password."];
+    return [NSAlert alertWithMessageText:@"Your credentials appear to be invalid." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please double check your email and password."];
+}
+
++ (NSAlert *)failedToConnectToHostDialog {
+    return [NSAlert alertWithMessageText:@"There was an error connecting to the host." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please double check the hostname."];
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {

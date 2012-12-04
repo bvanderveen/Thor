@@ -42,7 +42,12 @@
             [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
         }
     } error:^(NSError *error) {
-        [NSApp presentError:error];
+        if ([error.domain isEqual:NSURLErrorDomain]) {
+            NSAlert *alert = [NSAlert failedToConnectToHostDialog];
+            [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
+        }
+        else
+            [NSApp presentError:error];
     } completed:^{
     }];
 }

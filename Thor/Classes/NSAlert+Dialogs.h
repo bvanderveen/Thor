@@ -11,6 +11,7 @@
 + (NSAlert *)noConfiguredAppsDialog;
 + (NSAlert *)noConfiguredTargetsDialog;
 + (NSAlert *)invalidCredentialsDialog;
++ (NSAlert *)failedToConnectToHostDialog;
 
 - (void)presentSheetModalForWindow:(NSWindow *)window didEndBlock:(void (^)(NSInteger))didEnd;
 
