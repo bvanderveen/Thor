@@ -19,8 +19,7 @@
 // used when editing an existing deployment
 + (DeploymentPropertiesController *)deploymentPropertiesControllerWithApp:(FoundryApp *)app client:(FoundryClient *)service;
 
-// used when creating a new deployment. Deployment object is assumed to be
-// inserted and will be saved if user presses OK
-+ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment;
+// used when creating a new deployment. Deployment object will be saved if user presses OK
++ (DeploymentPropertiesController *)newDeploymentPropertiesControllerWithApp:(App *)app target:(Target *)target;
 
 @end

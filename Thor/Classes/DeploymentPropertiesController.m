@@ -27,18 +27,21 @@
 @interface DeploymentPropertiesController ()
 
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, strong) Deployment *deployment;
+@property (nonatomic, strong) App *app;
+@property (nonatomic, strong) Target *target;
 
 @end
 
 @implementation DeploymentPropertiesController
 
-+ (DeploymentPropertiesController *)deploymentPropertiesControllerWithDeployment:(Deployment *)deployment {
++ (DeploymentPropertiesController *)newDeploymentPropertiesControllerWithApp:(App *)app target:(Target *)target {
+    assert(app && target);
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
-    result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     result.deploymentProperties = [DeploymentProperties defaultDeploymentProperties];
-    result.deploymentProperties.name = deployment.app.lastPathComponent;
-    result.deployment = deployment;
+    result.deploymentProperties.name = app.lastPathComponent;
+    result.app = app;
+    result.target = target;
     return result;
 }
 
@@ -49,7 +52,7 @@
     return result;
 }
 
-@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, deploymentProperties, deployment;
+@synthesize objectController, deploymentPropertiesView, wizardController, title, commitButtonTitle, client, deploymentProperties, app, target;
 
 - (id)init {
     if (self = [super initWithNibName:@"DeploymentPropertiesView" bundle:[NSBundle mainBundle]]) {
@@ -77,9 +80,9 @@
     }];
 }
 
-- (void)updateApp:(FoundryApp *)app withProperties:(DeploymentProperties *)properties {
-    app.memory = FoundryAppMemoryAmountIntegerFromAmount(properties.memory);
-    app.instances = properties.instances;
+- (void)updateApp:(FoundryApp *)foundryApp withProperties:(DeploymentProperties *)properties {
+    foundryApp.memory = FoundryAppMemoryAmountIntegerFromAmount(properties.memory);
+    foundryApp.instances = properties.instances;
 }
 
 - (RACSubscribable *)updateAppInstancesAndMemory {
@@ -93,20 +96,22 @@
 - (void)commitWizardPanel {
     [objectController commitEditing];
     
-    // TODO display spinner while waiting.
     self.wizardController.commitButtonEnabled = NO;
     
-    FoundryApp *app = nil;
     RACSubscribable *subscribable;
     
-    if (deployment) {
-        deployment.name = deploymentProperties.name;
-        
-        app = [FoundryApp appWithDeployment:deployment];
-        app.name = deploymentProperties.name;
-        [self updateApp:app withProperties:deploymentProperties];
-        
-        subscribable = [[self ensureServiceDoesNotHaveAppWithName:app.name] continueWith:[client createApp:app]];
+    if (app && target) {
+        subscribable = [[self ensureServiceDoesNotHaveAppWithName:deploymentProperties.name] continueAfter:^RACSubscribable *(id x) {
+            FoundryApp *foundryApp = [[FoundryApp alloc] init];
+            foundryApp.uris = @[];
+            foundryApp.services = @[];
+            foundryApp.stagingFramework = DetectFrameworkFromPath([NSURL fileURLWithPath:app.localRoot]);
+            foundryApp.stagingRuntime = nil;
+            
+            foundryApp.name = deploymentProperties.name;
+            [self updateApp:foundryApp withProperties:deploymentProperties];
+            return [client createApp:foundryApp];
+        }];
     }
     else {
         subscribable = [self updateAppInstancesAndMemory];
@@ -118,14 +123,22 @@
         [NSApp presentError:error];
         self.wizardController.commitButtonEnabled = YES;
     } completed:^ {
-        if (deployment) {
+        if (app && target) {
+            Deployment *deployment = [Deployment deploymentWithApp:app target:target];
+            deployment.name = deploymentProperties.name;
+            
             NSError *error = nil;
             if (![[ThorBackend sharedContext] save:&error]) {
                 [NSApp presentError:error];
                 NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
             }
+            else {
+                [self.wizardController dismissWithReturnCode:NSOKButton];
+            }
         }
-        [self.wizardController dismissWithReturnCode:NSOKButton];
+        else {
+            [self.wizardController dismissWithReturnCode:NSOKButton];
+        }
     }];
 }
 
