@@ -15,7 +15,6 @@
 
 - (RACSubscribable *)verifyCredentials;
 
-
 @end
 
 typedef enum {
@@ -23,7 +22,6 @@ typedef enum {
     FoundryAppStateStopped,
     FoundryAppStateUnknown
 } FoundryAppState;
-
 
 typedef enum {
     FoundryAppMemoryAmountUnknown = -1,

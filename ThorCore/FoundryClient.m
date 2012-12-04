@@ -76,7 +76,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
     
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
         return [[self.endpoint requestWithHost:self.hostname method:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
-            [subscriber sendNext:((NSDictionary *)r)[@"token"]];
+            [subscriber sendNext:r];
         } error:^(NSError *error) {
             if ([error.domain isEqual:@"SMWebRequest"]) {
                 SMErrorResponse *errorResponse = error.userInfo[SMErrorResponseKey];
@@ -92,7 +92,18 @@ static id (^JsonParser)(id) = ^ id (id d) {
 }
 
 - (RACSubscribable *)verifyCredentials {
-    return [self getToken];
+    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        return [[self getToken] subscribeNext:^(id x) {
+            [subscriber sendNext:[NSNumber numberWithBool:YES]];
+        } error:^(NSError *error) {
+            if ([error.domain isEqual:FoundryClientErrorDomain] && error.code == FoundryClientInvalidCredentials)
+                [subscriber sendNext:[NSNumber numberWithBool:NO]];
+            else
+                [subscriber sendError:error];
+        } completed:^{
+            [subscriber sendCompleted];
+        }];
+    }];
 }
 
 // result is subscribable
@@ -105,7 +116,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
     }
     
     return [[self getToken] select:^ id (id t) {
-        self.token = t;
+        self.token = ((NSDictionary *)t)[@"token"];
         h[@"AUTHORIZATION"] = token;
         return [self.endpoint requestWithHost:hostname method:method path:path headers:h body:body];
     }];

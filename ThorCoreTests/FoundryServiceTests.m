@@ -98,8 +98,6 @@ describe(@"verifyCredentials", ^{
         endpoint.email = @"thor@tier3.com";
         endpoint.password = @"passw0rd";
         
-        wrappedEndpoint.results = @[@{@"token": @"foobs"}];
-        
         [(id)endpoint setEndpoint:wrappedEndpoint];
     });
     
@@ -117,14 +115,26 @@ describe(@"verifyCredentials", ^{
         expect(wrappedEndpoint.calls).to.equal(expectedCalls);
     });
     
-    it(@"should parse results", ^ {
+    it(@"should parse valid token results", ^ {
+        wrappedEndpoint.results = @[@{@"token": @"foobs"}];
         
-        __block NSArray *result;
+        __block NSNumber *result;
         [[endpoint verifyCredentials] subscribeNext:^(id x) {
-            result = (NSArray *)x;
+            result = (NSNumber *)x;
         }];
         
-        expect(result).to.equal(@"foobs");
+        expect(result).to.beTruthy();
+    });
+    
+    it(@"should parse invalid token results", ^ {
+        wrappedEndpoint.results = @[[NSNull null]];
+        
+        __block NSNumber *result;
+        [[endpoint verifyCredentials] subscribeNext:^(id x) {
+            result = (NSNumber *)x;
+        }];
+        
+        expect(result).to.beTruthy();
     });
 });
 
