@@ -3,7 +3,6 @@
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
 
-
 @implementation SourceListToolbar
 
 @synthesize button;
@@ -88,6 +87,7 @@
 @property (nonatomic, copy) NSString *title, *identifier;
 @property (nonatomic, strong) NSImage *icon;
 @property (nonatomic, copy) NSArray *children;
+@property (nonatomic, strong) id representedObject;
 
 @end
 
@@ -95,7 +95,7 @@
 
 @implementation SourceListItem
 
-@synthesize title, identifier, icon, children;
+@synthesize title, identifier, icon, children, representedObject;
 
 @end
 
@@ -148,6 +148,7 @@
     cloudItem.children = [targets map:^id(id t) {
         Target *target = (Target *)t;
         SourceListItem *item = [SourceListItem new];
+        item.representedObject = target;
         item.title = target.displayName;
         item.identifier = @"row";
         item.icon = [NSImage imageNamed:@"audiobooks.png"];
@@ -159,6 +160,7 @@
     appItem.children = [apps map:^id(id a) {
         App *app = (App *)a;
         SourceListItem *item = [SourceListItem new];
+        item.representedObject = app;
         item.title = app.displayName;
         item.identifier = @"row";
         item.icon = [NSImage imageNamed:@"audiobooks.png"];
@@ -250,6 +252,27 @@
             [self updateAppsAndTargets];
         }
     }];
+}
+
+- (NSMenu *)sourceList:(PXSourceList *)sourceList menuForEvent:(NSEvent*)theEvent item:(id)item {
+    if ([((SourceListItem *)item).representedObject isKindOfClass:[App class]]) {
+        NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
+        
+        NSMenuItem *reveal = [[NSMenuItem alloc] initWithTitle:@"Reveal in Finder" action:@selector(reveal:) keyEquivalent:@""];
+        reveal.target = self;
+        reveal.representedObject = item;
+        [menu addItem:reveal];
+        
+        return menu;
+    }
+    return nil;
+}
+
+- (void)reveal:(NSMenuItem *)menuItem {
+    SourceListItem *sourceListItem = (SourceListItem *)menuItem.representedObject;
+    App *app = (App *)sourceListItem.representedObject;
+    
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:app.localRoot]]];
 }
 
 @end
