@@ -3,6 +3,6 @@
 
 @interface ServiceItemsDataSource : NSObject <ItemsControllerDataSource>
 
-- (id)initWithClient:(FoundryClient *)client;
+- (id)initWithServices:(NSArray *)services;
 
 @end

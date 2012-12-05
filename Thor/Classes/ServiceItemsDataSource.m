@@ -6,27 +6,27 @@ static NSNib *nib = nil;
 
 @interface ServiceItemsDataSource ()
 
-@property (nonatomic, strong) FoundryClient *client;
+@property (nonatomic, strong) NSArray *services;
 
 @end
 
 @implementation ServiceItemsDataSource
 
-@synthesize client;
+@synthesize services;
 
 + (void)initialize {
     nib = [[NSNib alloc] initWithNibNamed:@"ServiceCollectionItemView" bundle:nil];
 }
 
-- (id)initWithClient:(id)leClient {
+- (id)initWithServices:(NSArray *)lesServices {
     if (self = [super init]) {
-        self.client = leClient;
+        self.services = lesServices;
     }
     return self;
 }
 
 - (RACSubscribable *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
-    return [client getServices];
+    return services;
 }
 
 - (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *)collectionView item:(id)item  {

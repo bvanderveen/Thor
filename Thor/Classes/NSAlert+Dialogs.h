@@ -10,6 +10,7 @@
 + (NSAlert *)missingDeploymentDialog;
 + (NSAlert *)noConfiguredAppsDialog;
 + (NSAlert *)noConfiguredTargetsDialog;
++ (NSAlert *)noProvisionedServicesDialog;
 + (NSAlert *)invalidCredentialsDialog;
 + (NSAlert *)failedToConnectToHostDialog;
 

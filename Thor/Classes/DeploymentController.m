@@ -335,23 +335,37 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)presentBindServiceDialog {
-    ItemsController *itemsController = [[ItemsController alloc] init];
-    itemsController.dataSource = [[ServiceItemsDataSource alloc] initWithClient:self.client];
-    __block WizardController *wizard;
-    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:itemsController commitBlock:^{
-        FoundryService *service = itemsController.arrayController.selectedObjects[0];
+    self.associatedDisposable = [[client getServices] subscribeNext:^(id x) {
+        NSArray *services = (NSArray *)x;
         
-        self.associatedDisposable = [[self updateByAddingServiceNamed:service.name] subscribeCompleted:^{
-            [wizard dismissWithReturnCode:NSOKButton];
+        if (!services.count) {
+            NSAlert *alert = [NSAlert noProvisionedServicesDialog];
+            [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
+            return;
+        }
+        
+        ItemsController *itemsController = [[ItemsController alloc] init];
+        itemsController.dataSource = [[ServiceItemsDataSource alloc] initWithServices:services];
+        __block WizardController *wizard;
+        WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:itemsController commitBlock:^{
+            FoundryService *service = itemsController.arrayController.selectedObjects[0];
+            
+            self.associatedDisposable = [[self updateByAddingServiceNamed:service.name] subscribeCompleted:^{
+                [wizard dismissWithReturnCode:NSOKButton];
+            }];
+        } rollbackBlock:nil];
+        wizardItemsController.title = @"Bind service";
+        wizardItemsController.commitButtonTitle = @"OK";
+        
+        wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+        wizard.isSinglePage = YES;
+        [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
+            [self updateAppAndStatsAfterSubscribable:nil];
         }];
-    } rollbackBlock:nil];
-    wizardItemsController.title = @"Bind service";
-    wizardItemsController.commitButtonTitle = @"OK";
-    
-    wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
-    wizard.isSinglePage = YES;
-    [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        [self updateAppAndStatsAfterSubscribable:nil];
+    } error:^(NSError *error) {
+        [NSApp presentError:error];
+    } completed:^{
+        
     }];
 }
 
