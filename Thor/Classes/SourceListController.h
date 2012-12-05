@@ -3,7 +3,7 @@
 
 @interface SourceListToolbar : NSView
 
-@property (nonatomic, strong) NSButton *button;
+@property (nonatomic, strong) NSButton *addButton, *removeButton;
 
 @end
 

@@ -5,15 +5,19 @@
 
 @implementation SourceListToolbar
 
-@synthesize button;
+@synthesize addButton, removeButton;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
-        self.button = [[NSButton alloc] initWithFrame:NSZeroRect];
-        self.button.title = @"+";
-        self.button.target = self;
-        self.button.action = @selector(showMenu);
-        [self addSubview:button];
+        self.addButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        self.addButton.title = @"+";
+        self.addButton.target = self;
+        self.addButton.action = @selector(showMenu);
+        [self addSubview:addButton];
+        
+        self.removeButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+        self.removeButton.title = @"-";
+        [self addSubview:removeButton];
     }
     return self;
 }
@@ -29,14 +33,12 @@
     newApp.target = [NSApplication sharedApplication].delegate;
     [menu addItem:newApp];
     
-    [menu popUpMenuPositioningItem:nil atLocation:NSMakePoint(self.button.frame.size.width, 0) inView:self.button];
-}
-
-- (void)newApp {
+    [menu popUpMenuPositioningItem:nil atLocation:NSMakePoint(self.addButton.frame.size.width, 0) inView:self.addButton];
 }
 
 - (void)layout {
-    self.button.frame = NSMakeRect(0, 0, 24, self.bounds.size.height);
+    self.addButton.frame = NSMakeRect(0, 0, 24, self.bounds.size.height);
+    self.removeButton.frame = NSMakeRect(24, 0, 24, self.bounds.size.height);
     [super layout];
 }
 
@@ -172,7 +174,15 @@
 }
 
 - (void)awakeFromNib {
+    self.controllerView.toolbar.removeButton.target = self;
+    self.controllerView.toolbar.removeButton.action = @selector(remove);
     [self updateAppsAndTargets];
+}
+
+- (void)remove {
+    SourceListItem *selectedItem = (SourceListItem *)[self.controllerView.sourceList itemAtRow:[self.controllerView.sourceList selectedRow]];
+    
+    [self presentDeletionDialogForModel:selectedItem.representedObject];
 }
 
 - (NSUInteger)sourceList:(PXSourceList *)sourceList numberOfChildrenOfItem:(id)item {
@@ -236,12 +246,15 @@
 - (void)sourceListDeleteKeyPressedOnRows:(NSNotification *)notification {
 	NSIndexSet *rows = [[notification userInfo] objectForKey:@"rows"];
     id selectedModel = [self modelForIndexSet:rows];
-    
-    NSAlert *alert = self.deleteModelConfirmation(selectedModel);
+    [self presentDeletionDialogForModel:selectedModel];
+}
+
+- (void)presentDeletionDialogForModel:(id)model {
+    NSAlert *alert = self.deleteModelConfirmation(model);
     
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSAlertDefaultReturn) {
-            [[ThorBackend sharedContext] deleteObject:selectedModel];
+            [[ThorBackend sharedContext] deleteObject:model];
             NSError *error;
             
             if (![[ThorBackend sharedContext] save:&error]) {
