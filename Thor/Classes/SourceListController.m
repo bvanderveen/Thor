@@ -69,7 +69,7 @@
     
     self.toolbar.frame = NSMakeRect(0, 0, self.sourceList.frame.size.width, toolbarSize.height);
     
-    self.contentView.frame = NSMakeRect(self.sourceList.frame.size.width + 1, toolbarSize.height, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
+    self.contentView.frame = NSMakeRect(self.sourceList.frame.size.width + 1, 0, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
     
     if (self.contentView.subviews.count)
         ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
