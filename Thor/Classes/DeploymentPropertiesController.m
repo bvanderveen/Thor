@@ -64,6 +64,12 @@
 #define ThorDeploymentPropertiesControllerErrorDomain @"ThorDeploymentPropertiesControllerErrorDomain"
 #define ThorAppAlreadyExistsErrorCode 0xabcdbeef
 
+- (void)awakeFromNib {
+    if (!(app && target)) {
+        self.deploymentPropertiesView.nameHidden = YES;
+    }
+}
+
 - (RACSubscribable *)ensureServiceDoesNotHaveAppWithName:(NSString *)name {
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
         return [[client getAppWithName:name]
