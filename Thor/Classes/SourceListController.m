@@ -199,6 +199,15 @@
     return ((SourceListItem *)item).title;
 }
 
+- (void)sourceList:(PXSourceList*)aSourceList setObjectValue:(id)object forItem:(id)item {
+    ((SourceListItem *)item).title = object;
+    [((SourceListItem *)item).representedObject setDisplayName:object];
+    
+    NSError *error;
+    if (![[ThorBackend sharedContext] save:&error])
+        [NSApp presentError:error];
+}
+
 - (BOOL)sourceList:(PXSourceList *)aSourceList isItemExpandable:(id)item {
     return ((SourceListItem *)item).children.count > 0;
 }
