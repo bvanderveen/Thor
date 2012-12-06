@@ -15,7 +15,10 @@
 }
 
 - (void)awakeFromNib {
-    targetPropertiesView.windowLabel.stringValue = editing ? @"Edit Cloud" : @"Add Cloud";
+    if (target.managedObjectContext) {
+        targetPropertiesView.nameAndHostnameHidden = YES;
+    }
+    
     targetPropertiesView.confirmButton.title = editing ? @"Save" : @"OK";
 }
 

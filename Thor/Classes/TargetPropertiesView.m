@@ -3,7 +3,15 @@
 
 @implementation TargetPropertiesView
 
-@synthesize windowLabel, displayNameLabel, displayNameField, hostnameLabel, hostnameField, emailLabel, emailField, passwordLabel, passwordField, confirmButton, cancelButton, fieldContainer, buttonContainer;
+@synthesize displayNameLabel, displayNameField, hostnameField, hostnameLabel, nameAndHostnameHidden = _nameAndHostnameHidden;
+
+- (void)setNameAndHostnameHidden:(BOOL)value {
+    _nameAndHostnameHidden = value;
+    displayNameLabel.hidden = value;
+    displayNameField.hidden = value;
+    hostnameLabel.hidden = value;
+    hostnameField.hidden = value;
+}
 
 - (NSSize)intrinsicContentSize {
    return NSMakeSize(480, 272);
