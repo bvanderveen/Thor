@@ -100,22 +100,7 @@ NSEntityDescription *getAppEntity() {
         localRoot.attributeType = NSStringAttributeType;
         localRoot.optional = NO;
         
-        
-        NSAttributeDescription *defaultMemory = [NSAttributeDescription new];
-        defaultMemory.name = @"defaultMemory";
-        defaultMemory.attributeType = NSInteger32AttributeType;
-        defaultMemory.optional = NO;
-        defaultMemory.defaultValue = [NSNumber numberWithInt:64];
-        [defaultMemory setValidationPredicates:@[[NSPredicate predicateWithFormat:@"SELF > 0"], [NSPredicate predicateWithFormat:@"SELF < 99999"]]
-                        withValidationWarnings:@[@"Memory too low", @"Memory too high"]];
-        
-        NSAttributeDescription *defaultInstances = [NSAttributeDescription new];
-        defaultInstances.name = @"defaultInstances";
-        defaultInstances.attributeType = NSInteger32AttributeType;
-        defaultInstances.optional = NO;
-        defaultInstances.defaultValue = [NSNumber numberWithInt:2];
-        
-        entity.properties = @[displayName, localRoot, defaultMemory, defaultInstances];
+        entity.properties = @[displayName, localRoot];
     }
     
     return entity;
