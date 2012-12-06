@@ -15,10 +15,10 @@
 
 @implementation TargetView
 
-@synthesize scrollView, deploymentsList, deploymentsBox, servicesBox, settingsBox, settingsView, servicesList;
+@synthesize scrollView, deploymentsList, deploymentsBox, servicesBox, servicesList;
 
 - (void)layout {
-    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView boxes:@[ settingsBox, deploymentsBox, servicesBox ] contentViews:@[ settingsView, deploymentsList, servicesList ]];
+    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView boxes:@[ deploymentsBox, servicesBox ] contentViews:@[ deploymentsList, servicesList ]];
     
     [super layout];
 }
