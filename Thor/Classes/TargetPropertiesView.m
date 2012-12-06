@@ -3,18 +3,16 @@
 
 @implementation TargetPropertiesView
 
-@synthesize displayNameLabel, displayNameField, hostnameField, hostnameLabel, nameAndHostnameHidden = _nameAndHostnameHidden;
+@synthesize hostnameField, hostnameLabel, hostnameHidden = _hostnameHidden;
 
-- (void)setNameAndHostnameHidden:(BOOL)value {
-    _nameAndHostnameHidden = value;
-    displayNameLabel.hidden = value;
-    displayNameField.hidden = value;
+- (void)setHostnameHidden:(BOOL)value {
+    _hostnameHidden = value;
     hostnameLabel.hidden = value;
     hostnameField.hidden = value;
 }
 
 - (NSSize)intrinsicContentSize {
-   return NSMakeSize(480, 272);
+   return NSMakeSize(480, 124);
 }
 
 @end

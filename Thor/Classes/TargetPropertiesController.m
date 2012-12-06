@@ -16,10 +16,8 @@
 
 - (void)awakeFromNib {
     if (target.managedObjectContext) {
-        targetPropertiesView.nameAndHostnameHidden = YES;
+        targetPropertiesView.hostnameHidden = YES;
     }
-    
-    targetPropertiesView.confirmButton.title = editing ? @"Save" : @"OK";
 }
 
 - (void)commitWizardPanel {
