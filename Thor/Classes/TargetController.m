@@ -1,5 +1,4 @@
 #import "TargetController.h"
-#import "TargetPropertiesController.h"
 #import "SheetWindow.h"
 #import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
@@ -323,20 +322,6 @@
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        if (returnCode == NSOKButton)
-            [self updateApps];
-    }];
-}
-
-- (void)editClicked:(id)sender {
-    TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
-    targetPropertiesController.editing = YES;
-    targetPropertiesController.target = self.target;
-    targetPropertiesController.title = @"Edit Cloud";
-    
-    WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
-    wizardController.isSinglePage = YES;
-    [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];
     }];

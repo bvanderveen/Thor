@@ -2,6 +2,8 @@
 #import "ThorCore.h"
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
+#import "TargetPropertiesController.h"
+#import "AppDelegate.h"
 
 @implementation SourceListToolbar
 
@@ -230,9 +232,11 @@
     
     if (selectedIndex < self.targets.count + 1) {
         selectedModel = self.targets[selectedIndex - 1];
+        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = selectedModel;
     }
     else {
         selectedModel = self.apps[selectedIndex - 2 - self.targets.count];
+        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = nil;
     }
     
     return selectedModel;
@@ -268,10 +272,22 @@
 }
 
 - (NSMenu *)sourceList:(PXSourceList *)sourceList menuForEvent:(NSEvent*)theEvent item:(id)item {
-    if ([((SourceListItem *)item).representedObject isKindOfClass:[App class]]) {
+    id representedObject = ((SourceListItem *)item).representedObject;
+    
+    if ([representedObject isKindOfClass:[App class]]) {
         NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
         
         NSMenuItem *reveal = [[NSMenuItem alloc] initWithTitle:@"Reveal in Finder" action:@selector(reveal:) keyEquivalent:@""];
+        reveal.target = self;
+        reveal.representedObject = item;
+        [menu addItem:reveal];
+        
+        return menu;
+    } else if ([representedObject isKindOfClass:[Target class]]) {
+        NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
+        
+        NSMenuItem *reveal = [[NSMenuItem alloc] initWithTitle:@"Settings…" action:@selector(settings:) keyEquivalent:@"i"];
+        reveal.keyEquivalentModifierMask = NSCommandKeyMask;
         reveal.target = self;
         reveal.representedObject = item;
         [menu addItem:reveal];
@@ -286,6 +302,14 @@
     App *app = (App *)sourceListItem.representedObject;
     
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[[NSURL fileURLWithPath:app.localRoot]]];
+}
+
+- (void)settings:(NSMenuItem *)menuItem {
+    SourceListItem *sourceListItem = (SourceListItem *)menuItem.representedObject;
+    Target *target = (Target *)sourceListItem.representedObject;
+
+    [(AppDelegate *)([NSApplication sharedApplication].delegate) setSelectedTarget:target];
+    [(AppDelegate *)([NSApplication sharedApplication].delegate) editTarget:nil];
 }
 
 @end

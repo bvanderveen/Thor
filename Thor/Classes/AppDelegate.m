@@ -16,7 +16,7 @@
 
 @implementation AppDelegate
 
-@synthesize sourceListController;
+@synthesize sourceListController, selectedTarget;
 
 - (id)init {
     if (self = [super init]) {
@@ -92,6 +92,20 @@
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [sourceListController updateAppsAndTargets];
+    }];
+}
+
+- (void)editTarget:(id)sender {
+    TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
+    targetPropertiesController.editing = YES;
+    targetPropertiesController.target = self.selectedTarget;
+    targetPropertiesController.title = @"Cloud Settings";
+    
+    WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
+    wizardController.isSinglePage = YES;
+    [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
+        //if (returnCode == NSOKButton)
+        //    [self updateApps];
     }];
 }
 
