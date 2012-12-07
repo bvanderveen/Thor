@@ -72,6 +72,9 @@
 		419E73C216068B6F009FA6D3 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 419E73C116068B6F009FA6D3 /* icon.icns */; };
 		419E73C51607E13F009FA6D3 /* ListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C41607E13F009FA6D3 /* ListView.m */; };
 		419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */; };
+		41A2721C1672B02F00A8B3B7 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
+		41A2721D1672B03200A8B3B7 /* SBJson.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
+		41A2721E1672B03500A8B3B7 /* PXSourceList.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41FC50ED16488DC100C63E43 /* PXSourceList.framework */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -320,6 +323,21 @@
 			remoteInfo = Thor;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		41A2721B1672B01B00A8B3B7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				41A2721D1672B03200A8B3B7 /* SBJson.framework in CopyFiles */,
+				41A2721C1672B02F00A8B3B7 /* ReactiveCocoa.framework in CopyFiles */,
+				41A2721E1672B03500A8B3B7 /* PXSourceList.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		410207D1161A74470077BCCA /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = Classes/Label.h; sourceTree = "<group>"; };
@@ -1102,6 +1120,7 @@
 				F32F973B154908CB002CCF27 /* Sources */,
 				F32F973C154908CB002CCF27 /* Frameworks */,
 				F32F973D154908CB002CCF27 /* Resources */,
+				41A2721B1672B01B00A8B3B7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
