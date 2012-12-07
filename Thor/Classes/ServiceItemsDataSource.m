@@ -26,7 +26,7 @@ static NSNib *nib = nil;
 }
 
 - (RACSubscribable *)itemsForItemsController:(ItemsController *)itemsController error:(NSError **)error {
-    return services;
+    return [RACSubscribable return:services];
 }
 
 - (NSCollectionViewItem *)itemsController:(ItemsController *)itemsController collectionViewItemForCollectionView:(NSCollectionView *)collectionView item:(id)item  {
