@@ -18,13 +18,14 @@
 
 @property (nonatomic, strong) PushActivity *activity;
 @property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, strong) NSProgressIndicator *indicator;
 
 @end
 
 
 @implementation ActivityCell
 
-@synthesize activity = _activity, highlighted = _highlighted;
+@synthesize activity = _activity, highlighted = _highlighted, indicator;
 
 - (void)setHighlighted:(BOOL)highlighted {
     _highlighted = highlighted;
@@ -33,6 +34,11 @@
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
+        indicator = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
+        indicator.style = NSProgressIndicatorBarStyle;
+        indicator.indeterminate = YES;
+        indicator.controlSize = NSSmallControlSize;
+        [self addSubview:indicator];
     }
     return self;
 }
@@ -40,6 +46,17 @@
 - (void)setActivity:(PushActivity *)activity {
     _activity = activity;
     self.needsDisplay = YES;
+}
+
+- (void)setFrame:(NSRect)frameRect {
+    [super setFrame:frameRect];
+    self.needsLayout = YES;
+}
+
+- (void)layout {
+    [indicator sizeToFit];
+    indicator.frame = NSMakeRect(10, 10, self.bounds.size.width - 20, indicator.frame.size.height);
+    [super layout];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -117,7 +134,7 @@
         tableView = [[NSTableView alloc] initWithFrame:frameRect];
         tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
         tableView.headerView = nil;
-        tableView.rowHeight = 42;
+        tableView.rowHeight = 60;
         
         NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"ActivityColumn"];
         [tableView addTableColumn:column];
