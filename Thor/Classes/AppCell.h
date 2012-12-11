@@ -1,9 +1,8 @@
-#import "ListView.h"
 #import "ThorCore.h"
 
-@interface AppCell : ListCell
+@interface AppCell : NSView
 
 @property (nonatomic, strong) FoundryApp *app;
-@property (nonatomic, strong) NSButton *button;
+@property (nonatomic, assign) BOOL highlighted;
 
 @end

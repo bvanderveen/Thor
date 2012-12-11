@@ -75,6 +75,8 @@
 		41A2721C1672B02F00A8B3B7 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41A2721D1672B03200A8B3B7 /* SBJson.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41A2721E1672B03500A8B3B7 /* PXSourceList.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41FC50ED16488DC100C63E43 /* PXSourceList.framework */; };
+		41A272211672B9DB00A8B3B7 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A272201672B9DB00A8B3B7 /* SplitViewController.m */; };
+		41A272241673FF0500A8B3B7 /* AppListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A272231673FF0300A8B3B7 /* AppListController.m */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -433,6 +435,10 @@
 		419E73C41607E13F009FA6D3 /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListView.m; path = Classes/ListView.m; sourceTree = "<group>"; };
 		419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFont+LineHeight.h"; path = "Classes/NSFont+LineHeight.h"; sourceTree = "<group>"; };
 		419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFont+LineHeight.m"; path = "Classes/NSFont+LineHeight.m"; sourceTree = "<group>"; };
+		41A2721F1672B9DB00A8B3B7 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplitViewController.h; path = Classes/SplitViewController.h; sourceTree = "<group>"; };
+		41A272201672B9DB00A8B3B7 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplitViewController.m; path = Classes/SplitViewController.m; sourceTree = "<group>"; };
+		41A272221673FF0100A8B3B7 /* AppListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppListController.h; path = Classes/AppListController.h; sourceTree = "<group>"; };
+		41A272231673FF0300A8B3B7 /* AppListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppListController.m; path = Classes/AppListController.m; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
@@ -616,6 +622,8 @@
 				41C7FE6C15B89281006B3468 /* BottomBar.m */,
 				4104099B160D2CE000AF93AF /* WizardController.h */,
 				4104099C160D2CE000AF93AF /* WizardController.m */,
+				41A2721F1672B9DB00A8B3B7 /* SplitViewController.h */,
+				41A272201672B9DB00A8B3B7 /* SplitViewController.m */,
 			);
 			name = "Navigation Controllers";
 			sourceTree = "<group>";
@@ -1005,6 +1013,8 @@
 			children = (
 				41FA11C515E4335C0079FD30 /* AppDelegate.h */,
 				41FA11C615E4335C0079FD30 /* AppDelegate.m */,
+				41A272221673FF0100A8B3B7 /* AppListController.h */,
+				41A272231673FF0300A8B3B7 /* AppListController.m */,
 				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
@@ -1503,6 +1513,8 @@
 				4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */,
 				41DBDA37165C4F5300FB6420 /* ServiceItemsDataSource.m in Sources */,
 				41DBDB02166192E000FB6420 /* NoResultsListViewDataSource.m in Sources */,
+				41A272211672B9DB00A8B3B7 /* SplitViewController.m in Sources */,
+				41A272241673FF0500A8B3B7 /* AppListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

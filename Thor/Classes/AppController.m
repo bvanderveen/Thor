@@ -91,9 +91,9 @@
 }
 
 - (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
-    Deployment *deployment = deployments[row];
-    DeploymentController *deploymentController = [DeploymentController deploymentControllerWithDeployment:deployment];
-    [self.breadcrumbController pushViewController:deploymentController animated:YES];
+//    Deployment *deployment = deployments[row];
+//    DeploymentController *deploymentController = [DeploymentController deploymentControllerWithDeployment:deployment];
+//    [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
 - (void)displayCreateDeploymentDialog {

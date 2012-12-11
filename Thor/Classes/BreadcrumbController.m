@@ -98,7 +98,8 @@
 }
 
 - (void)pushViewController:(NSViewController<BreadcrumbControllerAware> *)controller animated:(BOOL)animated {
-    controller.breadcrumbController = self;
+    if ([controller respondsToSelector:@selector(setBreadcrumbController:)])
+        controller.breadcrumbController = self;
     [self.breadcrumbView.bar pushItem:controller.breadcrumbItem animated:animated];
 }
 

@@ -57,10 +57,8 @@
 @interface DeploymentController ()
 
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, copy) NSString *appName;
 @property (nonatomic, strong) BoundServicesListViewSource *boundServicesSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootBoundServicesSource;
-@property (nonatomic, strong) Deployment *deployment;
 @property (nonatomic, copy) NSArray *instanceStats;
 
 @end
@@ -69,38 +67,38 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, boundServicesSource, rootBoundServicesSource;
+@synthesize client, app, appName = _appName, target = _target, deploymentView, instanceStats, boundServicesSource, rootBoundServicesSource;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
 }
 
-- (id)initWithTarget:(Target *)leTarget appName:(NSString *)lAppName deployment:(Deployment *)leDeployment {
+- (void)setTarget:(Target *)target {
+    _target = target;
+    if (target)
+        self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
+}
+
+- (void)setAppName:(NSString *)appName {
+    _appName = appName;
+    if (appName)
+        [self updateAppAndStatsAfterSubscribable:nil];
+}
+
+- (id)init {
     if (self = [super initWithNibName:@"DeploymentView" bundle:[NSBundle mainBundle]]) {
-        self.title = lAppName;
-        self.appName = lAppName;
-        self.deployment = leDeployment;
-        self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
     }
     return self;
-}
-
-+ (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment {
-    return [[DeploymentController alloc] initWithTarget:deployment.target appName:deployment.name deployment:deployment];
-}
-
-+ (DeploymentController *)deploymentControllerWithAppName:(NSString *)name target:(Target *)target {
-    return [[DeploymentController alloc] initWithTarget:target appName:name deployment:nil];
 }
 
 - (void)updateAppAndStatsAfterSubscribable:(RACSubscribable *)antecedent {
     NSError *error = nil;
     
     NSArray *subscribables = @[
-    [[client getStatsForAppWithName:appName] doNext:^(id x) {
+    [[client getStatsForAppWithName:self.appName] doNext:^(id x) {
         self.instanceStats = x;
     }],
-    [[client getAppWithName:appName] continueAfter:^RACSubscribable *(id x) {
+    [[client getAppWithName:self.appName] continueAfter:^RACSubscribable *(id x) {
         self.app = x;
         if (self.app.services.count) {
             NSArray *serviceSubscribables = [self.app.services map:^ id (id s) {
@@ -123,10 +121,7 @@ static NSArray *instanceColumns = nil;
     
     self.associatedDisposable = [call subscribeError:^ (NSError *error) {
         if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
-            if (deployment)
-                [self presentMissingDeploymentDialog];
-            else
-                [self presentDeploymentNotFoundDialog];
+            [self presentDeploymentNotFoundDialog];
         }
         else {
             [NSApp presentError:error];
@@ -162,30 +157,10 @@ static NSArray *instanceColumns = nil;
     deploymentView.servicesList.dataSource = rootBoundServicesSource;
 }
 
-- (void)viewWillAppear {
-    [self updateAppAndStatsAfterSubscribable:nil];
-}
-
 - (void)presentDeploymentNotFoundDialog {
     NSAlert *alert = [NSAlert deploymentNotFoundDialog];
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        [self.breadcrumbController popViewControllerAnimated:YES];
-    }];
-}
-
-- (void)presentMissingDeploymentDialog {
-    NSAlert *alert = [NSAlert missingDeploymentDialog];
-    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        assert(deployment != nil);
-        switch (returnCode) {
-            case NSAlertDefaultReturn:
-                [self deleteDeployment];
-                [self.breadcrumbController popViewControllerAnimated:YES];
-                break;
-            case NSAlertAlternateReturn:
-                [self recreateDeployment];
-                break;
-        }
+        //[self.breadcrumbController popViewControllerAnimated:YES];
     }];
 }
 
@@ -197,31 +172,14 @@ static NSArray *instanceColumns = nil;
             self.associatedDisposable = [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
                 [NSApp presentError:error];
             } completed:^{
-                if (deployment)
-                    [self deleteDeployment];
-                [self.breadcrumbController popViewControllerAnimated:YES];
+//                if (deployment)
+//                    [self deleteDeployment];
+//                [self.breadcrumbController popViewControllerAnimated:YES];
             }];
         }
     }];
 }
 
-- (void)deleteDeployment {
-    [[ThorBackend sharedContext] deleteObject:deployment];
-    
-    NSError *error;
-    if (![[ThorBackend sharedContext] save:&error]) {
-        [NSApp presentError:error];
-    }
-}
-
-- (void)recreateDeployment {
-    RACSubscribable *createApp = [client createApp:[FoundryApp appWithDeployment:deployment]];
-    [self updateAppAndStatsAfterSubscribable:createApp];
-}
-
-- (id<BreadcrumbItem>)breadcrumbItem {
-    return self;
-}
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView {
     return instanceColumns.count;

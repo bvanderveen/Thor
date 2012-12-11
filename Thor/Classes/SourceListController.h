@@ -9,7 +9,7 @@
 
 @interface SourceListController : NSViewController <PXSourceListDelegate, PXSourceListDataSource>
 
-@property (nonatomic, copy) NSViewController<ViewVisibilityAware> *(^controllerForModel)(id);
+@property (nonatomic, copy) void (^selectedModel)(id);
 @property (nonatomic, copy) NSAlert *(^deleteModelConfirmation)(id);
 
 - (void)updateAppsAndTargets;

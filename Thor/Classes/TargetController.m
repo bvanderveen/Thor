@@ -41,10 +41,10 @@
     AppCell *cell = [[AppCell alloc] initWithFrame:NSZeroRect];
     FoundryApp *app = apps[row];
     cell.app = app;
-    cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
-    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-        [delegate accessoryButtonClickedForApp:app];
-    }]];
+    //cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
+    //[cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    //    [delegate accessoryButtonClickedForApp:app];
+    //}]];
     return cell;
 }
 
@@ -106,7 +106,12 @@
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
+@synthesize target = _target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
+
+- (void)setTarget:(Target *)target {
+    _target = target;
+    [self updateApps];
+}
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -168,7 +173,7 @@
 }
 
 - (void)updateApps {
-    self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
+    self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:self.target]];
     
     NSArray *subscriables = @[ [client getApps], [client getServices] ];
     
@@ -195,11 +200,11 @@
 - (void)selectedApp:(FoundryApp *)app {
     Deployment *deployment = [self deploymentForApp:app];
     
-    DeploymentController *deploymentController = deployment ?
-    [DeploymentController deploymentControllerWithDeployment:deployment] :
-    [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
-    
-    [self.breadcrumbController pushViewController:deploymentController animated:YES];
+//    DeploymentController *deploymentController = deployment ?
+//    [DeploymentController deploymentControllerWithDeployment:deployment] :
+//    [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
+//    
+//    [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
 - (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app {
@@ -282,7 +287,7 @@
     
     WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
         App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:app target:target];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:app target:self.target];
         deploymentController.title = @"Create Deployment";
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];

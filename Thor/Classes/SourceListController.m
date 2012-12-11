@@ -59,7 +59,7 @@
 
 @implementation SourceListControllerView
 
-@synthesize sourceList, contentView, toolbar;
+@synthesize sourceList, toolbar;
 
 - (void)awakeFromNib {
     self.needsLayout = YES;
@@ -73,18 +73,13 @@
     
     self.toolbar.frame = NSMakeRect(0, 0, self.sourceList.frame.size.width, toolbarSize.height);
     
-    self.contentView.frame = NSMakeRect(self.sourceList.frame.size.width + 1, 0, self.bounds.size.width - sourceList.frame.size.width - 1, self.bounds.size.height);
-    
-    if (self.contentView.subviews.count)
-        ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
-    
     [super layout];
 }
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor colorWithDeviceWhite:.7 alpha:1] set];
-    NSRectFill(NSMakeRect(sourceList.frame.size.width, 0, 1, self.bounds.size.height));
-}
+//
+//- (void)drawRect:(NSRect)dirtyRect {
+//    [[NSColor colorWithDeviceWhite:.7 alpha:1] set];
+//    NSRectFill(NSMakeRect(sourceList.frame.size.width, 0, 1, self.bounds.size.height));
+//}
 
 @end
 
@@ -108,29 +103,17 @@
 @interface SourceListController ()
 
 @property (nonatomic, readonly) SourceListControllerView *controllerView;
-@property (nonatomic, copy) NSArray *sourceListItems, *targets, *apps;
-@property (nonatomic, strong) NSViewController *currentController;
+@property (nonatomic, copy) NSArray *sourceListItems, *targets;
 
 @end
 
 
 @implementation SourceListController
 
-@synthesize sourceListItems, targets, apps, controllerForModel, deleteModelConfirmation, currentController = _currentController;
+@synthesize sourceListItems, targets, selectedModel, deleteModelConfirmation;
 
 - (SourceListControllerView *)controllerView {
     return (SourceListControllerView *)self.view;
-}
-
-- (void)setCurrentController:(NSViewController<ViewVisibilityAware> *)currentController {
-    _currentController = currentController;
-    [self.controllerView.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.controllerView.contentView addSubview:currentController.view];
-    self.controllerView.needsLayout = YES;
-    [self.controllerView layoutSubtreeIfNeeded];
-    if ([currentController respondsToSelector:@selector(viewWillAppear)]) {
-        [currentController viewWillAppear];
-    }
 }
 
 - (id)init {
@@ -143,7 +126,6 @@
 - (void)updateAppsAndTargets {
     NSError *error;
     self.targets = [[ThorBackend shared] getConfiguredTargets:&error];
-    self.apps = [[ThorBackend shared] getConfiguredApps:&error];
     
     SourceListItem
         *cloudItem = [SourceListItem new],
@@ -160,20 +142,8 @@
         item.icon = [NSImage imageNamed:@"audiobooks.png"];
         return item;
     }];
-    
-    appItem.title = @"APPS";
-    appItem.identifier = SECTION_IDENTIFIER;
-    appItem.children = [apps map:^id(id a) {
-        App *app = (App *)a;
-        SourceListItem *item = [SourceListItem new];
-        item.representedObject = app;
-        item.title = app.displayName;
-        item.identifier = @"row";
-        item.icon = [NSImage imageNamed:@"audiobooks.png"];
-        return item;
-    }];
-    
-    self.sourceListItems = @[cloudItem, appItem];
+        
+    self.sourceListItems = @[cloudItem];
     [self.controllerView.sourceList reloadData];
 }
 
@@ -239,23 +209,13 @@
         selectedIndex = nextIndex;
     }
     
-    id selectedModel = nil;
-    
-    if (selectedIndex < self.targets.count + 1) {
-        selectedModel = self.targets[selectedIndex - 1];
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = selectedModel;
-    }
-    else {
-        selectedModel = self.apps[selectedIndex - 2 - self.targets.count];
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = nil;
-    }
-    
+    id selectedModel = self.targets[selectedIndex - 1];
     return selectedModel;
 }
 
 - (void)sourceListSelectionDidChange:(NSNotification *)notification {
 	id selectedModel = [self modelForIndexSet:self.controllerView.sourceList.selectedRowIndexes];
-    self.currentController = self.controllerForModel(selectedModel);
+    self.selectedModel(selectedModel);
 }
 
 - (void)sourceListDeleteKeyPressedOnRows:(NSNotification *)notification {

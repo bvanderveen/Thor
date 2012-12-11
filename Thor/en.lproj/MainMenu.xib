@@ -222,7 +222,7 @@
 							</array>
 						</object>
 					</object>
-					<object class="NSMenuItem" id="847365277">
+					<object class="NSMenuItem" id="147410024">
 						<reference key="NSMenu" ref="649796088"/>
 						<string key="NSTitle">Cloud</string>
 						<string key="NSKeyEquiv"/>
@@ -230,11 +230,11 @@
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 						<string key="NSAction">submenuAction:</string>
-						<object class="NSMenu" key="NSSubmenu" id="980263781">
+						<object class="NSMenu" key="NSSubmenu" id="4835181">
 							<string key="NSTitle">Cloud</string>
 							<array class="NSMutableArray" key="NSMenuItems">
-								<object class="NSMenuItem" id="485802623">
-									<reference key="NSMenu" ref="980263781"/>
+								<object class="NSMenuItem" id="252151963">
+									<reference key="NSMenu" ref="4835181"/>
 									<string key="NSTitle">Settings…</string>
 									<string key="NSKeyEquiv">i</string>
 									<int key="NSKeyEquivModMask">1048576</int>
@@ -284,18 +284,18 @@
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMaxSize">{705, 516}</string>
-				<string key="NSWindowContentMinSize">{705, 516}</string>
+				<string key="NSWindowContentMinSize">{600, 500}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{705, 516}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
-				<string key="NSMinSize">{705, 538}</string>
-				<string key="NSMaxSize">{705, 538}</string>
+				<string key="NSMinSize">{600, 522}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="976324537">
@@ -407,7 +407,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">editTarget:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="485802623"/>
+						<reference key="destination" ref="252151963"/>
 					</object>
 					<int key="connectionID">606</int>
 				</object>
@@ -445,7 +445,7 @@
 							<reference ref="694149608"/>
 							<reference ref="448692316"/>
 							<reference ref="849053540"/>
-							<reference ref="847365277"/>
+							<reference ref="147410024"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -625,24 +625,24 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">598</int>
-						<reference key="object" ref="847365277"/>
+						<reference key="object" ref="147410024"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="980263781"/>
+							<reference ref="4835181"/>
 						</array>
 						<reference key="parent" ref="649796088"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">599</int>
-						<reference key="object" ref="980263781"/>
+						<reference key="object" ref="4835181"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="485802623"/>
+							<reference ref="252151963"/>
 						</array>
-						<reference key="parent" ref="847365277"/>
+						<reference key="parent" ref="147410024"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">602</int>
-						<reference key="object" ref="485802623"/>
-						<reference key="parent" ref="980263781"/>
+						<reference key="object" ref="252151963"/>
+						<reference key="parent" ref="4835181"/>
 					</object>
 				</array>
 			</object>
@@ -699,16 +699,11 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="editTarget:">id</string>
-						<string key="newApp:">id</string>
 						<string key="newTarget:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="editTarget:">
 							<string key="name">editTarget:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="newApp:">
-							<string key="name">newApp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="newTarget:">
