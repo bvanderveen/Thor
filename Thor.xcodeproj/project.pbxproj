@@ -59,6 +59,7 @@
 		416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AB15DAE46D00EF93DF /* SMWebRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */ = {isa = PBXBuildFile; fileRef = 416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */; };
 		416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		416F826E1676D20A0042BD19 /* ActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F826D1676D20A0042BD19 /* ActivityController.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */; };
@@ -411,6 +412,8 @@
 		416567AB15DAE46D00EF93DF /* SMWebRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMWebRequest.m; path = webrequest/SMWebRequest.m; sourceTree = SOURCE_ROOT; };
 		416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SMWebRequest+RAC.h"; sourceTree = "<group>"; };
 		416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SMWebRequest+RAC.m"; sourceTree = "<group>"; };
+		416F826C1676D20A0042BD19 /* ActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityController.h; path = Classes/ActivityController.h; sourceTree = "<group>"; };
+		416F826D1676D20A0042BD19 /* ActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityController.m; path = Classes/ActivityController.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
@@ -744,6 +747,15 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		416F826B1676D1F10042BD19 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				416F826C1676D20A0042BD19 /* ActivityController.h */,
+				416F826D1676D20A0042BD19 /* ActivityController.m */,
+			);
+			name = Activity;
+			sourceTree = "<group>";
+		};
 		417FEFA815ACC59800E64503 /* Targets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1003,6 +1015,7 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
+				416F826B1676D1F10042BD19 /* Activity */,
 				41FA11C515E4335C0079FD30 /* AppDelegate.h */,
 				41FA11C615E4335C0079FD30 /* AppDelegate.m */,
 				41C59C1D15CB051400123ABF /* Extensions */,
@@ -1503,6 +1516,7 @@
 				4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */,
 				41DBDA37165C4F5300FB6420 /* ServiceItemsDataSource.m in Sources */,
 				41DBDB02166192E000FB6420 /* NoResultsListViewDataSource.m in Sources */,
+				416F826E1676D20A0042BD19 /* ActivityController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

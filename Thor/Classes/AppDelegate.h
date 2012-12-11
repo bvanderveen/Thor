@@ -2,6 +2,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow *window;
+    IBOutlet NSWindow *activityWindow;
     IBOutlet NSView *view;
 }
 

@@ -1,0 +1,4 @@
+
+@interface ActivityController : NSViewController
+
+@end
