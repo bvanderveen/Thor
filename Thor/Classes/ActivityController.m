@@ -42,7 +42,6 @@
 @synthesize activity = _activity, highlighted = _highlighted, indicator, status = _status, isAnimating = _isAnimating;
 
 - (void)resetIndicator {
-    
     [indicator stopAnimation:self];
     indicator.indeterminate = NO;
     indicator.doubleValue = 100.0;
@@ -55,8 +54,10 @@
 - (void)setIsAnimating:(BOOL)isAnimating {
     _isAnimating = isAnimating;
     
-    if (isAnimating)
+    if (isAnimating) {
+        indicator.indeterminate = YES;
         [indicator startAnimation:self];
+    }
     else {
         [self resetIndicator];
     }
@@ -71,7 +72,6 @@
     if (self = [super initWithFrame:frameRect]) {
         indicator = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
         indicator.style = NSProgressIndicatorBarStyle;
-        indicator.indeterminate = YES;
         indicator.controlSize = NSSmallControlSize;
         [self resetIndicator];
         [self addSubview:indicator];
