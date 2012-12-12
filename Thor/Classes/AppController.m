@@ -136,13 +136,13 @@
     button.enabled = NO;
     button.title = @"Pushing…";
     
-    RACSubscribable *subscribable = [[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] doNext:^(id x) {
+    RACSubscribable *subscribable = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] doNext:^(id x) {
         button.enabled = YES;
         button.title = @"Push";
     }] doError:^(NSError *error) {
         button.enabled = YES;
         button.title = @"Push";
-    }];
+    }] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]];
     
     PushActivity *activity = [[PushActivity alloc] initWithSubscribable:subscribable];
     activity.localPath = deployment.app.localRoot;

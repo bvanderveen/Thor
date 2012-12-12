@@ -3,6 +3,7 @@
 @interface PushActivity : NSObject
 
 @property (nonatomic, copy) NSString *localPath, *targetHostname, *targetAppName, *status;
+@property (nonatomic, assign) BOOL isActive;
 
 - (id)initWithSubscribable:(RACSubscribable *)subscribable;
 

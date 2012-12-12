@@ -5,18 +5,21 @@
 
 @implementation PushActivity
 
-@synthesize status, localPath, targetAppName, targetHostname;
+@synthesize status, localPath, targetAppName, targetHostname, isActive;
 
 - (id)initWithSubscribable:(RACSubscribable *)subscribable {
     if (self = [super init]) {
+        self.isActive = YES;
         self.associatedDisposable = [subscribable subscribeNext:^(id x) {
             self.status = FoundryPushStageString([(NSNumber *)x intValue]);
         } error:^(NSError *error) {
             self.status = @"Error";
             [NSApp presentError:error];
             self.associatedDisposable = nil;
+            self.isActive = NO;
         } completed:^{
             self.associatedDisposable = nil;
+            self.isActive = NO;
         }];
     }
     return self;
@@ -27,7 +30,7 @@
 @interface ActivityCell : NSView
 
 @property (nonatomic, strong) PushActivity *activity;
-@property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, assign) BOOL highlighted, isAnimating;
 @property (nonatomic, strong) NSProgressIndicator *indicator;
 @property (nonatomic, strong) NSString *status;
 
@@ -36,11 +39,27 @@
 
 @implementation ActivityCell
 
-@synthesize activity = _activity, highlighted = _highlighted, indicator, status = _status;
+@synthesize activity = _activity, highlighted = _highlighted, indicator, status = _status, isAnimating = _isAnimating;
 
+- (void)resetIndicator {
+    
+    [indicator stopAnimation:self];
+    indicator.indeterminate = NO;
+    indicator.doubleValue = 100.0;
+}
 - (void)setStatus:(NSString *)status {
     _status = status;
     self.needsDisplay = YES;
+}
+
+- (void)setIsAnimating:(BOOL)isAnimating {
+    _isAnimating = isAnimating;
+    
+    if (isAnimating)
+        [indicator startAnimation:self];
+    else {
+        [self resetIndicator];
+    }
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -54,7 +73,9 @@
         indicator.style = NSProgressIndicatorBarStyle;
         indicator.indeterminate = YES;
         indicator.controlSize = NSSmallControlSize;
+        [self resetIndicator];
         [self addSubview:indicator];
+        
     }
     return self;
 }
@@ -62,6 +83,7 @@
 - (void)setActivity:(PushActivity *)activity {
     _activity = activity;
     [self bind:@"status" toObject:activity withKeyPath:@"status" options:nil];
+    [self bind:@"isAnimating" toObject:activity withKeyPath:@"isActive" options:nil];
     self.needsDisplay = YES;
 }
 
@@ -88,10 +110,7 @@
      }];
     
     NSFont *memoryFont = [NSFont systemFontOfSize:12];
-    [[NSString stringWithFormat:@"%@ - %@", _activity.localPath, self.status] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
-                                                                                            NSForegroundColorAttributeName : textColor,
-                                                                                                       NSFontAttributeName : memoryFont
-     }];
+    [[NSString stringWithFormat:@"%@ - %@", _activity.localPath, self.status] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{NSForegroundColorAttributeName : textColor, NSFontAttributeName : memoryFont}];
 }
 
 @end
