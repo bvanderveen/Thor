@@ -131,13 +131,7 @@
 - (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
     FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
-    RACSubscribable *deploy = [[[RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSURL *rootURL = [NSURL fileURLWithPath:deployment.app.localRoot];
-        id manifest = CreateSlugManifestFromPath(rootURL);
-        NSURL *slug = CreateSlugFromManifest(manifest, rootURL);
-        
-        return [[[client postSlug:slug manifest:manifest toAppWithName:deployment.name] subscribeOn:[RACScheduler mainQueueScheduler]] subscribe:subscriber];
-    }] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]];
+    RACSubscribable *deploy = [client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot];
     
     button.enabled = NO;
     button.title = @"Pushing…";

@@ -84,6 +84,29 @@
 
 @end
 
+@interface MockSlugService : NSObject <SlugService>
+
+@end
+
+@implementation MockSlugService
+
+- (id)createManifestFromPath:(NSURL *)rootURL {
+    return nil;
+}
+
+- (NSURL *)createSlugFromManifest:(id)manifest path:(NSURL *)rootURL {
+    return [NSURL URLWithString:@"file:///foo"];
+}
+
+- (BOOL)createMultipartMessageFromManifest:(id)manifest slug:(NSURL *)slugFile outMessagePath:(NSString **)outMessagePath outContentLength:(NSNumber **)outContentLength outBoundary:(NSString **)outBoundary error:(NSError **)error {
+    *outMessagePath = @"file:///tmp/blah";
+    *outBoundary = @"the_boundary";
+    *outContentLength = [NSNumber numberWithInt:0];
+    return YES;
+}
+
+@end
+
 SpecBegin(RestEndpoint)
 
 describe(@"verifyCredentials", ^{
@@ -616,7 +639,7 @@ describe(@"deleteAppWithName", ^ {
     });
 });
 
-describe(@"postSlug", ^ {
+describe(@"CreateMultipartMessage", ^ {
     
     __block MockEndpoint *endpoint;
     __block FoundryClient *client;
@@ -626,7 +649,7 @@ describe(@"postSlug", ^ {
         client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
     });
     
-    it(@"should call endpoint", ^ {
+    it(@"should write multipart message", ^ {
         NSString *tempFilePath = [NSString pathWithComponents:@[ NSTemporaryDirectory(), @"TestUploadFile.txt" ]];
         NSURL *tempFileURL = [NSURL fileURLWithPath:tempFilePath];
         
@@ -634,14 +657,17 @@ describe(@"postSlug", ^ {
         
         NSArray *manifest = @[ @"a", @"b", @"c" ];
         
-        [[client postSlug:tempFileURL manifest:manifest toAppWithName:@"appname"] subscribeCompleted:^{ }];
+        NSString *messagePath, *boundary;
+        NSNumber *contentLength;
+        NSError *error;
         
-        NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&error];
+        BOOL success = [[[SlugService alloc] init] createMultipartMessageFromManifest:manifest slug:tempFileURL outMessagePath:&messagePath outContentLength:&contentLength outBoundary:&boundary error:&error];
         
-        NSString *boundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
+        NSString *message = [[NSString alloc] initWithData:[[NSFileManager defaultManager] contentsAtPath:messagePath] encoding:NSUTF8StringEncoding];
         
-        NSString *expectedBody = @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
+        
+        NSString *expectedMessage = @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
         "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
         "[\"a\",\"b\",\"c\"]\r\n" \
         "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
@@ -650,18 +676,47 @@ describe(@"postSlug", ^ {
         "this is some data in a file\r\n"
         "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n";
         
-        id expectedCalls = @[
-        @{
-            @"method" : @"PUT",
-            @"path" : @"/apps/appname/application",
-            @"headers" : @{
-                @"Content-Type" : @"multipart/form-data; boundary=BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL",
-                @"Content-Length" : [[NSNumber numberWithUnsignedInteger:expectedBody.length] stringValue]
-            },
-            @"body" : expectedBody
+        expect(success).to.beTruthy();
+        expect(boundary).to.equal(@"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL");
+        expect(message).to.equal(expectedMessage);
+    });
+});
+
+describe(@"pushAppWithName:localRoot:", ^{
+    
+    __block MockEndpoint *endpoint;
+    __block MockSlugService *slugService;
+    __block FoundryClient *client;
+    
+    beforeEach(^ {
+        endpoint = [MockEndpoint new];
+        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
+        slugService = [MockSlugService new];
+        [client performSelector:@selector(setSlugService:) withObject:slugService];
+    });
+    
+
+    it(@"should send status events", ^ {
+        __block NSArray *results = @[];
+        __block NSError *error = nil;
+        __block BOOL completed = NO;
+        
+        [[client pushAppWithName:@"" fromLocalPath:@"whatever"] subscribeNext:^(id x) {
+            results = [results arrayByAddingObject:x];
+        } error:^(NSError *e) {
+            error = e;
+        } completed:^{
+            completed = YES;
         }];
         
-        expect(endpoint.calls).to.equal(expectedCalls);
+        expect(results.count).to.equal(5);
+        expect([results[0] intValue]).to.equal(FoundryPushStageBuildingManifest);
+        expect([results[1] intValue]).to.equal(FoundryPushStageCompressingFiles);
+        expect([results[2] intValue]).to.equal(FoundryPushStageWritingPackage);
+        expect([results[3] intValue]).to.equal(FoundryPushStageUploadingPackage);
+        expect([results[4] intValue]).to.equal(FoundryPushStageFinished);
+        expect(error).to.beNil();
+        expect(completed).to.beTruthy();
     });
 });
 
@@ -715,7 +770,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
     };
     
     id (^filesInManifest)(NSURL *) = ^ id (NSURL *rootURL) {
-        return [CreateSlugManifestFromPath(rootURL) map:^id(id r) {
+        return [[[[SlugService alloc] init] createManifestFromPath:rootURL] map:^id(id r) {
             return [r objectForKey:@"fn"];
         }];
     };
@@ -765,7 +820,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
     });
     
     it(@"should provide file sizes", ^ {
-        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
+        NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
         
         NSMutableDictionary *nameToSizeDict = [manifest reduce:^id(id acc, id i) {
             ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"size"];
@@ -778,7 +833,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
     });
     
     it(@"should calculate SHA1 digests", ^ {
-        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
+        NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
         
         NSMutableDictionary *nameToHashDict = [manifest reduce:^id(id acc, id i) {
             ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"sha1"];
@@ -859,8 +914,10 @@ describe(@"CreateSlugFromManifest", ^{
         NSArray *extractionRoot = @[NSTemporaryDirectory(), @"TestZipDirExtracted"];
         NSURL *extractionRootPath = [NSURL fileURLWithPath:[NSString pathWithComponents:extractionRoot]];
         
-        NSArray *manifest = CreateSlugManifestFromPath(rootURL);
-        NSURL *slug = CreateSlugFromManifest(manifest, rootURL);
+        
+        SlugService *service = [[SlugService alloc] init];
+        NSArray *manifest = [service createManifestFromPath:rootURL];
+        NSURL *slug = [service createSlugFromManifest:manifest path:rootURL];
         
         extractSlug(slug, extractionRootPath);
         NSSet *files = filesUnderRoot(extractionRootPath);
