@@ -494,6 +494,23 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL) {
     return @"standalone";
 }
 
+NSString *FoundryPushStageString(FoundryPushStage stage) {
+    switch (stage) {
+        case FoundryPushStageBuildingManifest:
+            return @"Building manifest…";
+        case FoundryPushStageCompressingFiles:
+            return @"Compressing files…";
+        case FoundryPushStageWritingPackage:
+            return @"Writing slug…";
+        case FoundryPushStageUploadingPackage:
+            return @"Uploading…";
+        case FoundryPushStageFinished:
+            return @"Done.";
+        default:
+            return @"";
+    }
+}
+
 @implementation SlugService
 
 - (id)createManifestFromPath:(NSURL *)rootURL {

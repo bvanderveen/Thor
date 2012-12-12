@@ -120,6 +120,8 @@ typedef enum {
     FoundryPushStageFinished,
 } FoundryPushStage;
 
+NSString *FoundryPushStageString(FoundryPushStage stage);
+
 @protocol FoundryClient <NSObject>
 
 - (RACSubscribable *)getApps; // NSArray of FoundryApp

@@ -10,6 +10,7 @@
 #import "AddItemListViewSource.h"
 #import "Sequence.h"
 #import "NSAlert+Dialogs.h"
+#import "AppDelegate.h"
 
 @interface AppController ()
 
@@ -131,18 +132,24 @@
 - (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
     FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
-    RACSubscribable *deploy = [client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot];
     
     button.enabled = NO;
     button.title = @"Pushing…";
-    [deploy subscribeError:^(NSError *error) {
-        [NSApp presentError:error];
+    
+    RACSubscribable *subscribable = [[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] doNext:^(id x) {
         button.enabled = YES;
         button.title = @"Push";
-    } completed:^{
+    }] doError:^(NSError *error) {
         button.enabled = YES;
         button.title = @"Push";
     }];
+    
+    PushActivity *activity = [[PushActivity alloc] initWithSubscribable:subscribable];
+    activity.localPath = deployment.app.localRoot;
+    activity.targetHostname = deployment.target.hostname;
+    activity.targetAppName = deployment.name;
+    
+    [((AppDelegate *)[NSApplication sharedApplication].delegate).activityController insert:activity];
 }
 
 @end

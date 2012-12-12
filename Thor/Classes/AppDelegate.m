@@ -7,11 +7,9 @@
 #import "ThorCore.h"
 #import "TargetPropertiesController.h"
 #import "NSAlert+Dialogs.h"
-#import "ActivityController.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) ActivityController *activityController;
 @property (nonatomic, strong) SourceListController *sourceListController;
 
 @end

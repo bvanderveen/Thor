@@ -1,4 +1,5 @@
 #import "ThorBackend.h"
+#import "ActivityController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow *window;
@@ -7,6 +8,7 @@
 }
 
 @property (nonatomic, strong) Target *selectedTarget;
+@property (nonatomic, strong) ActivityController *activityController;
 
 - (IBAction)newTarget:(id)sender;
 - (IBAction)newApp:(id)sender;

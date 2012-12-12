@@ -1,16 +1,26 @@
 #import "ActivityController.h"
 #import "NSFont+LineHeight.h"
-
-
-@interface PushActivity : NSObject
-
-@property (nonatomic, copy) NSString *localPath, *targetHostname, *targetAppName;
-
-@end
+#import "NSObject+AssociateDisposable.h"
+#import "ThorCore.h"
 
 @implementation PushActivity
 
-@synthesize localPath, targetAppName, targetHostname;
+@synthesize status, localPath, targetAppName, targetHostname;
+
+- (id)initWithSubscribable:(RACSubscribable *)subscribable {
+    if (self = [super init]) {
+        self.associatedDisposable = [subscribable subscribeNext:^(id x) {
+            self.status = FoundryPushStageString([(NSNumber *)x intValue]);
+        } error:^(NSError *error) {
+            self.status = @"Error";
+            [NSApp presentError:error];
+            self.associatedDisposable = nil;
+        } completed:^{
+            self.associatedDisposable = nil;
+        }];
+    }
+    return self;
+}
 
 @end
 
@@ -19,13 +29,19 @@
 @property (nonatomic, strong) PushActivity *activity;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, strong) NSProgressIndicator *indicator;
+@property (nonatomic, strong) NSString *status;
 
 @end
 
 
 @implementation ActivityCell
 
-@synthesize activity = _activity, highlighted = _highlighted, indicator;
+@synthesize activity = _activity, highlighted = _highlighted, indicator, status = _status;
+
+- (void)setStatus:(NSString *)status {
+    _status = status;
+    self.needsDisplay = YES;
+}
 
 - (void)setHighlighted:(BOOL)highlighted {
     _highlighted = highlighted;
@@ -45,6 +61,7 @@
 
 - (void)setActivity:(PushActivity *)activity {
     _activity = activity;
+    [self bind:@"status" toObject:activity withKeyPath:@"status" options:nil];
     self.needsDisplay = YES;
 }
 
@@ -71,7 +88,7 @@
      }];
     
     NSFont *memoryFont = [NSFont systemFontOfSize:12];
-    [[NSString stringWithFormat:@"%@", _activity.localPath] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
+    [[NSString stringWithFormat:@"%@ - %@", _activity.localPath, self.status] drawInRect:NSMakeRect(10, self.bounds.size.height - nameFont.lineHeight - memoryFont.lineHeight, self.bounds.size.width, memoryFont.lineHeight) withAttributes:@{
                                                                                             NSForegroundColorAttributeName : textColor,
                                                                                                        NSFontAttributeName : memoryFont
      }];
@@ -89,6 +106,13 @@
 @implementation ActivityTableViewSource
 
 @synthesize activities, selectedCell;
+
+- (id)init {
+    if (self = [super init]) {
+        self.activities = @[];
+    }
+    return self;
+}
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return activities.count;
@@ -173,12 +197,6 @@
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         source = [[ActivityTableViewSource alloc] init];
-        PushActivity *a = [[PushActivity alloc] init];
-        a.localPath = @"/Users/bvanderveen/code/foo/whatever";
-        a.targetHostname = @"api.bvanderveen.cloudfoundry.me";
-        a.targetAppName = @"foowhatever";
-        
-        source.activities = @[ a ];
     }
     return self;
 }
@@ -189,6 +207,11 @@
     controllerView.tableView.dataSource = source;
     
     self.view = controllerView;
+}
+
+- (void)insert:(PushActivity *)activity {
+    source.activities = [source.activities arrayByAddingObject:activity];
+    [controllerView.tableView reloadData];
 }
 
 @end
