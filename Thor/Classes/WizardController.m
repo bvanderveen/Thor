@@ -206,6 +206,7 @@
     assert(currentController.title != nil);
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
     self.view.needsLayout = YES;
+    [self.view layoutSubtreeIfNeeded];
     
     [self updateButtonState];
 }

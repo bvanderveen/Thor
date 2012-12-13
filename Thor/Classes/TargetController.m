@@ -13,6 +13,7 @@
 #import "NSAlert+Dialogs.h"
 #import "ServiceInfoItemsDataSource.h"
 #import "ServicePropertiesController.h"
+#import "TableController.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
 
@@ -233,19 +234,34 @@
 }
 
 - (void)createNewService {
-    ItemsController *servicesInfoController = [[ItemsController alloc] init];
-    servicesInfoController.dataSource = [[ServiceInfoItemsDataSource alloc] initWithClient:self.client];
     
     __block WizardController *wizardController;
+    __block FoundryServiceInfo *selectedServiceInfo;
     
-    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:servicesInfoController commitBlock:^{
-        FoundryServiceInfo *serviceInfo = [servicesInfoController.arrayController.selectedObjects objectAtIndex:0];
+    TableController *tableController = [[TableController alloc] initWithSubscribable:[[client getServicesInfo] select:^id(id servicesInfo) {
+        return [servicesInfo map:^id(id x) {
+            FoundryServiceInfo *serviceInfo = (FoundryServiceInfo *)x;
+            
+            TableItem *item = [[TableItem alloc] init];
+            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+                TableCell *cell = [[TableCell alloc] init];
+                cell.label.stringValue = [NSString stringWithFormat:@"%@ v%@", serviceInfo.vendor, serviceInfo.version];
+                return cell;
+            };
+            item.selected = ^ {
+                selectedServiceInfo = serviceInfo;
+            };
+            return item;
+        }];
+    }]];
+    
+    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
         
         FoundryService *service = [[FoundryService alloc] init];
-        service.name = serviceInfo.vendor;
-        service.vendor = serviceInfo.vendor;
-        service.version = serviceInfo.version;
-        service.type = serviceInfo.type;
+        service.name = selectedServiceInfo.vendor;
+        service.vendor = selectedServiceInfo.vendor;
+        service.version = selectedServiceInfo.version;
+        service.type = selectedServiceInfo.type;
         
         ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:self.client];
         servicePropertiesController.title = @"Create service";
@@ -254,10 +270,11 @@
         [wizardController pushViewController:servicePropertiesController animated:YES];
     } rollbackBlock:nil];
     
-    wizardItemsController.title = @"Create new service";
-    wizardItemsController.commitButtonTitle = @"Next";
     
-    wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    wizardTableController.title = @"Create new service";
+    wizardTableController.commitButtonTitle = @"Next";
+    
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];
