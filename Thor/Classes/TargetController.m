@@ -7,11 +7,9 @@
 #import "NoResultsListViewDataSource.h"
 #import "RACSubscribable+Extensions.h"
 #import "Sequence.h"
-#import "AppItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
-#import "ServiceInfoItemsDataSource.h"
 #import "ServicePropertiesController.h"
 #import "TableController.h"
 

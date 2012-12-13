@@ -10,8 +10,6 @@
 #import "Sequence.h"
 #import "NoResultsListViewDataSource.h"
 #import "AddItemListViewSource.h"
-#import "ItemsController.h"
-#import "ServiceItemsDataSource.h"
 #import "NSAlert+Dialogs.h"
 #import "TableController.h"
 

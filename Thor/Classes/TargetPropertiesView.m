@@ -1,5 +1,4 @@
 #import "TargetPropertiesView.h"
-#import "CollectionView.h"
 
 @implementation TargetPropertiesView
 

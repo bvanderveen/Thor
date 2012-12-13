@@ -1,7 +1,6 @@
 #import "AppController.h"
 #import "SheetWindow.h"
 #import "DeploymentController.h"
-#import "TargetItemsDataSource.h"
 #import "DeploymentPropertiesController.h"
 #import "ThorCore.h"
 #import "DeploymentCell.h"
@@ -16,14 +15,13 @@
 
 @interface AppController ()
 
-@property (nonatomic, strong) TargetItemsDataSource *targetItemsDataSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> listSource;
 
 @end
 
 @implementation AppController
 
-@synthesize app, deployments, breadcrumbController, title, appView, targetItemsDataSource, listSource;
+@synthesize app, deployments, breadcrumbController, title, appView, listSource;
 
 - (id)init {
     if (self = [super initWithNibName:@"AppView" bundle:[NSBundle mainBundle]]) {
