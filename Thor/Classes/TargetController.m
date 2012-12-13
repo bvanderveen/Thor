@@ -294,20 +294,37 @@
         [self presentNoConfiguredAppsDialog];
     
     __block WizardController *wizardController;
+    __block App *selectedApp;
     
-    ItemsController *appsController = [self createAppItemsController];
-    
-    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
-        App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:app target:target];
+    TableController *tableController = [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
+        return [[ThorBackend shared] getConfiguredApps:nil];
+    }] select:^id(id configuredApps) {
+        return [configuredApps map:^id(id x) {
+            App *app = (App *)x;
+            
+            TableItem *item = [[TableItem alloc] init];
+            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+                TableCell *cell = [[TableCell alloc] init];
+                cell.label.stringValue = [NSString stringWithFormat:@"%@", app.displayName];
+                return cell;
+            };
+            item.selected = ^ {
+                selectedApp = app;
+            };
+            return item;
+        }];
+    }]];
+        
+    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:selectedApp target:target];
         deploymentController.title = @"Create Deployment";
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
-    wizardItemsController.title = @"Choose App";
-    wizardItemsController.commitButtonTitle = @"Next";
+    wizardTableController.title = @"Choose App";
+    wizardTableController.commitButtonTitle = @"Next";
     
-    wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];

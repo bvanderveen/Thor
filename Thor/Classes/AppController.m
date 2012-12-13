@@ -126,7 +126,6 @@
         }];
     }]];
     
-    
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:app target:selectedTarget];
         deploymentController.title = @"Create Deployment";
