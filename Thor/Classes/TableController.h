@@ -32,9 +32,8 @@
 
 @end
 
-
 @interface WizardTableController : NSViewController <WizardControllerAware>
 
-- (id)initWithTableController:(TableController *)itemsController commitBlock:(void (^)())commit rollbackBlock:(void (^)())rollback;
+- (id)initWithTableController:(TableController *)tableController commitBlock:(void (^)())commit rollbackBlock:(void (^)())rollback;
 
 @end

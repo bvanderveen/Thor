@@ -13,6 +13,7 @@
 #import "ItemsController.h"
 #import "ServiceItemsDataSource.h"
 #import "NSAlert+Dialogs.h"
+#import "TableController.h"
 
 @interface NSObject (BoundServicesListViewSourceDelegate)
 
@@ -344,20 +345,36 @@ static NSArray *instanceColumns = nil;
             return;
         }
         
-        ItemsController *itemsController = [[ItemsController alloc] init];
-        itemsController.dataSource = [[ServiceItemsDataSource alloc] initWithServices:services];
         __block WizardController *wizard;
-        WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:itemsController commitBlock:^{
-            FoundryService *service = itemsController.arrayController.selectedObjects[0];
-            
-            self.associatedDisposable = [[self updateByAddingServiceNamed:service.name] subscribeCompleted:^{
+        __block FoundryService *selectedService;
+        
+        TableController *tableController = [[TableController alloc] initWithSubscribable:[[RACSubscribable return:services] select:^id(id lesServices) {
+            return [lesServices map:^id(id x) {
+                FoundryService *service = (FoundryService *)x;
+                
+                TableItem *item = [[TableItem alloc] init];
+                item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+                    TableCell *cell = [[TableCell alloc] init];
+                    cell.label.stringValue = [NSString stringWithFormat:@"%@ %@ v%@", service.name, service.vendor, service.version];
+                    return cell;
+                };
+                item.selected = ^ {
+                    selectedService = service;
+                };
+                return item;
+            }];
+        }]];
+
+        WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
+            self.associatedDisposable = [[self updateByAddingServiceNamed:selectedService.name] subscribeCompleted:^{
                 [wizard dismissWithReturnCode:NSOKButton];
             }];
         } rollbackBlock:nil];
-        wizardItemsController.title = @"Bind service";
-        wizardItemsController.commitButtonTitle = @"OK";
         
-        wizard = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+        wizardTableController.title = @"Bind service";
+        wizardTableController.commitButtonTitle = @"OK";
+        
+        wizard = [[WizardController alloc] initWithRootViewController:wizardTableController];
         wizard.isSinglePage = YES;
         [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
             [self updateAppAndStatsAfterSubscribable:nil];
