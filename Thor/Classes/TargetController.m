@@ -102,12 +102,13 @@
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource, rootServicesListSource;
 @property (nonatomic, strong) AppsListViewSource *appsListSource;
 @property (nonatomic, strong) ServicesListViewSource *servicesListSource;
+@property (nonatomic, strong) App *tableSelectedApp;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource, tableSelectedApp;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -282,21 +283,8 @@
 
 }
 
-- (ItemsController *)createAppItemsController {
-    ItemsController *appsController = [[ItemsController alloc] init];
-    appsController.dataSource = [[AppItemsDataSource alloc] init];
-    return appsController;
-}
-
-- (void)createNewDeployment {
-    NSError *error;
-    if (![[ThorBackend shared] getConfiguredApps:&error].count)
-        [self presentNoConfiguredAppsDialog];
-    
-    __block WizardController *wizardController;
-    __block App *selectedApp;
-    
-    TableController *tableController = [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
+- (TableController *)createAppTableController {
+    return [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
         return [[ThorBackend shared] getConfiguredApps:nil];
     }] select:^id(id configuredApps) {
         return [configuredApps map:^id(id x) {
@@ -309,14 +297,25 @@
                 return cell;
             };
             item.selected = ^ {
-                selectedApp = app;
+                tableSelectedApp = app;
             };
             return item;
         }];
     }]];
+}
+
+- (void)createNewDeployment {
+    NSError *error;
+    if (![[ThorBackend shared] getConfiguredApps:&error].count)
+        [self presentNoConfiguredAppsDialog];
+    
+    __block WizardController *wizardController;
+    __block App *selectedApp;
+    
+    TableController *tableController = [self createAppTableController];
         
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:selectedApp target:target];
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:tableSelectedApp target:target];
         deploymentController.title = @"Create Deployment";
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
@@ -334,12 +333,11 @@
 - (void)createDeploymentForApp:(FoundryApp *)foundryApp {
     __block WizardController *wizardController;
     
-    ItemsController *appsController = [self createAppItemsController];
+    TableController *tableController = [self createAppTableController];
     
-    WizardItemsController *wizardItemsController = [[WizardItemsController alloc] initWithItemsController:appsController commitBlock:^{
-        App *app = [appsController.arrayController.selectedObjects objectAtIndex:0];
+    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
         
-        Deployment *deployment = [Deployment deploymentWithApp:app target:self.target];
+        Deployment *deployment = [Deployment deploymentWithApp:tableSelectedApp target:self.target];
         deployment.name = foundryApp.name;
         
         NSError *error;
@@ -351,10 +349,10 @@
         [wizardController dismissWithReturnCode:NSOKButton];
     } rollbackBlock:nil];
     
-    wizardItemsController.title = @"Associate deployment with app";
-    wizardItemsController.commitButtonTitle = @"Done";
+    wizardTableController.title = @"Associate deployment with app";
+    wizardTableController.commitButtonTitle = @"Done";
     
-    wizardController = [[WizardController alloc] initWithRootViewController:wizardItemsController];
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
     [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [self updateApps];
