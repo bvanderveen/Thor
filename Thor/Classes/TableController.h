@@ -22,11 +22,18 @@
 
 @end
 
+@interface TableControllerView : NSView
+
+@property (nonatomic, strong) IBOutlet NSTableView *tableView;
+@property (nonatomic, strong) NSScrollView *scrollView;
+
+@end
+
 @interface TableController : NSViewController
 
 @property (nonatomic, strong) TableSource *source;
 @property (nonatomic, strong) RACSubscribable *subscribable;
-@property (nonatomic, strong) NSTableView *tableView;
+@property (nonatomic, strong) IBOutlet TableControllerView *controllerView;
 
 - (id)initWithSubscribable:(RACSubscribable *)subscribable;
 

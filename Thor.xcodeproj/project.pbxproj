@@ -57,6 +57,7 @@
 		416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		416F826E1676D20A0042BD19 /* ActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F826D1676D20A0042BD19 /* ActivityController.m */; };
 		416F8271167931770042BD19 /* TableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F8270167931770042BD19 /* TableController.m */; };
+		416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 416F8275167A9FDF0042BD19 /* TableControllerView.xib */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */; };
@@ -397,6 +398,7 @@
 		416F826D1676D20A0042BD19 /* ActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityController.m; path = Classes/ActivityController.m; sourceTree = "<group>"; };
 		416F826F167931770042BD19 /* TableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableController.h; path = Classes/TableController.h; sourceTree = "<group>"; };
 		416F8270167931770042BD19 /* TableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableController.m; path = Classes/TableController.m; sourceTree = "<group>"; };
+		416F8275167A9FDF0042BD19 /* TableControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableControllerView.xib; path = Resources/TableControllerView.xib; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
@@ -957,9 +959,10 @@
 			children = (
 				416F826F167931770042BD19 /* TableController.h */,
 				416F8270167931770042BD19 /* TableController.m */,
-				416F826B1676D1F10042BD19 /* Activity */,
+				416F8275167A9FDF0042BD19 /* TableControllerView.xib */,
 				41FA11C515E4335C0079FD30 /* AppDelegate.h */,
 				41FA11C615E4335C0079FD30 /* AppDelegate.m */,
+				416F826B1676D1F10042BD19 /* Activity */,
 				41C59C1D15CB051400123ABF /* Extensions */,
 				417FEFAC15ACC96600E64503 /* Apps */,
 				417FEFA815ACC59800E64503 /* Targets */,
@@ -1329,6 +1332,7 @@
 				41FC50DB1648759900C63E43 /* SourceListView.xib in Resources */,
 				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 				4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */,
+				416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -83,16 +83,34 @@
 
 @end
 
+@implementation TableControllerView
+
+@synthesize tableView, scrollView;
+
+- (void)awakeFromNib {
+    NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"ActivityColumn"];
+    column.resizingMask = NSTableColumnAutoresizingMask;
+    [tableView addTableColumn:column];
+
+    tableView.columnAutoresizingStyle = NSTableViewUniformColumnAutoresizingStyle;
+    tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
+}
+
+@end
+
 @implementation TableController
 
-@synthesize source, tableView;
+@synthesize source, controllerView;
 
 - (id)initWithSubscribable:(RACSubscribable *)subscribable {
-    if (self = [super initWithNibName:nil bundle:nil]) {
+    if (self = [super initWithNibName:@"TableControllerView" bundle:[NSBundle mainBundle]]) {
         source = [[TableSource alloc] init];
         self.associatedDisposable = [subscribable subscribeNext:^ (id x) {
             source.items = (NSArray *)x;
-            [tableView reloadData];
+            [controllerView.tableView reloadData];
+            [controllerView.tableView sizeLastColumnToFit];
+            controllerView.needsLayout = YES;
+            [controllerView layoutSubtreeIfNeeded];
         } error:^(NSError *error) {
             [NSApp presentError:error];
             self.associatedDisposable = nil;
@@ -103,22 +121,9 @@
     return self;
 }
 
-- (void)loadView {
-    tableView = [[NSTableView alloc] initWithFrame:NSZeroRect];
-    tableView.delegate = source;
-    tableView.dataSource = source;
-    
-    tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
-    tableView.headerView = nil;
-    tableView.rowHeight = 60;
-    
-    NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"ActivityColumn"];
-    [tableView addTableColumn:column];
-    
-    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:NSZeroRect];
-    scrollView.documentView = tableView;
-    
-    self.view = scrollView;
+- (void)awakeFromNib {
+    controllerView.tableView.delegate = source;
+    controllerView.tableView.dataSource = source;
 }
 
 @end
