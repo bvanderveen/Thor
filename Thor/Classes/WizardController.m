@@ -71,14 +71,33 @@
     return self;
 }
 
+#define titleInsets (NSEdgeInsetsMake(20, 20, 20, 20))
+#define buttonAreaInsets (NSEdgeInsetsMake(10, 10, 10, 10))
+
+- (CGFloat)titleAreaHeight {
+    return [titleLabel intrinsicContentSize].height + titleInsets.top + titleInsets.bottom;
+}
+
+- (CGFloat)buttonAreaHeight {
+    return [self.prevButton intrinsicContentSize].height + buttonAreaInsets.top + buttonAreaInsets.bottom;
+}
+
 - (CGSize)intrinsicContentSize {
-    return NSMakeSize(500, 380);
+    CGSize contentSize = CGSizeMake(NSViewNoInstrinsicMetric, NSViewNoInstrinsicMetric);
+    
+    if (self.contentView.subviews.count)
+        contentSize = ((NSView*)self.contentView.subviews[0]).intrinsicContentSize;
+    
+    if(contentSize.width == NSViewNoInstrinsicMetric)
+        contentSize.width = 500;
+    if (contentSize.height == NSViewNoInstrinsicMetric)
+        contentSize.height = 200;
+    
+    return NSMakeSize(contentSize.width, contentSize.height + [self titleAreaHeight] + [self buttonAreaHeight]);
 }
 
 - (void)layout {
     NSSize size = [self intrinsicContentSize];
-    
-    NSEdgeInsets titleInsets = NSEdgeInsetsMake(20, 20, 20, 20);
     
     NSSize titleLabelSize = [titleLabel intrinsicContentSize];
     
@@ -87,8 +106,7 @@
     buttonSize.width = nextButtonSize.width = 100;
     buttonSize.height = [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height;
     nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
-    
-    NSEdgeInsets buttonAreaInsets = NSEdgeInsetsMake(10, 10, 10, 10);
+
     
     self.titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
@@ -105,8 +123,8 @@
         self.prevButton.frame = adjacentToNextButtonRect;
     }
     
-    CGFloat titleAreaHeight = titleLabelSize.height + titleInsets.top + titleInsets.bottom;
-    CGFloat buttonAreaHeight = buttonSize.height + buttonAreaInsets.top + buttonAreaInsets.bottom;
+    CGFloat titleAreaHeight = [self titleAreaHeight];
+    CGFloat buttonAreaHeight = [self buttonAreaHeight];
     
     self.contentView.frame = NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight);
     ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
@@ -173,7 +191,6 @@
     self.wizardControllerView.contentView.wantsLayer = YES;
     
     [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
-        
         for (NSInteger i = stack.count - 1; i >= 0; i--)
             [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
         
