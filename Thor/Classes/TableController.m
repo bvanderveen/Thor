@@ -109,8 +109,6 @@
             source.items = (NSArray *)x;
             [controllerView.tableView reloadData];
             [controllerView.tableView sizeLastColumnToFit];
-            controllerView.needsLayout = YES;
-            [controllerView layoutSubtreeIfNeeded];
         } error:^(NSError *error) {
             [NSApp presentError:error];
             self.associatedDisposable = nil;

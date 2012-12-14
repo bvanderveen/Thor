@@ -1,4 +1,5 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "TableController.h"
 
 @interface PushActivity : NSObject
 

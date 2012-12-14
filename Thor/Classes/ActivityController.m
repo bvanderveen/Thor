@@ -115,122 +115,37 @@
 
 @end
 
-@interface ActivityTableViewSource : NSObject <NSTableViewDelegate, NSTableViewDataSource>
-
-@property (nonatomic, copy) NSArray *activities; // of FoundryApp
-@property (nonatomic, strong) ActivityCell *selectedCell;
-
-@end
-
-@implementation ActivityTableViewSource
-
-@synthesize activities, selectedCell;
-
-- (id)init {
-    if (self = [super init]) {
-        self.activities = @[];
-    }
-    return self;
-}
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return activities.count;
-}
-
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    ActivityCell *cell = [[ActivityCell alloc] initWithFrame:NSZeroRect];
-    
-    cell.activity = activities[row];
-    
-    return cell;
-}
-
-- (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes {
-    selectedCell.highlighted = NO;
-    selectedCell = nil;
-    
-    if (proposedSelectionIndexes.count) {
-        selectedCell = (ActivityCell *)[tableView viewAtColumn:0 row:[proposedSelectionIndexes firstIndex] makeIfNecessary:YES];
-        selectedCell.highlighted = YES;
-    }
-    
-    return proposedSelectionIndexes;
-}
-
-@end
-
-@interface ActivityControllerView : NSView
-
-@property (nonatomic, strong) NSTableView *tableView;
-@property (nonatomic, strong) NSScrollView *scrollView;
-
-@end
-
-@implementation ActivityControllerView
-
-@synthesize tableView, scrollView;
-
-- (id)initWithFrame:(NSRect)frameRect {
-    if (self = [super initWithFrame:frameRect]) {
-        self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        
-        tableView = [[NSTableView alloc] initWithFrame:frameRect];
-        tableView.gridStyleMask = NSTableViewSolidHorizontalGridLineMask;
-        tableView.headerView = nil;
-        tableView.rowHeight = 60;
-        
-        NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"ActivityColumn"];
-        [tableView addTableColumn:column];
-        
-        scrollView = [[NSScrollView alloc] initWithFrame:NSZeroRect];
-        scrollView.documentView = tableView;
-        
-        [self addSubview:scrollView];
-    }
-    return self;
-}
-
-- (void)setFrame:(NSRect)frameRect {
-    [super setFrame:frameRect];
-    self.needsLayout = YES;
-}
-
-- (void)layout {
-    scrollView.frame = self.bounds;
-    [super layout];
-}
-
-@end
-
 @interface ActivityController ()
 
-@property (nonatomic, strong) ActivityTableViewSource *source;
-@property (nonatomic, strong) ActivityControllerView *controllerView;
+@property (nonatomic, strong) TableController *controller;
 
 @end
 
 @implementation ActivityController
 
-@synthesize source, controllerView;
+@synthesize controller;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        source = [[ActivityTableViewSource alloc] init];
+        controller = [[TableController alloc] initWithSubscribable:[RACSubscribable return:@[]]];
     }
     return self;
 }
 
 - (void)loadView {
-    controllerView = [[ActivityControllerView alloc] initWithFrame:NSZeroRect];
-    controllerView.tableView.delegate = source;
-    controllerView.tableView.dataSource = source;
-    
-    self.view = controllerView;
+    self.view = controller.view;
 }
 
 - (void)insert:(PushActivity *)activity {
-    source.activities = [source.activities arrayByAddingObject:activity];
-    [controllerView.tableView reloadData];
+    TableItem *item = [[TableItem alloc] init];
+    item.view = ^ NSView * (NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+        ActivityCell *cell = [[ActivityCell alloc] initWithFrame:NSZeroRect];
+        cell.activity = activity;
+        return cell;
+    };
+    controller.source.items = [controller.source.items arrayByAddingObject:item];
+    [controller.controllerView.tableView reloadData];
+    [controller.controllerView.tableView sizeLastColumnToFit];
 }
 
 @end
