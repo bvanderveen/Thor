@@ -85,18 +85,22 @@
 - (CGSize)intrinsicContentSize {
     CGSize contentSize = CGSizeMake(NSViewNoInstrinsicMetric, NSViewNoInstrinsicMetric);
     
-    if (self.contentView.subviews.count)
+    if (self.contentView.subviews.count) {
         contentSize = ((NSView*)self.contentView.subviews[0]).intrinsicContentSize;
+        NSLog(@"Got contentView %@ intrinsic size %@", self.contentView.subviews[0], NSStringFromSize(contentSize));
+    }
     
     if(contentSize.width == NSViewNoInstrinsicMetric)
         contentSize.width = 500;
     if (contentSize.height == NSViewNoInstrinsicMetric)
         contentSize.height = 200;
     
-    return NSMakeSize(contentSize.width, contentSize.height + [self titleAreaHeight] + [self buttonAreaHeight]);
+    CGSize result = NSMakeSize(contentSize.width, contentSize.height + [self titleAreaHeight] + [self buttonAreaHeight]);
+    NSLog(@"returning size %@", NSStringFromSize(result));
+    return result;
 }
 
-- (void)layout {
+- (void)doLayout {
     NSSize size = [self intrinsicContentSize];
     
     NSSize titleLabelSize = [titleLabel intrinsicContentSize];
@@ -106,12 +110,10 @@
     buttonSize.width = nextButtonSize.width = 100;
     buttonSize.height = [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height;
     nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
-
     
     self.titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
     
     self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height);
-    
     
     NSRect adjacentToNextButtonRect = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
@@ -130,7 +132,53 @@
     ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
     
     self.loadingView.frame = self.contentView.frame;
+    NSLog(@"--- layout at %@ ----", NSStringFromRect(self.bounds));
+}
+
+- (void)resizeWindow {
+    NSRect frame = self.window.frame;
+    NSSize newSize = self.intrinsicContentSize;
+    frame.origin.x += (frame.size.width - newSize.width) / 2;
+    frame.origin.y += frame.size.height - newSize.height;
+    frame.size = newSize;
     
+    NSDictionary *windowResize = @{ NSViewAnimationTargetKey: self.window, NSViewAnimationEndFrameKey:[NSValue valueWithRect:frame] };
+    
+    NSArray *animations = @[ windowResize ];
+    NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations:animations];
+    
+    [animation setAnimationBlockingMode:NSAnimationBlocking];
+    [animation setAnimationCurve:NSAnimationEaseIn];
+    [animation setDuration:.3];
+    [animation startAnimation];
+    
+    [self doLayout];
+}
+
+- (void)pushToView:(NSView *)newView fromView:(NSView *)oldView {
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    
+    self.contentView.animations = @{ @"subviews" : transition };
+    [self.contentView.animator replaceSubview:oldView with:newView];
+    [self resizeWindow];
+    self.needsLayout = YES;
+}
+
+- (void)popToView:(NSView *)newView fromView:(NSView *)oldView {
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromLeft;
+    
+    self.contentView.animations = @{ @"subviews" : transition };
+    [self.contentView.animator replaceSubview:oldView with:newView];
+    [self resizeWindow];
+    self.needsLayout = YES;
+}
+
+- (void)layout {
+    [self doLayout];
     [super layout];
 }
 
@@ -140,14 +188,24 @@
 
 @property (nonatomic, strong) NSViewController<WizardControllerAware> *currentController;
 @property (nonatomic, strong) NSArray *stack;
-@property (nonatomic, readonly) WizardControllerView *wizardControllerView;
+@property (nonatomic, strong) WizardControllerView *wizardControllerView;
 @property (nonatomic, copy) void (^didEndBlock)();
 
 @end
 
 @implementation WizardController
 
-@synthesize isSinglePage, currentController, stack, wizardControllerView, didEndBlock;
+@synthesize isSinglePage, currentController = _currentController, stack, wizardControllerView, didEndBlock;
+
+- (void)setCurrentController:(NSViewController<WizardControllerAware> *)currentController {
+    assert(currentController.title != nil);
+    _currentController = currentController;
+    [self viewWillAppearForController:currentController];
+    self.wizardControllerView.titleLabel.stringValue = currentController.title;
+    if (!isSinglePage)
+        self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+    self.commitButtonTitle = currentController.commitButtonTitle;
+}
 
 - (void)setCommitButtonTitle:(NSString *)commitButtonTitle {
     self.wizardControllerView.nextButton.title = commitButtonTitle;
@@ -173,21 +231,17 @@
     return self.wizardControllerView.cancelButton.isEnabled;
 }
 
-- (WizardControllerView *)wizardControllerView {
-    return (WizardControllerView *)self.view;
-}
-
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        self.currentController = rootController;
-        currentController.wizardController = self;
+        _currentController = rootController;
+        self.currentController.wizardController = self;
         self.stack = @[ rootController ];
     }
     return self;
 }
 
 - (void)loadView {
-    self.view = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
+    self.wizardControllerView = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.wizardControllerView.contentView.wantsLayer = YES;
     
     [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
@@ -205,11 +259,13 @@
     if (isSinglePage) {
         self.wizardControllerView.prevButton.hidden = YES;
     }
-        
-        
+    
     [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self.currentController commitWizardPanel];
     }]];
+    
+    [wizardControllerView.contentView addSubview:self.currentController.view];
+    self.view = wizardControllerView;
 }
 
 - (void)viewWillAppearForController:(NSViewController<WizardControllerAware> *)controller {
@@ -218,64 +274,37 @@
 }
 
 - (void)viewWillAppear {
-    [self.wizardControllerView.contentView addSubview:currentController.view];
-    [self viewWillAppearForController:currentController];
-    assert(currentController.title != nil);
-    self.wizardControllerView.titleLabel.stringValue = currentController.title;
+    [self.wizardControllerView.contentView addSubview:self.currentController.view];
+    [self viewWillAppearForController:self.currentController];
+    assert(self.currentController.title != nil);
+    self.wizardControllerView.titleLabel.stringValue = self.currentController.title;
     self.view.needsLayout = YES;
     [self.view layoutSubtreeIfNeeded];
-    
-    [self updateButtonState];
-}
-
-- (void)updateButtonState {
-    if (!isSinglePage)
-        self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
-    self.commitButtonTitle = currentController.commitButtonTitle;
 }
 
 - (void)pushViewController:(NSViewController<WizardControllerAware> *)controller animated:(BOOL)animated {
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    
-    self.wizardControllerView.contentView.animations = @{ @"subviews" : transition };
-    
+    NSViewController<WizardControllerAware> *outgoingController = self.currentController;
     controller.wizardController = self;
-    
-    [self.wizardControllerView.contentView.animator replaceSubview:currentController.view with:controller.view];
-    [self viewWillAppearForController:controller];
-    assert(controller.title != nil);
-    self.wizardControllerView.titleLabel.stringValue = controller.title;
-    currentController = controller;
     
     self.stack = [stack arrayByAddingObject:controller];
     
-    [self updateButtonState];
+    self.currentController = controller;
+    
+    [self.wizardControllerView pushToView:controller.view fromView:outgoingController.view];
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated {
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromLeft;
-    
-    self.wizardControllerView.contentView.animations = @{ @"subviews" : transition };
-    
-    NSViewController<WizardControllerAware> *outgoingController = currentController;
+    NSViewController<WizardControllerAware> *outgoingController = self.currentController;
     NSViewController<WizardControllerAware> *controller = stack[stack.count - 2];
-    
-    [self.wizardControllerView.contentView.animator replaceSubview:currentController.view with:controller.view];
-    [self viewWillAppearForController:controller];
-    assert(controller.title != nil);
-    self.wizardControllerView.titleLabel.stringValue = controller.title;
-    currentController = controller;
     
     NSMutableArray *newStack = [stack mutableCopy];
     [newStack removeObject:outgoingController];
     outgoingController.wizardController = nil;
     self.stack = newStack;
     
-    [self updateButtonState];
+    self.currentController = controller;
+    
+    [self.wizardControllerView popToView:controller.view fromView:outgoingController.view];
 }
 
 - (void)presentModalForWindow:(NSWindow *)window didEndBlock:(void(^)(NSInteger))block {
