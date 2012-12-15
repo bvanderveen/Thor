@@ -4,6 +4,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "SheetWindow.h"
 #import "LoadingView.h"
+#import "Sequence.h"
 
 @interface WizardControllerView : NSView {
     BOOL displaysLoadingView;
@@ -79,7 +80,7 @@
 }
 
 - (CGFloat)buttonAreaHeight {
-    return [self.prevButton intrinsicContentSize].height + buttonAreaInsets.top + buttonAreaInsets.bottom;
+    return [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height + buttonAreaInsets.top + buttonAreaInsets.bottom;
 }
 
 - (CGSize)intrinsicContentSize {
@@ -100,7 +101,9 @@
     return result;
 }
 
-- (void)doLayout {
+- (NSDictionary *)getLayoutRects {
+    NSMutableDictionary *result = [@{} mutableCopy];
+    
     NSSize size = [self intrinsicContentSize];
     
     NSSize titleLabelSize = [titleLabel intrinsicContentSize];
@@ -111,28 +114,32 @@
     buttonSize.height = [((NSButtonCell *)self.prevButton.cell) cellSizeForBounds:self.prevButton.frame].height;
     nextButtonSize.height = [((NSButtonCell *)self.nextButton.cell) cellSizeForBounds:self.nextButton.frame].height;
     
-    self.titleLabel.frame = NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height);
+    result[@"titleLabel"] = [NSValue valueWithRect:NSMakeRect(titleInsets.left, size.height - titleLabelSize.height - titleInsets.top, size.width - titleInsets.left - titleInsets.bottom, titleLabelSize.height)];
+    result[@"nextButton"] = [NSValue valueWithRect:NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height)];
     
-    self.nextButton.frame = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right, buttonAreaInsets.bottom, nextButtonSize.width, nextButtonSize.height);
     
     NSRect adjacentToNextButtonRect = NSMakeRect(size.width - buttonSize.width - buttonAreaInsets.right - buttonSize.width, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
     
     if (self.prevButton.isHidden) {
-        self.cancelButton.frame = adjacentToNextButtonRect;
+        result[@"cancelButton"] = [NSValue valueWithRect:adjacentToNextButtonRect];
     }
     else {
-        self.cancelButton.frame = NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height);
-        self.prevButton.frame = adjacentToNextButtonRect;
+        result[@"cancelButton"] = [NSValue valueWithRect:NSMakeRect(buttonAreaInsets.left, buttonAreaInsets.bottom, buttonSize.width, buttonSize.height)];
+        result[@"prevButton"] = [NSValue valueWithRect:adjacentToNextButtonRect];
     }
     
     CGFloat titleAreaHeight = [self titleAreaHeight];
     CGFloat buttonAreaHeight = [self buttonAreaHeight];
     
-    self.contentView.frame = NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight);
-    ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
+    NSLog(@"buttonAreaHeight = %f", buttonAreaHeight);
     
-    self.loadingView.frame = self.contentView.frame;
+    result[@"contentView"] = [NSValue valueWithRect:NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight)];
+    
+    
+    result[@"loadingView"] = result[@"contentView"];
+    
     NSLog(@"--- layout at %@ ----", NSStringFromRect(self.bounds));
+    return result;
 }
 
 - (void)resizeWindow {
@@ -142,9 +149,18 @@
     frame.origin.y += frame.size.height - newSize.height;
     frame.size = newSize;
     
+    NSRect titleFrame = self.titleLabel.frame;
+    titleFrame.origin.y += frame.size.height - newSize.height;
+    
     NSDictionary *windowResize = @{ NSViewAnimationTargetKey: self.window, NSViewAnimationEndFrameKey:[NSValue valueWithRect:frame] };
     
-    NSArray *animations = @[ windowResize ];
+    
+    NSDictionary *rects = [self getLayoutRects];
+    NSArray *subviewsAnimations = [[rects allKeys] map:^id(id f) {
+        return @{ NSViewAnimationTargetKey: [self valueForKey:f], NSViewAnimationEndFrameKey: rects[f] };
+    }];
+    
+    NSArray *animations = [@[ windowResize ] arrayByAddingObjectsFromArray:subviewsAnimations];
     NSViewAnimation *animation = [[NSViewAnimation alloc] initWithViewAnimations:animations];
     
     [animation setAnimationBlockingMode:NSAnimationBlocking];
@@ -152,7 +168,7 @@
     [animation setDuration:.3];
     [animation startAnimation];
     
-    [self doLayout];
+    //[self doLayout];
 }
 
 - (void)pushToView:(NSView *)newView fromView:(NSView *)oldView {
@@ -178,7 +194,11 @@
 }
 
 - (void)layout {
-    [self doLayout];
+    NSDictionary *rects = [self getLayoutRects];
+    [[rects allKeys] each:^ (id f) {
+        ((NSView *)[self valueForKeyPath:f]).frame = [rects[f] rectValue];
+    }];
+    ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
     [super layout];
 }
 
