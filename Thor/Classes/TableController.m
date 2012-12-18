@@ -46,12 +46,13 @@
 @interface TableSource ()
 
 @property (nonatomic, strong) NSView *selectedView;
+@property (nonatomic, copy) void (^selectionDidChange)();
 
 @end
 
 @implementation TableSource
 
-@synthesize items, selectedView;
+@synthesize items, selectedView, selectionDidChange;
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return items.count;
@@ -79,6 +80,11 @@
     }
     
     return proposedSelectionIndexes;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+    if (selectionDidChange)
+        selectionDidChange();
 }
 
 @end
@@ -141,6 +147,9 @@
 - (id)initWithTableController:(TableController *)leTableController commitBlock:(void (^)())commitBlock rollbackBlock:(void (^)())rollbackBlock {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.tableController = leTableController;
+        tableController.source.selectionDidChange = ^ {
+            self.wizardController.commitButtonEnabled = self.tableController.controllerView.tableView.selectedRowIndexes.count > 0;
+        };
         self.commit = commitBlock;
         self.rollback = rollbackBlock;
     }
@@ -149,6 +158,7 @@
 
 - (void)loadView {
     self.view = tableController.view;
+    self.wizardController.commitButtonEnabled = NO;
 }
 
 - (void)commitWizardPanel {
