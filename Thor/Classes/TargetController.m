@@ -12,6 +12,7 @@
 #import "NSAlert+Dialogs.h"
 #import "ServicePropertiesController.h"
 #import "TableController.h"
+#import "AppDelegate.h"
 
 @interface NSObject (AppsListViewSourceDelegate)
 
@@ -100,13 +101,12 @@
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource, rootServicesListSource;
 @property (nonatomic, strong) AppsListViewSource *appsListSource;
 @property (nonatomic, strong) ServicesListViewSource *servicesListSource;
-@property (nonatomic, strong) App *tableSelectedApp;
 
 @end
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource, tableSelectedApp;
+@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -118,11 +118,14 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
+        
+        ((AppDelegate *)[NSApplication sharedApplication].delegate).targetController = self;
     }
     return self;
 }
 
 - (void)dealloc {
+    ((AppDelegate *)[NSApplication sharedApplication].delegate).targetController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -280,61 +283,20 @@
 
 }
 
-- (TableController *)createAppTableController {
-    return [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
-        return [[ThorBackend shared] getConfiguredApps:nil];
-    }] select:^id(id configuredApps) {
-        return [configuredApps map:^id(id x) {
-            App *app = (App *)x;
-            
-            TableItem *item = [[TableItem alloc] init];
-            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
-                TableCell *cell = [[TableCell alloc] init];
-                cell.label.stringValue = [NSString stringWithFormat:@"%@", app.displayName];
-                return cell;
-            };
-            item.selected = ^ {
-                tableSelectedApp = app;
-            };
-            return item;
-        }];
-    }]];
-}
-
 - (void)createNewDeployment {
-    NSError *error;
-    if (![[ThorBackend shared] getConfiguredApps:&error].count)
-        [self presentNoConfiguredAppsDialog];
-    
-    __block WizardController *wizardController;
-    __block App *selectedApp;
-    
-    TableController *tableController = [self createAppTableController];
-        
-    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:tableSelectedApp target:target];
-        deploymentController.title = @"Create Deployment";
-        [wizardController pushViewController:deploymentController animated:YES];
-    } rollbackBlock:nil];
-    
-    wizardTableController.title = @"Choose App";
-    wizardTableController.commitButtonTitle = @"Next";
-    
-    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
-    [wizardController presentModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
-        if (returnCode == NSOKButton)
-            [self updateApps];
-    }];
+    [((AppDelegate *)[NSApplication sharedApplication].delegate) newDeployment:nil];
 }
 
 - (void)createDeploymentForApp:(FoundryApp *)foundryApp {
     __block WizardController *wizardController;
     
-    TableController *tableController = [self createAppTableController];
+    AppDelegate *appDelegate = ((AppDelegate *)[NSApplication sharedApplication].delegate);
+    
+    TableController *tableController = [appDelegate createAppTableController];
     
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
         
-        Deployment *deployment = [Deployment deploymentWithApp:tableSelectedApp target:self.target];
+        Deployment *deployment = [Deployment deploymentWithApp:appDelegate.tableSelectedApp target:self.target];
         deployment.name = foundryApp.name;
         
         NSError *error;
@@ -354,11 +316,6 @@
         if (returnCode == NSOKButton)
             [self updateApps];
     }];
-}
-
-- (void)presentNoConfiguredAppsDialog {
-    NSAlert *alert = [NSAlert noConfiguredAppsDialog];
-    [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
 }
 
 @end

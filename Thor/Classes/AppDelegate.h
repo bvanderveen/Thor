@@ -1,6 +1,8 @@
 #import "ThorBackend.h"
 #import "ActivityController.h"
 #import "DeploymentController.h"
+#import "TableController.h"
+#import "TargetController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow *window;
@@ -14,8 +16,12 @@
 
 // XXX this ain't ideal, it should be a model class.
 @property (nonatomic, strong) DeploymentController *selectedDeployment;
+@property (nonatomic, strong) TargetController *targetController;
 
 @property (nonatomic, strong) ActivityController *activityController;
+@property (nonatomic, strong) App *tableSelectedApp;
+
+- (TableController *)createAppTableController;
 
 - (IBAction)newTarget:(id)sender;
 - (IBAction)newApp:(id)sender;

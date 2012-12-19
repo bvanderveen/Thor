@@ -38,22 +38,22 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSScrollView" id="3374705">
+					<object class="NSScrollView" id="854194216">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="NSClipView" id="637067249">
-								<reference key="NSNextResponder" ref="3374705"/>
+							<object class="NSClipView" id="186135165">
+								<reference key="NSNextResponder" ref="854194216"/>
 								<int key="NSvFlags">2304</int>
 								<array class="NSMutableArray" key="NSSubviews">
-									<object class="NSTableView" id="602304791">
-										<reference key="NSNextResponder" ref="637067249"/>
+									<object class="NSTableView" id="984560442">
+										<reference key="NSNextResponder" ref="186135165"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews"/>
-										<string key="NSFrameSize">{478, 270}</string>
-										<reference key="NSSuperview" ref="637067249"/>
+										<string key="NSFrameSize">{480, 272}</string>
+										<reference key="NSSuperview" ref="186135165"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="198334021"/>
+										<reference key="NSNextKeyView" ref="224164140"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -62,7 +62,7 @@
 											<nil key="NSNextResponder"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{224, 0}, {16, 17}}</string>
-											<reference key="NSNextKeyView" ref="637067249"/>
+											<reference key="NSNextKeyView" ref="186135165"/>
 											<string key="NSReuseIdentifierKey">_NS:19</string>
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns"/>
@@ -93,12 +93,12 @@
 										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</array>
-								<string key="NSFrame">{{1, 1}, {478, 270}}</string>
-								<reference key="NSSuperview" ref="3374705"/>
+								<string key="NSFrameSize">{480, 272}</string>
+								<reference key="NSSuperview" ref="854194216"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="602304791"/>
+								<reference key="NSNextKeyView" ref="984560442"/>
 								<string key="NSReuseIdentifierKey">_NS:11</string>
-								<reference key="NSDocView" ref="602304791"/>
+								<reference key="NSDocView" ref="984560442"/>
 								<object class="NSColor" key="NSBGColor">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
@@ -110,30 +110,30 @@
 								</object>
 								<int key="NScvFlags">4</int>
 							</object>
-							<object class="NSScroller" id="198334021">
-								<reference key="NSNextResponder" ref="3374705"/>
+							<object class="NSScroller" id="224164140">
+								<reference key="NSNextResponder" ref="854194216"/>
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{224, 17}, {15, 102}}</string>
-								<reference key="NSSuperview" ref="3374705"/>
+								<reference key="NSSuperview" ref="854194216"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="504748215"/>
+								<reference key="NSNextKeyView" ref="596235831"/>
 								<string key="NSReuseIdentifierKey">_NS:58</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-								<reference key="NSTarget" ref="3374705"/>
+								<reference key="NSTarget" ref="854194216"/>
 								<string key="NSAction">_doScroller:</string>
-								<double key="NSPercent">0.99630996309963105</double>
+								<double key="NSPercent">0.99264705882352944</double>
 							</object>
-							<object class="NSScroller" id="504748215">
-								<reference key="NSNextResponder" ref="3374705"/>
+							<object class="NSScroller" id="596235831">
+								<reference key="NSNextResponder" ref="854194216"/>
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{1, 119}, {223, 15}}</string>
-								<reference key="NSSuperview" ref="3374705"/>
+								<reference key="NSSuperview" ref="854194216"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:60</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
-								<reference key="NSTarget" ref="3374705"/>
+								<reference key="NSTarget" ref="854194216"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSPercent">0.9979123173277662</double>
 							</object>
@@ -141,12 +141,12 @@
 						<string key="NSFrameSize">{480, 272}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="637067249"/>
+						<reference key="NSNextKeyView" ref="186135165"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<int key="NSsFlags">133682</int>
-						<reference key="NSVScroller" ref="198334021"/>
-						<reference key="NSHScroller" ref="504748215"/>
-						<reference key="NSContentView" ref="637067249"/>
+						<int key="NSsFlags">133680</int>
+						<reference key="NSVScroller" ref="224164140"/>
+						<reference key="NSHScroller" ref="596235831"/>
+						<reference key="NSContentView" ref="186135165"/>
 						<bytes key="NSScrollAmts">QSAAAEEgAABCUAAAQlAAAA</bytes>
 						<double key="NSMinMagnification">0.25</double>
 						<double key="NSMaxMagnification">4</double>
@@ -156,7 +156,7 @@
 				<string key="NSFrameSize">{480, 272}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="3374705"/>
+				<reference key="NSNextKeyView" ref="854194216"/>
 				<string key="NSClassName">TableControllerView</string>
 			</object>
 		</array>
@@ -182,7 +182,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">tableView</string>
 						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="602304791"/>
+						<reference key="destination" ref="984560442"/>
 					</object>
 					<int key="connectionID">28</int>
 				</object>
@@ -217,35 +217,35 @@
 						<int key="objectID">1</int>
 						<reference key="object" ref="1005"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="3374705"/>
+							<reference ref="854194216"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2</int>
-						<reference key="object" ref="3374705"/>
+						<reference key="object" ref="854194216"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="602304791"/>
-							<reference ref="504748215"/>
-							<reference ref="198334021"/>
+							<reference ref="984560442"/>
+							<reference ref="596235831"/>
+							<reference ref="224164140"/>
 						</array>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
-						<reference key="object" ref="602304791"/>
+						<reference key="object" ref="984560442"/>
 						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="3374705"/>
+						<reference key="parent" ref="854194216"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
-						<reference key="object" ref="504748215"/>
-						<reference key="parent" ref="3374705"/>
+						<reference key="object" ref="596235831"/>
+						<reference key="parent" ref="854194216"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
-						<reference key="object" ref="198334021"/>
-						<reference key="parent" ref="3374705"/>
+						<reference key="object" ref="224164140"/>
+						<reference key="parent" ref="854194216"/>
 					</object>
 				</array>
 			</object>

@@ -8,6 +8,8 @@
 #import "TargetPropertiesController.h"
 #import "NSAlert+Dialogs.h"
 #import "Sequence.h"
+#import "RACSubscribable+Extensions.h"
+#import "DeploymentPropertiesController.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +19,7 @@
 
 @implementation AppDelegate
 
-@synthesize activityController, sourceListController, selectedTarget, selectedDeployment;
+@synthesize activityController, sourceListController, selectedTarget, selectedDeployment, tableSelectedApp, targetController;
 
 - (id)init {
     if (self = [super init]) {
@@ -25,9 +27,9 @@
         self.sourceListController.controllerForModel = ^ NSViewController *(id m) {
             NSViewController<BreadcrumbControllerAware> *controller = nil;
             if ([m isKindOfClass:[Target class]]) {
-                TargetController *targetController = [[TargetController alloc] init];
-                targetController.target = m;
-                controller = targetController;
+                TargetController *c = [[TargetController alloc] init];
+                c.target = m;
+                controller = c;
             }
             else if ([m isKindOfClass:[App class]]) {
                 AppController *appController = [[AppController alloc] init];
@@ -90,6 +92,27 @@
 //    
 //    [thorMenuItem setKeyEquivalent:@"0"];
 //    [thorMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+}
+
+- (TableController *)createAppTableController {
+    return [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
+        return [[ThorBackend shared] getConfiguredApps:nil];
+    }] select:^id(id configuredApps) {
+        return [configuredApps map:^id(id x) {
+            App *app = (App *)x;
+            
+            TableItem *item = [[TableItem alloc] init];
+            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+                TableCell *cell = [[TableCell alloc] init];
+                cell.label.stringValue = [NSString stringWithFormat:@"%@", app.displayName];
+                return cell;
+            };
+            item.selected = ^ {
+                tableSelectedApp = app;
+            };
+            return item;
+        }];
+    }]];
 }
 
 - (void)newApp:(id)sender {
@@ -157,8 +180,35 @@
     [selectedDeployment restartClicked:nil];
 }
 
+- (void)presentNoConfiguredAppsDialog {
+    NSAlert *alert = [NSAlert noConfiguredAppsDialog];
+    [alert presentSheetModalForWindow:window didEndBlock:nil];
+}
+
 - (IBAction)newDeployment:(id)sender {
+    NSError *error;
+    if (![[ThorBackend shared] getConfiguredApps:&error].count)
+        [self presentNoConfiguredAppsDialog];
     
+    __block WizardController *wizardController;
+    __block App *selectedApp;
+    
+    TableController *tableController = [self createAppTableController];
+    
+    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
+        DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:tableSelectedApp target:selectedTarget];
+        deploymentController.title = @"Create Deployment";
+        [wizardController pushViewController:deploymentController animated:YES];
+    } rollbackBlock:nil];
+    
+    wizardTableController.title = @"Choose App";
+    wizardTableController.commitButtonTitle = @"Next";
+    
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
+    [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
+        if (returnCode == NSOKButton)
+            [targetController updateApps];
+    }];
 }
 
 - (IBAction)newService:(id)sender {

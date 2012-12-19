@@ -11,4 +11,6 @@
 - (void)createNewService;
 - (void)createNewDeployment;
 
+- (void)updateApps;
+
 @end
