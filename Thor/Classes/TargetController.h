@@ -8,4 +8,7 @@
 @property (nonatomic, strong) IBOutlet Target *target;
 @property (nonatomic, strong) IBOutlet TargetView *targetView;
 
+- (void)createNewService;
+- (void)createNewDeployment;
+
 @end

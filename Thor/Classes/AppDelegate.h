@@ -26,4 +26,8 @@
 - (IBAction)stopDeployment:(id)sender;
 - (IBAction)restartDeployment:(id)sender;
 
+- (IBAction)newDeployment:(id)sender;
+- (IBAction)newService:(id)sender;
+- (IBAction)bindService:(id)sender;
+
 @end

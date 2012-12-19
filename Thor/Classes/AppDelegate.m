@@ -144,13 +144,29 @@
 - (IBAction)editDeployment:(id)sender {
     [selectedDeployment editClicked:nil];
 }
+
 - (IBAction)startDeployment:(id)sender {
     [selectedDeployment startClicked:nil];
 }
+
 - (IBAction)stopDeployment:(id)sender {
     [selectedDeployment stopClicked:nil];
 }
+
 - (IBAction)restartDeployment:(id)sender {
     [selectedDeployment restartClicked:nil];
 }
+
+- (IBAction)newDeployment:(id)sender {
+    
+}
+
+- (IBAction)newService:(id)sender {
+    
+}
+
+- (IBAction)bindService:(id)sender {
+    
+}
+
 @end

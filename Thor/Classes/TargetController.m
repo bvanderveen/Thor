@@ -233,8 +233,7 @@
 }
 
 - (void)createNewService {
-    
-    __block WizardController *wizardController;
+    __block WizardController *wizardController; 
     __block FoundryServiceInfo *selectedServiceInfo;
     
     TableController *tableController = [[TableController alloc] initWithSubscribable:[[client getServicesInfo] select:^id(id servicesInfo) {
