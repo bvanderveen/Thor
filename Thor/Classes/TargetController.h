@@ -7,6 +7,7 @@
 
 @property (nonatomic, strong) IBOutlet Target *target;
 @property (nonatomic, strong) IBOutlet TargetView *targetView;
+@property (nonatomic, strong) FoundryClient *client;
 
 - (void)createNewService;
 - (void)createNewDeployment;

@@ -10,6 +10,7 @@
 #import "Sequence.h"
 #import "RACSubscribable+Extensions.h"
 #import "DeploymentPropertiesController.h"
+#import "ServicePropertiesController.h"
 
 @interface AppDelegate ()
 
@@ -212,7 +213,50 @@
 }
 
 - (IBAction)newService:(id)sender {
+    __block WizardController *wizardController;
+    __block FoundryServiceInfo *selectedServiceInfo;
     
+    TableController *tableController = [[TableController alloc] initWithSubscribable:[[targetController.client getServicesInfo] select:^id(id servicesInfo) {
+        return [servicesInfo map:^id(id x) {
+            FoundryServiceInfo *serviceInfo = (FoundryServiceInfo *)x;
+            
+            TableItem *item = [[TableItem alloc] init];
+            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+                TableCell *cell = [[TableCell alloc] init];
+                cell.label.stringValue = [NSString stringWithFormat:@"%@ v%@", serviceInfo.vendor, serviceInfo.version];
+                return cell;
+            };
+            item.selected = ^ {
+                selectedServiceInfo = serviceInfo;
+            };
+            return item;
+        }];
+    }]];
+    
+    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
+        
+        FoundryService *service = [[FoundryService alloc] init];
+        service.name = selectedServiceInfo.vendor;
+        service.vendor = selectedServiceInfo.vendor;
+        service.version = selectedServiceInfo.version;
+        service.type = selectedServiceInfo.type;
+        
+        ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:targetController.client];
+        servicePropertiesController.title = @"Create service";
+        servicePropertiesController.service = service;
+        
+        [wizardController pushViewController:servicePropertiesController animated:YES];
+    } rollbackBlock:nil];
+    
+    
+    wizardTableController.title = @"Create new service";
+    wizardTableController.commitButtonTitle = @"Next";
+    
+    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
+    [wizardController presentModalForWindow:window didEndBlock:^(NSInteger returnCode) {
+        if (returnCode == NSOKButton)
+            [targetController updateApps];
+    }];
 }
 
 - (IBAction)bindService:(id)sender {

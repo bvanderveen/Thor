@@ -10,7 +10,6 @@
 #import "DeploymentPropertiesController.h"
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
-#import "ServicePropertiesController.h"
 #import "TableController.h"
 #import "AppDelegate.h"
 
@@ -97,7 +96,6 @@
 @interface TargetController ()
 
 @property (nonatomic, strong) NSArray *apps;
-@property (nonatomic, strong) FoundryClient *client;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource, rootServicesListSource;
 @property (nonatomic, strong) AppsListViewSource *appsListSource;
 @property (nonatomic, strong) ServicesListViewSource *servicesListSource;
@@ -236,50 +234,6 @@
 }
 
 - (void)createNewService {
-    __block WizardController *wizardController; 
-    __block FoundryServiceInfo *selectedServiceInfo;
-    
-    TableController *tableController = [[TableController alloc] initWithSubscribable:[[client getServicesInfo] select:^id(id servicesInfo) {
-        return [servicesInfo map:^id(id x) {
-            FoundryServiceInfo *serviceInfo = (FoundryServiceInfo *)x;
-            
-            TableItem *item = [[TableItem alloc] init];
-            item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
-                TableCell *cell = [[TableCell alloc] init];
-                cell.label.stringValue = [NSString stringWithFormat:@"%@ v%@", serviceInfo.vendor, serviceInfo.version];
-                return cell;
-            };
-            item.selected = ^ {
-                selectedServiceInfo = serviceInfo;
-            };
-            return item;
-        }];
-    }]];
-    
-    WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        
-        FoundryService *service = [[FoundryService alloc] init];
-        service.name = selectedServiceInfo.vendor;
-        service.vendor = selectedServiceInfo.vendor;
-        service.version = selectedServiceInfo.version;
-        service.type = selectedServiceInfo.type;
-        
-        ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:self.client];
-        servicePropertiesController.title = @"Create service";
-        servicePropertiesController.service = service;
-        
-        [wizardController pushViewController:servicePropertiesController animated:YES];
-    } rollbackBlock:nil];
-    
-    
-    wizardTableController.title = @"Create new service";
-    wizardTableController.commitButtonTitle = @"Next";
-    
-    wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
-    [wizardController presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        if (returnCode == NSOKButton)
-            [self updateApps];
-    }];
 
 }
 
