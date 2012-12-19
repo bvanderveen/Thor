@@ -135,7 +135,7 @@
 
 - (CGFloat)widthOfColumn:(NSUInteger)column {
     // TODO make variable, memoize
-    return 107;
+    return [dataSource gridView:self widthOfColumn:column];
 }
 
 - (CGFloat)rowHeight {

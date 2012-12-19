@@ -240,6 +240,24 @@ static NSArray *instanceColumns = nil;
     return instanceColumns.count;
 }
 
+- (CGFloat)gridView:(GridView *)gridView widthOfColumn:(NSUInteger)columnIndex {
+    switch (columnIndex) {
+        case 0:
+            return 35;
+        case 1:
+            return 130;
+        case 2:
+            return 40;
+        case 3:
+            return 60;
+        case 4:
+            return 70;
+        case 5:
+            return 80;
+    }
+    return 0;
+}
+
 - (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex {
     return [instanceColumns objectAtIndex:columnIndex];
 }

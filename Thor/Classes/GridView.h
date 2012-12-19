@@ -5,6 +5,7 @@
 @protocol GridDataSource <NSObject>
 
 - (NSUInteger)numberOfColumnsForGridView:(GridView *)gridView;
+- (CGFloat)gridView:(GridView *)gridView widthOfColumn:(NSUInteger)columnIndex;
 - (NSString *)gridView:(GridView *)gridView titleForColumn:(NSUInteger)columnIndex;
 
 - (NSUInteger)numberOfRowsForGridView:(GridView *)gridView;
