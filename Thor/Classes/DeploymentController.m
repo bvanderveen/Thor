@@ -12,6 +12,7 @@
 #import "AddItemListViewSource.h"
 #import "NSAlert+Dialogs.h"
 #import "TableController.h"
+#import "AppDelegate.h"
 
 @interface NSObject (BoundServicesListViewSourceDelegate)
 
@@ -80,8 +81,16 @@ static NSArray *instanceColumns = nil;
         self.appName = lAppName;
         self.deployment = leDeployment;
         self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
+        
+        // XXX horrible
+        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedDeployment = self;
     }
     return self;
+}
+
+- (void)dealloc {
+    // XXX horrible
+    ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedDeployment = nil;
 }
 
 + (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment {
@@ -129,6 +138,7 @@ static NSArray *instanceColumns = nil;
         }
         else {
             [NSApp presentError:error];
+            [self updateAppAndStatsAfterSubscribable:nil];
         }
     } completed:^ {
         [deploymentView.instancesGrid reloadData];

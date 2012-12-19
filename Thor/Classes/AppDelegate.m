@@ -17,7 +17,7 @@
 
 @implementation AppDelegate
 
-@synthesize activityController, sourceListController, selectedTarget;
+@synthesize activityController, sourceListController, selectedTarget, selectedDeployment;
 
 - (id)init {
     if (self = [super init]) {
@@ -141,4 +141,16 @@
     }];
 }
 
+- (IBAction)editDeployment:(id)sender {
+    [selectedDeployment editClicked:nil];
+}
+- (IBAction)startDeployment:(id)sender {
+    [selectedDeployment startClicked:nil];
+}
+- (IBAction)stopDeployment:(id)sender {
+    [selectedDeployment stopClicked:nil];
+}
+- (IBAction)restartDeployment:(id)sender {
+    [selectedDeployment restartClicked:nil];
+}
 @end

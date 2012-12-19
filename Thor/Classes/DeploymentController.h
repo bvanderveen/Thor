@@ -15,4 +15,8 @@
 - (IBAction)editClicked:(id)sender;
 - (IBAction)deleteClicked:(id)sender;
 
+- (IBAction)startClicked:(id)sender;
+- (IBAction)stopClicked:(id)sender;
+- (IBAction)restartClicked:(id)sender;
+
 @end

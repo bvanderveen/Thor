@@ -1,5 +1,6 @@
 #import "ThorBackend.h"
 #import "ActivityController.h"
+#import "DeploymentController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow *window;
@@ -10,10 +11,19 @@
 }
 
 @property (nonatomic, strong) Target *selectedTarget;
+
+// XXX this ain't ideal, it should be a model class.
+@property (nonatomic, strong) DeploymentController *selectedDeployment;
+
 @property (nonatomic, strong) ActivityController *activityController;
 
 - (IBAction)newTarget:(id)sender;
 - (IBAction)newApp:(id)sender;
 - (IBAction)editTarget:(id)sender;
+
+- (IBAction)editDeployment:(id)sender;
+- (IBAction)startDeployment:(id)sender;
+- (IBAction)stopDeployment:(id)sender;
+- (IBAction)restartDeployment:(id)sender;
 
 @end
