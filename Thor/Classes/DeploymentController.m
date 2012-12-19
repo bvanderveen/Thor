@@ -344,54 +344,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)presentBindServiceDialog {
-    self.associatedDisposable = [[client getServices] subscribeNext:^(id x) {
-        NSArray *services = (NSArray *)x;
-        
-        if (!services.count) {
-            NSAlert *alert = [NSAlert noProvisionedServicesDialog];
-            [alert presentSheetModalForWindow:self.view.window didEndBlock:nil];
-            return;
-        }
-        
-        __block WizardController *wizard;
-        __block FoundryService *selectedService;
-        
-        TableController *tableController = [[TableController alloc] initWithSubscribable:[[RACSubscribable return:services] select:^id(id lesServices) {
-            return [lesServices map:^id(id x) {
-                FoundryService *service = (FoundryService *)x;
-                
-                TableItem *item = [[TableItem alloc] init];
-                item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
-                    TableCell *cell = [[TableCell alloc] init];
-                    cell.label.stringValue = [NSString stringWithFormat:@"%@ %@ v%@", service.name, service.vendor, service.version];
-                    return cell;
-                };
-                item.selected = ^ {
-                    selectedService = service;
-                };
-                return item;
-            }];
-        }]];
-
-        WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-            self.associatedDisposable = [[self updateByAddingServiceNamed:selectedService.name] subscribeCompleted:^{
-                [wizard dismissWithReturnCode:NSOKButton];
-            }];
-        } rollbackBlock:nil];
-        
-        wizardTableController.title = @"Bind service";
-        wizardTableController.commitButtonTitle = @"OK";
-        
-        wizard = [[WizardController alloc] initWithRootViewController:wizardTableController];
-        wizard.isSinglePage = YES;
-        [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-            [self updateAppAndStatsAfterSubscribable:nil];
-        }];
-    } error:^(NSError *error) {
-        [NSApp presentError:error];
-    } completed:^{
-        
-    }];
+    [((AppDelegate *)[NSApplication sharedApplication].delegate) bindService:nil];
 }
 
 - (void)selectedService:(FoundryService *)service {

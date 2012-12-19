@@ -234,7 +234,7 @@
 }
 
 - (void)createNewService {
-
+    [((AppDelegate *)[NSApplication sharedApplication].delegate) newService:nil];
 }
 
 - (void)createNewDeployment {

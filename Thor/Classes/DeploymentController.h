@@ -19,4 +19,7 @@
 - (IBAction)stopClicked:(id)sender;
 - (IBAction)restartClicked:(id)sender;
 
+- (RACSubscribable *)updateByAddingServiceNamed:(NSString *)name;
+- (void)updateAppAndStatsAfterSubscribable:(RACSubscribable *)antecedent;
+
 @end
