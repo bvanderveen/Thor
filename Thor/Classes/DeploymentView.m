@@ -15,7 +15,7 @@
 
 @implementation DeploymentView
 
-@synthesize scrollView, settingsBox, instancesBox, servicesBox, instancesGrid, settingsView, toolbarView, servicesList;
+@synthesize scrollView, settingsBox, instancesBox, servicesBox, instancesGrid, settingsView, toolbarView, servicesList, stateProgressIndicator;
 
 - (void)layout {
     CGFloat toolbarHeight = toolbarView.intrinsicContentSize.height;

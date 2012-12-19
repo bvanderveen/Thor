@@ -3,6 +3,8 @@
 
 @interface RACSubscribable (Extensions)
 
+- (RACSubscribable *)animateProgressIndicator:(NSProgressIndicator *)indicator;
+
 // probably would make more sense to make this a category on view
 // - (RACSubscribable *)showLoadingViewDuring:(RACSubscribable *)subscribable;
 - (RACSubscribable *)showLoadingViewInView:(NSView *)view;

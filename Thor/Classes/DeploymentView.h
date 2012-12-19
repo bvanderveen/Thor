@@ -10,5 +10,6 @@
 @property (nonatomic, strong) IBOutlet ListView *servicesList;
 @property (nonatomic, strong) IBOutlet NSView *settingsView;
 @property (nonatomic, strong) IBOutlet DeploymentToolbarView *toolbarView;
+@property (nonatomic, strong) IBOutlet NSProgressIndicator *stateProgressIndicator;
 
 @end

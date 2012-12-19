@@ -36,6 +36,16 @@
 
 @implementation RACSubscribable (Extensions)
 
+- (RACSubscribable *)animateProgressIndicator:(NSProgressIndicator *)indicator {
+    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [indicator startAnimation:self];
+        void (^stopAnimation)() = ^ {
+            [indicator stopAnimation:self];
+        };
+        return [[[self doCompleted:stopAnimation] doError:stopAnimation] subscribe:subscriber];
+    }];
+}
+
 - (RACSubscribable *)showLoadingViewInView:(NSView *)view {
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
         [view showModalLoadingView];

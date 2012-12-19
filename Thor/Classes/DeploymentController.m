@@ -328,15 +328,15 @@ static NSArray *instanceColumns = nil;
 }
 
 - (void)startClicked:(id)sender {
-    [self updateAppAndStatsAfterSubscribable:[self updateWithState:FoundryAppStateStarted]];
+    [self updateAppAndStatsAfterSubscribable:[[self updateWithState:FoundryAppStateStarted]  animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
 }
 
 - (void)stopClicked:(id)sender {
-    [self updateAppAndStatsAfterSubscribable:[self updateWithState:FoundryAppStateStopped]];
+    [self updateAppAndStatsAfterSubscribable:[[self updateWithState:FoundryAppStateStopped] animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
 }
 
 - (void)restartClicked:(id)sender {
-    [self updateAppAndStatsAfterSubscribable:[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]]];
+    [self updateAppAndStatsAfterSubscribable:[[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]] animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
 }
 
 - (void)serviceSelected:(FoundryService *)service {

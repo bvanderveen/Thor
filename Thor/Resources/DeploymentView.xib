@@ -17,6 +17,7 @@
 			<string>NSCustomObject</string>
 			<string>NSCustomView</string>
 			<string>NSObjectController</string>
+			<string>NSProgressIndicator</string>
 			<string>NSScrollView</string>
 			<string>NSScroller</string>
 			<string>NSTextField</string>
@@ -83,6 +84,17 @@
 																<reference key="NSNextResponder" ref="25900151"/>
 																<int key="NSvFlags">268</int>
 																<array class="NSMutableArray" key="NSSubviews">
+																	<object class="NSProgressIndicator" id="79737972">
+																		<reference key="NSNextResponder" ref="813504941"/>
+																		<int key="NSvFlags">268</int>
+																		<string key="NSFrame">{{115, 116}, {16, 16}}</string>
+																		<reference key="NSSuperview" ref="813504941"/>
+																		<reference key="NSWindow"/>
+																		<reference key="NSNextKeyView" ref="523274598"/>
+																		<string key="NSReuseIdentifierKey">_NS:945</string>
+																		<int key="NSpiFlags">28938</int>
+																		<double key="NSMaxValue">100</double>
+																	</object>
 																	<object class="NSButton" id="315967248">
 																		<reference key="NSNextResponder" ref="813504941"/>
 																		<int key="NSvFlags">268</int>
@@ -222,7 +234,7 @@
 																		<string key="NSFrame">{{17, 117}, {117, 17}}</string>
 																		<reference key="NSSuperview" ref="813504941"/>
 																		<reference key="NSWindow"/>
-																		<reference key="NSNextKeyView" ref="523274598"/>
+																		<reference key="NSNextKeyView" ref="79737972"/>
 																		<string key="NSReuseIdentifierKey">_NS:1505</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<object class="NSTextFieldCell" key="NSCell" id="689621022">
@@ -658,6 +670,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">stateProgressIndicator</string>
+						<reference key="source" ref="809193300"/>
+						<reference key="destination" ref="79737972"/>
+					</object>
+					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="244282013"/>
 						<reference key="destination" ref="1001"/>
@@ -854,6 +874,7 @@
 							<reference ref="718257891"/>
 							<reference ref="33565501"/>
 							<reference ref="315967248"/>
+							<reference ref="79737972"/>
 						</array>
 						<reference key="parent" ref="894084125"/>
 					</object>
@@ -1005,6 +1026,11 @@
 						<reference key="object" ref="736233892"/>
 						<reference key="parent" ref="238935325"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">71</int>
+						<reference key="object" ref="79737972"/>
+						<reference key="parent" ref="813504941"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1047,12 +1073,13 @@
 				<string key="66.CustomClassName">Box</string>
 				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">70</int>
+			<int key="maxID">72</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1070,6 +1097,9 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="deleteClicked:">id</string>
 						<string key="editClicked:">id</string>
+						<string key="restartClicked:">id</string>
+						<string key="startClicked:">id</string>
+						<string key="stopClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="deleteClicked:">
@@ -1078,6 +1108,18 @@
 						</object>
 						<object class="IBActionInfo" key="editClicked:">
 							<string key="name">editClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="restartClicked:">
+							<string key="name">restartClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startClicked:">
+							<string key="name">startClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="stopClicked:">
+							<string key="name">stopClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -1146,6 +1188,7 @@
 						<string key="servicesList">ListView</string>
 						<string key="settingsBox">NSBox</string>
 						<string key="settingsView">NSView</string>
+						<string key="stateProgressIndicator">NSProgressIndicator</string>
 						<string key="toolbarView">DeploymentToolbarView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1176,6 +1219,10 @@
 						<object class="IBToOneOutletInfo" key="settingsView">
 							<string key="name">settingsView</string>
 							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="stateProgressIndicator">
+							<string key="name">stateProgressIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarView">
 							<string key="name">toolbarView</string>
