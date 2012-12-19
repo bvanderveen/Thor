@@ -1,24 +1,20 @@
 #import "TargetView.h"
 #import "BoxGroupView.h"
 
-@interface TargetSettingsView : NSView
-
-@end
-
-@implementation TargetSettingsView
+@implementation TargetHeadingView
 
 - (NSSize)intrinsicContentSize {
-    return NSMakeSize(NSViewNoInstrinsicMetric, 135);
+    return NSMakeSize(NSViewNoInstrinsicMetric, 125);
 }
 
 @end
 
 @implementation TargetView
 
-@synthesize scrollView, deploymentsList, deploymentsBox, servicesBox, servicesList;
+@synthesize scrollView, headingView, deploymentsList, headingBox, deploymentsBox, servicesBox, servicesList;
 
 - (void)layout {
-    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView boxes:@[ deploymentsBox, servicesBox ] contentViews:@[ deploymentsList, servicesList ]];
+    [BoxGroupView layoutInBounds:self.bounds scrollView:scrollView boxes:@[ headingBox, deploymentsBox, servicesBox ] contentViews:@[ headingView, deploymentsList, servicesList ]];
     
     [super layout];
 }

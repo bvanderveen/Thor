@@ -13,6 +13,12 @@
 #import "TableController.h"
 #import "AppDelegate.h"
 
+@implementation TargetSummary
+
+@synthesize appCount, totalDiskMegabytes, totalMemoryMegabytes;
+
+@end
+
 @interface NSObject (AppsListViewSourceDelegate)
 
 - (void)accessoryButtonClickedForApp:(FoundryApp *)app;
@@ -104,7 +110,7 @@
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource;
+@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource, targetSummary;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -175,8 +181,20 @@
     
     self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
         RACTuple *t = (RACTuple *)x;
+        self.targetSummary = [[TargetSummary alloc] init];
+
         appsListSource.apps = t.first;
         servicesListSource.services = t.second;
+        
+        targetSummary.appCount = appsListSource.apps.count;
+        targetSummary.totalMemoryMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
+            return [NSNumber numberWithInt:(int)((FoundryApp *)i).memory + [acc intValue]];
+        } seed:@0] intValue];
+        
+        targetSummary.totalDiskMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
+            return [NSNumber numberWithInt:(int)((FoundryApp *)i).disk + [acc intValue]];
+        } seed:@0] intValue];
+        
         [targetView.deploymentsList reloadData];
         [targetView.servicesList reloadData];
         targetView.needsLayout = YES;

@@ -27,10 +27,14 @@
         multiplyFactor++;
     }
     
+    NSString *result = nil;
+    
     if (multiplyFactor < 3)
-        return [NSString stringWithFormat:@"%4.2f %@", convertedValue, [tokens objectAtIndex:multiplyFactor]];
+        result = [NSString stringWithFormat:@"%1.0f %@", convertedValue, [tokens objectAtIndex:multiplyFactor]];
     else
-        return [NSString stringWithFormat:@"%f MB", [value doubleValue]];
+        result = [NSString stringWithFormat:@"%f MB", [value doubleValue]];
+    
+    return result;
 }
 
 @end
