@@ -84,7 +84,7 @@
 																<reference key="NSNextResponder" ref="25900151"/>
 																<int key="NSvFlags">268</int>
 																<array class="NSMutableArray" key="NSSubviews">
-																	<object class="NSProgressIndicator" id="79737972">
+																	<object class="NSProgressIndicator" id="857793168">
 																		<reference key="NSNextResponder" ref="813504941"/>
 																		<int key="NSvFlags">268</int>
 																		<string key="NSFrame">{{115, 116}, {16, 16}}</string>
@@ -234,7 +234,7 @@
 																		<string key="NSFrame">{{17, 117}, {117, 17}}</string>
 																		<reference key="NSSuperview" ref="813504941"/>
 																		<reference key="NSWindow"/>
-																		<reference key="NSNextKeyView" ref="79737972"/>
+																		<reference key="NSNextKeyView" ref="857793168"/>
 																		<string key="NSReuseIdentifierKey">_NS:1505</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<object class="NSTextFieldCell" key="NSCell" id="689621022">
@@ -672,7 +672,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">stateProgressIndicator</string>
 						<reference key="source" ref="809193300"/>
-						<reference key="destination" ref="79737972"/>
+						<reference key="destination" ref="857793168"/>
 					</object>
 					<int key="connectionID">72</int>
 				</object>
@@ -734,6 +734,26 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">textColor: selection.state</string>
+						<reference key="source" ref="523274598"/>
+						<reference key="destination" ref="688772324"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="523274598"/>
+							<reference key="NSDestination" ref="688772324"/>
+							<string key="NSLabel">textColor: selection.state</string>
+							<string key="NSBinding">textColor</string>
+							<string key="NSKeyPath">selection.state</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">FoundryAppStatusColorTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">81</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: selection.instances</string>
 						<reference key="source" ref="911562956"/>
 						<reference key="destination" ref="688772324"/>
@@ -767,6 +787,46 @@
 						</object>
 					</object>
 					<int key="connectionID">61</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">textColor: selection.state</string>
+						<reference key="source" ref="92367367"/>
+						<reference key="destination" ref="688772324"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="92367367"/>
+							<reference key="NSDestination" ref="688772324"/>
+							<string key="NSLabel">textColor: selection.state</string>
+							<string key="NSBinding">textColor</string>
+							<string key="NSKeyPath">selection.state</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">FoundryAppStatusColorTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">77</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.state</string>
+						<reference key="source" ref="92367367"/>
+						<reference key="destination" ref="688772324"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="92367367"/>
+							<reference key="NSDestination" ref="688772324"/>
+							<string key="NSLabel">value: selection.state</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.state</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">FoundryAppStatusTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">80</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -874,7 +934,7 @@
 							<reference ref="718257891"/>
 							<reference ref="33565501"/>
 							<reference ref="315967248"/>
-							<reference ref="79737972"/>
+							<reference ref="857793168"/>
 						</array>
 						<reference key="parent" ref="894084125"/>
 					</object>
@@ -1028,7 +1088,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">71</int>
-						<reference key="object" ref="79737972"/>
+						<reference key="object" ref="857793168"/>
 						<reference key="parent" ref="813504941"/>
 					</object>
 				</array>
@@ -1079,7 +1139,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">72</int>
+			<int key="maxID">81</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
