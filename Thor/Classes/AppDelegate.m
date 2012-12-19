@@ -7,6 +7,7 @@
 #import "ThorCore.h"
 #import "TargetPropertiesController.h"
 #import "NSAlert+Dialogs.h"
+#import "Sequence.h"
 
 @interface AppDelegate ()
 
@@ -54,6 +55,20 @@
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
+    [window setExcludedFromWindowsMenu:YES];
+    [activityWindow setExcludedFromWindowsMenu:YES];
+    
+    NSMenuItem *thorMenuItem = [[NSMenuItem alloc] initWithTitle:@"Main Window" action:@selector(makeKeyAndOrderFront:) keyEquivalent:@"0"];
+    thorMenuItem.target = window;
+    thorMenuItem.keyEquivalentModifierMask = NSCommandKeyMask;
+    
+    NSMenuItem *activityMenuItem = [[NSMenuItem alloc] initWithTitle:@"Activity" action:@selector(makeKeyAndOrderFront:) keyEquivalent:@"1"];
+    activityMenuItem.target = activityWindow;
+    activityMenuItem.keyEquivalentModifierMask = NSCommandKeyMask;
+    
+    [windowMenu insertItem:activityMenuItem atIndex:3];
+    [windowMenu insertItem:thorMenuItem atIndex:3];
+    
     [activityWindow.contentView addSubview:activityController.view];
     activityController.view.frame = ((NSView *)activityWindow.contentView).bounds;
     activityController.view.needsLayout = YES;
@@ -65,6 +80,16 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     
+//    NSMenuItem *activityMenuItem = [[windowMenu.itemArray filter:^ BOOL (id i) { return [((NSMenuItem *)i).title isEqual:@"Activity"]; }] lastObject];
+//    
+//    [activityMenuItem setKeyEquivalent:@"1"];
+//    [activityMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+//    
+//    
+//    NSMenuItem *thorMenuItem = [[windowMenu.itemArray filter:^ BOOL (id i) { return [((NSMenuItem *)i).title isEqual:@"Thor"]; }] lastObject];
+//    
+//    [thorMenuItem setKeyEquivalent:@"0"];
+//    [thorMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
 }
 
 - (void)newApp:(id)sender {

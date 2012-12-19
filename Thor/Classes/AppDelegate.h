@@ -5,6 +5,8 @@
     IBOutlet NSWindow *window;
     IBOutlet NSWindow *activityWindow;
     IBOutlet NSView *view;
+    IBOutlet NSMenu *windowMenu;
+    IBOutlet NSMenuItem *editTargetMenuItem;
 }
 
 @property (nonatomic, strong) Target *selectedTarget;
