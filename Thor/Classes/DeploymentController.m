@@ -124,7 +124,11 @@ static NSArray *instanceColumns = nil;
         }
     }]];
     
-    RACSubscribable *call = [[RACSubscribable combineLatest:subscribables] showLoadingViewInView:self.view];
+    
+    RACSubscribable *call = [RACSubscribable combineLatest:subscribables];
+    
+    if (!app)
+        call = [call showLoadingViewInView:self.view];
     
     if (antecedent)
         call = [antecedent continueWith:call];
