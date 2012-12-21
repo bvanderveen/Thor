@@ -6,12 +6,12 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow *window;
-    IBOutlet NSWindow *activityWindow;
     IBOutlet NSView *view;
     IBOutlet NSMenu *windowMenu;
     IBOutlet NSMenuItem *editTargetMenuItem;
 }
 
+@property (nonatomic, strong) IBOutlet NSWindow *activityWindow;
 @property (nonatomic, strong) Target *selectedTarget;
 
 // XXX this ain't ideal, it should be a model class.

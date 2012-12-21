@@ -162,6 +162,7 @@
     activity.targetAppName = deployment.name;
     
     [((AppDelegate *)[NSApplication sharedApplication].delegate).activityController insert:activity];
+    [((AppDelegate *)[NSApplication sharedApplication].delegate).activityWindow makeKeyAndOrderFront:nil];
 }
 
 @end

@@ -21,7 +21,7 @@
 
 @implementation AppDelegate
 
-@synthesize activityController, sourceListController, selectedTarget, selectedDeployment, tableSelectedApp, targetController;
+@synthesize activityWindow, activityController, sourceListController, selectedTarget, selectedDeployment, tableSelectedApp, targetController;
 
 - (id)init {
     if (self = [super init]) {
