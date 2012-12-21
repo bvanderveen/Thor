@@ -134,6 +134,7 @@
 
 - (void)loadView {
     self.view = controller.view;
+    controller.controllerView.tableView.rowHeight = 60;
 }
 
 - (void)insert:(PushActivity *)activity {
