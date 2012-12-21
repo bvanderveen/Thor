@@ -95,7 +95,6 @@
 
 - (void)awakeFromNib {
     NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"ActivityColumn"];
-    column.resizingMask = NSTableColumnAutoresizingMask;
     [tableView addTableColumn:column];
 
     tableView.columnAutoresizingStyle = NSTableViewUniformColumnAutoresizingStyle;
