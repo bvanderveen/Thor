@@ -36,4 +36,6 @@
 - (IBAction)newService:(id)sender;
 - (IBAction)bindService:(id)sender;
 
+- (IBAction)clearActivity:(id)sender;
+
 @end

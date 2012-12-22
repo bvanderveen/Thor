@@ -2,6 +2,7 @@
 #import "NSFont+LineHeight.h"
 #import "NSObject+AssociateDisposable.h"
 #import "ThorCore.h"
+#import "Sequence.h"
 
 @implementation PushActivity
 
@@ -118,16 +119,18 @@
 @interface ActivityController ()
 
 @property (nonatomic, strong) TableController *controller;
+@property (nonatomic, strong) NSArray *activities;
 
 @end
 
 @implementation ActivityController
 
-@synthesize controller;
+@synthesize controller, activities;
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
         controller = [[TableController alloc] initWithSubscribable:[RACSubscribable return:@[]]];
+        activities = @[];
     }
     return self;
 }
@@ -137,16 +140,30 @@
     controller.controllerView.tableView.rowHeight = 60;
 }
 
-- (void)insert:(PushActivity *)activity {
-    TableItem *item = [[TableItem alloc] init];
-    item.view = ^ NSView * (NSTableView *tableView, NSTableColumn *column, NSInteger row) {
-        ActivityCell *cell = [[ActivityCell alloc] initWithFrame:NSZeroRect];
-        cell.activity = activity;
-        return cell;
-    };
-    controller.source.items = [controller.source.items arrayByAddingObject:item];
+- (void)updateTable {
+    controller.source.items = [activities map:^id(id a)  {
+        TableItem *item = [[TableItem alloc] init];
+        item.view = ^ NSView * (NSTableView *tableView, NSTableColumn *column, NSInteger row) {
+            ActivityCell *cell = [[ActivityCell alloc] initWithFrame:NSZeroRect];
+            cell.activity = (PushActivity *)a;
+            return cell;
+        };
+        return item;
+    }];
     [controller.controllerView.tableView reloadData];
     [controller.controllerView.tableView sizeLastColumnToFit];
+}
+
+- (void)insert:(PushActivity *)activity {
+    self.activities = [activities arrayByAddingObject:activity];
+    [self updateTable];
+}
+
+- (void)clear {
+    self.activities = [activities filter:^BOOL(id a) {
+        return ((PushActivity *)a).isActive;
+    }];
+    [self updateTable];
 }
 
 @end

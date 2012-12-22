@@ -311,4 +311,8 @@
     }];
 }
 
+- (void)clearActivity:(id)sender {
+    [activityController clear];
+}
+
 @end

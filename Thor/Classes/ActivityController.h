@@ -12,6 +12,7 @@
 
 @interface ActivityController : NSViewController
 
+- (void)clear;
 - (void)insert:(PushActivity *)activity;
 
 @end
