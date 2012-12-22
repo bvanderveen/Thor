@@ -11,7 +11,7 @@
 }
 
 - (NSSize)intrinsicContentSize {
-   return NSMakeSize(480, 124);
+    return NSMakeSize(480, _hostnameHidden ? 92 : 124);
 }
 
 @end
