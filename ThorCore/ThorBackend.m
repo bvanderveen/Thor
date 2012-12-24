@@ -106,7 +106,6 @@ NSEntityDescription *getAppEntity() {
     return entity;
 }
 
-
 NSEntityDescription *getTargetEntity() {
     static NSEntityDescription *entity = nil;
     
@@ -211,10 +210,13 @@ NSManagedObjectModel *getManagedObjectModel() {
     
     return model;
 }
+
 static NSManagedObjectContext *context = nil;
+
 void ThorEjectObjectContext() {
     context = nil;
 }
+
 NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
     if (!context) {
         NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:getManagedObjectModel()];
@@ -305,17 +307,17 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 @implementation Target
 
 @dynamic displayName, hostname, email, password;
-
-- (BOOL)validateHostname:(id *)hostname error:(NSError **)outError {
-    if (*hostname == nil)
-        return YES;
-    
-    if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
-        *outError = [NSError thorErrorWithCode:TargetHostnameInvalid localizedDescription:@"Hostname must start with \"api.\""];
-        return NO;
-    }
-    return YES;
-}
+//
+//- (BOOL)validateHostname:(id *)hostname error:(NSError **)outError {
+//    if (*hostname == nil)
+//        return YES;
+//    
+//    if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
+//        *outError = [NSError thorErrorWithCode:TargetHostnameInvalid localizedDescription:@"Hostname must start with \"api.\""];
+//        return NO;
+//    }
+//    return YES;
+//}
 
 - (BOOL)performValidation:(NSError **)error {
     NSFetchRequest *request = [Target fetchRequest];
