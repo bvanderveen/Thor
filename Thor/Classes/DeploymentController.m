@@ -361,10 +361,6 @@ static NSArray *instanceColumns = nil;
     [self updateAppAndStatsAfterSubscribable:[[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]] animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
 }
 
-- (void)serviceSelected:(FoundryService *)service {
-    NSLog(@"selected service %@", service);
-}
-
 - (void)presentBindServiceDialog {
     [((AppDelegate *)[NSApplication sharedApplication].delegate) bindService:nil];
 }
