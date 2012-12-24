@@ -126,6 +126,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{118, 18}, {342, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSecureTextFieldCell" key="NSCell" id="309266817">
@@ -205,6 +206,7 @@
 				</array>
 				<string key="NSFrameSize">{480, 124}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSNextKeyView" ref="307918707"/>
 				<string key="NSClassName">TargetPropertiesView</string>
 			</object>
 			<object class="NSObjectController" id="493549119">
@@ -305,14 +307,14 @@
 							<string key="NSLabel">value: selection.hostname</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.hostname</string>
-							<dictionary key="NSOptions">
-								<string key="NSNullPlaceholder">api.some-host.cloudfoundry.me</string>
-								<boolean value="YES" key="NSValidatesImmediately"/>
-							</dictionary>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSNullPlaceholder</string>
+								<string key="NS.object.0">api.some-host.cloudfoundry.me</string>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1118</int>
+					<int key="connectionID">1136</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -325,14 +327,14 @@
 							<string key="NSLabel">value: selection.email</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.email</string>
-							<dictionary key="NSOptions">
-								<string key="NSNullPlaceholder">username@domain.com</string>
-								<boolean value="YES" key="NSValidatesImmediately"/>
-							</dictionary>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSNullPlaceholder</string>
+								<string key="NS.object.0">username@domain.com</string>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1120</int>
+					<int key="connectionID">1137</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -345,14 +347,10 @@
 							<string key="NSLabel">value: selection.password</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">selection.password</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValidatesImmediately</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">283</int>
+					<int key="connectionID">1138</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -545,7 +543,7 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="198938387">
+							<object class="IBNSLayoutConstraint" id="394150035">
 								<reference key="firstItem" ref="1005"/>
 								<int key="firstAttribute">4</int>
 								<int key="relation">0</int>
@@ -753,7 +751,7 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="872329701">
+							<object class="IBNSLayoutConstraint" id="1060006238">
 								<reference key="firstItem" ref="1005"/>
 								<int key="firstAttribute">4</int>
 								<int key="relation">0</int>
@@ -802,11 +800,11 @@
 								<int key="contentType">3</int>
 							</object>
 							<reference ref="707301367"/>
-							<reference ref="141712286"/>
 							<reference ref="332509764"/>
 							<reference ref="307918707"/>
 							<reference ref="1001196375"/>
 							<reference ref="124453965"/>
+							<reference ref="141712286"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1073,12 +1071,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1133</int>
-						<reference key="object" ref="198938387"/>
+						<reference key="object" ref="394150035"/>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1134</int>
-						<reference key="object" ref="872329701"/>
+						<reference key="object" ref="1060006238"/>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1095,7 +1093,7 @@
 				<array key="1.IBNSViewMetadataConstraints">
 					<reference ref="786899150"/>
 					<reference ref="85267093"/>
-					<reference ref="872329701"/>
+					<reference ref="1060006238"/>
 					<reference ref="197455898"/>
 					<reference ref="56382807"/>
 					<reference ref="123155174"/>
@@ -1108,7 +1106,7 @@
 					<reference ref="607518710"/>
 					<reference ref="1056635010"/>
 					<reference ref="416500082"/>
-					<reference ref="198938387"/>
+					<reference ref="394150035"/>
 					<reference ref="39151762"/>
 					<reference ref="318740360"/>
 					<reference ref="771728215"/>
@@ -1185,7 +1183,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1135</int>
+			<int key="maxID">1138</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
