@@ -88,7 +88,6 @@
     
     if (self.contentView.subviews.count) {
         contentSize = ((NSView*)self.contentView.subviews[0]).intrinsicContentSize;
-        NSLog(@"Got contentView %@ intrinsic size %@", self.contentView.subviews[0], NSStringFromSize(contentSize));
     }
     
     if(contentSize.width == NSViewNoInstrinsicMetric)
@@ -97,7 +96,6 @@
         contentSize.height = 200;
     
     CGSize result = NSMakeSize(contentSize.width, contentSize.height + [self titleAreaHeight] + [self buttonAreaHeight]);
-    NSLog(@"returning size %@", NSStringFromSize(result));
     return result;
 }
 
@@ -131,14 +129,9 @@
     CGFloat titleAreaHeight = [self titleAreaHeight];
     CGFloat buttonAreaHeight = [self buttonAreaHeight];
     
-    NSLog(@"buttonAreaHeight = %f", buttonAreaHeight);
-    
     result[@"contentView"] = [NSValue valueWithRect:NSMakeRect(0, buttonAreaHeight, size.width, size.height - titleAreaHeight - buttonAreaHeight)];
     
-    
     result[@"loadingView"] = result[@"contentView"];
-    
-    NSLog(@"--- layout at %@ ----", NSStringFromRect(self.bounds));
     return result;
 }
 
@@ -223,7 +216,7 @@
     [self viewWillAppearForController:currentController];
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
     if (!isSinglePage)
-        self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+        ((WizardControllerView *)self.view).prevButton.enabled = self.stack.count > 1;
     self.commitButtonTitle = currentController.commitButtonTitle;
 }
 
@@ -253,7 +246,7 @@
 
 - (id)initWithRootViewController:(NSViewController<WizardControllerAware> *)rootController {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        _currentController = rootController;
+        self.currentController = rootController;
         self.currentController.wizardController = self;
         self.stack = @[ rootController ];
     }
