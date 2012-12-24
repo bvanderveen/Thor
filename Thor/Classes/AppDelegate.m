@@ -144,8 +144,8 @@
 - (void)newTarget:(id)sender {
     TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
     targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:nil];
-    WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
     targetPropertiesController.title = @"Create Cloud";
+    WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [sourceListController updateAppsAndTargets];
