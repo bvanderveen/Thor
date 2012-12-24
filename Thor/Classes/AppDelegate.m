@@ -146,6 +146,7 @@
     targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:nil];
     targetPropertiesController.title = @"Create Cloud";
     WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
+    wizardController.isSinglePage = YES;
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSOKButton)
             [sourceListController updateAppsAndTargets];
