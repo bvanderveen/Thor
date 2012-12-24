@@ -210,13 +210,17 @@
 
 @synthesize isSinglePage, currentController = _currentController, stack, wizardControllerView, didEndBlock;
 
+- (void)updatePrevButtonState {
+    if (!isSinglePage)
+        self.wizardControllerView.prevButton.enabled = self.stack.count > 1;
+}
+
 - (void)setCurrentController:(NSViewController<WizardControllerAware> *)currentController {
     assert(currentController.title != nil);
     _currentController = currentController;
     [self viewWillAppearForController:currentController];
     self.wizardControllerView.titleLabel.stringValue = currentController.title;
-    if (!isSinglePage)
-        ((WizardControllerView *)self.view).prevButton.enabled = self.stack.count > 1;
+    [self updatePrevButtonState];
     self.commitButtonTitle = currentController.commitButtonTitle;
 }
 
@@ -272,6 +276,8 @@
     if (isSinglePage) {
         self.wizardControllerView.prevButton.hidden = YES;
     }
+    
+    [self updatePrevButtonState];
     
     [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
         [self.currentController commitWizardPanel];
