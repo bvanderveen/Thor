@@ -71,18 +71,23 @@ static id (^JsonParser)(id) = ^ id (id d) {
     return self;
 }
 
+- (void)sendInvalidCredentialsError:(RACSubscriber *)subscriber {
+    [subscriber sendError:[FoundryClientError errorWithDomain:FoundryClientErrorDomain code:FoundryClientInvalidCredentials userInfo:nil]];
+}
+
 - (RACSubscribable *)getToken {
-    NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
-    
     return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+        if (!email || !password)
+            [self sendInvalidCredentialsError:subscriber];
+        
+        NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
         return [[self.endpoint requestWithHost:self.hostname method:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
             [subscriber sendNext:r];
         } error:^(NSError *error) {
             if ([error.domain isEqual:@"SMWebRequest"]) {
                 SMErrorResponse *errorResponse = error.userInfo[SMErrorResponseKey];
-                if (errorResponse.response.statusCode == 403) {
-                    [subscriber sendError:[FoundryClientError errorWithDomain:FoundryClientErrorDomain code:FoundryClientInvalidCredentials userInfo:nil]];
-                }
+                if (errorResponse.response.statusCode == 403)
+                    [self sendInvalidCredentialsError:subscriber];
             }
             else [subscriber sendError:error];
         } completed:^{
