@@ -58,6 +58,7 @@
 		416F826E1676D20A0042BD19 /* ActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F826D1676D20A0042BD19 /* ActivityController.m */; };
 		416F8271167931770042BD19 /* TableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F8270167931770042BD19 /* TableController.m */; };
 		416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 416F8275167A9FDF0042BD19 /* TableControllerView.xib */; };
+		416F82AF168821AA0042BD19 /* URICharactersOnlyTextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F82AE168821A60042BD19 /* URICharactersOnlyTextFieldDelegate.m */; };
 		417FEFB215ACD93F00E64503 /* BreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB115ACD93F00E64503 /* BreadcrumbController.m */; };
 		417FEFB515AD211800E64503 /* BreadcrumbBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FEFB415AD211800E64503 /* BreadcrumbBar.m */; };
 		41826E8E1608F6A40094F5C2 /* DeploymentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 41826E8C1608F6A40094F5C2 /* DeploymentIcon.png */; };
@@ -399,6 +400,8 @@
 		416F826F167931770042BD19 /* TableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableController.h; path = Classes/TableController.h; sourceTree = "<group>"; };
 		416F8270167931770042BD19 /* TableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableController.m; path = Classes/TableController.m; sourceTree = "<group>"; };
 		416F8275167A9FDF0042BD19 /* TableControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableControllerView.xib; path = Resources/TableControllerView.xib; sourceTree = "<group>"; };
+		416F82AD168821A20042BD19 /* URICharactersOnlyTextFieldDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = URICharactersOnlyTextFieldDelegate.h; path = Classes/URICharactersOnlyTextFieldDelegate.h; sourceTree = "<group>"; };
+		416F82AE168821A60042BD19 /* URICharactersOnlyTextFieldDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = URICharactersOnlyTextFieldDelegate.m; path = Classes/URICharactersOnlyTextFieldDelegate.m; sourceTree = "<group>"; };
 		417FEFB015ACD93F00E64503 /* BreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbController.h; path = Classes/BreadcrumbController.h; sourceTree = "<group>"; };
 		417FEFB115ACD93F00E64503 /* BreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreadcrumbController.m; path = Classes/BreadcrumbController.m; sourceTree = "<group>"; };
 		417FEFB315AD211800E64503 /* BreadcrumbBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreadcrumbBar.h; path = Classes/BreadcrumbBar.h; sourceTree = "<group>"; };
@@ -973,6 +976,8 @@
 				F32F975B154908CC002CCF27 /* Thor.xcdatamodeld */,
 				414779E615C0B1AD00B733EF /* Resources */,
 				F32F974A154908CB002CCF27 /* Supporting Files */,
+				416F82AD168821A20042BD19 /* URICharactersOnlyTextFieldDelegate.h */,
+				416F82AE168821A60042BD19 /* URICharactersOnlyTextFieldDelegate.m */,
 			);
 			path = Thor;
 			sourceTree = "<group>";
@@ -1451,6 +1456,7 @@
 				41DBDB02166192E000FB6420 /* NoResultsListViewDataSource.m in Sources */,
 				416F826E1676D20A0042BD19 /* ActivityController.m in Sources */,
 				416F8271167931770042BD19 /* TableController.m in Sources */,
+				416F82AF168821AA0042BD19 /* URICharactersOnlyTextFieldDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
