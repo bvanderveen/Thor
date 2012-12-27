@@ -8,7 +8,7 @@
 #import "TargetPropertiesController.h"
 #import "NSAlert+Dialogs.h"
 #import "Sequence.h"
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 #import "DeploymentPropertiesController.h"
 #import "ServicePropertiesController.h"
 #import "NSObject+AssociateDisposable.h"
@@ -97,9 +97,9 @@
 }
 
 - (TableController *)createAppTableController {
-    return [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
+    return [[TableController alloc] initWithSignal:[[RACSignal performBlockInBackground:^ id {
         return [[ThorBackend shared] getConfiguredApps:nil];
-    }] select:^id(id configuredApps) {
+    }] map:^id(id configuredApps) {
         return [configuredApps map:^id(id x) {
             App *app = (App *)x;
             
@@ -218,7 +218,7 @@
     __block WizardController *wizardController;
     __block FoundryServiceInfo *selectedServiceInfo;
     
-    TableController *tableController = [[TableController alloc] initWithSubscribable:[[targetController.client getServicesInfo] select:^id(id servicesInfo) {
+    TableController *tableController = [[TableController alloc] initWithSignal:[[targetController.client getServicesInfo] map:^id(id servicesInfo) {
         return [servicesInfo map:^id(id x) {
             FoundryServiceInfo *serviceInfo = (FoundryServiceInfo *)x;
             
@@ -265,7 +265,7 @@
     __block WizardController *wizard;
     __block FoundryService *selectedService;
     
-    TableController *tableController = [[TableController alloc] initWithSubscribable:[[targetController.client getServices] select:^id(id lesServices) {
+    TableController *tableController = [[TableController alloc] initWithSignal:[[targetController.client getServices] map:^id(id lesServices) {
         
         NSArray *services = lesServices;
         
@@ -304,7 +304,7 @@
     wizard = [[WizardController alloc] initWithRootViewController:wizardTableController];
     wizard.isSinglePage = YES;
     [wizard presentModalForWindow:window didEndBlock:^(NSInteger returnCode) {
-        [selectedDeployment updateAppAndStatsAfterSubscribable:nil];
+        [selectedDeployment updateAppAndStatsAfterSignal:nil];
     }];
 }
 

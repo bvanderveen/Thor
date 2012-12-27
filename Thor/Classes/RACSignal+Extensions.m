@@ -1,4 +1,4 @@
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 #import "LoadingView.h"
 #import "Sequence.h"
 
@@ -34,10 +34,10 @@
 
 @end
 
-@implementation RACSubscribable (Extensions)
+@implementation RACSignal (Extensions)
 
-- (RACSubscribable *)animateProgressIndicator:(NSProgressIndicator *)indicator {
-    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+- (RACSignal *)animateProgressIndicator:(NSProgressIndicator *)indicator {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         [indicator startAnimation:self];
         void (^stopAnimation)() = ^ {
             [indicator stopAnimation:self];
@@ -46,8 +46,8 @@
     }];
 }
 
-- (RACSubscribable *)showLoadingViewInView:(NSView *)view {
-    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+- (RACSignal *)showLoadingViewInView:(NSView *)view {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         [view showModalLoadingView];
         void (^hideLoadingView)() = ^ {
             [view hideLoadingView];
@@ -56,8 +56,8 @@
     }];
 }
 
-- (RACSubscribable *)showLoadingViewInWizard:(WizardController *)wizard {
-    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+- (RACSignal *)showLoadingViewInWizard:(WizardController *)wizard {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         [wizard displayLoadingView];
         [wizard.view disableAllControls];
         void (^hideLoadingView)() = ^ {
@@ -68,26 +68,26 @@
     }];
 }
 
-- (RACSubscribable *)continueWith:(RACSubscribable *)subscribable {
-    return [self continueAfter:^ RACSubscribable * (id x) {
-        return subscribable;
+- (RACSignal *)continueWith:(RACSignal *)signal {
+    return [self continueAfter:^ RACSignal * (id x) {
+        return signal;
     }];
 }
 
-- (RACSubscribable *)continueAfter:(RACSubscribable *(^)(id))subscribable {
-    return [[self select:^id(id x) {
-        return subscribable(x);
-    }] selectMany:^id<RACSubscribable>(id x) {
+- (RACSignal *)continueAfter:(RACSignal *(^)(id))signal {
+    return [[self map:^id(id x) {
+        return signal(x);
+    }] flattenMap:^RACStream *(id x) {
         return x;
     }];
 }
 
-+ (RACSubscribable *)performBlockInBackground:(id (^)())block {
-    return [[[RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
++ (RACSignal *)performBlockInBackground:(id (^)())block {
+    return [[[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         [subscriber sendNext:block()];
         [subscriber sendCompleted];
         return nil;
-    }] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]];
+    }] subscribeOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 @end

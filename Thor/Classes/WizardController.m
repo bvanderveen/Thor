@@ -172,11 +172,27 @@
 }
 
 - (void)pushToView:(NSView *)newView fromView:(NSView *)oldView {
+    self.contentView.wantsLayer = YES;
+    self.wantsLayer = YES;
+    self.titleLabel.wantsLayer = YES;
+    
+    [self performSelector:@selector(reallyPush:) withObject:@[newView, oldView] afterDelay:0];
+}
+
+- (void)reallyPush:(NSArray *)views {
+    NSView *newView = views[0];
+    NSView *oldView = views[1];
+    NSLog(@"no really");
+    
     [self fadeOutContent:^ {
         [self.contentView replaceSubview:oldView with:newView];
         [self resizeWindow:^ {
             [self doLayout];
-            [self fadeInContent:nil];
+            [self fadeInContent:^ {
+                self.contentView.wantsLayer = NO;
+                self.wantsLayer = NO;
+                self.titleLabel.wantsLayer = NO;
+            }];
         }];
     }];
 }
@@ -269,17 +285,17 @@
     self.wizardControllerView = [[WizardControllerView alloc] initWithFrame:NSZeroRect];
     self.wizardControllerView.contentView.wantsLayer = YES;
     
-    [self.wizardControllerView.cancelButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    self.wizardControllerView.cancelButton.rac_command = [RACCommand commandWithBlock:^(id value) {
         for (NSInteger i = stack.count - 1; i >= 0; i--)
             [((NSViewController<WizardControllerAware> *)stack[i]) rollbackWizardPanel];
         
         [self dismissWithReturnCode:NSCancelButton];
-    }]];
-    [self.wizardControllerView.prevButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    }];
+    self.wizardControllerView.prevButton.rac_command = [RACCommand commandWithBlock:^(id value) {
         [self.currentController rollbackWizardPanel];
         
         [self popViewControllerAnimated:YES];
-    }]];
+    }];
     
     if (isSinglePage) {
         self.wizardControllerView.prevButton.hidden = YES;
@@ -287,9 +303,9 @@
     
     [self updatePrevButtonState];
     
-    [self.wizardControllerView.nextButton addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    self.wizardControllerView.nextButton.rac_command = [RACCommand commandWithBlock:^(id value) {
         [self.currentController commitWizardPanel];
-    }]];
+    }];
     
     [wizardControllerView.contentView addSubview:self.currentController.view];
     self.view = wizardControllerView;

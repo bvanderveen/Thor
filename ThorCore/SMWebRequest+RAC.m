@@ -100,8 +100,8 @@ NSInteger AssociatedWebRequestKey;
     [subscriber sendError:error];
 }
 
-- (RACSubscribable *)subscribable {
-    return [RACSubscribable createSubscribable:^ RACDisposable * (id<RACSubscriber> s) {
+- (RACSignal *)signal {
+    return [RACSignal createSignal:^ RACDisposable * (id<RACSubscriber> s) {
         subscriber = [s retain];
         //[[UIApplication sharedApplication] networkActivityDidBegin];
         webRequest = [[SMWebRequest alloc] initWithURLRequest:urlRequest delegate:self context:nil];
@@ -114,9 +114,9 @@ NSInteger AssociatedWebRequestKey;
 
 @implementation SMWebRequest (RAC)
 
-+ (RACSubscribable *)requestSubscribableWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
++ (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
     WebRequestBlockProducer *p = [[WebRequestBlockProducer alloc] initWithURLRequest:request dataParser:parser];
-    RACSubscribable *result = [p subscribable];
+    RACSignal *result = [p signal];
     [p release];
     return result;
 }

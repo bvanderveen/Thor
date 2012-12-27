@@ -30,7 +30,7 @@
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
 		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
-		413C2E1915F96C3800C80B4C /* RACSubscribable+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */; };
+		413C2E1915F96C3800C80B4C /* RACSignal+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */; };
 		413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 413C2E20160006D600C80B4C /* libcommonCrypto.dylib */; };
 		413C2E24160009CD00C80B4C /* SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E22160009CC00C80B4C /* SHA1.h */; };
 		413C2E25160009CD00C80B4C /* SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E23160009CC00C80B4C /* SHA1.m */; };
@@ -90,6 +90,7 @@
 		41B54803164327A900C5C68F /* DeploymentStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B54800164327A900C5C68F /* DeploymentStop.png */; };
 		41B9238115D18E600004D167 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238015D18E600004D167 /* AppController.m */; };
 		41B9238415D190A00004D167 /* AppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238315D1909F0004D167 /* AppView.m */; };
+		41BEFC38168D0D450011320F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
@@ -138,6 +139,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		41078EFB168D0C90006B80C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 88037F8215056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
 		4165679F15DAE39200EF93DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4165679515DAE39100EF93DF /* SBJson.xcodeproj */;
@@ -362,8 +370,8 @@
 		413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentMemoryTransformer.m; path = Classes/DeploymentMemoryTransformer.m; sourceTree = "<group>"; };
 		413C2DE715F9282A00C80B4C /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Classes/LoadingView.h; sourceTree = "<group>"; };
 		413C2DE815F9282A00C80B4C /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Classes/LoadingView.m; sourceTree = "<group>"; };
-		413C2E1715F96C3800C80B4C /* RACSubscribable+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSubscribable+Extensions.h"; path = "Classes/RACSubscribable+Extensions.h"; sourceTree = "<group>"; };
-		413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSubscribable+Extensions.m"; path = "Classes/RACSubscribable+Extensions.m"; sourceTree = "<group>"; };
+		413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extensions.h"; path = "Classes/RACSignal+Extensions.h"; sourceTree = "<group>"; };
+		413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extensions.m"; path = "Classes/RACSignal+Extensions.m"; sourceTree = "<group>"; };
 		413C2E20160006D600C80B4C /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		413C2E22160009CC00C80B4C /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
 		413C2E23160009CC00C80B4C /* SHA1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1.m; sourceTree = "<group>"; };
@@ -516,6 +524,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41BEFC38168D0D450011320F /* ReactiveCocoa.framework in Frameworks */,
 				413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */,
 				416567A715DAE3B100EF93DF /* SBJson.framework in Frameworks */,
 				41F9029B15AF592A00550870 /* Foundation.framework in Frameworks */,
@@ -776,8 +785,8 @@
 			children = (
 				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
 				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
-				413C2E1715F96C3800C80B4C /* RACSubscribable+Extensions.h */,
-				413C2E1815F96C3800C80B4C /* RACSubscribable+Extensions.m */,
+				413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */,
+				413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1048,6 +1057,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				41078EFC168D0C90006B80C5 /* PBXTargetDependency */,
 				416567A915DAE3BD00EF93DF /* PBXTargetDependency */,
 			);
 			name = ThorCore;
@@ -1436,7 +1446,7 @@
 				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
 				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
-				413C2E1915F96C3800C80B4C /* RACSubscribable+Extensions.m in Sources */,
+				413C2E1915F96C3800C80B4C /* RACSignal+Extensions.m in Sources */,
 				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
 				419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */,
 				41826E921608FD900094F5C2 /* DeploymentCell.m in Sources */,
@@ -1471,6 +1481,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		41078EFC168D0C90006B80C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ReactiveCocoa;
+			targetProxy = 41078EFB168D0C90006B80C5 /* PBXContainerItemProxy */;
+		};
 		416567A915DAE3BD00EF93DF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SBJson;
@@ -1563,24 +1578,12 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				DSTROOT = /tmp/ThorCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = (
-					"json-framework/Classes",
-					ReactiveCocoa/ReactiveCocoaFramework,
-					expecta/products,
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1590,25 +1593,12 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				DSTROOT = /tmp/ThorCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = (
-					"json-framework/Classes",
-					ReactiveCocoa/ReactiveCocoaFramework,
-					expecta/products,
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-				);
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1668,7 +1658,6 @@
 		F32F9772154908CC002CCF27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1686,6 +1675,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"json-framework/**",
+					"ReactiveCocoa/**",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1695,7 +1688,6 @@
 		F32F9773154908CC002CCF27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
@@ -1707,6 +1699,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"json-framework/**",
+					"ReactiveCocoa/**",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};

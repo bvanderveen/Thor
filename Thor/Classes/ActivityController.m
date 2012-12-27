@@ -8,10 +8,10 @@
 
 @synthesize status, localPath, targetAppName, targetHostname, isActive;
 
-- (id)initWithSubscribable:(RACSubscribable *)subscribable {
+- (id)initWithSignal:(RACSignal *)signal {
     if (self = [super init]) {
         self.isActive = YES;
-        self.associatedDisposable = [subscribable subscribeNext:^(id x) {
+        self.associatedDisposable = [signal subscribeNext:^(id x) {
             self.status = FoundryPushStageString([(NSNumber *)x intValue]);
         } error:^(NSError *error) {
             self.status = @"Error";
@@ -129,7 +129,7 @@
 
 - (id)init {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        controller = [[TableController alloc] initWithSubscribable:[RACSubscribable return:@[]]];
+        controller = [[TableController alloc] initWithSignal:[RACSignal return:@[]]];
         activities = @[];
     }
     return self;

@@ -2,7 +2,7 @@
 
 @interface RestEndpoint : NSObject
 
-- (RACSubscribable *)requestWithHost:(NSString *)host method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+- (RACSignal *)requestWithHost:(NSString *)host method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
 
 @end
 
@@ -11,9 +11,9 @@
 @property (nonatomic, copy) NSString *hostname, *email, *password;
 
 // result is parsed JSON of response body
-- (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+- (RACSignal *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
 
-- (RACSubscribable *)verifyCredentials;
+- (RACSignal *)verifyCredentials;
 
 @end
 
@@ -124,22 +124,22 @@ NSString *FoundryPushStageString(FoundryPushStage stage);
 
 @protocol FoundryClient <NSObject>
 
-- (RACSubscribable *)getApps; // NSArray of FoundryApp
-- (RACSubscribable *)getAppWithName:(NSString *)name; // FoundryApp
-- (RACSubscribable *)getStatsForAppWithName:(NSString *)name; // NSArray of FoundryAppInstanceStats
+- (RACSignal *)getApps; // NSArray of FoundryApp
+- (RACSignal *)getAppWithName:(NSString *)name; // FoundryApp
+- (RACSignal *)getStatsForAppWithName:(NSString *)name; // NSArray of FoundryAppInstanceStats
 
-- (RACSubscribable *)createApp:(FoundryApp *)app;
-- (RACSubscribable *)updateApp:(FoundryApp *)app;
-- (RACSubscribable *)deleteAppWithName:(NSString *)name;
+- (RACSignal *)createApp:(FoundryApp *)app;
+- (RACSignal *)updateApp:(FoundryApp *)app;
+- (RACSignal *)deleteAppWithName:(NSString *)name;
 
 // subscription is a long-running operation. subscribe on background scheduler.
-- (RACSubscribable *)pushAppWithName:(NSString *)name fromLocalPath:(NSString *)localPath;
+- (RACSignal *)pushAppWithName:(NSString *)name fromLocalPath:(NSString *)localPath;
 
-- (RACSubscribable *)getServicesInfo; // NSArray of FoundryServiceInfo
-- (RACSubscribable *)getServices; // NSArray of FoundryService
-- (RACSubscribable *)getServiceWithName:(NSString *)name;
-- (RACSubscribable *)createService:(FoundryService *)service;
-- (RACSubscribable *)deleteServiceWithName:(NSString *)name;
+- (RACSignal *)getServicesInfo; // NSArray of FoundryServiceInfo
+- (RACSignal *)getServices; // NSArray of FoundryService
+- (RACSignal *)getServiceWithName:(NSString *)name;
+- (RACSignal *)createService:(FoundryService *)service;
+- (RACSignal *)deleteServiceWithName:(NSString *)name;
 
 @end
 

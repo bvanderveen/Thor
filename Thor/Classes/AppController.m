@@ -11,7 +11,7 @@
 #import "NSAlert+Dialogs.h"
 #import "AppDelegate.h"
 #import "TableController.h"
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 
 @interface AppController ()
 
@@ -85,9 +85,9 @@
     Deployment *deployment = deployments[row];
     DeploymentCell *cell = [[DeploymentCell alloc] initWithFrame:NSZeroRect];
     cell.deployment = deployment;
-    [cell.pushButton addCommand:[RACCommand commandWithCanExecute:nil execute:^ void (id v) {
+    cell.pushButton.rac_command = [RACCommand commandWithBlock:^ void (id v) {
         [self pushDeployment:deployment sender:cell.pushButton];
-    }]];
+    }];
     return cell;
 }
 
@@ -105,9 +105,9 @@
     __block WizardController *wizardController;
     __block Target *selectedTarget;
     
-    TableController *tableController = [[TableController alloc] initWithSubscribable:[[RACSubscribable performBlockInBackground:^ id {
+    TableController *tableController = [[TableController alloc] initWithSignal:[[RACSignal performBlockInBackground:^ id {
         return [[ThorBackend shared] getConfiguredTargets:nil];
-    }] select:^id(id targets) {
+    }] map:^id(id targets) {
         return [targets map:^id(id x) {
             Target *target = (Target *)x;
             
@@ -150,13 +150,13 @@
     
     FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
-    RACSubscribable *subscribable = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] subscribeOn:[RACScheduler backgroundScheduler]] deliverOn:[RACScheduler mainQueueScheduler]] doCompleted:^ {
+    RACSignal *signal = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] subscribeOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] deliverOn:[RACScheduler mainThreadScheduler]] doCompleted:^ {
         button.enabled = YES;
     }] doError:^(NSError *error) {
         button.enabled = YES;
     }];
     
-    PushActivity *activity = [[PushActivity alloc] initWithSubscribable:subscribable];
+    PushActivity *activity = [[PushActivity alloc] initWithSignal:signal];
     activity.localPath = deployment.app.localRoot;
     activity.targetHostname = deployment.target.hostname;
     activity.targetAppName = deployment.name;

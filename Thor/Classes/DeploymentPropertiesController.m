@@ -1,6 +1,6 @@
 #import "DeploymentPropertiesController.h"
 #import "NSObject+AssociateDisposable.h"
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 
 @implementation DeploymentProperties
 
@@ -70,8 +70,8 @@
     }
 }
 
-- (RACSubscribable *)ensureServiceDoesNotHaveAppWithName:(NSString *)name {
-    return [RACSubscribable createSubscribable:^RACDisposable *(id<RACSubscriber> subscriber) {
+- (RACSignal *)ensureServiceDoesNotHaveAppWithName:(NSString *)name {
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         return [[client getAppWithName:name]
                 subscribeNext:^ (id i) {
                     [subscriber sendError:[NSError errorWithDomain:ThorDeploymentPropertiesControllerErrorDomain code:ThorAppAlreadyExistsErrorCode userInfo:@{
@@ -91,8 +91,8 @@
     foundryApp.instances = properties.instances;
 }
 
-- (RACSubscribable *)updateAppInstancesAndMemory {
-    return [[client getAppWithName:deploymentProperties.name] continueAfter:^ RACSubscribable *(id x) {
+- (RACSignal *)updateAppInstancesAndMemory {
+    return [[client getAppWithName:deploymentProperties.name] continueAfter:^ RACSignal *(id x) {
         FoundryApp *latestApp = (FoundryApp *)x;
         [self updateApp:latestApp withProperties:deploymentProperties];
         return [client updateApp:latestApp];
@@ -104,10 +104,10 @@
     
     self.wizardController.commitButtonEnabled = NO;
     
-    RACSubscribable *subscribable;
+    RACSignal *signal;
     
     if (app && target) {
-        subscribable = [[self ensureServiceDoesNotHaveAppWithName:deploymentProperties.name] continueAfter:^RACSubscribable *(id x) {
+        signal = [[self ensureServiceDoesNotHaveAppWithName:deploymentProperties.name] continueAfter:^RACSignal *(id x) {
             FoundryApp *foundryApp = [[FoundryApp alloc] init];
             foundryApp.uris = @[];
             foundryApp.services = @[];
@@ -120,10 +120,10 @@
         }];
     }
     else {
-        subscribable = [self updateAppInstancesAndMemory];
+        signal = [self updateAppInstancesAndMemory];
     }
     
-    self.associatedDisposable = [[subscribable showLoadingViewInWizard:self.wizardController] subscribeNext:^ (id n) {
+    self.associatedDisposable = [[signal showLoadingViewInWizard:self.wizardController] subscribeNext:^ (id n) {
         NSLog(@"%@", n);
     } error:^ (NSError *error) {
         [NSApp presentError:error];

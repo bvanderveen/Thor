@@ -9,6 +9,6 @@
 
 @interface SMWebRequest (RAC)
 
-+ (RACSubscribable *)requestSubscribableWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser; 
++ (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser; 
 
 @end

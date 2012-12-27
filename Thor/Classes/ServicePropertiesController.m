@@ -21,8 +21,8 @@
 
 - (void)commitWizardPanel {
     [objectController commitEditing];
-    RACSubscribable *subscribable = [client createService:service];
-    self.associatedDisposable = [subscribable subscribeNext:^ (id x) {
+    RACSignal *signal = [client createService:service];
+    self.associatedDisposable = [signal subscribeNext:^ (id x) {
         NSLog(@"%@", x);
     } error:^(NSError *error) {
         [NSApp presentError:error];

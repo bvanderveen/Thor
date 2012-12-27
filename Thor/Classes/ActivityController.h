@@ -6,7 +6,7 @@
 @property (nonatomic, copy) NSString *localPath, *targetHostname, *targetAppName, *status;
 @property (nonatomic, assign) BOOL isActive;
 
-- (id)initWithSubscribable:(RACSubscribable *)subscribable;
+- (id)initWithSignal:(RACSignal *)signal;
 
 @end
 

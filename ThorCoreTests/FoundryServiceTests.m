@@ -44,7 +44,7 @@
     return [result copy];
 }
 
-- (RACSubscribable *)logCallAndGetResult:(NSDictionary *)call {
+- (RACSignal *)logCallAndGetResult:(NSDictionary *)call {
     calls = [calls arrayByAddingObject:call];
     
     id resultObject = results.count ? results[0] : nil;
@@ -55,10 +55,10 @@
         results = newResults;
     }
     
-    return [RACSubscribable return:resultObject];
+    return [RACSignal return:resultObject];
 }
 
-- (RACSubscribable *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+- (RACSignal *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSDictionary *call = @{
     @"method" : method ? method : [NSNull null],
     @"path" : path ? path : [NSNull null],
@@ -69,7 +69,7 @@
     return [self logCallAndGetResult:call];
 }
 
-- (RACSubscribable *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+- (RACSignal *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
     NSDictionary *call = @{
     @"host": hostname,
     @"method" : method ? method : [NSNull null],

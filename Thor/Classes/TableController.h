@@ -32,10 +32,10 @@
 @interface TableController : NSViewController
 
 @property (nonatomic, strong) TableSource *source;
-@property (nonatomic, strong) RACSubscribable *subscribable;
+@property (nonatomic, strong) RACSignal *signal;
 @property (nonatomic, strong) IBOutlet TableControllerView *controllerView;
 
-- (id)initWithSubscribable:(RACSubscribable *)subscribable;
+- (id)initWithSignal:(RACSignal *)signal;
 
 @end
 

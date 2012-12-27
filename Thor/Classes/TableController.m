@@ -107,10 +107,10 @@
 
 @synthesize source, controllerView;
 
-- (id)initWithSubscribable:(RACSubscribable *)subscribable {
+- (id)initWithSignal:(RACSignal *)signal {
     if (self = [super initWithNibName:@"TableControllerView" bundle:[NSBundle mainBundle]]) {
         source = [[TableSource alloc] init];
-        self.associatedDisposable = [subscribable subscribeNext:^ (id x) {
+        self.associatedDisposable = [signal subscribeNext:^ (id x) {
             source.items = (NSArray *)x;
             [controllerView.tableView reloadData];
             [controllerView.tableView sizeLastColumnToFit];

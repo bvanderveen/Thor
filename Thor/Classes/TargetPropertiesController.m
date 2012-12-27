@@ -1,7 +1,7 @@
 #import "TargetPropertiesController.h"
 #import "NSObject+AssociateDisposable.h"
 #import "NSAlert+Dialogs.h"
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 
 @implementation TargetPropertiesController
 

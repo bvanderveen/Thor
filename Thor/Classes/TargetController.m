@@ -5,7 +5,7 @@
 #import "AppCell.h"
 #import "ServiceCell.h"
 #import "NoResultsListViewDataSource.h"
-#import "RACSubscribable+Extensions.h"
+#import "RACSignal+Extensions.h"
 #import "Sequence.h"
 #import "DeploymentPropertiesController.h"
 #import "AddItemListViewSource.h"
@@ -47,9 +47,9 @@
     FoundryApp *app = apps[row];
     cell.app = app;
     cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
-    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    cell.button.rac_command = [RACCommand commandWithBlock:^(id value) {
         [delegate accessoryButtonClickedForApp:app];
-    }]];
+    }];
     return cell;
 }
 
@@ -86,9 +86,9 @@
     ServiceCell *cell = [[ServiceCell alloc] initWithFrame:NSZeroRect];
     FoundryService *service = services[row];
     cell.service = service;
-    [cell.button addCommand:[RACCommand commandWithCanExecute:nil execute:^(id value) {
+    cell.button.rac_command = [RACCommand commandWithBlock:^(id value) {
         [delegate accessoryButtonClickedForService:service];
-    }]];
+    }];
     return cell;
 }
 
@@ -179,7 +179,7 @@
     
     NSArray *subscriables = @[ [client getApps], [client getServices] ];
     
-    self.associatedDisposable = [[[RACSubscribable combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
+    self.associatedDisposable = [[[RACSignal combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
         RACTuple *t = (RACTuple *)x;
         self.targetSummary = [[TargetSummary alloc] init];
 
