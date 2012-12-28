@@ -40,42 +40,35 @@ NSInteger AssociatedWebRequestKey;
 //
 //@end
 
-@interface WebRequestBlockProducer : NSObject <SMWebRequestDelegate> {
-    id (^parser)(NSData *);
-    NSURLRequest *urlRequest;
-    SMWebRequest *webRequest;
-    id<RACSubscriber> subscriber;
-}
+@interface WebRequestBlockProducer : NSObject <SMWebRequestDelegate>
 
-- (id)initWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(NSData *))parser;
+@property (nonatomic, copy) id (^parser)(NSData *);
+@property (nonatomic, strong) SMWebRequest *webRequest;
+@property (nonatomic, strong) id<RACSubscriber> subscriber;
 
 @end
 
 @implementation WebRequestBlockProducer
 
-- (id)initWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(NSData *))leParser  {
+@synthesize parser, webRequest, subscriber;
+
+- (id)initWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(NSData *))leParser subscriber:(id<RACSubscriber>)leSubscriber {
     if ((self = [super init])) {
-        urlRequest = [request retain];
         parser = [leParser copy];
+        subscriber = leSubscriber;
+        webRequest = [[SMWebRequest alloc] initWithURLRequest:request delegate:self context:nil];
+        [webRequest start];
     }
     return self;
 }
 
 - (void)cancel {
-    if (webRequest != nil) {
-        //[[UIApplication sharedApplication] networkActivityDidEnd];
-    }
-    
     [webRequest cancel];
-    [webRequest release];
     webRequest = nil;
 }
 
 - (void)dealloc {
     [self cancel];
-    [urlRequest release];
-    [parser release];
-    [super dealloc];
 }
 
 - (NSURLRequest *)webRequest:(SMWebRequest *)webRequest willSendRequest:(NSURLRequest *)newRequest redirectResponse:(NSURLResponse *)redirectResponse {
@@ -100,25 +93,15 @@ NSInteger AssociatedWebRequestKey;
     [subscriber sendError:error];
 }
 
-- (RACSignal *)signal {
-    return [RACSignal createSignal:^ RACDisposable * (id<RACSubscriber> s) {
-        subscriber = [s retain];
-        //[[UIApplication sharedApplication] networkActivityDidBegin];
-        webRequest = [[SMWebRequest alloc] initWithURLRequest:urlRequest delegate:self context:nil];
-        [webRequest start];
-        return [RACDisposable disposableWithBlock:^ { [self cancel]; }];
-    }];
-}
-
 @end
 
 @implementation SMWebRequest (RAC)
 
 + (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
-    WebRequestBlockProducer *p = [[WebRequestBlockProducer alloc] initWithURLRequest:request dataParser:parser];
-    RACSignal *result = [p signal];
-    [p release];
-    return result;
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        WebRequestBlockProducer *p = [[WebRequestBlockProducer alloc] initWithURLRequest:request dataParser:parser subscriber:subscriber];
+        return [RACDisposable disposableWithBlock:^ { [p cancel]; }];
+    }];
 }
 
 @end
