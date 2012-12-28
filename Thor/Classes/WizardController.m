@@ -224,7 +224,7 @@
 @interface WizardController ()
 
 @property (nonatomic, strong) NSViewController<WizardControllerAware> *currentController;
-@property (nonatomic, strong) NSArray *stack;
+@property (nonatomic, copy) NSArray *stack;
 @property (nonatomic, strong) WizardControllerView *wizardControllerView;
 @property (nonatomic, copy) void (^didEndBlock)();
 

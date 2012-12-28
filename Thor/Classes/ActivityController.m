@@ -119,7 +119,7 @@
 @interface ActivityController ()
 
 @property (nonatomic, strong) TableController *controller;
-@property (nonatomic, strong) NSArray *activities;
+@property (nonatomic, copy) NSArray *activities;
 
 @end
 

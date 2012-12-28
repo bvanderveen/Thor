@@ -23,7 +23,7 @@
 
 @interface BoundServicesListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
 
-@property (nonatomic, strong) NSArray *services;
+@property (nonatomic, copy) NSArray *services;
 @property (nonatomic, weak) id delegate;
 
 @end
