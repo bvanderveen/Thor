@@ -29,7 +29,7 @@
 
 @interface AppsListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
 
-@property (nonatomic, strong) NSArray *apps;
+@property (nonatomic, copy) NSArray *apps;
 @property (nonatomic, weak) id delegate;
 
 @end
@@ -69,7 +69,7 @@
 
 @interface ServicesListViewSource : NSObject <ListViewDataSource, ListViewDelegate>
 
-@property (nonatomic, strong) NSArray *services;
+@property (nonatomic, copy) NSArray *services;
 @property (nonatomic, weak) id delegate;
 
 @end
@@ -101,7 +101,7 @@
 
 @interface TargetController ()
 
-@property (nonatomic, strong) NSArray *apps;
+@property (nonatomic) id signalResult;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootAppsListSource, rootServicesListSource;
 @property (nonatomic, strong) AppsListViewSource *appsListSource;
 @property (nonatomic, strong) ServicesListViewSource *servicesListSource;
@@ -110,7 +110,7 @@
 
 @implementation TargetController
 
-@synthesize target, targetView, breadcrumbController, title, apps, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource, targetSummary;
+@synthesize target, targetView, breadcrumbController, title, client, appsListSource, servicesListSource, rootAppsListSource, rootServicesListSource, targetSummary;
 
 - (id<BreadcrumbItem>)breadcrumbItem {
     return self;
@@ -174,33 +174,31 @@
     self.targetView.servicesList.delegate = rootServicesListSource;
 }
 
+- (void)setSignalResult:(id)value {
+    RACTuple *t = (RACTuple *)value;
+    appsListSource.apps = t.first;
+    servicesListSource.services = t.second;
+    
+    self.targetSummary = [[TargetSummary alloc] init];
+    targetSummary.appCount = appsListSource.apps.count;
+    targetSummary.totalMemoryMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
+        return [NSNumber numberWithInt:(int)((FoundryApp *)i).memory + [acc intValue]];
+    } seed:@0] intValue];
+    targetSummary.totalDiskMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
+        return [NSNumber numberWithInt:(int)((FoundryApp *)i).disk + [acc intValue]];
+    } seed:@0] intValue];
+    
+    [targetView.deploymentsList reloadData];
+    [targetView.servicesList reloadData];
+    targetView.needsLayout = YES;
+}
+
 - (void)updateApps {
     self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     
     NSArray *subscriables = @[ [client getApps], [client getServices] ];
     
-    self.associatedDisposable = [[[RACSignal combineLatest:subscriables] showLoadingViewInView:self.view] subscribeNext:^ (id x) {
-        RACTuple *t = (RACTuple *)x;
-        self.targetSummary = [[TargetSummary alloc] init];
-
-        appsListSource.apps = t.first;
-        servicesListSource.services = t.second;
-        
-        targetSummary.appCount = appsListSource.apps.count;
-        targetSummary.totalMemoryMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
-            return [NSNumber numberWithInt:(int)((FoundryApp *)i).memory + [acc intValue]];
-        } seed:@0] intValue];
-        
-        targetSummary.totalDiskMegabytes = [[appsListSource.apps reduce:^id(id acc, id i) {
-            return [NSNumber numberWithInt:(int)((FoundryApp *)i).disk + [acc intValue]];
-        } seed:@0] intValue];
-        
-        [targetView.deploymentsList reloadData];
-        [targetView.servicesList reloadData];
-        targetView.needsLayout = YES;
-    } error:^(NSError *error) {
-        [NSApp presentError:error];
-    }];
+    RAC(self.signalResult) = [[RACSignal combineLatest:subscriables] showLoadingViewInView:self.view];
 }
 
 - (void)viewWillAppear {
