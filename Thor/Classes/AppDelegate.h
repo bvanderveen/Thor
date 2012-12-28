@@ -12,14 +12,14 @@
 }
 
 @property (nonatomic, strong) IBOutlet NSWindow *activityWindow;
-@property (nonatomic, strong) Target *selectedTarget;
+@property (nonatomic, unsafe_unretained) Target *selectedTarget;
 
 // XXX this ain't ideal, it should be a model class.
-@property (nonatomic, strong) DeploymentController *selectedDeployment;
-@property (nonatomic, strong) TargetController *targetController;
+@property (nonatomic, unsafe_unretained) DeploymentController *selectedDeployment;
+@property (nonatomic, unsafe_unretained) TargetController *targetController;
 
 @property (nonatomic, strong) ActivityController *activityController;
-@property (nonatomic, strong) App *tableSelectedApp;
+@property (nonatomic, unsafe_unretained) App *tableSelectedApp;
 
 - (TableController *)createAppTableController;
 
