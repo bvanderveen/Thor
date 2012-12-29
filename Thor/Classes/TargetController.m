@@ -194,7 +194,7 @@
 }
 
 - (void)updateApps {
-    self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
+    self.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     
     NSArray *subscriables = @[ [client getApps], [client getServices] ];
     

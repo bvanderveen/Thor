@@ -127,6 +127,29 @@ static id (^JsonParser)(id) = ^ id (id d) {
     return self;
 }
 
+- (NSUInteger)hash {
+    return [[NSString stringWithFormat:@"%@%@%@", hostname, email, password] hash];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[FoundryEndpoint class]])
+        return NO;
+    
+    FoundryEndpoint *other = (FoundryEndpoint *)object;
+    return
+        [other.hostname isEqual:self.hostname] &&
+        [other.email isEqual:self.email] &&
+        [other.password isEqual:self.password];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    FoundryEndpoint *result = [[FoundryEndpoint allocWithZone:zone] init];
+    result.hostname = self.hostname;
+    result.email = self.email;
+    result.password = self.password;
+    return result;
+}
+
 - (void)sendInvalidCredentialsError:(RACSubscriber *)subscriber {
     [subscriber sendError:[FoundryClientError errorWithDomain:FoundryClientErrorDomain code:FoundryClientInvalidCredentials userInfo:nil]];
 }
@@ -663,9 +686,22 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 
 @end
 
+static NSMutableDictionary *clients;
+
 @implementation FoundryClient
 
 @synthesize endpoint, token, slugService;
+
++ (void)initialize {
+    clients = [@{} mutableCopy];
+}
+
++ (FoundryClient *)clientWithEndpoint:(FoundryEndpoint *)endpoint {
+    if (![[clients allKeys] containsObject:endpoint])
+        clients[endpoint] = [[FoundryClient alloc] initWithEndpoint:endpoint];
+    
+    return clients[endpoint];
+}
 
 - (id)initWithEndpoint:(FoundryEndpoint *)lEndpoint {
     if (self = [super init]) {

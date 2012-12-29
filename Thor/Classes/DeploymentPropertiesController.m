@@ -37,7 +37,7 @@
 + (DeploymentPropertiesController *)newDeploymentPropertiesControllerWithApp:(App *)app target:(Target *)target {
     assert(app && target);
     DeploymentPropertiesController *result = [[DeploymentPropertiesController alloc] init];
-    result.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
+    result.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
     result.deploymentProperties = [DeploymentProperties defaultDeploymentProperties];
     result.deploymentProperties.name = app.lastPathComponent;
     result.app = app;

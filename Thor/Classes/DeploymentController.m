@@ -80,7 +80,7 @@ static NSArray *instanceColumns = nil;
         self.title = lAppName;
         self.appName = lAppName;
         self.deployment = leDeployment;
-        self.client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
+        self.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
         
         // XXX horrible
         ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedDeployment = self;

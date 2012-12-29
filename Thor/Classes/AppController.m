@@ -148,7 +148,7 @@
 - (void)pushDeployment:(Deployment *)deployment sender:(NSButton *)button {
     button.enabled = NO;
     
-    FoundryClient *client = [[FoundryClient alloc] initWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
+    FoundryClient *client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
     RACSignal *signal = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] subscribeOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] deliverOn:[RACScheduler mainThreadScheduler]] doCompleted:^ {
         button.enabled = YES;
