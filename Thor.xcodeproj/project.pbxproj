@@ -54,7 +54,7 @@
 		416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 416567AA15DAE46D00EF93DF /* SMWebRequest.h */; };
 		416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AB15DAE46D00EF93DF /* SMWebRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */ = {isa = PBXBuildFile; fileRef = 416567AE15DAE56D00EF93DF /* SMWebRequest+RAC.h */; };
-		416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		416567B115DAE56D00EF93DF /* SMWebRequest+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = 416567AF15DAE56D00EF93DF /* SMWebRequest+RAC.m */; };
 		416F826E1676D20A0042BD19 /* ActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F826D1676D20A0042BD19 /* ActivityController.m */; };
 		416F8271167931770042BD19 /* TableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F8270167931770042BD19 /* TableController.m */; };
 		416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 416F8275167A9FDF0042BD19 /* TableControllerView.xib */; };
@@ -678,6 +678,8 @@
 				41D286D015C87B9200206E3A /* SheetWindow.m */,
 				4165678F15D5DE2000EF93DF /* NSString+ShadowedTextDrawing.h */,
 				4165679015D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m */,
+				414FBC4216164EFD0021E1B2 /* AddItemListViewSource.h */,
+				414FBC4316164EFD0021E1B2 /* AddItemListViewSource.m */,
 				41DBDB00166192DF00FB6420 /* NoResultsListViewDataSource.h */,
 				41DBDB01166192DF00FB6420 /* NoResultsListViewDataSource.m */,
 				4165679215D9D75100EF93DF /* Box.h */,
@@ -896,8 +898,6 @@
 				41FA11BF15E431ED0079FD30 /* DeploymentView.m */,
 				41FA11BB15E431BB0079FD30 /* DeploymentController.h */,
 				41FA11BC15E431BB0079FD30 /* DeploymentController.m */,
-				414FBC4216164EFD0021E1B2 /* AddItemListViewSource.h */,
-				414FBC4316164EFD0021E1B2 /* AddItemListViewSource.m */,
 			);
 			name = Deployments;
 			sourceTree = "<group>";
