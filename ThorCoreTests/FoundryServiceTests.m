@@ -4,6 +4,7 @@
 #import "Specta.h"
 #define EXP_SHORTHAND
 #import "Expecta.h"
+#import "SBJson/SBJson.h"
 
 @interface MockEndpoint : NSObject
 
@@ -69,13 +70,19 @@
     return [self logCallAndGetResult:call];
 }
 
-- (RACSignal *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+- (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)urlRequest {
+
+    NSString *hostname = urlRequest.URL.host;
+    NSString *method = urlRequest.HTTPMethod;
+    NSString *path = urlRequest.URL.path;
+    NSDictionary *headers = urlRequest.allHTTPHeaderFields;
+    id body = [[[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] JSONValue];
     NSDictionary *call = @{
-    @"host": hostname,
-    @"method" : method ? method : [NSNull null],
-    @"path" : path ? path : [NSNull null],
-    @"headers" : headers ? headers : [NSNull null],
-    @"body" : body ? ([body isKindOfClass:[NSInputStream class]] ? [self stringFromStream:(NSInputStream *)body] : body) : [NSNull null]
+        @"host": hostname,
+        @"method" : method ? method : [NSNull null],
+        @"path" : path ? path : [NSNull null],
+        @"headers" : headers ? headers : [NSNull null],
+        @"body" : body ? body : [NSNull null]
     };
     
     
@@ -131,7 +138,9 @@ describe(@"verifyCredentials", ^{
         @"host": @"cool.com",
         @"method" : @"POST",
         @"path" : @"/users/thor@tier3.com/tokens",
-        @"headers" : [NSNull null],
+        @"headers" : @{
+            @"Content-Type": @"application/json"
+        },
         @"body" : @{ @"password": @"passw0rd" }
         }];
         

@@ -2,7 +2,7 @@
 
 @interface RestEndpoint : NSObject
 
-- (RACSignal *)requestWithHost:(NSString *)host method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;
+- (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)urlRequest;
 
 @end
 

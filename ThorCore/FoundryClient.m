@@ -15,23 +15,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 @implementation RestEndpoint
 
-- (RACSignal *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:6];
-    urlRequest.HTTPMethod = method;
-    
-    if ([body isKindOfClass:[NSInputStream class]]) {
-        urlRequest.HTTPBodyStream = (NSInputStream *)body;
-    }
-    else {
-        urlRequest.HTTPBody = [body JSONDataRepresentation];
-        NSMutableDictionary *newHeaders = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
-        newHeaders[@"Content-Type"] = @"application/json";
-        headers = newHeaders;
-    }
-    
-    urlRequest.AllHTTPHeaderFields = headers;
-    
+- (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)urlRequest {
     return [SMWebRequest requestSignalWithURLRequest:urlRequest dataParser:JsonParser];
 }
 
@@ -55,18 +39,90 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 @interface FoundryEndpoint ()
 
-@property (nonatomic, copy) NSString *token;
+@property (nonatomic, strong) RACConnectableSignal *tokenSignal;
 @property (nonatomic, strong) RestEndpoint *endpoint;
+
+@end
+
+@interface NSURLRequest (Signing)
+
+@property (readonly) BOOL isSignedWithToken;
+
+@end
+
+@implementation NSURLRequest (Signing)
+
++ (NSURLRequest *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+    assert(hostname && hostname.length);
+    assert(method);
+    assert(path);
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:6];
+    urlRequest.HTTPMethod = method;
+    
+    if ([body isKindOfClass:[NSInputStream class]]) {
+        urlRequest.HTTPBodyStream = (NSInputStream *)body;
+    }
+    else {
+        urlRequest.HTTPBody = [body JSONDataRepresentation];
+        NSMutableDictionary *newHeaders = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
+        newHeaders[@"Content-Type"] = @"application/json";
+        headers = newHeaders;
+    }
+    
+    urlRequest.AllHTTPHeaderFields = headers;
+    return urlRequest;
+}
+
++ (NSURLRequest *)tokenRequestWithHost:(NSString *)host email:(NSString *)email password:(NSString *)password {
+    assert(email && email.length);
+    assert(password);
+    
+    NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
+    NSDictionary *body = [NSDictionary dictionaryWithObject:password forKey:@"password"];
+    return [self requestWithHost:host method:@"POST" path:path headers:nil body:body];
+}
+
+- (BOOL)isSignedWithToken {
+    return [self valueForHTTPHeaderField:@"AUTHORIZATION"] != nil;
+}
+
+- (NSURLRequest *)signedRequestWithToken:(NSString *)token {
+    NSMutableURLRequest *result = [self mutableCopy];
+    [result setValue:token forHTTPHeaderField:@"AUTHORIZATION"];
+    return result;
+}
 
 @end
 
 @implementation FoundryEndpoint
 
-@synthesize hostname, email, password, token, endpoint;
+@synthesize hostname, email, password, tokenSignal, endpoint;
 
 - (id)init {
     if (self = [super init]) {
         self.endpoint = [[RestEndpoint alloc] init];
+        self.tokenSignal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            if (!email || !password) {
+                [self sendInvalidCredentialsError:subscriber];
+                return nil;
+            }
+        
+            return [[endpoint requestSignalWithURLRequest:[NSURLRequest tokenRequestWithHost:hostname email:email password:password]] subscribeNext:^(id x) {
+                [subscriber sendNext:x];
+            } error:^(NSError *error) {
+                if ([error.domain isEqual:@"SMWebRequest"]) {
+                    SMErrorResponse *errorResponse = error.userInfo[SMErrorResponseKey];
+                    if (errorResponse.response.statusCode == 403)
+                        [self sendInvalidCredentialsError:subscriber];
+                }
+                else [subscriber sendError:error];
+            } completed:^{
+                [subscriber sendCompleted];
+            }];
+                                             
+        }] multicast:[RACReplaySubject subject]];
     }
     return self;
 }
@@ -76,24 +132,8 @@ static id (^JsonParser)(id) = ^ id (id d) {
 }
 
 - (RACSignal *)getToken {
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        if (!email || !password)
-            [self sendInvalidCredentialsError:subscriber];
-        
-        NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
-        return [[self.endpoint requestWithHost:self.hostname method:@"POST" path:path headers:nil body:[NSDictionary dictionaryWithObject:password forKey:@"password"]] subscribeNext:^(id r) {
-            [subscriber sendNext:r];
-        } error:^(NSError *error) {
-            if ([error.domain isEqual:@"SMWebRequest"]) {
-                SMErrorResponse *errorResponse = error.userInfo[SMErrorResponseKey];
-                if (errorResponse.response.statusCode == 403)
-                    [self sendInvalidCredentialsError:subscriber];
-            }
-            else [subscriber sendError:error];
-        } completed:^{
-            [subscriber sendCompleted];
-        }];
-    }];
+    [tokenSignal connect];
+    return tokenSignal;
 }
 
 - (RACSignal *)verifyCredentials {
@@ -113,26 +153,18 @@ static id (^JsonParser)(id) = ^ id (id d) {
     }];
 }
 
-// result is signal
-- (RACSignal *)getAuthenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    NSMutableDictionary *h = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
+- (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)urlRequest {
+    if (urlRequest.isSignedWithToken)
+        return [SMWebRequest requestSignalWithURLRequest:urlRequest dataParser:JsonParser];
     
-    if (token) {
-        h[@"AUTHORIZATION"] = token;
-        return [RACSignal return:[self.endpoint requestWithHost:hostname method:method path:path headers:h body:body]];
-    }
-    
-    return [[self getToken] map:^ id (id t) {
-        self.token = ((NSDictionary *)t)[@"token"];
-        h[@"AUTHORIZATION"] = token;
-        return [self.endpoint requestWithHost:hostname method:method path:path headers:h body:body];
+    return [[self getToken] flattenMap:^RACStream *(id token) {
+        NSURLRequest *signedRequest = [urlRequest signedRequestWithToken:token[@"token"]];
+        return [self requestSignalWithURLRequest:signedRequest];
     }];
 }
 
 - (RACSignal *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    return [[self getAuthenticatedRequestWithMethod:method path:path headers:headers body:body] flattenMap:^ RACSignal * (id request) {
-        return request;
-    }];
+    return [self requestSignalWithURLRequest:[NSURLRequest requestWithHost:hostname method:method path:path headers:headers body:body]];
 }
 
 @end
