@@ -12,6 +12,7 @@
 #import "NSAlert+Dialogs.h"
 #import "TableController.h"
 #import "AppDelegate.h"
+#import <ReactiveCocoa/EXTScope.h>
 
 @implementation TargetSummary
 
@@ -154,7 +155,6 @@
     noAppResultsSource.source = appsListSource;
     AddItemListViewSource *addDeploymentSource = [[AddItemListViewSource alloc] initWithTitle:@"New deployment…"];
     addDeploymentSource.source = noAppResultsSource;
-    addDeploymentSource.action = ^ { [self createNewDeployment]; };
     self.rootAppsListSource = addDeploymentSource;
     
     self.targetView.deploymentsList.dataSource = rootAppsListSource;
@@ -166,12 +166,21 @@
     noServiceResultsSource.source = servicesListSource;
     AddItemListViewSource *addServiceSource = [[AddItemListViewSource alloc] initWithTitle:@"New service…"];
     addServiceSource.source = noServiceResultsSource;
-    addServiceSource.action = ^ { [self createNewService]; };
     
     self.rootServicesListSource = addServiceSource;
     
     self.targetView.servicesList.dataSource = rootServicesListSource;
     self.targetView.servicesList.delegate = rootServicesListSource;
+    
+    @weakify(self);
+    addDeploymentSource.action = ^ {
+        @strongify(self);
+        [self createNewDeployment];
+    };
+    addServiceSource.action = ^ {
+        @strongify(self);
+        [self createNewService];
+    };
 }
 
 - (void)setSignalResult:(id)value {
@@ -195,10 +204,7 @@
 
 - (void)updateApps {
     self.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
-    
-    NSArray *subscriables = @[ [client getApps], [client getServices] ];
-    
-    RAC(self.signalResult) = [[RACSignal combineLatest:subscriables] showLoadingViewInView:self.view];
+    RAC(self.signalResult) = [[RACSignal combineLatest:@[ [client getApps], [client getServices] ]] showLoadingViewInView:self.view];
 }
 
 - (void)viewWillAppear {
