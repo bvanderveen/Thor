@@ -13,6 +13,7 @@
 #import "NSAlert+Dialogs.h"
 #import "TableController.h"
 #import "AppDelegate.h"
+#import <ReactiveCocoa/EXTScope.h>
 
 @interface NSObject (BoundServicesListViewSourceDelegate)
 
@@ -41,7 +42,7 @@
     FoundryService *service = services[row];
     cell.service = service;
 //    cell.button.hidden = ![delegate showsAccessoryButtonForApp:app];
-    cell.button.rac_command =[RACCommand commandWithBlock:^(id value) {
+    cell.button.rac_command = [RACCommand commandWithBlock:^(id value) {
         [delegate accessoryButtonClickedForService:service];
     }];
     return cell;
@@ -167,7 +168,11 @@ static NSArray *instanceColumns = nil;
     
     AddItemListViewSource *addBoundServiceSource = [[AddItemListViewSource alloc] initWithTitle:@"Bind service…"];
     addBoundServiceSource.source = noResultsSource;
-    addBoundServiceSource.action = ^ { [self presentBindServiceDialog]; };
+    @weakify(self);
+    addBoundServiceSource.action = ^ {
+        @strongify(self);
+        [self presentBindServiceDialog];
+    };
     
     self.rootBoundServicesSource = addBoundServiceSource;
     
