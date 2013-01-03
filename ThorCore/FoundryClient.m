@@ -735,12 +735,21 @@ static NSMutableDictionary *clients;
     }];
 }
 
+- (RACSignal *)ignoreTimeoutErrors:(RACSignal *)signal {
+    return [signal catch:^RACSignal *(NSError *error) {
+        if ([error.domain isEqual:NSURLErrorDomain] && error.code == NSURLErrorTimedOut) {
+            return [RACSignal return:@YES];
+        }
+        return [RACSignal error:error];
+    }];
+}
+
 - (RACSignal *)createApp:(FoundryApp *)app {
-    return [endpoint authenticatedRequestWithMethod:@"POST" path:@"/apps" headers:nil body:[app dictionaryRepresentation]];
+    return [self ignoreTimeoutErrors:[endpoint authenticatedRequestWithMethod:@"POST" path:@"/apps" headers:nil body:[app dictionaryRepresentation]]];
 }
 
 - (RACSignal *)updateApp:(FoundryApp *)app {
-    return [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]];
+    return [self ignoreTimeoutErrors:[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]]];
 }
 
 - (RACSignal *)deleteAppWithName:(NSString *)name {
