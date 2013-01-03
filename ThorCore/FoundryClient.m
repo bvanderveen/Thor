@@ -5,6 +5,7 @@
 #import "SBJson.h"
 #import "SHA1.h"
 #import "NSOutputStream+Writing.h"
+#import <ReactiveCocoa/EXTScope.h>
 
 NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
 
@@ -101,13 +102,16 @@ static id (^JsonParser)(id) = ^ id (id d) {
 - (id)init {
     if (self = [super init]) {
         self.endpoint = [[RestEndpoint alloc] init];
+        
+        @weakify(self);
         self.tokenSignal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            if (!email || !password) {
+            @strongify(self);
+            if (!self.email || !self.password) {
                 [self sendInvalidCredentialsError:subscriber];
                 return nil;
             }
         
-            return [[endpoint requestSignalWithURLRequest:[NSURLRequest tokenRequestWithHost:hostname email:email password:password]] subscribeNext:^(id x) {
+            return [[self.endpoint requestSignalWithURLRequest:[NSURLRequest tokenRequestWithHost:self.hostname email:self.email password:self.password]] subscribeNext:^(id x) {
                 [subscriber sendNext:x];
             } error:^(NSError *error) {
                 if ([error.domain isEqual:@"SMWebRequest"]) {
