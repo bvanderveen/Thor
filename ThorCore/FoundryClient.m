@@ -60,18 +60,16 @@ static id (^JsonParser)(id) = ^ id (id d) {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:6];
     urlRequest.HTTPMethod = method;
+    urlRequest.AllHTTPHeaderFields = headers;
     
     if ([body isKindOfClass:[NSInputStream class]]) {
         urlRequest.HTTPBodyStream = (NSInputStream *)body;
     }
     else {
         urlRequest.HTTPBody = [body JSONDataRepresentation];
-        NSMutableDictionary *newHeaders = headers ? [headers mutableCopy] : [NSMutableDictionary dictionary];
-        newHeaders[@"Content-Type"] = @"application/json";
-        headers = newHeaders;
+        [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     }
     
-    urlRequest.AllHTTPHeaderFields = headers;
     return urlRequest;
 }
 
