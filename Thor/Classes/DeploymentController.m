@@ -102,31 +102,36 @@ static NSArray *instanceColumns = nil;
     return [[DeploymentController alloc] initWithTarget:target appName:name deployment:nil];
 }
 
+- (RACSignal *)appAndStatsSignal {
+    @weakify(self)
+    return [RACSignal combineLatest:@[
+        [[client getStatsForAppWithName:appName] doNext:^(id x) {
+            @strongify(self);
+            self.instanceStats = x;
+        }],
+        [[client getAppWithName:appName] continueAfter:^RACSignal *(id x) {
+            @strongify(self);
+            self.app = x;
+            if (self.app.services.count) {
+                NSArray *serviceSignals = [self.app.services map:^ id (id s) {
+                    return [self.client getServiceWithName:s];
+                }];
+                return [[RACSignal combineLatest:serviceSignals] doNext:^(id x) {
+                    self.boundServicesSource.services = [(RACTuple *)x allObjects];
+                }];
+            }
+            else {
+                self.boundServicesSource.services = @[];
+                return [RACSignal return:[RACUnit defaultUnit]];
+            }
+        }]
+    ]];
+}
+
 - (void)updateAppAndStatsAfterSignal:(RACSignal *)antecedent {
     NSError *error = nil;
     
-    NSArray *signals = @[
-    [[client getStatsForAppWithName:appName] doNext:^(id x) {
-        self.instanceStats = x;
-    }],
-    [[client getAppWithName:appName] continueAfter:^RACSignal *(id x) {
-        self.app = x;
-        if (self.app.services.count) {
-            NSArray *serviceSignals = [self.app.services map:^ id (id s) {
-                return [client getServiceWithName:s];
-            }];
-            return [[RACSignal combineLatest:serviceSignals] doNext:^(id x) {
-                boundServicesSource.services = [(RACTuple *)x allObjects];
-            }];
-        }
-        else {
-            boundServicesSource.services = @[];
-            return [RACSignal return:[RACUnit defaultUnit]];
-        }
-    }]];
-    
-    
-    RACSignal *call = [RACSignal combineLatest:signals];
+    RACSignal *call = [self appAndStatsSignal];
     
     if (!app)
         call = [call showLoadingViewInView:self.view];
@@ -134,9 +139,11 @@ static NSArray *instanceColumns = nil;
     if (antecedent)
         call = [antecedent continueWith:call];
     
+    @weakify(self);
     self.associatedDisposable = [call subscribeError:^ (NSError *error) {
+        @strongify(self);
         if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
-            if (deployment)
+            if (self.deployment)
                 [self presentMissingDeploymentDialog];
             else
                 [self presentDeploymentNotFoundDialog];
@@ -146,9 +153,10 @@ static NSArray *instanceColumns = nil;
             [self updateAppAndStatsAfterSignal:nil];
         }
     } completed:^ {
-        [deploymentView.instancesGrid reloadData];
-        [deploymentView.servicesList reloadData];
-        deploymentView.needsLayout = YES;
+        @strongify(self);
+        [self.deploymentView.instancesGrid reloadData];
+        [self.deploymentView.servicesList reloadData];
+        self.deploymentView.needsLayout = YES;
     }];
 }
 
