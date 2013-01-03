@@ -6,7 +6,7 @@
 
 @protocol BreadcrumbControllerAware <NSObject, ViewVisibilityAware>
 
-@property (nonatomic, unsafe_unretained) BreadcrumbController *breadcrumbController;
+@property (nonatomic, assign) BreadcrumbController *breadcrumbController;
 @property (nonatomic, readonly) id<BreadcrumbItem> breadcrumbItem;
 
 @end
