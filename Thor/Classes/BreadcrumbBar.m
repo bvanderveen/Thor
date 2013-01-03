@@ -184,7 +184,6 @@
     if (index == 0)
         index = MAX(0, stack.count - 2);
     while (currentIndex > index) {
-        id<BreadcrumbItem> itemAtIndex = [stack objectAtIndex:currentIndex];
         [self popItemAnimated:NO];
         currentIndex--;
     }
