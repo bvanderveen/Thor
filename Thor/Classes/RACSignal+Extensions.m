@@ -1,7 +1,7 @@
 #import "RACSignal+Extensions.h"
 #import "LoadingView.h"
 #import "Sequence.h"
-
+#import <ReactiveCocoa/EXTScope.h>
 
 @interface NSView (EnableDisableControls)
 
@@ -49,7 +49,10 @@
 - (RACSignal *)showLoadingViewInView:(NSView *)view {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         [view showModalLoadingView];
+        
+        @weakify(view);
         void (^hideLoadingView)() = ^ {
+            @strongify(view);
             [view hideLoadingView];
         };
         return [[[self doCompleted:hideLoadingView] doError:hideLoadingView] subscribe:subscriber];
