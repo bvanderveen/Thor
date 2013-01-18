@@ -1,5 +1,4 @@
 #import "DeploymentController.h"
-#import "NSObject+AssociateDisposable.h"
 #import "RACSignal+Extensions.h"
 #import "GridView.h"
 #import "FileSizeInMBTransformer.h"
@@ -140,7 +139,7 @@ static NSArray *instanceColumns = nil;
         call = [antecedent continueWith:call];
     
     @weakify(self);
-    self.associatedDisposable = [call subscribeError:^ (NSError *error) {
+    [call subscribeError:^ (NSError *error) {
         @strongify(self);
         if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
             if (self.deployment)
@@ -220,7 +219,7 @@ static NSArray *instanceColumns = nil;
     
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSAlertDefaultReturn) {
-            self.associatedDisposable = [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
+            [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
                 [NSApp presentError:error];
             } completed:^{
                 if (deployment)

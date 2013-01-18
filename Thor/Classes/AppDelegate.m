@@ -11,7 +11,6 @@
 #import "RACSignal+Extensions.h"
 #import "DeploymentPropertiesController.h"
 #import "ServicePropertiesController.h"
-#import "NSObject+AssociateDisposable.h"
 
 @interface AppDelegate ()
 
@@ -293,7 +292,7 @@
     }]];
     
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        selectedDeployment.associatedDisposable = [[selectedDeployment updateByAddingServiceNamed:selectedService.name] subscribeCompleted:^{
+        [[selectedDeployment updateByAddingServiceNamed:selectedService.name] subscribeCompleted:^{
             [wizard dismissWithReturnCode:NSOKButton];
         }];
     } rollbackBlock:nil];

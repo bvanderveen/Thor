@@ -1,5 +1,4 @@
 #import "DeploymentPropertiesController.h"
-#import "NSObject+AssociateDisposable.h"
 #import "RACSignal+Extensions.h"
 
 @implementation DeploymentProperties
@@ -123,7 +122,7 @@
         signal = [self updateAppInstancesAndMemory];
     }
     
-    self.associatedDisposable = [[signal showLoadingViewInWizard:self.wizardController] subscribeNext:^ (id n) {
+    [[signal showLoadingViewInWizard:self.wizardController] subscribeNext:^ (id n) {
         NSLog(@"%@", n);
     } error:^ (NSError *error) {
         [NSApp presentError:error];

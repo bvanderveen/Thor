@@ -1,6 +1,5 @@
 #import "TargetController.h"
 #import "SheetWindow.h"
-#import "NSObject+AssociateDisposable.h"
 #import "DeploymentController.h"
 #import "AppCell.h"
 #import "ServiceCell.h"
@@ -246,7 +245,7 @@
     
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^ (NSInteger returnCode) {
         if (returnCode == NSAlertDefaultReturn) {
-            self.associatedDisposable = [[client deleteServiceWithName:service.name] subscribeError:^(NSError *error) {
+            [[client deleteServiceWithName:service.name] subscribeError:^(NSError *error) {
                 [NSApp presentError:error];
             } completed:^{
                 [self updateApps];

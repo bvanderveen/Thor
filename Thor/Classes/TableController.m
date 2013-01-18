@@ -1,5 +1,4 @@
 #import "TableController.h"
-#import "NSObject+AssociateDisposable.h"
 
 @implementation TableCell
 
@@ -110,15 +109,12 @@
 - (id)initWithSignal:(RACSignal *)signal {
     if (self = [super initWithNibName:@"TableControllerView" bundle:[NSBundle mainBundle]]) {
         source = [[TableSource alloc] init];
-        self.associatedDisposable = [signal subscribeNext:^ (id x) {
+        [signal subscribeNext:^ (id x) {
             source.items = (NSArray *)x;
             [controllerView.tableView reloadData];
             [controllerView.tableView sizeLastColumnToFit];
         } error:^(NSError *error) {
             [NSApp presentError:error];
-            self.associatedDisposable = nil;
-        } completed:^{
-            self.associatedDisposable = nil;
         }];
     }
     return self;

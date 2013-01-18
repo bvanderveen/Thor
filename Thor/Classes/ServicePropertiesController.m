@@ -1,5 +1,4 @@
 #import "ServicePropertiesController.h"
-#import "NSObject+AssociateDisposable.h"
 
 @interface ServicePropertiesController ()
 
@@ -22,7 +21,7 @@
 - (void)commitWizardPanel {
     [objectController commitEditing];
     RACSignal *signal = [client createService:service];
-    self.associatedDisposable = [signal subscribeNext:^ (id x) {
+    [signal subscribeNext:^ (id x) {
         NSLog(@"%@", x);
     } error:^(NSError *error) {
         [NSApp presentError:error];

@@ -1,6 +1,5 @@
 #import "ActivityController.h"
 #import "NSFont+LineHeight.h"
-#import "NSObject+AssociateDisposable.h"
 #import "ThorCore.h"
 #import "Sequence.h"
 
@@ -11,15 +10,13 @@
 - (id)initWithSignal:(RACSignal *)signal {
     if (self = [super init]) {
         self.isActive = YES;
-        self.associatedDisposable = [signal subscribeNext:^(id x) {
+        [signal subscribeNext:^(id x) {
             self.status = FoundryPushStageString([(NSNumber *)x intValue]);
         } error:^(NSError *error) {
             self.status = @"Error";
             [NSApp presentError:error];
-            self.associatedDisposable = nil;
             self.isActive = NO;
         } completed:^{
-            self.associatedDisposable = nil;
             self.isActive = NO;
         }];
     }

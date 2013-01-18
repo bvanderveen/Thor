@@ -92,7 +92,6 @@
 		41B9238415D190A00004D167 /* AppView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B9238315D1909F0004D167 /* AppView.m */; };
 		41BEFC38168D0D450011320F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41C59C1415CAFE4C00123ABF /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
-		41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */; };
 		41C7FE6A15B77C8F006B3468 /* libThorCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F9029915AF592A00550870 /* libThorCore.a */; };
 		41C7FE6D15B89281006B3468 /* BottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE6C15B89281006B3468 /* BottomBar.m */; };
 		41C7FE7115B8BCF7006B3468 /* TargetPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C7FE7015B8BCF7006B3468 /* TargetPropertiesController.m */; };
@@ -448,8 +447,6 @@
 		41B9238215D1909F0004D167 /* AppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppView.h; path = Classes/AppView.h; sourceTree = "<group>"; };
 		41B9238315D1909F0004D167 /* AppView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppView.m; path = Classes/AppView.m; sourceTree = "<group>"; };
 		41C59C0215CAFD8200123ABF /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
-		41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AssociateDisposable.h"; path = "Classes/NSObject+AssociateDisposable.h"; sourceTree = "<group>"; };
-		41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AssociateDisposable.m"; path = "Classes/NSObject+AssociateDisposable.m"; sourceTree = "<group>"; };
 		41C7FE6915B77B18006B3468 /* ThorCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThorCore.h; sourceTree = "<group>"; };
 		41C7FE6B15B89281006B3468 /* BottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomBar.h; path = Classes/BottomBar.h; sourceTree = "<group>"; };
 		41C7FE6C15B89281006B3468 /* BottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomBar.m; path = Classes/BottomBar.m; sourceTree = "<group>"; };
@@ -785,8 +782,6 @@
 		41C59C1D15CB051400123ABF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				41C59C1E15CB057400123ABF /* NSObject+AssociateDisposable.h */,
-				41C59C1F15CB057400123ABF /* NSObject+AssociateDisposable.m */,
 				413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */,
 				413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */,
 			);
@@ -1433,7 +1428,6 @@
 				414E185A15C1BC0E007C9508 /* GridView.m in Sources */,
 				41D286CD15C879D800206E3A /* TargetView.m in Sources */,
 				41D286D115C87B9200206E3A /* SheetWindow.m in Sources */,
-				41C59C2015CB057400123ABF /* NSObject+AssociateDisposable.m in Sources */,
 				41B9238115D18E600004D167 /* AppController.m in Sources */,
 				41B9238415D190A00004D167 /* AppView.m in Sources */,
 				4165679115D5DE2000EF93DF /* NSString+ShadowedTextDrawing.m in Sources */,

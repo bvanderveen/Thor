@@ -1,5 +1,4 @@
 #import "TargetPropertiesController.h"
-#import "NSObject+AssociateDisposable.h"
 #import "NSAlert+Dialogs.h"
 #import "RACSignal+Extensions.h"
 
@@ -23,7 +22,7 @@
 - (void)commitWizardPanel {
     [objectController commitEditing];
     
-    self.associatedDisposable = [[[[FoundryEndpoint endpointWithTarget:target] verifyCredentials] showLoadingViewInWizard:self.wizardController] subscribeNext:^(id x) {
+    [[[[FoundryEndpoint endpointWithTarget:target] verifyCredentials] showLoadingViewInWizard:self.wizardController] subscribeNext:^(id x) {
         if ([x boolValue]) {
             if (!target.managedObjectContext) {
                 target.displayName = target.hostname;
