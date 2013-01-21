@@ -161,8 +161,8 @@
     activity.targetHostname = deployment.target.hostname;
     activity.targetAppName = deployment.name;
     
-    [((AppDelegate *)[NSApplication sharedApplication].delegate).activityController insert:activity];
-    [((AppDelegate *)[NSApplication sharedApplication].delegate).activityWindow makeKeyAndOrderFront:nil];
+    [[AppDelegate shared].activityController insert:activity];
+    [[AppDelegate shared].activityWindow makeKeyAndOrderFront:nil];
 }
 
 @end

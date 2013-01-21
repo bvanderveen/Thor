@@ -19,7 +19,6 @@
 - (IBAction)stopClicked:(id)sender;
 - (IBAction)restartClicked:(id)sender;
 
-- (RACSignal *)updateByAddingServiceNamed:(NSString *)name;
 - (void)updateAppAndStatsAfterSignal:(RACSignal *)antecedent;
 
 @end

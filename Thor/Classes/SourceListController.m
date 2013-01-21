@@ -243,11 +243,11 @@
     
     if (selectedIndex < self.targets.count + 1) {
         selectedModel = self.targets[selectedIndex - 1];
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = selectedModel;
+        [AppDelegate shared].selectedTarget = selectedModel;
     }
     else {
         selectedModel = self.apps[selectedIndex - 2 - self.targets.count];
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedTarget = nil;
+        [AppDelegate shared].selectedTarget = nil;
     }
     
     return selectedModel;
@@ -319,8 +319,10 @@
     SourceListItem *sourceListItem = (SourceListItem *)menuItem.representedObject;
     Target *target = (Target *)sourceListItem.representedObject;
 
-    [(AppDelegate *)([NSApplication sharedApplication].delegate) setSelectedTarget:target];
-    [(AppDelegate *)([NSApplication sharedApplication].delegate) editTarget:nil];
+    // XXX there is a bug here because the selection changes but the
+    // active view does not.
+    [[AppDelegate shared] setSelectedTarget:target];
+    [[AppDelegate shared] editTarget:nil];
 }
 
 @end

@@ -19,9 +19,14 @@
 
 typedef enum {
     FoundryAppStateStarted,
+    FoundryAppStateStarting,
     FoundryAppStateStopped,
+    FoundryAppStateStopping,
     FoundryAppStateUnknown
 } FoundryAppState;
+
+BOOL FoundryAppStateIsTransient(FoundryAppState state);
+NSString *FoundryAppStateStringFromState(FoundryAppState state);
 
 typedef enum {
     FoundryAppMemoryAmountUnknown = -1,
@@ -102,7 +107,7 @@ NSString *DetectFrameworkFromPath(NSURL *rootURL);
 
 @interface FoundryServiceInfo : NSObject
 
-@property (nonatomic, copy) NSString *description, *vendor, *version, *type;
+@property (nonatomic, copy) NSString *serviceDescription, *vendor, *version, *type;
 
 @end
 
@@ -130,6 +135,9 @@ NSString *FoundryPushStageString(FoundryPushStage stage);
 
 - (RACSignal *)createApp:(FoundryApp *)app;
 - (RACSignal *)updateApp:(FoundryApp *)app;
+- (RACSignal *)updateApp:(FoundryApp *)app withState:(FoundryAppState)state;
+- (RACSignal *)updateApp:(FoundryApp *)app byAddingServiceNamed:(NSString *)name;
+- (RACSignal *)updateApp:(FoundryApp *)app byRemovingServiceNamed:(NSString *)name;
 - (RACSignal *)deleteAppWithName:(NSString *)name;
 
 // subscription is a long-running operation. subscribe on background scheduler.

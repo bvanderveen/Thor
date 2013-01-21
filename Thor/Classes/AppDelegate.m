@@ -20,7 +20,11 @@
 
 @implementation AppDelegate
 
-@synthesize activityWindow, activityController, sourceListController, selectedTarget, selectedDeployment, tableSelectedApp, targetController;
++ (AppDelegate *)shared {
+    return (AppDelegate *)[NSApplication sharedApplication].delegate;
+}
+
+@synthesize activityWindow, activityController, sourceListController, selectedTarget, selectedApp, tableSelectedApp, selectedAppRefreshing, selectedTargetRefreshing;
 
 - (id)init {
     if (self = [super init]) {
@@ -53,6 +57,9 @@
         };
         
         self.activityController = [[ActivityController alloc] init];
+        
+        self.selectedTargetRefreshing = [RACSubject subject];
+        self.selectedAppRefreshing = [RACSubject subject];
     }
     return self;
 }
@@ -79,6 +86,13 @@
     
     [view addSubview:sourceListController.view];
     sourceListController.view.frame = view.bounds;
+    
+    [self application:nil willPresentError:[NSError errorWithDomain:@"Launched" code:100 userInfo:@{@"": @"bars"}]];
+}
+
+- (NSError *)application:(NSApplication *)application willPresentError:(NSError *)error {
+    [Log logError:error];
+    return error;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -109,6 +123,7 @@
                 return cell;
             };
             item.selected = ^ {
+                [Log logFormat:@"createAppTableController: tableSelectedApp %@", app];
                 tableSelectedApp = app;
             };
             return item;
@@ -117,6 +132,8 @@
 }
 
 - (void)newApp:(id)sender {
+    [Log logMessage:@"newApp:"];
+    
     App *app = [App appInsertedIntoManagedObjectContext:nil];
     
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -135,18 +152,22 @@
                 NSLog(@"There was an error! %@", [error.userInfo objectForKey:NSLocalizedDescriptionKey]);
             }
             
+            [Log logFormat:@"newApp: added app %@", app.displayName];
+            
             [sourceListController updateAppsAndTargets];
         }
     }];
 }
 
 - (void)newTarget:(id)sender {
+    [Log logFormat:@"newTarget:"];
     TargetPropertiesController *targetPropertiesController = [[TargetPropertiesController alloc] init];
     targetPropertiesController.target = [Target targetInsertedIntoManagedObjectContext:nil];
     targetPropertiesController.title = @"Create Cloud";
     WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
     wizardController.isSinglePage = YES;
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
+        [Log logFormat:@"newTarget: return code %ld", returnCode];
         if (returnCode == NSOKButton)
             [sourceListController updateAppsAndTargets];
     }];
@@ -161,25 +182,45 @@
     WizardController *wizardController = [[WizardController alloc] initWithRootViewController:targetPropertiesController];
     wizardController.isSinglePage = YES;
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
+        [Log logFormat:@"editTarget: return code %ld", returnCode];
         //if (returnCode == NSOKButton)
         //    [self updateApps];
     }];
 }
 
 - (IBAction)editDeployment:(id)sender {
-    [selectedDeployment editClicked:nil];
+    DeploymentPropertiesController *deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithApp:selectedApp client:[FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:selectedTarget]]];
+    
+    deploymentPropertiesController.title = @"Update deployment";
+    
+    WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
+    wizard.isSinglePage = YES;
+    [wizard presentModalForWindow:window didEndBlock:^(NSInteger returnCode) {
+        [selectedAppRefreshing sendNext:[RACUnit defaultUnit]];
+    }];
+}
+
+- (id<FoundryClient>)clientForSelectedTarget {
+    return [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:selectedTarget]];
 }
 
 - (IBAction)startDeployment:(id)sender {
-    [selectedDeployment startClicked:nil];
+    [[[self clientForSelectedTarget] updateApp:selectedApp withState:FoundryAppStateStarted] subscribeCompleted:^{
+    }];
 }
 
 - (IBAction)stopDeployment:(id)sender {
-    [selectedDeployment stopClicked:nil];
+    [[[self clientForSelectedTarget] updateApp:selectedApp withState:FoundryAppStateStopped] subscribeCompleted:^{
+        
+    }];
 }
 
 - (IBAction)restartDeployment:(id)sender {
-    [selectedDeployment restartClicked:nil];
+    id<FoundryClient> client = [self clientForSelectedTarget];
+    
+    [[[client updateApp:selectedApp withState:FoundryAppStateStopped] continueWith:[client updateApp:selectedApp withState:FoundryAppStateStarted]] subscribeCompleted:^{
+        
+    }];
 }
 
 - (void)presentNoConfiguredAppsDialog {
@@ -188,9 +229,13 @@
 }
 
 - (IBAction)newDeployment:(id)sender {
+    [Log logMessage:@"newDeployment:"];
+    
     NSError *error;
-    if (![[ThorBackend shared] getConfiguredApps:&error].count)
+    if (![[ThorBackend shared] getConfiguredApps:&error].count) {
+        [Log logMessage:@"newDeployment: no configured apps"];
         [self presentNoConfiguredAppsDialog];
+    }
     
     __block WizardController *wizardController;
     __block App *selectedApp;
@@ -200,6 +245,7 @@
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
         DeploymentPropertiesController *deploymentController = [DeploymentPropertiesController newDeploymentPropertiesControllerWithApp:tableSelectedApp target:selectedTarget];
         deploymentController.title = @"Create Deployment";
+        [Log logFormat:@"newDeployment: selected app %@, selected target %@", tableSelectedApp, selectedTarget];
         [wizardController pushViewController:deploymentController animated:YES];
     } rollbackBlock:nil];
     
@@ -208,16 +254,19 @@
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
     [wizardController presentModalForWindow:window didEndBlock:^ (NSInteger returnCode) {
+        [Log logFormat:@"newDeployment: return code %ld", returnCode];
         if (returnCode == NSOKButton)
-            [targetController updateApps];
+            [selectedTargetRefreshing sendNext:[RACUnit defaultUnit]];
     }];
 }
 
 - (IBAction)newService:(id)sender {
+    [Log logMessage:@"newService:"];
     __block WizardController *wizardController;
     __block FoundryServiceInfo *selectedServiceInfo;
     
-    TableController *tableController = [[TableController alloc] initWithSignal:[[targetController.client getServicesInfo] map:^id(id servicesInfo) {
+    TableController *tableController = [[TableController alloc] initWithSignal:[[[self clientForSelectedTarget] getServicesInfo] map:^id(id servicesInfo) {
+        [Log logFormat:@"newService: gotServicesInfo %@", servicesInfo];
         return [servicesInfo map:^id(id x) {
             FoundryServiceInfo *serviceInfo = (FoundryServiceInfo *)x;
             
@@ -228,6 +277,7 @@
                 return cell;
             };
             item.selected = ^ {
+                [Log logFormat:@"newService: selected serviceInfo %@", serviceInfo];
                 selectedServiceInfo = serviceInfo;
             };
             return item;
@@ -242,31 +292,34 @@
         service.version = selectedServiceInfo.version;
         service.type = selectedServiceInfo.type;
         
-        ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:targetController.client];
+        [Log logFormat:@"newService: picked service %@", service];
+        
+        ServicePropertiesController *servicePropertiesController = [[ServicePropertiesController alloc] initWithClient:[self clientForSelectedTarget]];
         servicePropertiesController.title = @"Create service";
         servicePropertiesController.service = service;
         
         [wizardController pushViewController:servicePropertiesController animated:YES];
     } rollbackBlock:nil];
     
-    
     wizardTableController.title = @"Create new service";
     wizardTableController.commitButtonTitle = @"Next";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
     [wizardController presentModalForWindow:window didEndBlock:^(NSInteger returnCode) {
+        [Log logFormat:@"newService: wizard returned with code %ld", returnCode];
         if (returnCode == NSOKButton)
-            [targetController updateApps];
+            [selectedTargetRefreshing sendNext:[RACUnit defaultUnit]];
     }];
 }
 
 - (IBAction)bindService:(id)sender {
     __block WizardController *wizard;
     __block FoundryService *selectedService;
+    [Log logFormat:@"bindService:"];
     
-    TableController *tableController = [[TableController alloc] initWithSignal:[[targetController.client getServices] map:^id(id lesServices) {
-        
+    TableController *tableController = [[TableController alloc] initWithSignal:[[[self clientForSelectedTarget] getServices] map:^id(id lesServices) {
         NSArray *services = lesServices;
+        [Log logFormat:@"bindService: found services %@", services];
         
         if (!services.count) {
             NSAlert *alert = [NSAlert noProvisionedServicesDialog];
@@ -285,6 +338,7 @@
                 return cell;
             };
             item.selected = ^ {
+                [Log logFormat:@"bindService: selectedService %@", service];
                 selectedService = service;
             };
             return item;
@@ -292,7 +346,7 @@
     }]];
     
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        [[selectedDeployment updateByAddingServiceNamed:selectedService.name] subscribeCompleted:^{
+        [[[self clientForSelectedTarget] updateApp:selectedApp byAddingServiceNamed:selectedService.name] subscribeCompleted:^{
             [wizard dismissWithReturnCode:NSOKButton];
         }];
     } rollbackBlock:nil];
@@ -303,7 +357,8 @@
     wizard = [[WizardController alloc] initWithRootViewController:wizardTableController];
     wizard.isSinglePage = YES;
     [wizard presentModalForWindow:window didEndBlock:^(NSInteger returnCode) {
-        [selectedDeployment updateAppAndStatsAfterSignal:nil];
+        [Log logFormat:@"bindService: return code %ld", returnCode];
+        [selectedAppRefreshing sendNext:[RACUnit defaultUnit]];
     }];
 }
 

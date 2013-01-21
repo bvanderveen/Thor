@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.SystemVersion">12C3103</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
@@ -84,10 +84,10 @@
 																<reference key="NSNextResponder" ref="25900151"/>
 																<int key="NSvFlags">268</int>
 																<array class="NSMutableArray" key="NSSubviews">
-																	<object class="NSProgressIndicator" id="857793168">
+																	<object class="NSProgressIndicator" id="903644898">
 																		<reference key="NSNextResponder" ref="813504941"/>
 																		<int key="NSvFlags">268</int>
-																		<string key="NSFrame">{{115, 116}, {16, 16}}</string>
+																		<string key="NSFrame">{{115, 117}, {16, 16}}</string>
 																		<reference key="NSSuperview" ref="813504941"/>
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="523274598"/>
@@ -234,7 +234,7 @@
 																		<string key="NSFrame">{{17, 117}, {117, 17}}</string>
 																		<reference key="NSSuperview" ref="813504941"/>
 																		<reference key="NSWindow"/>
-																		<reference key="NSNextKeyView" ref="857793168"/>
+																		<reference key="NSNextKeyView" ref="903644898"/>
 																		<string key="NSReuseIdentifierKey">_NS:1505</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<object class="NSTextFieldCell" key="NSCell" id="689621022">
@@ -590,19 +590,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentObject: self.app</string>
+						<string key="label">contentObject: app</string>
 						<reference key="source" ref="688772324"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="688772324"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentObject: self.app</string>
+							<string key="NSLabel">contentObject: app</string>
 							<string key="NSBinding">contentObject</string>
-							<string key="NSKeyPath">self.app</string>
+							<string key="NSKeyPath">app</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">52</int>
+					<int key="connectionID">88</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -667,14 +667,6 @@
 						<reference key="destination" ref="736233892"/>
 					</object>
 					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">stateProgressIndicator</string>
-						<reference key="source" ref="809193300"/>
-						<reference key="destination" ref="857793168"/>
-					</object>
-					<int key="connectionID">72</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -828,6 +820,26 @@
 					</object>
 					<int key="connectionID">80</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">animate: selection.state</string>
+						<reference key="source" ref="903644898"/>
+						<reference key="destination" ref="688772324"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="903644898"/>
+							<reference key="NSDestination" ref="688772324"/>
+							<string key="NSLabel">animate: selection.state</string>
+							<string key="NSBinding">animate</string>
+							<string key="NSKeyPath">selection.state</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">FoundryAppStatusIsTransientTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -934,7 +946,7 @@
 							<reference ref="718257891"/>
 							<reference ref="33565501"/>
 							<reference ref="315967248"/>
-							<reference ref="857793168"/>
+							<reference ref="903644898"/>
 						</array>
 						<reference key="parent" ref="894084125"/>
 					</object>
@@ -1087,8 +1099,8 @@
 						<reference key="parent" ref="238935325"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">71</int>
-						<reference key="object" ref="857793168"/>
+						<int key="objectID">83</int>
+						<reference key="object" ref="903644898"/>
 						<reference key="parent" ref="813504941"/>
 					</object>
 				</array>
@@ -1133,13 +1145,13 @@
 				<string key="66.CustomClassName">Box</string>
 				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">81</int>
+			<int key="maxID">88</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

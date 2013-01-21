@@ -123,13 +123,14 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextObjectsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
         
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).targetController = self;
+        [[AppDelegate shared].selectedTargetRefreshing subscribeNext:^(id x) {
+            [self updateApps];
+        }];
     }
     return self;
 }
 
 - (void)dealloc {
-    ((AppDelegate *)[NSApplication sharedApplication].delegate).targetController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -183,6 +184,8 @@
 }
 
 - (void)setSignalResult:(id)value {
+    if ([value isEqual:[NSNull null]])
+        return;
     RACTuple *t = (RACTuple *)value;
     appsListSource.apps = t.first;
     servicesListSource.services = t.second;
@@ -203,10 +206,13 @@
 
 - (void)updateApps {
     self.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:target]];
-    RAC(self.signalResult) = [[RACSignal combineLatest:@[ [client getApps], [client getServices] ]] showLoadingViewInView:self.view];
+    RAC(self.signalResult) = [[[RACSignal combineLatest:@[ [client getApps], [client getServices] ]] showLoadingViewInView:self.view] catch:^RACSignal *(NSError *error) {
+        return [RACSignal return:[NSNull null]];
+    }];
 }
 
 - (void)viewWillAppear {
+    [AppDelegate shared].selectedApp = nil;
     [self updateApps];
 }
 
@@ -215,13 +221,8 @@
 }
 
 - (void)selectedApp:(FoundryApp *)app {
-    Deployment *deployment = [self deploymentForApp:app];
-    
-    DeploymentController *deploymentController = deployment ?
-    [DeploymentController deploymentControllerWithDeployment:deployment] :
-    [DeploymentController deploymentControllerWithAppName:app.name target:self.target];
-    
-    [self.breadcrumbController pushViewController:deploymentController animated:YES];
+    [AppDelegate shared].selectedApp = app;
+    [self.breadcrumbController pushViewController:[DeploymentController deploymentControllerWithAppName:app.name target:self.target] animated:YES];
 }
 
 - (BOOL)showsAccessoryButtonForApp:(FoundryApp *)app {
@@ -255,17 +256,17 @@
 }
 
 - (void)createNewService {
-    [((AppDelegate *)[NSApplication sharedApplication].delegate) newService:nil];
+    [[AppDelegate shared] newService:nil];
 }
 
 - (void)createNewDeployment {
-    [((AppDelegate *)[NSApplication sharedApplication].delegate) newDeployment:nil];
+    [[AppDelegate shared] newDeployment:nil];
 }
 
 - (void)createDeploymentForApp:(FoundryApp *)foundryApp {
     __block WizardController *wizardController;
     
-    AppDelegate *appDelegate = ((AppDelegate *)[NSApplication sharedApplication].delegate);
+    AppDelegate *appDelegate = [AppDelegate shared];
     
     TableController *tableController = [appDelegate createAppTableController];
     

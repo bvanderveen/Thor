@@ -19,6 +19,9 @@
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
 		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
+		4131466516A9F90000D65DD1 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 4131466416A9F90000D65DD1 /* Log.m */; };
+		4131466616AA101F00D65DD1 /* RACSignal+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */; };
+		4131466716AA102D00D65DD1 /* RACSignal+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */; };
 		4135C59215DDA75B008BA6E2 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		4135F59915D33BEE0054D961 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59415D33BEE0054D961 /* AppIcon.png */; };
 		4135F59A15D33BEE0054D961 /* AppIconSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4135F59515D33BEE0054D961 /* AppIconSelected.png */; };
@@ -30,7 +33,6 @@
 		413912FC15E5DA5A00DB464E /* ServicesToolbarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 413912FB15E5DA5A00DB464E /* ServicesToolbarIcon.png */; };
 		413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */; };
 		413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2DE815F9282A00C80B4C /* LoadingView.m */; };
-		413C2E1915F96C3800C80B4C /* RACSignal+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */; };
 		413C2E21160006D600C80B4C /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 413C2E20160006D600C80B4C /* libcommonCrypto.dylib */; };
 		413C2E24160009CD00C80B4C /* SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C2E22160009CC00C80B4C /* SHA1.h */; };
 		413C2E25160009CD00C80B4C /* SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C2E23160009CC00C80B4C /* SHA1.m */; };
@@ -357,6 +359,8 @@
 		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
 		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		4131466316A9F90000D65DD1 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = Classes/Log.h; sourceTree = "<group>"; };
+		4131466416A9F90000D65DD1 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = Classes/Log.m; sourceTree = "<group>"; };
 		4135F59415D33BEE0054D961 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Resources/AppIcon.png; sourceTree = "<group>"; };
 		4135F59515D33BEE0054D961 /* AppIconSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSelected.png; path = Resources/AppIconSelected.png; sourceTree = "<group>"; };
 		4135F59615D33BEE0054D961 /* BreadcrumbArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrow.png; path = Resources/BreadcrumbArrow.png; sourceTree = "<group>"; };
@@ -369,8 +373,8 @@
 		413C2DE515F6B0B600C80B4C /* DeploymentMemoryTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeploymentMemoryTransformer.m; path = Classes/DeploymentMemoryTransformer.m; sourceTree = "<group>"; };
 		413C2DE715F9282A00C80B4C /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Classes/LoadingView.h; sourceTree = "<group>"; };
 		413C2DE815F9282A00C80B4C /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Classes/LoadingView.m; sourceTree = "<group>"; };
-		413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extensions.h"; path = "Classes/RACSignal+Extensions.h"; sourceTree = "<group>"; };
-		413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extensions.m"; path = "Classes/RACSignal+Extensions.m"; sourceTree = "<group>"; };
+		413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RACSignal+Extensions.h"; path = "../Thor/Classes/RACSignal+Extensions.h"; sourceTree = "<group>"; };
+		413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RACSignal+Extensions.m"; path = "../Thor/Classes/RACSignal+Extensions.m"; sourceTree = "<group>"; };
 		413C2E20160006D600C80B4C /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		413C2E22160009CC00C80B4C /* SHA1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHA1.h; sourceTree = "<group>"; };
 		413C2E23160009CC00C80B4C /* SHA1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHA1.m; sourceTree = "<group>"; };
@@ -782,8 +786,6 @@
 		41C59C1D15CB051400123ABF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */,
-				413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -838,6 +840,8 @@
 			isa = PBXGroup;
 			children = (
 				41C7FE6915B77B18006B3468 /* ThorCore.h */,
+				413C2E1715F96C3800C80B4C /* RACSignal+Extensions.h */,
+				413C2E1815F96C3800C80B4C /* RACSignal+Extensions.m */,
 				413912F115E5D0A900DB464E /* FoundryClient.h */,
 				413912F215E5D0A900DB464E /* FoundryClient.m */,
 				41F9029F15AF592A00550870 /* ThorBackend.h */,
@@ -964,6 +968,8 @@
 		F32F9749154908CB002CCF27 /* Thor */ = {
 			isa = PBXGroup;
 			children = (
+				4131466316A9F90000D65DD1 /* Log.h */,
+				4131466416A9F90000D65DD1 /* Log.m */,
 				416F826F167931770042BD19 /* TableController.h */,
 				416F8270167931770042BD19 /* TableController.m */,
 				416F8275167A9FDF0042BD19 /* TableControllerView.xib */,
@@ -1025,6 +1031,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4131466716AA102D00D65DD1 /* RACSignal+Extensions.h in Headers */,
 				414E185D15C226DF007C9508 /* Sequence.h in Headers */,
 				416567AC15DAE46D00EF93DF /* SMWebRequest.h in Headers */,
 				416567B015DAE56D00EF93DF /* SMWebRequest+RAC.h in Headers */,
@@ -1390,6 +1397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4131466616AA101F00D65DD1 /* RACSignal+Extensions.m in Sources */,
 				41F902A115AF592A00550870 /* ThorBackend.m in Sources */,
 				414E185E15C226DF007C9508 /* Sequence.m in Sources */,
 				416567AD15DAE46D00EF93DF /* SMWebRequest.m in Sources */,
@@ -1440,7 +1448,6 @@
 				41EE94F015F6937A00A45951 /* DeploymentPropertiesView.m in Sources */,
 				413C2DE615F6B0B600C80B4C /* DeploymentMemoryTransformer.m in Sources */,
 				413C2DE915F9282A00C80B4C /* LoadingView.m in Sources */,
-				413C2E1915F96C3800C80B4C /* RACSignal+Extensions.m in Sources */,
 				419E73C51607E13F009FA6D3 /* ListView.m in Sources */,
 				419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */,
 				41826E921608FD900094F5C2 /* DeploymentCell.m in Sources */,
@@ -1461,6 +1468,7 @@
 				416F826E1676D20A0042BD19 /* ActivityController.m in Sources */,
 				416F8271167931770042BD19 /* TableController.m in Sources */,
 				416F82AF168821AA0042BD19 /* URICharactersOnlyTextFieldDelegate.m in Sources */,
+				4131466516A9F90000D65DD1 /* Log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,19 +14,7 @@
 
 - (id)transformedValue:(id)value {
     int intValue = [value intValue];
-    
-    switch (intValue) {
-        case FoundryAppStateStarted:
-            return @"Started";
-            break;
-        case FoundryAppStateStopped:
-            return @"Stopped";
-            break;
-        case FoundryAppStateUnknown:
-        default:
-            return @"Unknown";
-            break;
-    }
+    return FoundryAppStateStringFromState(intValue);
 }
 
 @end
@@ -54,9 +42,27 @@
             return [NSColor redColor];
             break;
         default:
-            return [NSColor redColor];
+            return [NSColor orangeColor];
             break;
     }
+}
+
+@end
+
+@implementation FoundryAppStatusIsTransientTransformer
+
++ (Class)transformedValueClass {
+    return [NSNumber class];
+}
+
++ (BOOL)allowsReverseTransformation
+{
+    return NO;
+}
+
+- (id)transformedValue:(id)value {
+    int intValue = [value intValue];
+    return [NSNumber numberWithBool:FoundryAppStateIsTransient(intValue)];
 }
 
 @end

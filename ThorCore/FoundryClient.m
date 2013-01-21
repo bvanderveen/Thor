@@ -6,6 +6,7 @@
 #import "SHA1.h"
 #import "NSOutputStream+Writing.h"
 #import <ReactiveCocoa/EXTScope.h>
+#import "RACSignal+Extensions.h"
 
 NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
 
@@ -211,7 +212,34 @@ FoundryAppState AppStateFromString(NSString *stateString) {
         return [stateDict[stateString] intValue];
 }
 
-NSString *AppStateStringFromState(FoundryAppState state) {
+BOOL FoundryAppStateIsTransient(FoundryAppState state) {
+    return
+        state == FoundryAppStateStarting ||
+        state == FoundryAppStateStopping;
+}
+
+NSString *FoundryAppStateStringFromState(FoundryAppState state) {
+    switch (state) {
+        case FoundryAppStateStarted:
+            return @"Started";
+            break;
+        case FoundryAppStateStopped:
+            return @"Stopped";
+            break;
+        case FoundryAppStateStarting:
+            return @"Starting…";
+            break;
+        case FoundryAppStateStopping:
+            return @"Stopping…";
+            break;
+        case FoundryAppStateUnknown:
+        default:
+            return @"Unknown";
+            break;
+    }
+}
+
+NSString *AppStateValueStringFromState(FoundryAppState state) {
     switch (state) {
         case FoundryAppStateStarted:
             return @"STARTED";
@@ -327,13 +355,17 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
             @"memory" : [NSNumber numberWithInteger:memory]//,
             //@"disk" : [NSNumber numberWithInteger:disk]
         },
-        @"state" : AppStateStringFromState(state),
+        @"state" : AppStateValueStringFromState(state),
         @"services" : services ? services : [NSNull null],
         //@"env" : @[],
         //@"meta" : @{
         //    @"debug" : @NO
         //}
     };
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<FoundryApp %@>", [self dictionaryRepresentation]];
 }
 
 @end
@@ -359,7 +391,6 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
     result.ID = lID;
     
     if ([dictionary[@"state"] isEqual:@"DOWN"]) {
-        NSLog(@"Got a down instance.");
         result.isDown = YES;
         return result;
     }
@@ -655,6 +686,10 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
     return result;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<FoundryService: %@>", [self dictionaryRepresentation]];
+}
+
 - (NSDictionary *)dictionaryRepresentation {
     return @{
         @"name" : name,
@@ -668,15 +703,24 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 
 @implementation FoundryServiceInfo
 
-@synthesize description, vendor, version, type;
+@synthesize serviceDescription, vendor, version, type;
 
 + (FoundryServiceInfo *)serviceInfoWithDictionary:(NSDictionary *)dict {
     FoundryServiceInfo *result = [FoundryServiceInfo new];
-    result.description = dict[@"description"];
+    result.serviceDescription = dict[@"description"];
     result.vendor = dict[@"vendor"];
     result.version = dict[@"version"];
     result.type = dict[@"type"];
     return result;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<FoundryServiceInfo %@>", @{
+        @"description": serviceDescription,
+        @"vendor": vendor,
+        @"version": version,
+        @"type": type
+    }];
 }
 
 @end
@@ -750,6 +794,47 @@ static NSMutableDictionary *clients;
 
 - (RACSignal *)updateApp:(FoundryApp *)app {
     return [self ignoreTimeoutErrors:[endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@", app.name] headers:nil body:[app dictionaryRepresentation]]];
+}
+
+
+- (RACSignal *)updateApp:(FoundryApp *)app withState:(FoundryAppState)state {
+    assert(state == FoundryAppStateStarted || state == FoundryAppStateStopped);
+    
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        if (state == FoundryAppStateStarted)
+            app.state = FoundryAppStateStarting;
+        
+        if (state == FoundryAppStateStopped)
+            app.state = FoundryAppStateStopping;
+        
+        return [[[self getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
+            FoundryApp *latestApp = (FoundryApp *)x;
+            latestApp.state = state;
+            return [[self updateApp:latestApp] doCompleted:^{
+                app.state = state;
+            }];
+        }] subscribe:subscriber];
+    }];
+}
+
+- (RACSignal *)updateApp:(FoundryApp *)app byAddingServiceNamed:(NSString *)name {
+    return [[self getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        if (![latestApp.services containsObject:name])
+            latestApp.services = [latestApp.services arrayByAddingObject:name];
+        return [self updateApp:latestApp];
+    }];
+}
+
+- (RACSignal *)updateApp:(FoundryApp *)app byRemovingServiceNamed:(NSString *)name {
+    return [[self getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
+        FoundryApp *latestApp = (FoundryApp *)x;
+        latestApp.services = [latestApp.services filter:^BOOL(id n) {
+            return ![n isEqual:name];
+        }];
+        return [self updateApp:latestApp];
+    }];
 }
 
 - (RACSignal *)deleteAppWithName:(NSString *)name {

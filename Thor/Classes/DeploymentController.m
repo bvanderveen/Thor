@@ -57,10 +57,8 @@
 @interface DeploymentController ()
 
 @property (nonatomic, strong) FoundryClient *client;
-@property (nonatomic, copy) NSString *appName;
 @property (nonatomic, strong) BoundServicesListViewSource *boundServicesSource;
 @property (nonatomic, strong) id<ListViewDataSource, ListViewDelegate> rootBoundServicesSource;
-@property (nonatomic, strong) Deployment *deployment;
 @property (nonatomic, copy) NSArray *instanceStats;
 
 @end
@@ -69,48 +67,45 @@ static NSArray *instanceColumns = nil;
 
 @implementation DeploymentController
 
-@synthesize client, deployment, app, appName, title, deploymentView, breadcrumbController, instanceStats, boundServicesSource, rootBoundServicesSource;
+@synthesize client, app, title, deploymentView, breadcrumbController, instanceStats, boundServicesSource, rootBoundServicesSource;
 
 + (void)initialize {
     instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
 }
 
-- (id)initWithTarget:(Target *)leTarget appName:(NSString *)lAppName deployment:(Deployment *)leDeployment {
+- (id)initWithApp:(FoundryApp *)lApp client:(id<FoundryClient>)leClient {
     if (self = [super initWithNibName:@"DeploymentView" bundle:[NSBundle mainBundle]]) {
-        self.title = lAppName;
-        self.appName = lAppName;
-        self.deployment = leDeployment;
-        self.client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:leTarget]];
-        
-        // XXX horrible
-        ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedDeployment = self;
+        self.title = lApp.name;
+        self.app = lApp;
+        self.client = leClient;
+        [[AppDelegate shared].selectedAppRefreshing subscribeNext:^(id x) {
+            [self updateAppAndStatsAfterSignal:nil];
+        }];
     }
     return self;
 }
 
-- (void)dealloc {
-    // XXX horrible
-    ((AppDelegate *)[NSApplication sharedApplication].delegate).selectedDeployment = nil;
-}
-
 + (DeploymentController *)deploymentControllerWithDeployment:(Deployment *)deployment {
-    return [[DeploymentController alloc] initWithTarget:deployment.target appName:deployment.name deployment:deployment];
+    return [DeploymentController deploymentControllerWithAppName:deployment.name target:deployment.target];
 }
 
 + (DeploymentController *)deploymentControllerWithAppName:(NSString *)name target:(Target *)target {
-    return [[DeploymentController alloc] initWithTarget:target appName:name deployment:nil];
+    FoundryApp *app = [[FoundryApp alloc] init];
+    app.name = name;
+    return [[DeploymentController alloc] initWithApp:app client:[FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:target]]];
 }
 
 - (RACSignal *)appAndStatsSignal {
     @weakify(self)
     return [RACSignal combineLatest:@[
-        [[client getStatsForAppWithName:appName] doNext:^(id x) {
+        [[client getStatsForAppWithName:app.name] doNext:^(id x) {
             @strongify(self);
             self.instanceStats = x;
         }],
-        [[client getAppWithName:appName] continueAfter:^RACSignal *(id x) {
+        [[client getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
             @strongify(self);
             self.app = x;
+            [AppDelegate shared].selectedApp = app;
             if (self.app.services.count) {
                 NSArray *serviceSignals = [self.app.services map:^ id (id s) {
                     return [self.client getServiceWithName:s];
@@ -132,7 +127,7 @@ static NSArray *instanceColumns = nil;
     
     RACSignal *call = [self appAndStatsSignal];
     
-    if (!app)
+    if (!instanceStats)
         call = [call showLoadingViewInView:self.view];
     
     if (antecedent)
@@ -142,10 +137,7 @@ static NSArray *instanceColumns = nil;
     [call subscribeError:^ (NSError *error) {
         @strongify(self);
         if ([error.domain isEqual:@"SMWebRequest"] && error.code == 404) {
-            if (self.deployment)
-                [self presentMissingDeploymentDialog];
-            else
-                [self presentDeploymentNotFoundDialog];
+            [self presentDeploymentNotFoundDialog];
         }
         else {
             [NSApp presentError:error];
@@ -198,50 +190,18 @@ static NSArray *instanceColumns = nil;
     }];
 }
 
-- (void)presentMissingDeploymentDialog {
-    NSAlert *alert = [NSAlert missingDeploymentDialog];
-    [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        assert(deployment != nil);
-        switch (returnCode) {
-            case NSAlertDefaultReturn:
-                [self deleteDeployment];
-                [self.breadcrumbController popViewControllerAnimated:YES];
-                break;
-            case NSAlertAlternateReturn:
-                [self recreateDeployment];
-                break;
-        }
-    }];
-}
-
 - (void)presentConfirmDeletionDialog {
     NSAlert *alert = [NSAlert confirmDeleteDeploymentDialog];
     
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSAlertDefaultReturn) {
-            [[client deleteAppWithName:self.appName] subscribeError:^(NSError *error) {
+            [[client deleteAppWithName:app.name] subscribeError:^(NSError *error) {
                 [NSApp presentError:error];
             } completed:^{
-                if (deployment)
-                    [self deleteDeployment];
                 [self.breadcrumbController popViewControllerAnimated:YES];
             }];
         }
     }];
-}
-
-- (void)deleteDeployment {
-    [[ThorBackend sharedContext] deleteObject:deployment];
-    
-    NSError *error;
-    if (![[ThorBackend sharedContext] save:&error]) {
-        [NSApp presentError:error];
-    }
-}
-
-- (void)recreateDeployment {
-    RACSignal *createApp = [client createApp:[FoundryApp appWithDeployment:deployment]];
-    [self updateAppAndStatsAfterSignal:createApp];
 }
 
 - (id<BreadcrumbItem>)breadcrumbItem {
@@ -319,15 +279,7 @@ static NSArray *instanceColumns = nil;
 }
 
 - (IBAction)editClicked:(id)sender {
-    DeploymentPropertiesController *deploymentPropertiesController = [DeploymentPropertiesController deploymentPropertiesControllerWithApp:app client:client];
-    
-    deploymentPropertiesController.title = @"Update deployment";
-    
-    WizardController *wizard = [[WizardController alloc] initWithRootViewController:deploymentPropertiesController];
-    wizard.isSinglePage = YES;
-    [wizard presentModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
-        [self updateAppAndStatsAfterSignal:nil];
-    }];
+    [[AppDelegate shared] editDeployment:nil];
 }
 
 - (IBAction)deleteClicked:(id)sender {
@@ -335,46 +287,24 @@ static NSArray *instanceColumns = nil;
 }
 
 - (RACSignal *)updateWithState:(FoundryAppState)state {
-    return [[client getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
-        FoundryApp *latestApp = (FoundryApp *)x;
-        latestApp.state = state;
-        return [client updateApp:latestApp];
-    }];
-}
-
-- (RACSignal *)updateByAddingServiceNamed:(NSString *)name {
-    return [[client getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
-        FoundryApp *latestApp = (FoundryApp *)x;
-        if (![latestApp.services containsObject:name])
-            latestApp.services = [latestApp.services arrayByAddingObject:name];
-        return [client updateApp:latestApp];
-    }];
-}
-
-- (RACSignal *)updateByRemovingServiceNamed:(NSString *)name {
-    return [[client getAppWithName:app.name] continueAfter:^RACSignal *(id x) {
-        FoundryApp *latestApp = (FoundryApp *)x;
-        latestApp.services = [latestApp.services filter:^BOOL(id n) {
-            return ![n isEqual:name];
-        }];
-        return [client updateApp:latestApp];
-    }];
+    [Log logFormat:@"updateWithState: %@ app = %@", FoundryAppStateStringFromState(state), app];
+    return [client updateApp:app withState:state];
 }
 
 - (void)startClicked:(id)sender {
-    [self updateAppAndStatsAfterSignal:[[self updateWithState:FoundryAppStateStarted]  animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
+    [[AppDelegate shared] startDeployment:nil];
 }
 
 - (void)stopClicked:(id)sender {
-    [self updateAppAndStatsAfterSignal:[[self updateWithState:FoundryAppStateStopped] animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
+    [[AppDelegate shared] stopDeployment:nil];
 }
 
 - (void)restartClicked:(id)sender {
-    [self updateAppAndStatsAfterSignal:[[[self updateWithState:FoundryAppStateStopped] continueWith:[self updateWithState:FoundryAppStateStarted]] animateProgressIndicator:self.deploymentView.stateProgressIndicator]];
+    [[AppDelegate shared] restartDeployment:nil];
 }
 
 - (void)presentBindServiceDialog {
-    [((AppDelegate *)[NSApplication sharedApplication].delegate) bindService:nil];
+    [[AppDelegate shared] bindService:nil];
 }
 
 - (void)selectedService:(FoundryService *)service {
@@ -385,7 +315,7 @@ static NSArray *instanceColumns = nil;
     NSAlert *alert = [NSAlert confirmUnbindServiceDialog];
     [alert presentSheetModalForWindow:self.view.window didEndBlock:^(NSInteger returnCode) {
         if (returnCode == NSAlertDefaultReturn) {
-            [self updateAppAndStatsAfterSignal:[self updateByRemovingServiceNamed:service.name]];
+            [self updateAppAndStatsAfterSignal:[client updateApp:app byRemovingServiceNamed:service.name]];
         }
     }];
 }
