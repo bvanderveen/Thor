@@ -3,6 +3,8 @@
 
 @implementation TargetHeadingView
 
+@synthesize hostnameTextView;
+
 - (NSSize)intrinsicContentSize {
     return NSMakeSize(NSViewNoInstrinsicMetric, 125);
 }

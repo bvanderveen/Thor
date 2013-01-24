@@ -2,6 +2,8 @@
 
 @interface TargetHeadingView : NSView
 
+@property (nonatomic, assign) IBOutlet NSTextView *hostnameTextView;
+
 @end
 
 @interface TargetView : NSView

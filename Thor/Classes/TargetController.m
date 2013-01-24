@@ -169,6 +169,18 @@
     
     self.rootServicesListSource = addServiceSource;
     
+    id linkAttributes = @{
+        NSLinkAttributeName: [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.target.hostname]],
+        NSForegroundColorAttributeName: [NSColor blackColor],
+        NSCursorAttributeName: [NSCursor pointingHandCursor]
+    };
+    
+    NSMutableAttributedString *hostnameString = [[NSMutableAttributedString alloc] initWithString:self.target.hostname attributes:linkAttributes];
+    
+    [self.targetView.headingView.hostnameTextView setLinkTextAttributes:@{}];
+    [[self.targetView.headingView.hostnameTextView textStorage] setAttributedString:hostnameString];
+    [[self.targetView.headingView.hostnameTextView textStorage] setFont:[NSFont boldSystemFontOfSize:14]];
+    
     self.targetView.servicesList.dataSource = rootServicesListSource;
     self.targetView.servicesList.delegate = rootServicesListSource;
     
