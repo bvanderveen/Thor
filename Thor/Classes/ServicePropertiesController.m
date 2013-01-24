@@ -1,4 +1,5 @@
 #import "ServicePropertiesController.h"
+#import "RACSignal+Extensions.h"
 
 @interface ServicePropertiesController ()
 
@@ -20,7 +21,7 @@
 
 - (void)commitWizardPanel {
     [objectController commitEditing];
-    RACSignal *signal = [client createService:service];
+    RACSignal *signal = [[client createService:service] showLoadingViewInWizard:self.wizardController];
     [signal subscribeNext:^ (id x) {
         NSLog(@"%@", x);
     } error:^(NSError *error) {

@@ -29,6 +29,8 @@
 - (void)setDisplaysLoadingView:(BOOL)value animated:(BOOL)animated {
     displaysLoadingView = value;
     loadingView.hidden = !value;
+    loadingView.needsLayout = YES;
+    [loadingView layoutSubtreeIfNeeded];
     if (value)
         [loadingView.progressIndicator startAnimation:self];
     else

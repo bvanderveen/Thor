@@ -348,7 +348,8 @@
     }]];
     
     WizardTableController *wizardTableController = [[WizardTableController alloc] initWithTableController:tableController commitBlock:^{
-        [[[self clientForSelectedTarget] updateApp:selectedApp byAddingServiceNamed:selectedService.name] subscribeCompleted:^{
+        
+        [[[[self clientForSelectedTarget] updateApp:selectedApp byAddingServiceNamed:selectedService.name] showLoadingViewInWizard:wizard] subscribeCompleted:^{
             [wizard dismissWithReturnCode:NSOKButton];
         }];
     } rollbackBlock:nil];
