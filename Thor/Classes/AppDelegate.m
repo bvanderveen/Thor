@@ -218,8 +218,10 @@
 - (IBAction)restartDeployment:(id)sender {
     id<FoundryClient> client = [self clientForSelectedTarget];
     
-    [[[client updateApp:selectedApp withState:FoundryAppStateStopped] continueWith:[client updateApp:selectedApp withState:FoundryAppStateStarted]] subscribeCompleted:^{
-        
+    [[client updateApp:selectedApp withState:FoundryAppStateStopped] subscribeCompleted:^{
+        [[client updateApp:selectedApp withState:FoundryAppStateStarted] subscribeCompleted:^{
+            
+        }];
     }];
 }
 
