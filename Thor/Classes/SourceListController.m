@@ -161,7 +161,7 @@
         return item;
     }];
     
-    appItem.title = @"APPS";
+    appItem.title = @"LOCAL APPS";
     appItem.identifier = SECTION_IDENTIFIER;
     appItem.children = [apps map:^id(id a) {
         App *app = (App *)a;
