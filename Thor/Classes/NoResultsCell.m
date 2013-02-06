@@ -3,9 +3,12 @@
 
 @implementation NoResultsCell
 
+@synthesize text;
+
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         self.selectable = NO;
+        self.text = @"No results";
     }
     return self;
 }
@@ -15,12 +18,20 @@
     
     NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
     style.alignment = NSCenterTextAlignment;
-    NSFont *font = [NSFont boldSystemFontOfSize:12];
-    [@"No results" drawInRect:NSMakeRect(0, (self.bounds.size.height - font.lineHeight) / 2 + 2, self.bounds.size.width, font.lineHeight) withAttributes:@{
-NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:.8 alpha:1],
-         NSFontAttributeName : font,
-NSParagraphStyleAttributeName : style
-     }];
+    style.lineBreakMode = NSLineBreakByWordWrapping;
+    NSFont *font = [NSFont boldSystemFontOfSize:11];
+    
+    id attributes = @{
+                      NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:.7 alpha:1],
+                      NSFontAttributeName : font,
+                      NSParagraphStyleAttributeName : style
+                      };
+    
+    CGSize availableSize = CGSizeMake(self.bounds.size.width - 20, self.bounds.size.height);
+    
+    CGRect boundingRect = [text boundingRectWithSize:availableSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes];
+    
+    [text drawInRect:CGRectMake(10, (self.bounds.size.height - boundingRect.size.height) / 2, availableSize.width, boundingRect.size.height) withAttributes:attributes];
 }
 
 @end

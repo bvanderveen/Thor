@@ -59,7 +59,7 @@
 }
 
 - (void)awakeFromNib {
-    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] init];
+    NoResultsListViewSource *noResultsSource = [[NoResultsListViewSource alloc] initWithText:@"Local apps exist on one or more clouds. To deploy this local app to a cloud, press \"New deployment…\" below. If this app already exists on the cloud, navigate to the cloud, press the \"Bind\" button, and pick this app."];
     noResultsSource.source = self;
     AddItemListViewSource *addDeploymentSource = [[AddItemListViewSource alloc] initWithTitle:@"New deployment…"];
     addDeploymentSource.source = noResultsSource;
