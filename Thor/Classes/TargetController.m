@@ -296,7 +296,7 @@
         [wizardController dismissWithReturnCode:NSOKButton];
     } rollbackBlock:nil];
     
-    wizardTableController.title = @"Associate deployment with app";
+    wizardTableController.title = @"Bind to local app";
     wizardTableController.commitButtonTitle = @"Done";
     
     wizardController = [[WizardController alloc] initWithRootViewController:wizardTableController];
