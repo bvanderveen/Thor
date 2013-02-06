@@ -262,7 +262,7 @@ static NSArray *instanceColumns = nil;
             labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.disk]];
             break;
         case 5:;
-            NSInteger ti = (NSInteger)roundf(stats.uptime + 23483.0);
+            NSInteger ti = (NSInteger)roundf(stats.uptime);
             NSInteger seconds = ti % 60;
             NSInteger minutes = (ti / 60) % 60;
             NSInteger hours = (ti / 3600);
