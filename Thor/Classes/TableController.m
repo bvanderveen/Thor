@@ -142,7 +142,9 @@
 - (id)initWithTableController:(TableController *)leTableController commitBlock:(void (^)())commitBlock rollbackBlock:(void (^)())rollbackBlock {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.tableController = leTableController;
+        @weakify(self);
         tableController.source.selectionDidChange = ^ {
+            @strongify(self);
             self.wizardController.commitButtonEnabled = self.tableController.controllerView.tableView.selectedRowIndexes.count > 0;
         };
         self.commit = commitBlock;

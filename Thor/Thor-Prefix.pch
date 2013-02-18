@@ -3,3 +3,4 @@
 #endif
 
 #import "Log.h"
+#import <ReactiveCocoa/EXTScope.h>
