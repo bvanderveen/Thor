@@ -26,7 +26,7 @@
 
 - (void)layout {
     [imageView sizeToFit];
-    imageView.frame = NSMakeRect(10, (self.bounds.size.height - imageView.frame.size.height) / 2, imageView.frame.size.width, imageView.frame.size.height);
+    imageView.frame = NSMakeRect(10, (self.bounds.size.height - imageView.image.size.height) / 2, imageView.image.size.width, imageView.image.size.height);
     
     [label sizeToFit];
     label.frame = NSMakeRect(10 + imageView.frame.size.width + 10, (self.bounds.size.height - label.frame.size.height) / 2, label.frame.size.width, label.frame.size.height);

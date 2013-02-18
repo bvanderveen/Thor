@@ -157,7 +157,7 @@
         item.representedObject = target;
         item.title = target.displayName;
         item.identifier = @"row";
-        item.icon = [NSImage imageNamed:@"audiobooks.png"];
+        item.icon = [NSImage imageNamed:@"CloudIconSmall.png"];
         return item;
     }];
     
@@ -169,7 +169,7 @@
         item.representedObject = app;
         item.title = app.displayName;
         item.identifier = @"row";
-        item.icon = [NSImage imageNamed:@"CloudIconSmall.png"];
+        item.icon = [NSImage imageNamed:@"AppIconSmall.png"];
         return item;
     }];
     

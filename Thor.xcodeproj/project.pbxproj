@@ -13,7 +13,6 @@
 		4113DE841652E729009B0965 /* ServicePropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE831652E729009B0965 /* ServicePropertiesView.m */; };
 		4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4113DE851652E741009B0965 /* ServicePropertiesView.xib */; };
 		4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE881652F443009B0965 /* ServicePropertiesController.m */; };
-		4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114FFB51649A8DF00B4D3DB /* audiobooks.png */; };
 		4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */; };
 		4116019F164C840C00EDA836 /* ServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4116019E164C840B00EDA836 /* ServiceCell.m */; };
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
@@ -77,6 +76,10 @@
 		41A2721E1672B03500A8B3B7 /* PXSourceList.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41FC50ED16488DC100C63E43 /* PXSourceList.framework */; };
 		41AD098616D2A925005EE531 /* CloudIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098516D2A925005EE531 /* CloudIconSmall.png */; };
 		41AD098816D2A976005EE531 /* CloudIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */; };
+		41AD098D16D2ABAB005EE531 /* AppIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098916D2ABAB005EE531 /* AppIconSmall.png */; };
+		41AD098E16D2ABAB005EE531 /* AppIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098A16D2ABAB005EE531 /* AppIconSmall@2x.png */; };
+		41AD098F16D2ABAB005EE531 /* ServiceIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098B16D2ABAB005EE531 /* ServiceIconSmall.png */; };
+		41AD099016D2ABAB005EE531 /* ServiceIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098C16D2ABAB005EE531 /* ServiceIconSmall@2x.png */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -353,7 +356,6 @@
 		4113DE851652E741009B0965 /* ServicePropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServicePropertiesView.xib; sourceTree = "<group>"; };
 		4113DE871652F443009B0965 /* ServicePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePropertiesController.h; path = Classes/ServicePropertiesController.h; sourceTree = "<group>"; };
 		4113DE881652F443009B0965 /* ServicePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicePropertiesController.m; path = Classes/ServicePropertiesController.m; sourceTree = "<group>"; };
-		4114FFB51649A8DF00B4D3DB /* audiobooks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = audiobooks.png; path = Resources/audiobooks.png; sourceTree = "<group>"; };
 		4114FFB71649FD2400B4D3DB /* NSAlert+Dialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAlert+Dialogs.h"; path = "Classes/NSAlert+Dialogs.h"; sourceTree = "<group>"; };
 		4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAlert+Dialogs.m"; path = "Classes/NSAlert+Dialogs.m"; sourceTree = "<group>"; };
 		4116019D164C840B00EDA836 /* ServiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceCell.h; path = Classes/ServiceCell.h; sourceTree = "<group>"; };
@@ -435,6 +437,10 @@
 		419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFont+LineHeight.m"; path = "Classes/NSFont+LineHeight.m"; sourceTree = "<group>"; };
 		41AD098516D2A925005EE531 /* CloudIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSmall.png; path = Resources/CloudIconSmall.png; sourceTree = "<group>"; };
 		41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CloudIconSmall@2x.png"; path = "Resources/CloudIconSmall@2x.png"; sourceTree = "<group>"; };
+		41AD098916D2ABAB005EE531 /* AppIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIconSmall.png; path = Resources/AppIconSmall.png; sourceTree = "<group>"; };
+		41AD098A16D2ABAB005EE531 /* AppIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AppIconSmall@2x.png"; path = "Resources/AppIconSmall@2x.png"; sourceTree = "<group>"; };
+		41AD098B16D2ABAB005EE531 /* ServiceIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ServiceIconSmall.png; path = Resources/ServiceIconSmall.png; sourceTree = "<group>"; };
+		41AD098C16D2ABAB005EE531 /* ServiceIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ServiceIconSmall@2x.png"; path = "Resources/ServiceIconSmall@2x.png"; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
@@ -643,9 +649,12 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41AD098916D2ABAB005EE531 /* AppIconSmall.png */,
+				41AD098A16D2ABAB005EE531 /* AppIconSmall@2x.png */,
+				41AD098B16D2ABAB005EE531 /* ServiceIconSmall.png */,
+				41AD098C16D2ABAB005EE531 /* ServiceIconSmall@2x.png */,
 				41AD098516D2A925005EE531 /* CloudIconSmall.png */,
 				41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */,
-				4114FFB51649A8DF00B4D3DB /* audiobooks.png */,
 				41B547FE164327A900C5C68F /* DeploymentRestart.png */,
 				41B547FF164327A900C5C68F /* DeploymentStart.png */,
 				41B54800164327A900C5C68F /* DeploymentStop.png */,
@@ -1353,11 +1362,14 @@
 				41B54802164327A900C5C68F /* DeploymentStart.png in Resources */,
 				41B54803164327A900C5C68F /* DeploymentStop.png in Resources */,
 				41FC50DB1648759900C63E43 /* SourceListView.xib in Resources */,
-				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 				4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */,
 				416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */,
 				41AD098616D2A925005EE531 /* CloudIconSmall.png in Resources */,
 				41AD098816D2A976005EE531 /* CloudIconSmall@2x.png in Resources */,
+				41AD098D16D2ABAB005EE531 /* AppIconSmall.png in Resources */,
+				41AD098E16D2ABAB005EE531 /* AppIconSmall@2x.png in Resources */,
+				41AD098F16D2ABAB005EE531 /* ServiceIconSmall.png in Resources */,
+				41AD099016D2ABAB005EE531 /* ServiceIconSmall@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1723,7 +1735,6 @@
 		F32F9775154908CC002CCF27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;
@@ -1741,7 +1752,6 @@
 		F32F9776154908CC002CCF27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Thor/Thor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;

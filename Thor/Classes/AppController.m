@@ -115,6 +115,7 @@
             item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
                 TableCell *cell = [[TableCell alloc] init];
                 cell.label.stringValue = [NSString stringWithFormat:@"%@", target.displayName];
+                cell.imageView.image = [NSImage imageNamed:@"CloudIconSmall.png"];
                 return cell;
             };
             item.selected = ^ {

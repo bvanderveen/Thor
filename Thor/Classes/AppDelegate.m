@@ -120,6 +120,7 @@
             item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
                 TableCell *cell = [[TableCell alloc] init];
                 cell.label.stringValue = [NSString stringWithFormat:@"%@", app.displayName];
+                cell.imageView.image = [NSImage imageNamed:@"AppIconSmall.png"];
                 return cell;
             };
             item.selected = ^ {
@@ -275,6 +276,7 @@
             TableItem *item = [[TableItem alloc] init];
             item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
                 TableCell *cell = [[TableCell alloc] init];
+                cell.imageView.image = [NSImage imageNamed:@"ServiceIconSmall.png"];
                 cell.label.stringValue = [NSString stringWithFormat:@"%@ v%@", serviceInfo.vendor, serviceInfo.version];
                 return cell;
             };
@@ -337,6 +339,7 @@
             item.view = ^ NSView *(NSTableView *tableView, NSTableColumn *column, NSInteger row) {
                 TableCell *cell = [[TableCell alloc] init];
                 cell.label.stringValue = [NSString stringWithFormat:@"%@ %@ v%@", service.name, service.vendor, service.version];
+                cell.imageView.image = [NSImage imageNamed:@"ServiceIconSmall.png"];
                 return cell;
             };
             item.selected = ^ {
