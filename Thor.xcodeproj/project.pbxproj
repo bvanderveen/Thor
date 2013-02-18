@@ -75,6 +75,8 @@
 		41A2721C1672B02F00A8B3B7 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41C59C0E15CAFD8300123ABF /* ReactiveCocoa.framework */; };
 		41A2721D1672B03200A8B3B7 /* SBJson.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416567A015DAE39200EF93DF /* SBJson.framework */; };
 		41A2721E1672B03500A8B3B7 /* PXSourceList.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41FC50ED16488DC100C63E43 /* PXSourceList.framework */; };
+		41AD098616D2A925005EE531 /* CloudIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098516D2A925005EE531 /* CloudIconSmall.png */; };
+		41AD098816D2A976005EE531 /* CloudIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */; };
 		41B20A0D15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */; };
 		41B20A3115E860A200E7ED8B /* NSObject+JSONDataRepresentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */; };
 		41B20A3215E860A200E7ED8B /* NSObject+JSONDataRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */; };
@@ -431,6 +433,8 @@
 		419E73C41607E13F009FA6D3 /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListView.m; path = Classes/ListView.m; sourceTree = "<group>"; };
 		419E73C61608E4CD009FA6D3 /* NSFont+LineHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFont+LineHeight.h"; path = "Classes/NSFont+LineHeight.h"; sourceTree = "<group>"; };
 		419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFont+LineHeight.m"; path = "Classes/NSFont+LineHeight.m"; sourceTree = "<group>"; };
+		41AD098516D2A925005EE531 /* CloudIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CloudIconSmall.png; path = Resources/CloudIconSmall.png; sourceTree = "<group>"; };
+		41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CloudIconSmall@2x.png"; path = "Resources/CloudIconSmall@2x.png"; sourceTree = "<group>"; };
 		41B20A0C15E6E1C700E7ED8B /* BreadcrumbArrowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreadcrumbArrowSelected.png; path = Resources/BreadcrumbArrowSelected.png; sourceTree = "<group>"; };
 		41B20A2F15E860A200E7ED8B /* NSObject+JSONDataRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONDataRepresentation.h"; sourceTree = "<group>"; };
 		41B20A3015E860A200E7ED8B /* NSObject+JSONDataRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONDataRepresentation.m"; sourceTree = "<group>"; };
@@ -639,6 +643,8 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41AD098516D2A925005EE531 /* CloudIconSmall.png */,
+				41AD098716D2A976005EE531 /* CloudIconSmall@2x.png */,
 				4114FFB51649A8DF00B4D3DB /* audiobooks.png */,
 				41B547FE164327A900C5C68F /* DeploymentRestart.png */,
 				41B547FF164327A900C5C68F /* DeploymentStart.png */,
@@ -1350,6 +1356,8 @@
 				4114FFB61649A8DF00B4D3DB /* audiobooks.png in Resources */,
 				4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */,
 				416F8276167A9FE10042BD19 /* TableControllerView.xib in Resources */,
+				41AD098616D2A925005EE531 /* CloudIconSmall.png in Resources */,
+				41AD098816D2A976005EE531 /* CloudIconSmall@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1586,6 +1594,7 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1601,6 +1610,7 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
