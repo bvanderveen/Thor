@@ -8,7 +8,7 @@
 
 @interface Target : NSManagedObject
 
-@property (copy) NSString *displayName, *hostname, *email, *password;
+@property (copy) NSString *displayName, *hostURL, *email, *password;
 
 + (NSFetchRequest *)fetchRequest;
 

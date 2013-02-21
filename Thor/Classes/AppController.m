@@ -159,7 +159,7 @@
     
     PushActivity *activity = [[PushActivity alloc] initWithSignal:signal];
     activity.localPath = deployment.app.localRoot;
-    activity.targetHostname = deployment.target.hostname;
+    activity.targetHostname = deployment.target.hostURL;
     activity.targetAppName = deployment.name;
     
     [[AppDelegate shared].activityController insert:activity];

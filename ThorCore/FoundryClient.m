@@ -54,12 +54,12 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 @implementation NSURLRequest (Signing)
 
-+ (NSURLRequest *)requestWithHost:(NSString *)hostname method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    assert(hostname && hostname.length);
++ (NSURLRequest *)requestWithHost:(NSURL *)hostURL method:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
+    assert(hostURL);
     assert(method);
     assert(path);
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@%@", hostname, path]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@", [hostURL scheme], [hostURL host], path]];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:6];
     urlRequest.HTTPMethod = method;
     urlRequest.AllHTTPHeaderFields = headers;
@@ -75,13 +75,13 @@ static id (^JsonParser)(id) = ^ id (id d) {
     return urlRequest;
 }
 
-+ (NSURLRequest *)tokenRequestWithHost:(NSString *)host email:(NSString *)email password:(NSString *)password {
++ (NSURLRequest *)tokenRequestWithHost:(NSURL *)hostURL email:(NSString *)email password:(NSString *)password {
     assert(email && email.length);
     assert(password);
     
     NSString *path = [NSString stringWithFormat:@"/users/%@/tokens", email];
     NSDictionary *body = [NSDictionary dictionaryWithObject:password forKey:@"password"];
-    return [self requestWithHost:host method:@"POST" path:path headers:nil body:body];
+    return [self requestWithHost:hostURL method:@"POST" path:path headers:nil body:body];
 }
 
 - (BOOL)isSignedWithToken {
@@ -98,7 +98,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
 
 @implementation FoundryEndpoint
 
-@synthesize hostname, email, password, tokenSignal, endpoint;
+@synthesize hostURL, email, password, tokenSignal, endpoint;
 
 - (id)init {
     if (self = [super init]) {
@@ -112,7 +112,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
                 return nil;
             }
         
-            return [[self.endpoint requestSignalWithURLRequest:[NSURLRequest tokenRequestWithHost:self.hostname email:self.email password:self.password]] subscribeNext:^(id x) {
+            return [[self.endpoint requestSignalWithURLRequest:[NSURLRequest tokenRequestWithHost:self.hostURL email:self.email password:self.password]] subscribeNext:^(id x) {
                 [subscriber sendNext:x];
             } error:^(NSError *error) {
                 if ([error.domain isEqual:@"SMWebRequest"]) {
@@ -131,7 +131,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
 }
 
 - (NSUInteger)hash {
-    return [[NSString stringWithFormat:@"%@%@%@", hostname, email, password] hash];
+    return [[NSString stringWithFormat:@"%@%@%@", hostURL, email, password] hash];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -140,14 +140,14 @@ static id (^JsonParser)(id) = ^ id (id d) {
     
     FoundryEndpoint *other = (FoundryEndpoint *)object;
     return
-        [other.hostname isEqual:self.hostname] &&
+        [other.hostURL isEqual:self.hostURL] &&
         [other.email isEqual:self.email] &&
         [other.password isEqual:self.password];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     FoundryEndpoint *result = [[FoundryEndpoint allocWithZone:zone] init];
-    result.hostname = self.hostname;
+    result.hostURL = self.hostURL;
     result.email = self.email;
     result.password = self.password;
     return result;
@@ -190,7 +190,7 @@ static id (^JsonParser)(id) = ^ id (id d) {
 }
 
 - (RACSignal *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body {
-    return [self requestSignalWithURLRequest:[NSURLRequest requestWithHost:hostname method:method path:path headers:headers body:body]];
+    return [self requestSignalWithURLRequest:[NSURLRequest requestWithHost:hostURL method:method path:path headers:headers body:body]];
 }
 
 @end

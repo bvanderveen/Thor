@@ -4,7 +4,7 @@
 
 + (FoundryEndpoint *)endpointWithTarget:(Target *)target {
     FoundryEndpoint *result = [[FoundryEndpoint alloc] init];
-    result.hostname = target.hostname;
+    result.hostURL = [NSURL URLWithString:target.hostURL];
     result.email = target.email;
     result.password = target.password;
     return result;

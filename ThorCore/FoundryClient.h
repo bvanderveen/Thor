@@ -8,7 +8,8 @@
 
 @interface FoundryEndpoint : NSObject <NSCopying>
 
-@property (nonatomic, copy) NSString *hostname, *email, *password;
+@property (nonatomic, copy) NSString *email, *password;
+@property (nonatomic, strong) NSURL *hostURL;
 
 // result is parsed JSON of response body
 - (RACSignal *)authenticatedRequestWithMethod:(NSString *)method path:(NSString *)path headers:(NSDictionary *)headers body:(id)body;

@@ -170,12 +170,12 @@
     self.rootServicesListSource = addServiceSource;
     
     id linkAttributes = @{
-        NSLinkAttributeName: [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.target.hostname]],
+        NSLinkAttributeName: [NSURL URLWithString:self.target.hostURL],
         NSForegroundColorAttributeName: [NSColor blackColor],
         NSCursorAttributeName: [NSCursor pointingHandCursor]
     };
     
-    NSMutableAttributedString *hostnameString = [[NSMutableAttributedString alloc] initWithString:self.target.hostname attributes:linkAttributes];
+    NSMutableAttributedString *hostnameString = [[NSMutableAttributedString alloc] initWithString:self.target.hostURL attributes:linkAttributes];
     
     [self.targetView.headingView.hostnameTextView setLinkTextAttributes:@{}];
     [[self.targetView.headingView.hostnameTextView textStorage] setAttributedString:hostnameString];

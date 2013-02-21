@@ -120,7 +120,7 @@ NSEntityDescription *getTargetEntity() {
         displayName.optional = NO;
         
         NSAttributeDescription *hostname = [NSAttributeDescription new];
-        hostname.name = @"hostname";
+        hostname.name = @"hostURL";
         hostname.attributeType = NSStringAttributeType;
         hostname.optional = NO;
         
@@ -306,22 +306,19 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 
 @implementation Target
 
-@dynamic displayName, hostname, email, password;
-//
-//- (BOOL)validateHostname:(id *)hostname error:(NSError **)outError {
-//    if (*hostname == nil)
-//        return YES;
-//    
-//    if ([((NSString *)*hostname) rangeOfString:@"api."].location != 0) {
-//        *outError = [NSError thorErrorWithCode:TargetHostnameInvalid localizedDescription:@"Hostname must start with \"api.\""];
-//        return NO;
-//    }
-//    return YES;
-//}
+@dynamic displayName, hostURL, email, password;
 
 - (BOOL)performValidation:(NSError **)error {
+    
+    NSURL *validURL = [NSURL URLWithString:self.hostURL];
+    
+    if (!validURL) {
+        *error = [NSError thorErrorWithCode:TargetHostnameInvalid localizedDescription:@"The hostname is invalid."];
+        return NO;
+    }
+    
     NSFetchRequest *request = [Target fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostname == %@ AND self != %@", self.email, self.hostname, self];
+    request.predicate = [NSPredicate predicateWithFormat:@"email == %@ AND hostURL == %@ AND self != %@", self.email, self.hostURL, self];
     
     BOOL any = NO;
     
