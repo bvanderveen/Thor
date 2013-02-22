@@ -127,7 +127,7 @@
     NSTextField *label = [Label label];
     label.translatesAutoresizingMaskIntoConstraints = YES;
     //label.backgroundColor = [NSColor redColor];
-    label.font = [NSFont systemFontOfSize:12];
+    label.font = [NSFont systemFontOfSize:11];
     label.textColor = [NSColor colorWithCalibratedWhite:.66 alpha:1];
     label.stringValue = title;
     return label;

@@ -70,7 +70,7 @@ static NSArray *instanceColumns = nil;
 @synthesize client, app, title, deploymentView, breadcrumbController, instanceStats, boundServicesSource, rootBoundServicesSource;
 
 + (void)initialize {
-    instanceColumns = @[@"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
+    instanceColumns = @[@"Status", @"ID", @"Host name", @"CPU", @"Memory", @"Disk", @"Uptime"];
 }
 
 - (id)initWithApp:(FoundryApp *)lApp client:(id<FoundryClient>)leClient {
@@ -215,16 +215,18 @@ static NSArray *instanceColumns = nil;
 - (CGFloat)gridView:(GridView *)gridView widthOfColumn:(NSUInteger)columnIndex {
     switch (columnIndex) {
         case 0:
-            return 35;
+            return 38;
         case 1:
-            return 130;
+            return 35;
         case 2:
-            return 40;
+            return 110;
         case 3:
-            return 60;
+            return 40;
         case 4:
-            return 70;
+            return 60;
         case 5:
+            return 70;
+        case 6:
             return 80;
     }
     return 0;
@@ -245,31 +247,44 @@ static NSArray *instanceColumns = nil;
     
     NSValueTransformer *transformer = [FileSizeInMBTransformer new];
     
-    switch (columnIndex) {
-        case 0:
-            labelTitle = stats.ID;
-            break;
-        case 1:
-            labelTitle = stats.host;
-            break;
-        case 2:
-            labelTitle = [NSString stringWithFormat:@"%2.0f%%", stats.cpu];
-            break;
-        case 3:
-            labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.memory]];
-            break;
-        case 4:
-            labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.disk]];
-            break;
-        case 5:;
-            NSInteger ti = (NSInteger)roundf(stats.uptime);
-            NSInteger seconds = ti % 60;
-            NSInteger minutes = (ti / 60) % 60;
-            NSInteger hours = (ti / 3600);
-            
-            labelTitle = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", hours, minutes, seconds];
-            break;
+    if (columnIndex == 0) {
+        NSString *imageName = @"DeploymentStatusUp.png";
+
+        if (stats.state == FoundryAppInstanceStateDown);
+            imageName = @"DeploymentStatusDown.png";
+
+        NSImage *image = [NSImage imageNamed:imageName];
+        NSImageView *imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, image.size.width, image.size.height)];
+        imageView.image = image;
+        return imageView;
     }
+    else if (columnIndex == 1) {
+        labelTitle = stats.ID;
+    }
+    else if (columnIndex == 2) {
+        labelTitle = stats.host;
+    }
+    else if (columnIndex == 3) {
+        labelTitle = [NSString stringWithFormat:@"%2.0f%%", stats.cpu];
+    }
+    else if (columnIndex == 4) {
+        labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.memory]];
+    }
+    else if (columnIndex == 5) {
+        labelTitle = [transformer transformedValue:[NSNumber numberWithFloat:stats.disk]];
+    }
+    else if (columnIndex == 6) {
+        NSInteger ti = (NSInteger)roundf(stats.uptime);
+        NSInteger seconds = ti % 60;
+        NSInteger minutes = (ti / 60) % 60;
+        NSInteger hours = (ti / 3600);
+        
+        labelTitle = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", hours, minutes, seconds];
+    }
+    
+    
+    if (stats.state == FoundryAppInstanceStateDown);
+        labelTitle = @"-";
     
     return [GridLabel labelWithTitle:labelTitle];
 }

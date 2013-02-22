@@ -107,6 +107,10 @@
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
 		41DBDB02166192E000FB6420 /* NoResultsListViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DBDB01166192DF00FB6420 /* NoResultsListViewDataSource.m */; };
 		41E9E07216D76E4D009E24D1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E9E07116D76E4D009E24D1 /* AppKit.framework */; };
+		41E9E07716D77152009E24D1 /* DeploymentStatusDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E9E07316D77152009E24D1 /* DeploymentStatusDown.png */; };
+		41E9E07816D77152009E24D1 /* DeploymentStatusDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E9E07416D77152009E24D1 /* DeploymentStatusDown@2x.png */; };
+		41E9E07916D77152009E24D1 /* DeploymentStatusUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E9E07516D77152009E24D1 /* DeploymentStatusUp.png */; };
+		41E9E07A16D77152009E24D1 /* DeploymentStatusUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E9E07616D77152009E24D1 /* DeploymentStatusUp@2x.png */; };
 		41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B215F038F500A45951 /* FoundryServiceTests.m */; };
 		41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */; };
 		41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */; };
@@ -476,6 +480,10 @@
 		41DBDB00166192DF00FB6420 /* NoResultsListViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoResultsListViewDataSource.h; path = Classes/NoResultsListViewDataSource.h; sourceTree = "<group>"; };
 		41DBDB01166192DF00FB6420 /* NoResultsListViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoResultsListViewDataSource.m; path = Classes/NoResultsListViewDataSource.m; sourceTree = "<group>"; };
 		41E9E07116D76E4D009E24D1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../System/Library/Frameworks/AppKit.framework; sourceTree = "<group>"; };
+		41E9E07316D77152009E24D1 /* DeploymentStatusDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentStatusDown.png; path = Resources/DeploymentStatusDown.png; sourceTree = "<group>"; };
+		41E9E07416D77152009E24D1 /* DeploymentStatusDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DeploymentStatusDown@2x.png"; path = "Resources/DeploymentStatusDown@2x.png"; sourceTree = "<group>"; };
+		41E9E07516D77152009E24D1 /* DeploymentStatusUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DeploymentStatusUp.png; path = Resources/DeploymentStatusUp.png; sourceTree = "<group>"; };
+		41E9E07616D77152009E24D1 /* DeploymentStatusUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DeploymentStatusUp@2x.png"; path = "Resources/DeploymentStatusUp@2x.png"; sourceTree = "<group>"; };
 		41EE94B115F038F500A45951 /* FoundryServiceTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryServiceTests.h; sourceTree = "<group>"; };
 		41EE94B215F038F500A45951 /* FoundryServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryServiceTests.m; sourceTree = "<group>"; };
 		41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FoundryEndpoint+CreateFromTarget.h"; sourceTree = "<group>"; };
@@ -652,6 +660,10 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				41E9E07316D77152009E24D1 /* DeploymentStatusDown.png */,
+				41E9E07416D77152009E24D1 /* DeploymentStatusDown@2x.png */,
+				41E9E07516D77152009E24D1 /* DeploymentStatusUp.png */,
+				41E9E07616D77152009E24D1 /* DeploymentStatusUp@2x.png */,
 				41AD098916D2ABAB005EE531 /* AppIconSmall.png */,
 				41AD098A16D2ABAB005EE531 /* AppIconSmall@2x.png */,
 				41AD098B16D2ABAB005EE531 /* ServiceIconSmall.png */,
@@ -1374,6 +1386,10 @@
 				41AD098E16D2ABAB005EE531 /* AppIconSmall@2x.png in Resources */,
 				41AD098F16D2ABAB005EE531 /* ServiceIconSmall.png in Resources */,
 				41AD099016D2ABAB005EE531 /* ServiceIconSmall@2x.png in Resources */,
+				41E9E07716D77152009E24D1 /* DeploymentStatusDown.png in Resources */,
+				41E9E07816D77152009E24D1 /* DeploymentStatusDown@2x.png in Resources */,
+				41E9E07916D77152009E24D1 /* DeploymentStatusUp.png in Resources */,
+				41E9E07A16D77152009E24D1 /* DeploymentStatusUp@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
