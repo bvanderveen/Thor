@@ -124,7 +124,7 @@ describe(@"verifyCredentials", ^{
     beforeEach(^ {
         wrappedEndpoint = [[MockEndpoint alloc] init];
         endpoint = [[FoundryEndpoint alloc] init];
-        endpoint.hostname = @"cool.com";
+        endpoint.hostURL = [NSURL URLWithString:@"http://cool.com"];
         endpoint.email = @"thor@tier3.com";
         endpoint.password = @"passw0rd";
         
@@ -413,7 +413,7 @@ describe(@"getStatsForAppWithName", ^ {
         FoundryAppInstanceStats *stats = result[0];
         
         expect(stats.ID).to.equal(@"0");
-        expect(stats.isDown).to.beTruthy();
+        expect(stats.state).to.equal(FoundryAppInstanceStateDown);
         expect(stats.host).to.beNil();
         expect(stats.port).to.equal(0);
         expect(stats.uptime).to.equal(0);
@@ -1634,7 +1634,7 @@ describe(@"getServicesInfo", ^{
             BOOL anyEqual = [result any:^BOOL(id i) {
                 FoundryServiceInfo *info = (FoundryServiceInfo *)i;
                 return
-                [info.description isEqual:description] &&
+                [info.serviceDescription isEqual:description] &&
                 [info.vendor isEqual:vendor] &&
                 [info.version isEqual:version];
             }];

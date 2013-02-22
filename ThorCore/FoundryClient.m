@@ -384,14 +384,16 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
 
 @implementation FoundryAppInstanceStats
 
-@synthesize ID, host, port, cpu, memory, disk, uptime;
+@synthesize ID, host, port, cpu, memory, disk, uptime, state;
 
 + (FoundryAppInstanceStats *)instantsStatsWithID:(NSString *)lID dictionary:(NSDictionary *)dictionary {
     FoundryAppInstanceStats *result = [FoundryAppInstanceStats new];
     result.ID = lID;
     
+    result.state = FoundryAppInstanceStateUnknown;
+    
     if ([dictionary[@"state"] isEqual:@"DOWN"]) {
-        result.isDown = YES;
+        result.state = FoundryAppInstanceStateDown;
         return result;
     }
     

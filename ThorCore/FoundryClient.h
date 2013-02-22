@@ -58,9 +58,15 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
 
 @end
 
+
+typedef enum {
+    FoundryAppInstanceStateUnknown,
+    FoundryAppInstanceStateDown
+} FoundryAppInstanceState;
+
 @interface FoundryAppInstanceStats : NSObject
 
-@property (nonatomic, assign) bool isDown;
+@property (nonatomic, assign) FoundryAppInstanceState state;
 @property (nonatomic, copy) NSString *ID, *host;
 @property (nonatomic, assign) NSInteger port, disk;
 @property (nonatomic, assign) float cpu, memory, uptime;

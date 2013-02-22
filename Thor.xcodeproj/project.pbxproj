@@ -106,6 +106,7 @@
 		41D286CD15C879D800206E3A /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286CC15C879D800206E3A /* TargetView.m */; };
 		41D286D115C87B9200206E3A /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D286D015C87B9200206E3A /* SheetWindow.m */; };
 		41DBDB02166192E000FB6420 /* NoResultsListViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 41DBDB01166192DF00FB6420 /* NoResultsListViewDataSource.m */; };
+		41E9E07216D76E4D009E24D1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E9E07116D76E4D009E24D1 /* AppKit.framework */; };
 		41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B215F038F500A45951 /* FoundryServiceTests.m */; };
 		41EE94B715F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */; };
 		41EE94B815F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE94B615F03D4200A45951 /* FoundryEndpoint+CreateFromTarget.m */; };
@@ -474,6 +475,7 @@
 		41D286D015C87B9200206E3A /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheetWindow.m; path = Classes/SheetWindow.m; sourceTree = "<group>"; };
 		41DBDB00166192DF00FB6420 /* NoResultsListViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoResultsListViewDataSource.h; path = Classes/NoResultsListViewDataSource.h; sourceTree = "<group>"; };
 		41DBDB01166192DF00FB6420 /* NoResultsListViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoResultsListViewDataSource.m; path = Classes/NoResultsListViewDataSource.m; sourceTree = "<group>"; };
+		41E9E07116D76E4D009E24D1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../System/Library/Frameworks/AppKit.framework; sourceTree = "<group>"; };
 		41EE94B115F038F500A45951 /* FoundryServiceTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundryServiceTests.h; sourceTree = "<group>"; };
 		41EE94B215F038F500A45951 /* FoundryServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundryServiceTests.m; sourceTree = "<group>"; };
 		41EE94B515F03D4100A45951 /* FoundryEndpoint+CreateFromTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FoundryEndpoint+CreateFromTarget.h"; sourceTree = "<group>"; };
@@ -546,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41E9E07216D76E4D009E24D1 /* AppKit.framework in Frameworks */,
 				41EE94E815F15EFE00A45951 /* libExpecta.a in Frameworks */,
 				41EE94E915F15EFE00A45951 /* libSpecta.a in Frameworks */,
 				41EE94B915F13FB700A45951 /* SBJson.framework in Frameworks */,
@@ -938,6 +941,7 @@
 		F32F9734154908CB002CCF27 = {
 			isa = PBXGroup;
 			children = (
+				41E9E07116D76E4D009E24D1 /* AppKit.framework */,
 				419E73C116068B6F009FA6D3 /* icon.icns */,
 				F32F9749154908CB002CCF27 /* Thor */,
 				F32F9769154908CC002CCF27 /* ThorTests */,
@@ -1636,8 +1640,9 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
-					expecta/products,
-					specta/products,
+					expecta/src,
+					specta/src,
+					expecta/src/matchers,
 				);
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
@@ -1662,8 +1667,9 @@
 				GCC_PREFIX_HEADER = "ThorCore/ThorCore-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
-					expecta/products,
-					specta/products,
+					expecta/src,
+					specta/src,
+					expecta/src/matchers,
 				);
 				INFOPLIST_FILE = "ThorCoreTests/ThorCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;

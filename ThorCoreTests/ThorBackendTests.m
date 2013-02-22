@@ -47,7 +47,7 @@
     
     Target *result = [Target targetInsertedIntoManagedObjectContext:self.context];
     result.displayName = [NSString stringWithFormat:@"Target %d", counter];
-    result.hostname = [NSString stringWithFormat:@"api.target%d.foo.com", counter];
+    result.hostURL = [NSString stringWithFormat:@"http://api.target%d.foo.com", counter];
     result.email = [NSString stringWithFormat:@"user%d@foo.com", counter];
     result.password = [NSString stringWithFormat:@"password%d", counter];
     return result;
@@ -188,7 +188,7 @@
     Target *target1 = [self createTarget];
     
     target1.email = target0.email;
-    target1.hostname = target0.hostname;
+    target1.hostURL = target0.hostURL;
     
     NSError *error = nil;
     [context save:&error];
