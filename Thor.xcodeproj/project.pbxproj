@@ -10,6 +10,10 @@
 		410207D3161A74480077BCCA /* Label.m in Sources */ = {isa = PBXBuildFile; fileRef = 410207D2161A74470077BCCA /* Label.m */; };
 		4104099D160D2CE000AF93AF /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104099C160D2CE000AF93AF /* WizardController.m */; };
 		410409A2160D350C00AF93AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 410409A1160D350C00AF93AF /* QuartzCore.framework */; };
+		4106E90416DC04CE0092FC99 /* SourceListBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 4106E90016DC04CE0092FC99 /* SourceListBarBackground.png */; };
+		4106E90516DC04CE0092FC99 /* SourceListButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 4106E90116DC04CE0092FC99 /* SourceListButtonBackground.png */; };
+		4106E90616DC04CE0092FC99 /* SourceListButtonMinus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4106E90216DC04CE0092FC99 /* SourceListButtonMinus.png */; };
+		4106E90716DC04CE0092FC99 /* SourceListButtonPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4106E90316DC04CE0092FC99 /* SourceListButtonPlus.png */; };
 		4113DE841652E729009B0965 /* ServicePropertiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE831652E729009B0965 /* ServicePropertiesView.m */; };
 		4113DE861652E742009B0965 /* ServicePropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4113DE851652E741009B0965 /* ServicePropertiesView.xib */; };
 		4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE881652F443009B0965 /* ServicePropertiesController.m */; };
@@ -356,6 +360,10 @@
 		4104099C160D2CE000AF93AF /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		410409A1160D350C00AF93AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		410409A41610E77800AF93AF /* ViewVisibilityAware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewVisibilityAware.h; path = Classes/ViewVisibilityAware.h; sourceTree = "<group>"; };
+		4106E90016DC04CE0092FC99 /* SourceListBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListBarBackground.png; path = Resources/SourceListBarBackground.png; sourceTree = "<group>"; };
+		4106E90116DC04CE0092FC99 /* SourceListButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonBackground.png; path = Resources/SourceListButtonBackground.png; sourceTree = "<group>"; };
+		4106E90216DC04CE0092FC99 /* SourceListButtonMinus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonMinus.png; path = Resources/SourceListButtonMinus.png; sourceTree = "<group>"; };
+		4106E90316DC04CE0092FC99 /* SourceListButtonPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonPlus.png; path = Resources/SourceListButtonPlus.png; sourceTree = "<group>"; };
 		4113DE821652E729009B0965 /* ServicePropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePropertiesView.h; path = Classes/ServicePropertiesView.h; sourceTree = "<group>"; };
 		4113DE831652E729009B0965 /* ServicePropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicePropertiesView.m; path = Classes/ServicePropertiesView.m; sourceTree = "<group>"; };
 		4113DE851652E741009B0965 /* ServicePropertiesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServicePropertiesView.xib; sourceTree = "<group>"; };
@@ -660,6 +668,10 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4106E90016DC04CE0092FC99 /* SourceListBarBackground.png */,
+				4106E90116DC04CE0092FC99 /* SourceListButtonBackground.png */,
+				4106E90216DC04CE0092FC99 /* SourceListButtonMinus.png */,
+				4106E90316DC04CE0092FC99 /* SourceListButtonPlus.png */,
 				41E9E07316D77152009E24D1 /* DeploymentStatusDown.png */,
 				41E9E07416D77152009E24D1 /* DeploymentStatusDown@2x.png */,
 				41E9E07516D77152009E24D1 /* DeploymentStatusUp.png */,
@@ -1390,6 +1402,10 @@
 				41E9E07816D77152009E24D1 /* DeploymentStatusDown@2x.png in Resources */,
 				41E9E07916D77152009E24D1 /* DeploymentStatusUp.png in Resources */,
 				41E9E07A16D77152009E24D1 /* DeploymentStatusUp@2x.png in Resources */,
+				4106E90416DC04CE0092FC99 /* SourceListBarBackground.png in Resources */,
+				4106E90516DC04CE0092FC99 /* SourceListButtonBackground.png in Resources */,
+				4106E90616DC04CE0092FC99 /* SourceListButtonMinus.png in Resources */,
+				4106E90716DC04CE0092FC99 /* SourceListButtonPlus.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

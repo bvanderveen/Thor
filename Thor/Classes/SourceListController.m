@@ -5,20 +5,43 @@
 #import "TargetPropertiesController.h"
 #import "AppDelegate.h"
 
+@interface SourceListToolbarButton : NSButton
+
+@end
+
+@implementation SourceListToolbarButton
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor colorWithPatternImage:[NSImage imageNamed:@"SourceListButtonBackground.png"]] set];
+    NSRectFill(dirtyRect);
+    //[super drawRect:dirtyRect];
+    [[NSColor colorWithDeviceWhite:.6 alpha:1] set];
+    NSRectFill(NSMakeRect(self.bounds.size.width - 1, 0, 1, self.bounds.size.height));
+    
+    NSSize imageSize = self.image.size;
+    
+    [self.image drawInRect:NSMakeRect((self.bounds.size.width - imageSize.width) / 2, (self.bounds.size.height - imageSize.height) / 2, imageSize.width, imageSize.height) fromRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) operation:NSCompositeSourceAtop fraction:1];
+}
+
+@end
+
 @implementation SourceListToolbar
 
 @synthesize addButton, removeButton;
 
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
-        self.addButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        self.addButton.title = @"+";
+        self.addButton = [[SourceListToolbarButton alloc] initWithFrame:NSZeroRect];
+        //self.addButton.title = @"+";
         self.addButton.target = self;
         self.addButton.action = @selector(showMenu);
+        self.addButton.image = [NSImage imageNamed:@"SourceListButtonPlus.png"];
+        self.addButton.bezelStyle = NSRegularSquareBezelStyle;
         [self addSubview:addButton];
         
-        self.removeButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-        self.removeButton.title = @"-";
+        self.removeButton = [[SourceListToolbarButton alloc] initWithFrame:NSZeroRect];
+        //self.removeButton.title = @"-";
+        self.removeButton.image = [NSImage imageNamed:@"SourceListButtonMinus.png"];
         [self addSubview:removeButton];
     }
     return self;
@@ -51,7 +74,7 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor colorWithDeviceWhite:.8 alpha:1] set];
+    [[NSColor colorWithPatternImage:[NSImage imageNamed:@"SourceListBarBackground.png"]] set];
     NSRectFill(dirtyRect);
 }
 
