@@ -23,6 +23,9 @@
 		411A1F2E16EA699B00E0AF13 /* PopoverLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F2B16EA699B00E0AF13 /* PopoverLeft.png */; };
 		411A1F2F16EA699B00E0AF13 /* PopoverMiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F2C16EA699B00E0AF13 /* PopoverMiddle.png */; };
 		411A1F3016EA699B00E0AF13 /* PopoverRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F2D16EA699B00E0AF13 /* PopoverRight.png */; };
+		411A1F3416EA819900E0AF13 /* SourceListButtonBackgroundHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F3116EA819900E0AF13 /* SourceListButtonBackgroundHighlighted.png */; };
+		411A1F3516EA819900E0AF13 /* SourceListButtonMinusHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F3216EA819900E0AF13 /* SourceListButtonMinusHighlighted.png */; };
+		411A1F3616EA819900E0AF13 /* SourceListButtonPlusHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F3316EA819900E0AF13 /* SourceListButtonPlusHighlighted.png */; };
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
 		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
@@ -381,6 +384,9 @@
 		411A1F2B16EA699B00E0AF13 /* PopoverLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PopoverLeft.png; path = Resources/PopoverLeft.png; sourceTree = "<group>"; };
 		411A1F2C16EA699B00E0AF13 /* PopoverMiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PopoverMiddle.png; path = Resources/PopoverMiddle.png; sourceTree = "<group>"; };
 		411A1F2D16EA699B00E0AF13 /* PopoverRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PopoverRight.png; path = Resources/PopoverRight.png; sourceTree = "<group>"; };
+		411A1F3116EA819900E0AF13 /* SourceListButtonBackgroundHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonBackgroundHighlighted.png; path = Resources/SourceListButtonBackgroundHighlighted.png; sourceTree = "<group>"; };
+		411A1F3216EA819900E0AF13 /* SourceListButtonMinusHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonMinusHighlighted.png; path = Resources/SourceListButtonMinusHighlighted.png; sourceTree = "<group>"; };
+		411A1F3316EA819900E0AF13 /* SourceListButtonPlusHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SourceListButtonPlusHighlighted.png; path = Resources/SourceListButtonPlusHighlighted.png; sourceTree = "<group>"; };
 		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
 		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -682,8 +688,11 @@
 				411A1F1D16EA67F800E0AF13 /* ContentBackground.png */,
 				4106E90016DC04CE0092FC99 /* SourceListBarBackground.png */,
 				4106E90116DC04CE0092FC99 /* SourceListButtonBackground.png */,
+				411A1F3116EA819900E0AF13 /* SourceListButtonBackgroundHighlighted.png */,
 				4106E90216DC04CE0092FC99 /* SourceListButtonMinus.png */,
+				411A1F3216EA819900E0AF13 /* SourceListButtonMinusHighlighted.png */,
 				4106E90316DC04CE0092FC99 /* SourceListButtonPlus.png */,
+				411A1F3316EA819900E0AF13 /* SourceListButtonPlusHighlighted.png */,
 				41E9E07316D77152009E24D1 /* DeploymentStatusDown.png */,
 				41E9E07416D77152009E24D1 /* DeploymentStatusDown@2x.png */,
 				41E9E07516D77152009E24D1 /* DeploymentStatusUp.png */,
@@ -1422,6 +1431,9 @@
 				411A1F2E16EA699B00E0AF13 /* PopoverLeft.png in Resources */,
 				411A1F2F16EA699B00E0AF13 /* PopoverMiddle.png in Resources */,
 				411A1F3016EA699B00E0AF13 /* PopoverRight.png in Resources */,
+				411A1F3416EA819900E0AF13 /* SourceListButtonBackgroundHighlighted.png in Resources */,
+				411A1F3516EA819900E0AF13 /* SourceListButtonMinusHighlighted.png in Resources */,
+				411A1F3616EA819900E0AF13 /* SourceListButtonPlusHighlighted.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
