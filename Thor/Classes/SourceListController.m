@@ -5,22 +5,49 @@
 #import "TargetPropertiesController.h"
 #import "AppDelegate.h"
 
+@interface SourceListToolbarButtonCell : NSButtonCell
+
+@end
+
+@implementation SourceListToolbarButtonCell
+
+- (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView { 
+    NSImage *backgroundImage = [NSImage imageNamed:image == ((NSButton *)controlView).alternateImage ? @"SourceListButtonBackgroundHighlighted.png" : @"SourceListButtonBackground.png"];
+    assert(image);
+    
+    [NSGraphicsContext saveGraphicsState];
+    NSAffineTransform *t = [NSAffineTransform transform];
+    [t scaleXBy:1 yBy:-1];
+    [t translateXBy:0 yBy:-controlView.bounds.size.height - 1];
+    [t concat];
+    
+    [backgroundImage drawInRect:controlView.bounds fromRect:(NSRect){ .origin = NSZeroPoint, .size = backgroundImage.size } operation:NSCompositeSourceOver fraction:1];
+
+    [[NSColor grayColor] set];
+    NSRectFill(NSMakeRect(controlView.bounds.size.width - 1, 0, 1, controlView.bounds.size.height));
+    
+    NSSize imageSize = image.size;
+    [image drawInRect:frame fromRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) operation:NSCompositeSourceOver fraction:1];
+    [NSGraphicsContext restoreGraphicsState];
+}
+
+- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView*)controlView {
+
+}
+
+@end
+
 @interface SourceListToolbarButton : NSButton
 
 @end
 
 @implementation SourceListToolbarButton
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor colorWithPatternImage:[NSImage imageNamed:@"SourceListButtonBackground.png"]] set];
-    NSRectFill(dirtyRect);
-    //[super drawRect:dirtyRect];
-    [[NSColor colorWithDeviceWhite:.6 alpha:1] set];
-    NSRectFill(NSMakeRect(self.bounds.size.width - 1, 0, 1, self.bounds.size.height));
-    
-    NSSize imageSize = self.image.size;
-    
-    [self.image drawInRect:NSMakeRect((self.bounds.size.width - imageSize.width) / 2, (self.bounds.size.height - imageSize.height) / 2, imageSize.width, imageSize.height) fromRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) operation:NSCompositeSourceAtop fraction:1];
+- (id)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        self.cell = [[SourceListToolbarButtonCell alloc] init];
+    }
+    return self;
 }
 
 @end
@@ -32,16 +59,17 @@
 - (id)initWithFrame:(NSRect)frameRect {
     if (self = [super initWithFrame:frameRect]) {
         self.addButton = [[SourceListToolbarButton alloc] initWithFrame:NSZeroRect];
-        //self.addButton.title = @"+";
+        self.addButton.buttonType = NSMomentaryChangeButton;
         self.addButton.target = self;
         self.addButton.action = @selector(showMenu);
         self.addButton.image = [NSImage imageNamed:@"SourceListButtonPlus.png"];
-        self.addButton.bezelStyle = NSRegularSquareBezelStyle;
+        self.addButton.alternateImage = [NSImage imageNamed:@"SourceListButtonPlusHighlighted.png"];
         [self addSubview:addButton];
         
         self.removeButton = [[SourceListToolbarButton alloc] initWithFrame:NSZeroRect];
-        //self.removeButton.title = @"-";
+        self.removeButton.buttonType = NSMomentaryChangeButton;
         self.removeButton.image = [NSImage imageNamed:@"SourceListButtonMinus.png"];
+        self.removeButton.alternateImage = [NSImage imageNamed:@"SourceListButtonMinusHighlighted.png"];
         [self addSubview:removeButton];
     }
     return self;
@@ -60,12 +88,16 @@
     newApp.target = [NSApplication sharedApplication].delegate;
     [menu addItem:newApp];
     
-    NSView *popover = [[[self superview] subviews].rac_sequence filter:^BOOL(id value) {
+    NSArray *popover = [[[self superview] subviews].rac_sequence filter:^BOOL(id value) {
         return [value isKindOfClass:[PopoverView class]];
-    }].array[0];
+    }].array;
     
-    [[popover animator] setAlphaValue:0];
-    
+    if (popover.count)
+        [[popover[0] animator] setAlphaValue:0];
+    [self performSelector:@selector(actuallyShowMenu:) withObject:menu afterDelay:0];
+}
+
+- (void)actuallyShowMenu:(NSMenu *)menu {
     [menu popUpMenuPositioningItem:nil atLocation:NSMakePoint(self.addButton.frame.size.width, 0) inView:self.addButton];
 }
 
