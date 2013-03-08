@@ -16,11 +16,16 @@
 
 @end
 
+@interface PopoverView : NSView
+
+@end
+
 @interface SourceListControllerView : NSView
 
 @property (nonatomic, retain) IBOutlet PXSourceList *sourceList;
 @property (nonatomic, strong) IBOutlet NSView *contentView;
 @property (nonatomic, strong) IBOutlet SourceListToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet PopoverView *popover;
 
 @end
 

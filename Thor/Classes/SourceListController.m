@@ -82,7 +82,7 @@
 
 @implementation SourceListControllerView
 
-@synthesize sourceList, contentView, toolbar;
+@synthesize sourceList, contentView, toolbar, popover;
 
 - (void)awakeFromNib {
     self.needsLayout = YES;
@@ -91,6 +91,8 @@
 
 - (void)layout {
     NSSize toolbarSize = [self.toolbar intrinsicContentSize];
+    
+    NSSize popoverSize = [self.popover intrinsicContentSize];
     
     self.sourceList.frame = NSMakeRect(0, 0, 200, self.bounds.size.height - toolbarSize.height);
     
@@ -101,6 +103,7 @@
     if (self.contentView.subviews.count)
         ((NSView *)self.contentView.subviews[0]).frame = self.contentView.bounds;
     
+    self.popover.frame = NSMakeRect(2, self.toolbar.frame.size.height + 2, popoverSize.width, popoverSize.height);
     [super layout];
 }
 
@@ -355,8 +358,34 @@
 - (void)drawRect:(NSRect)dirtyRect {
     NSImage *image = [NSImage imageNamed:@"ContentBackground.png"];
     
-    [image drawInRect:CGRectMake((self.bounds.size.width - image.size.width) / 2, (self.bounds.size.height - image.size.height) / 2, image.size.width, image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1];
+    [image drawInRect:CGRectMake((self.bounds.size.width - image.size.width) / 2, (self.bounds.size.height - image.size.height) / 2, image.size.width, image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:.8];
+}
+
+@end
+
+@implementation PopoverView
+
+#define POPOVER_LABEL @"Add an app or cloud."
+#define POPOVER_LABEL_ATTRIBUTES (@{ NSFontAttributeName: [NSFont boldSystemFontOfSize:12], NSForegroundColorAttributeName: [NSColor whiteColor] })
+
+- (CGSize)intrinsicContentSize {
+    NSImage *left = [NSImage imageNamed:@"PopoverLeft.png"];
+    CGSize size = [POPOVER_LABEL sizeWithAttributes:POPOVER_LABEL_ATTRIBUTES];
+    return CGSizeMake(size.width + 18, left.size.height);
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    NSImage *left = [NSImage imageNamed:@"PopoverLeft.png"];
+    NSImage *right = [NSImage imageNamed:@"PopoverRight.png"];
+    NSImage *middle = [NSImage imageNamed:@"PopoverMiddle.png"];
     
+    [left drawInRect:NSMakeRect(0, 0, left.size.width, left.size.height) fromRect:NSMakeRect(0, 0, left.size.width, left.size.height) operation:NSCompositeSourceOver fraction:1];
+    
+    [middle drawInRect:NSMakeRect(left.size.width, left.size.height - middle.size.height, self.bounds.size.width - left.size.width - right.size.width, middle.size.height) fromRect:NSMakeRect(0, 0, middle.size.width, middle.size.height) operation:NSCompositeSourceOver fraction:1];
+    
+    [right drawInRect:NSMakeRect(self.bounds.size.width - right.size.width, left.size.height - middle.size.height, right.size.width, right.size.height) fromRect:NSMakeRect(0, 0, right.size.width, right.size.height) operation:NSCompositeSourceOver fraction:1];
+    
+    [POPOVER_LABEL drawAtPoint:NSMakePoint(8, 16) withAttributes:POPOVER_LABEL_ATTRIBUTES];
 }
 
 @end
