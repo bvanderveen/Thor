@@ -60,6 +60,12 @@
     newApp.target = [NSApplication sharedApplication].delegate;
     [menu addItem:newApp];
     
+    NSView *popover = [[[self superview] subviews].rac_sequence filter:^BOOL(id value) {
+        return [value isKindOfClass:[PopoverView class]];
+    }].array[0];
+    
+    [[popover animator] setAlphaValue:0];
+    
     [menu popUpMenuPositioningItem:nil atLocation:NSMakePoint(self.addButton.frame.size.width, 0) inView:self.addButton];
 }
 
@@ -207,6 +213,11 @@
     self.controllerView.toolbar.removeButton.target = self;
     self.controllerView.toolbar.removeButton.action = @selector(remove);
     [self updateAppsAndTargets];
+    
+    if ([PopoverView hasShownOnce]) {
+        [self.controllerView.popover removeFromSuperview];
+        self.controllerView.popover = nil;
+    }
 }
 
 - (void)remove {
@@ -364,6 +375,13 @@
 @end
 
 @implementation PopoverView
+
++ (BOOL)hasShownOnce {
+    BOOL result = [[NSUserDefaults standardUserDefaults] boolForKey:@"HasShownPopover"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasShownPopover"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    return result;
+}
 
 #define POPOVER_LABEL @"Add an app or cloud."
 #define POPOVER_LABEL_ATTRIBUTES (@{ NSFontAttributeName: [NSFont boldSystemFontOfSize:12], NSForegroundColorAttributeName: [NSColor whiteColor] })

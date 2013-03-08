@@ -18,6 +18,8 @@
 
 @interface PopoverView : NSView
 
++ (BOOL)hasShownOnce;
+
 @end
 
 @interface SourceListControllerView : NSView
