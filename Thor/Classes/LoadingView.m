@@ -27,6 +27,11 @@
     [super layout];
 }
 
+- (void)drawRect:(NSRect)dirtyRect {
+    [[NSColor windowBackgroundColor] set];
+    NSRectFill(dirtyRect);
+}
+
 @end
 
 
