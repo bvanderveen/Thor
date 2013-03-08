@@ -19,6 +19,7 @@
 		4113DE891652F443009B0965 /* ServicePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4113DE881652F443009B0965 /* ServicePropertiesController.m */; };
 		4114FFB91649FD2400B4D3DB /* NSAlert+Dialogs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */; };
 		4116019F164C840C00EDA836 /* ServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4116019E164C840B00EDA836 /* ServiceCell.m */; };
+		411A1F1E16EA67F800E0AF13 /* ContentBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 411A1F1D16EA67F800E0AF13 /* ContentBackground.png */; };
 		411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */; };
 		411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */; };
 		4131290A15B61264005F6D54 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4131290915B61264005F6D54 /* CoreData.framework */; };
@@ -373,6 +374,7 @@
 		4114FFB81649FD2400B4D3DB /* NSAlert+Dialogs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAlert+Dialogs.m"; path = "Classes/NSAlert+Dialogs.m"; sourceTree = "<group>"; };
 		4116019D164C840B00EDA836 /* ServiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceCell.h; path = Classes/ServiceCell.h; sourceTree = "<group>"; };
 		4116019E164C840B00EDA836 /* ServiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceCell.m; path = Classes/ServiceCell.m; sourceTree = "<group>"; };
+		411A1F1D16EA67F800E0AF13 /* ContentBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContentBackground.png; path = Resources/ContentBackground.png; sourceTree = "<group>"; };
 		411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Deployment+CreateFromAppAndTarget.h"; sourceTree = "<group>"; };
 		411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Deployment+CreateFromAppAndTarget.m"; sourceTree = "<group>"; };
 		4131290915B61264005F6D54 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -668,6 +670,7 @@
 		414779E615C0B1AD00B733EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				411A1F1D16EA67F800E0AF13 /* ContentBackground.png */,
 				4106E90016DC04CE0092FC99 /* SourceListBarBackground.png */,
 				4106E90116DC04CE0092FC99 /* SourceListButtonBackground.png */,
 				4106E90216DC04CE0092FC99 /* SourceListButtonMinus.png */,
@@ -1406,6 +1409,7 @@
 				4106E90516DC04CE0092FC99 /* SourceListButtonBackground.png in Resources */,
 				4106E90616DC04CE0092FC99 /* SourceListButtonMinus.png in Resources */,
 				4106E90716DC04CE0092FC99 /* SourceListButtonPlus.png in Resources */,
+				411A1F1E16EA67F800E0AF13 /* ContentBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

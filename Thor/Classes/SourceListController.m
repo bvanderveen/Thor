@@ -349,3 +349,14 @@
 }
 
 @end
+
+@implementation SourceListContentView
+
+- (void)drawRect:(NSRect)dirtyRect {
+    NSImage *image = [NSImage imageNamed:@"ContentBackground.png"];
+    
+    [image drawInRect:CGRectMake((self.bounds.size.width - image.size.width) / 2, (self.bounds.size.height - image.size.height) / 2, image.size.width, image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1];
+    
+}
+
+@end

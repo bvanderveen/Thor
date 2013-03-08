@@ -23,3 +23,7 @@
 @property (nonatomic, strong) IBOutlet SourceListToolbar *toolbar;
 
 @end
+
+@interface SourceListContentView : NSView
+
+@end
