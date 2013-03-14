@@ -71,7 +71,11 @@
     
     if (proposedSelectionIndexes.count) {
         NSUInteger selectedIndex = [proposedSelectionIndexes firstIndex];
-        ((TableItem *)items[selectedIndex]).selected();
+        TableItem *item = (TableItem *)items[selectedIndex];
+        
+        if (item.selected)
+            item.selected();
+        
         selectedView = [tableView viewAtColumn:0 row:selectedIndex makeIfNecessary:YES];
         
         if ([selectedView respondsToSelector:@selector(setHighlighted:)])
