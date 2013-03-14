@@ -98,10 +98,10 @@ NSInteger AssociatedWebRequestKey;
 @implementation SMWebRequest (RAC)
 
 + (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)request dataParser:(id (^)(id))parser {
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         WebRequestBlockProducer *p = [[WebRequestBlockProducer alloc] initWithURLRequest:request dataParser:parser subscriber:subscriber];
         return [RACDisposable disposableWithBlock:^ { [p cancel]; }];
-    }];
+    }] subscribeOn:[RACScheduler mainThreadScheduler]];
 }
 
 @end
