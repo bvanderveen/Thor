@@ -609,9 +609,19 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 @implementation SlugService
 
 - (id)createManifestFromPath:(NSURL *)rootURL {
-    return [[GetItemsOnPath(rootURL) filter:^BOOL(id url) {
+    NSArray *files = [GetItemsOnPath(rootURL) filter:^BOOL(id url) {
         return !URLIsDirectory(url);
-    }] map:^ id (id f) {
+    }];
+    
+    BOOL (^warPredicate)(id) = ^ BOOL(id f) {
+        NSURL *u = (NSURL *)f;
+        return StringEndsWithString(u.path, @".war");
+    };
+    
+    if ([files any:warPredicate])
+        files = [files filter:warPredicate];
+    
+    return [files map:^ id (id f) {
         return @{
         @"fn" : StripBasePath(rootURL, f),
         @"size": SizeOfFile(f),

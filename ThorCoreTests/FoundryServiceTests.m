@@ -766,16 +766,21 @@ void (^removeCreatedFiles)(NSString *) = ^ (NSString *path) {
 };
 
 describe(@"CreateSlugManifestFromPath", ^ {
+    __block NSSet *intendedFiles;
     void (^expectToBeIntendedFiles)(NSSet *) = ^ (NSSet *filenames) {
-        expect(filenames.count).to.equal(8);
-        expect(filenames).to.contain(@"foo");
-        expect(filenames).to.contain(@"bar");
-        expect(filenames).to.contain(@"subdir1/foo1");
-        expect(filenames).to.contain(@"subdir1/bar1");
-        expect(filenames).to.contain(@"subdir2/foo2");
-        expect(filenames).to.contain(@"subdir2/bar2");
-        expect(filenames).to.contain(@"subdir2/subdir3/foo3");
-        expect(filenames).to.contain(@"subdir2/subdir3/bar3");
+        expect(filenames.count).to.equal(intendedFiles.count);
+        
+        NSArray *intendedFileNames = [intendedFiles.rac_sequence map:^id(id value) {
+            return value[@"name"];
+        }].array;
+        
+        for (NSString *filename in filenames) {
+            expect([intendedFileNames containsObject:filename]).to.beTruthy();
+        }
+        
+        for (NSString *filename in intendedFileNames) {
+            expect([filenames containsObject:filename]).to.beTruthy();
+        }
     };
     
     id (^filesInManifest)(NSURL *) = ^ id (NSURL *rootURL) {
@@ -783,8 +788,6 @@ describe(@"CreateSlugManifestFromPath", ^ {
             return [r objectForKey:@"fn"];
         }];
     };
-    
-    __block NSSet *intendedFiles;
     
     NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
     NSString *rootPath = [NSString pathWithComponents:root];
@@ -824,6 +827,14 @@ describe(@"CreateSlugManifestFromPath", ^ {
                     @[ @[@".git", @"whateverelse"], @"wish I understood git more" ]
                     ], root);
         
+        
+        expectToBeIntendedFiles(filesInManifest(rootURL));
+    });
+    
+    it(@"should prefer wars", ^ {
+        intendedFiles = createFilesAtRoot(@[
+                                          @[ @[@"thing.war"], @"blob" ]
+                                          ], root);
         
         expectToBeIntendedFiles(filesInManifest(rootURL));
     });
