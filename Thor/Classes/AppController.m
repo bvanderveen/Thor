@@ -70,6 +70,8 @@
 }
 
 - (void)viewWillAppear {
+    [AppDelegate shared].selectedTarget = nil;
+    [AppDelegate shared].selectedApp = nil;
     [self updateDeployments];
 }
 
@@ -94,6 +96,7 @@
 - (void)listView:(ListView *)listView didSelectRowAtIndex:(NSUInteger)row {
     Deployment *deployment = deployments[row];
     DeploymentController *deploymentController = [DeploymentController deploymentControllerWithDeployment:deployment];
+    [AppDelegate shared].selectedTarget = deployment.target;
     [self.breadcrumbController pushViewController:deploymentController animated:YES];
 }
 
