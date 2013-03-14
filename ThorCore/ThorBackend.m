@@ -256,7 +256,7 @@ NSManagedObjectContext *ThorGetObjectContext(NSURL *storeURL, NSError **error) {
 @dynamic displayName, localRoot;
 
 - (NSString *)lastPathComponent {
-    return [((NSURL *)[NSURL fileURLWithPath:self.localRoot]).pathComponents lastObject];
+    return [[[((NSURL *)[NSURL fileURLWithPath:self.localRoot]).pathComponents lastObject] componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
 }
 
 + (App *)appInsertedIntoManagedObjectContext:(NSManagedObjectContext *)context {

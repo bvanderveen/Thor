@@ -793,45 +793,45 @@ describe(@"CreateSlugManifestFromPath", ^ {
     NSString *rootPath = [NSString pathWithComponents:root];
     NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
     
-    beforeEach(^{
-        intendedFiles = createFilesAtRoot(@[
-                    @[ @[@"foo"], @"this is /foo" ],
-                    @[ @[@"bar"], @"this is /bar" ],
-                    @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
-                    @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
-                    @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
-                    @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
-                    @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
-                    @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                    ], root);
-        createFilesAtRoot(@[
-                          @[ @[ @".DS_Store" ], @"stuff things" ],
-                          @[ @[ @"subdir1", @".DS_Store" ], @"stuff things" ],
-                          @[ @[ @".git", @"index" ], @"things stuff" ],
-                          @[ @[ @".git", @"objects", @"abcdef" ], @"things stuff" ]
-                          ], root);
-    });
+    id includedTestFiles = @[
+                             @[ @[@"foo"], @"this is /foo" ],
+                             @[ @[@"bar"], @"this is /bar" ],
+                             @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
+                             @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
+                             @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
+                             @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
+                             @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
+                             @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
+                             ];
+    
+    id excludedTestFiles = @[
+                             @[ @[ @".DS_Store" ], @"stuff things" ],
+                             @[ @[ @"subdir1", @".DS_Store" ], @"stuff things" ],
+                             @[ @[ @".git", @"index-n-stuff"], @"blah blah blah" ],
+                             @[ @[ @".git", @"objects"], @"tree or whatever" ],
+                             @[ @[ @".git", @"whateverelse"], @"wish I understood git more" ]
+                             ];
     
     afterEach(^{
         removeCreatedFiles(rootPath);
     });
 
     it(@"should list files recursively", ^{
-        expectToBeIntendedFiles(filesInManifest(rootURL));
-    });
-    
-    it(@"should exclude .git directories", ^ {
-        createFilesAtRoot(@[
-                    @[ @[@".git", @"index-n-stuff"], @"blah blah blah" ],
-                    @[ @[@".git", @"objects"], @"tree or whatever" ],
-                    @[ @[@".git", @"whateverelse"], @"wish I understood git more" ]
-                    ], root);
-        
+        intendedFiles = createFilesAtRoot(includedTestFiles, root);
         
         expectToBeIntendedFiles(filesInManifest(rootURL));
     });
     
-    it(@"should prefer wars", ^ {
+    it(@"should exclude .git directories, .DS_Store files", ^ {
+        intendedFiles = createFilesAtRoot(includedTestFiles, root);
+        
+        createFilesAtRoot(excludedTestFiles, root);
+        
+        expectToBeIntendedFiles(filesInManifest(rootURL));
+    });
+    
+    it(@"should prefer war files over everything else", ^ {
+        intendedFiles = createFilesAtRoot(includedTestFiles, root);
         intendedFiles = createFilesAtRoot(@[
                                           @[ @[@"thing.war"], @"blob" ]
                                           ], root);
@@ -839,7 +839,21 @@ describe(@"CreateSlugManifestFromPath", ^ {
         expectToBeIntendedFiles(filesInManifest(rootURL));
     });
     
+    it(@"should be war the file if it's pointed at a war file", ^ {
+        createFilesAtRoot(@[
+                          @[ @[@"thing.war"], @"blob" ]
+                          ], root);
+        
+        NSURL *warURL = [NSURL URLWithString:[rootPath stringByAppendingString:@"/thing.war"]];
+                         
+        id x = @[ @"thing.war" ];
+        id inManifest = filesInManifest(warURL);
+        expect(inManifest).to.equal(x);
+    });
+    
     it(@"should provide file sizes", ^ {
+        intendedFiles = createFilesAtRoot(includedTestFiles, root);
+        
         NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
         
         NSMutableDictionary *nameToSizeDict = [manifest reduce:^id(id acc, id i) {
@@ -853,6 +867,8 @@ describe(@"CreateSlugManifestFromPath", ^ {
     });
     
     it(@"should calculate SHA1 digests", ^ {
+        intendedFiles = createFilesAtRoot(includedTestFiles, root);
+        
         NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
         
         NSMutableDictionary *nameToHashDict = [manifest reduce:^id(id acc, id i) {

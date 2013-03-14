@@ -431,6 +431,9 @@ BOOL URLIsDirectory(NSURL *url) {
 }
 
 NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
+    if ([baseUrl isEqual:url])
+        return [url.pathComponents lastObject];
+        
     NSString *stripped = [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
     if ([[stripped substringToIndex:1] isEqual:@"/"])
         stripped = [stripped substringFromIndex:1];
@@ -451,7 +454,6 @@ NSNumber *SizeOfFile(NSURL *url) {
 NSArray *GetItemsOnPath(NSURL *path) {
     NSMutableArray *result = [NSMutableArray array];
     path = [path URLByResolvingSymlinksInPath];
-    id i = nil;
     for (id u in [[NSFileManager defaultManager] enumeratorAtURL:path includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil]) {
         NSURL *url = [u URLByResolvingSymlinksInPath];
         [result addObject:url];
@@ -609,17 +611,24 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 @implementation SlugService
 
 - (id)createManifestFromPath:(NSURL *)rootURL {
-    NSArray *files = [GetItemsOnPath(rootURL) filter:^BOOL(id url) {
-        return !URLIsDirectory(url);
-    }];
+    NSArray *files;
     
-    BOOL (^warPredicate)(id) = ^ BOOL(id f) {
-        NSURL *u = (NSURL *)f;
-        return StringEndsWithString(u.path, @".war");
-    };
-    
-    if ([files any:warPredicate])
-        files = [files filter:warPredicate];
+    if (URLIsDirectory(rootURL)) {
+        files = [GetItemsOnPath(rootURL) filter:^BOOL(id url) {
+            return !URLIsDirectory(url);
+        }];
+        
+        BOOL (^warPredicate)(id) = ^ BOOL(id f) {
+            NSURL *u = (NSURL *)f;
+            return StringEndsWithString(u.path, @".war");
+        };
+        
+        if ([files any:warPredicate])
+            files = [files filter:warPredicate];
+    }
+    else {
+        files = @[ rootURL ];
+    }
     
     return [files map:^ id (id f) {
         return @{

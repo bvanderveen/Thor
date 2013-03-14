@@ -139,12 +139,13 @@
     
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     openPanel.canChooseDirectories = YES;
-    openPanel.canChooseFiles = NO;
+    openPanel.canChooseFiles = YES;
+    openPanel.allowedFileTypes = @[ @"war" ];
     openPanel.allowsMultipleSelection = NO;
     [openPanel beginSheetModalForWindow:window completionHandler:^ void (NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
             app.localRoot = [[openPanel.URLs objectAtIndex:0] path];
-            app.displayName = app.lastPathComponent;
+            app.displayName = [[app.localRoot pathComponents] lastObject];
             [[ThorBackend sharedContext] insertObject:app];
             
             NSError *error = nil;
@@ -212,7 +213,6 @@
 
 - (IBAction)stopDeployment:(id)sender {
     [[[self clientForSelectedTarget] updateApp:selectedApp withState:FoundryAppStateStopped] subscribeCompleted:^{
-        
     }];
 }
 
