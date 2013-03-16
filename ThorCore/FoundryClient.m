@@ -327,9 +327,9 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
         app.stagingFramework = staging[@"framework"];
     
     if ([[staging allKeys] containsObject:@"stack"])
-        app.stagingFramework = staging[@"stack"];
+        app.stagingRuntime = staging[@"stack"];
     else if ([[staging allKeys] containsObject:@"runtime"])
-        app.stagingFramework = staging[@"runtime"];
+        app.stagingRuntime = staging[@"runtime"];
 
     NSString *state = appDict[@"state"];
     
@@ -640,6 +640,11 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 }
 
 - (NSURL *)createSlugFromManifest:(id)manifest path:(NSURL *)rootURL {
+    
+    if (!URLIsDirectory(rootURL)) {
+        NSString *parentDirComponents = [NSString pathWithComponents:[rootURL.pathComponents.rac_sequence take:rootURL.pathComponents.count - 1].array];
+        rootURL = [NSURL fileURLWithPath:parentDirComponents];
+    }
     
     NSString *slugPath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]];
     [[NSFileManager defaultManager] removeItemAtPath:slugPath error:nil];

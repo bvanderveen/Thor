@@ -925,20 +925,12 @@ describe(@"CreateSlugFromManifest", ^{
     __block NSSet *createdFiles;
     
     NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
-    NSString *rootPath = [NSString pathWithComponents:root];
-    NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+    __block NSString *rootPath = [NSString pathWithComponents:root];
+    __block NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
+    NSArray *extractionRoot = @[NSTemporaryDirectory(), @"TestZipDirExtracted"];
+    NSURL *extractionRootPath = [NSURL fileURLWithPath:[NSString pathWithComponents:extractionRoot]];
     
     beforeEach(^{
-        createdFiles = createFilesAtRoot(@[
-                    @[ @[@"foo"], @"this is /foo" ],
-                    @[ @[@"bar"], @"this is /bar" ],
-                    @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
-                    @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
-                    @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
-                    @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
-                    @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
-                    @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                    ], root);
     });
     
     afterEach(^{
@@ -946,19 +938,50 @@ describe(@"CreateSlugFromManifest", ^{
         [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
     });
     
-    it(@"should contain all of the files", ^{
-        NSArray *extractionRoot = @[NSTemporaryDirectory(), @"TestZipDirExtracted"];
-        NSURL *extractionRootPath = [NSURL fileURLWithPath:[NSString pathWithComponents:extractionRoot]];
-        
-        
+    NSURL *(^createSlugFromURL)(NSURL *) = ^ NSURL * (NSURL *url) {
         SlugService *service = [[SlugService alloc] init];
-        NSArray *manifest = [service createManifestFromPath:rootURL];
-        NSURL *slug = [service createSlugFromManifest:manifest path:rootURL];
+        NSArray *manifest = [service createManifestFromPath:url];
+        NSURL *slug = [service createSlugFromManifest:manifest path:url];
+        return slug;
+    };
+    
+    it(@"should contain all of the files", ^{
+        createdFiles = createFilesAtRoot(@[
+                                         @[ @[@"foo"], @"this is /foo" ],
+                                         @[ @[@"bar"], @"this is /bar" ],
+                                         @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
+                                         @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
+                                         @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
+                                         @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
+                                         @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
+                                         @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
+                                         ], root);
+        
+        NSURL *slug = createSlugFromURL(rootURL);
+
+        extractSlug(slug, extractionRootPath);
+        NSSet *files = filesUnderRoot(extractionRootPath);
+        
+        expect(files).to.equal(createdFiles);
+    });
+    
+    it(@"should contain the war file if given path is a war file", ^ {
+        createdFiles = createFilesAtRoot(@[
+                                         @[ @[@"foo.war"], @"this is foo.war" ]
+                                         ], root);
+        
+        NSString *warPath = [NSString pathWithComponents:[root arrayByAddingObject:[createdFiles.allObjects objectAtIndex:0][@"name"]]];
+        NSURL *warURL = [NSURL fileURLWithPath:warPath];
+        
+        NSURL *slug = createSlugFromURL(warURL);
         
         extractSlug(slug, extractionRootPath);
         NSSet *files = filesUnderRoot(extractionRootPath);
         
         expect(files).to.equal(createdFiles);
+        
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:warPath error:&error];
     });
 });
 
