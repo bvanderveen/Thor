@@ -9,16 +9,42 @@
 #import "RACSignal+Extensions.h"
 
 NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
+NSInteger JsonParseError = 123;
 
 static id (^JsonParser)(id) = ^ id (id d) {
     NSData *data = (NSData *)d;
-    return data.length ? [data JSONValue] : nil;
+    
+    if (!data.length)
+        return nil;
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    id result = [parser objectWithData:data];
+    
+    if (!result) {
+        NSLog(@"-JSONValue failed. Error is: %@", parser.error);
+        return [NSError errorWithDomain:FoundryClientErrorDomain code:JsonParseError userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"-JSONValue failed. Error is: %@", parser.error] }];
+    }
+    
+    return result;
 };
 
 @implementation RestEndpoint
 
 - (RACSignal *)requestSignalWithURLRequest:(NSURLRequest *)urlRequest {
-    return [SMWebRequest requestSignalWithURLRequest:urlRequest dataParser:JsonParser];
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        return [[SMWebRequest requestSignalWithURLRequest:urlRequest dataParser:JsonParser] subscribeNext:^(id x) {
+            if ([x isKindOfClass:[NSError class]]) {
+                [subscriber sendError:x];
+            }
+            else {
+                [subscriber sendNext:x];
+            }
+        } error:^(NSError *error) {
+            [subscriber sendError:error];
+        } completed:^{
+            [subscriber sendCompleted];
+        }];
+    }];
 }
 
 @end
