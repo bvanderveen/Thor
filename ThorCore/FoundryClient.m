@@ -697,6 +697,9 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
     [tempFile open];
     
     [tempFile writeString:[NSString stringWithFormat:@"--%@\r\n", *outBoundary]];
+    [tempFile writeString:@"Content-Disposition: form-data; name=\"_method\"\r\n\r\n"];
+    [tempFile writeString:@"put"];
+    [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", *outBoundary]];
     [tempFile writeString:@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n"];
     [tempFile writeData:[manifest JSONDataRepresentation]];
     [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", *outBoundary]];
@@ -961,7 +964,7 @@ static NSMutableDictionary *clients;
         
         [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageUploadingPackage]];
         
-        RACSignal *upload = [endpoint authenticatedRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
+        RACSignal *upload = [endpoint authenticatedRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
                                    @"Content-Type": [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary],
                                    @"Content-Length": [contentLength stringValue],
                                     } body:[NSInputStream inputStreamWithFileAtPath:messagePath]];

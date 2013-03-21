@@ -677,6 +677,9 @@ describe(@"CreateMultipartMessage", ^ {
         [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
         
         NSString *expectedMessage = @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
+        "Content-Disposition: form-data; name=\"_method\"\r\n\r\n" \
+        "put\r\n" \
+        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
         "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
         "[\"a\",\"b\",\"c\"]\r\n" \
         "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
