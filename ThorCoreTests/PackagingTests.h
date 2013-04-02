@@ -1,0 +1,4 @@
+
+@interface PackagingTests : NSObject
+
+@end

@@ -842,7 +842,7 @@ describe(@"CreateSlugManifestFromPath", ^ {
         expectToBeIntendedFiles(filesInManifest(rootURL));
     });
     
-    it(@"should be war the file if it's pointed at a war file", ^ {
+    it(@"should be the contents of a war file if path is a war file", ^ {
         createFilesAtRoot(@[
                           @[ @[@"thing.war"], @"blob" ]
                           ], root);
@@ -892,9 +892,26 @@ void (^extractSlug)(NSURL *, NSURL *) = ^(NSURL *slug, NSURL *path) {
     [task launch];
     [task waitUntilExit];
     
-    
     NSError *error = nil;
     [[NSFileManager defaultManager] removeItemAtPath:slug.path error:&error];
+};
+
+
+NSURL *(^createSlug)(id manifest, NSURL *) = ^ NSURL *(NSURL *rootURL, id manifest) {
+    NSString *slugPath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]];
+    [[NSFileManager defaultManager] removeItemAtPath:slugPath error:nil];
+    NSURL *path = [NSURL fileURLWithPath:slugPath];
+    
+    NSTask *task = [NSTask new];
+    task.launchPath = @"/usr/bin/zip";
+    task.currentDirectoryPath = rootURL.path;
+    task.arguments = [@[path.path] concat:[manifest map:^id(id f) {
+        return f[@"fn"];
+    }]];
+    
+    [task launch];
+    [task waitUntilExit];
+    return path;
 };
 
 NSSet *(^filesUnderRoot)(NSURL *) = ^ NSSet * (NSURL *root) {

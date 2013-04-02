@@ -666,7 +666,6 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 }
 
 - (NSURL *)createSlugFromManifest:(id)manifest path:(NSURL *)rootURL {
-    
     if (!URLIsDirectory(rootURL)) {
         NSString *parentDirComponents = [NSString pathWithComponents:[rootURL.pathComponents.rac_sequence take:rootURL.pathComponents.count - 1].array];
         rootURL = [NSURL fileURLWithPath:parentDirComponents];

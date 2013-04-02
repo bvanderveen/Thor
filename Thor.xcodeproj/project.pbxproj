@@ -79,6 +79,9 @@
 		41826E951608FE590094F5C2 /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41826E941608FE590094F5C2 /* AppCell.m */; };
 		41826E9E160A84280094F5C2 /* NoResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41826E9D160A84280094F5C2 /* NoResultsCell.m */; };
 		4188EB3B15ACB6800064206C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4188EB3915ACB6800064206C /* MainMenu.xib */; };
+		419429B616FCEED9004C66E0 /* Packaging.h in Headers */ = {isa = PBXBuildFile; fileRef = 419429B416FCEED9004C66E0 /* Packaging.h */; };
+		419429B716FCEED9004C66E0 /* Packaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 419429B516FCEED9004C66E0 /* Packaging.m */; };
+		419429C616FCF770004C66E0 /* PackagingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 419429C516FCF770004C66E0 /* PackagingTests.m */; };
 		419E73C216068B6F009FA6D3 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 419E73C116068B6F009FA6D3 /* icon.icns */; };
 		419E73C51607E13F009FA6D3 /* ListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C41607E13F009FA6D3 /* ListView.m */; };
 		419E73C81608E4CE009FA6D3 /* NSFont+LineHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E73C71608E4CD009FA6D3 /* NSFont+LineHeight.m */; };
@@ -457,6 +460,10 @@
 		41826E9C160A84280094F5C2 /* NoResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoResultsCell.h; path = Classes/NoResultsCell.h; sourceTree = "<group>"; };
 		41826E9D160A84280094F5C2 /* NoResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoResultsCell.m; path = Classes/NoResultsCell.m; sourceTree = "<group>"; };
 		4188EB3A15ACB6800064206C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		419429B416FCEED9004C66E0 /* Packaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Packaging.h; sourceTree = "<group>"; };
+		419429B516FCEED9004C66E0 /* Packaging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Packaging.m; sourceTree = "<group>"; };
+		419429C416FCF770004C66E0 /* PackagingTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackagingTests.h; sourceTree = "<group>"; };
+		419429C516FCF770004C66E0 /* PackagingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackagingTests.m; sourceTree = "<group>"; };
 		419E73C116068B6F009FA6D3 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		419E73C31607E13F009FA6D3 /* ListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListView.h; path = Classes/ListView.h; sourceTree = "<group>"; };
 		419E73C41607E13F009FA6D3 /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListView.m; path = Classes/ListView.m; sourceTree = "<group>"; };
@@ -915,6 +922,8 @@
 				414AC848162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m */,
 				411FCF871640947F000B1841 /* Deployment+CreateFromAppAndTarget.h */,
 				411FCF8816409481000B1841 /* Deployment+CreateFromAppAndTarget.m */,
+				419429B416FCEED9004C66E0 /* Packaging.h */,
+				419429B516FCEED9004C66E0 /* Packaging.m */,
 				416567B215DAE59700EF93DF /* Utilities */,
 				41F9029D15AF592A00550870 /* Supporting Files */,
 			);
@@ -936,6 +945,8 @@
 				41EE94B215F038F500A45951 /* FoundryServiceTests.m */,
 				41F902B515AF592A00550870 /* ThorBackendTests.h */,
 				41F902B615AF592A00550870 /* ThorBackendTests.m */,
+				419429C416FCF770004C66E0 /* PackagingTests.h */,
+				419429C516FCF770004C66E0 /* PackagingTests.m */,
 				41F902B015AF592A00550870 /* Supporting Files */,
 			);
 			path = ThorCoreTests;
@@ -1106,6 +1117,7 @@
 				413C2E281603007A00C80B4C /* NSOutputStream+Writing.h in Headers */,
 				414AC849162CE29A005D8423 /* FoundryApp+CreateFromDeployment.h in Headers */,
 				411FCF8916409483000B1841 /* Deployment+CreateFromAppAndTarget.h in Headers */,
+				419429B616FCEED9004C66E0 /* Packaging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,6 +1505,7 @@
 				413C2E291603007A00C80B4C /* NSOutputStream+Writing.m in Sources */,
 				414AC84A162CE29A005D8423 /* FoundryApp+CreateFromDeployment.m in Sources */,
 				411FCF8A16409483000B1841 /* Deployment+CreateFromAppAndTarget.m in Sources */,
+				419429B716FCEED9004C66E0 /* Packaging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1502,6 +1515,7 @@
 			files = (
 				41F902B715AF592A00550870 /* ThorBackendTests.m in Sources */,
 				41EE94B315F038F500A45951 /* FoundryServiceTests.m in Sources */,
+				419429C616FCF770004C66E0 /* PackagingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
