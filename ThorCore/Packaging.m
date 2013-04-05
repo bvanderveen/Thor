@@ -60,13 +60,18 @@
         
         return url;
     }
-    if (url.isZipFile)
-        return url;
     
-    if (url.isWarFile)
+    if (url.isZipFile || url.isWarFile)
         return url;
     
     return nil;
+}
+
+- (BOOL)shouldUnpackURL:(NSURL *)url {
+    if (url.isWarFile || url.isZipFile)
+        return YES;
+    
+    return NO;
 }
 
 @end

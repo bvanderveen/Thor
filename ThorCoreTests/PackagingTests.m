@@ -39,33 +39,49 @@ describe(@"Packaging", ^{
     FSUtils *fs = [[FSUtils alloc] init];
     Packaging *packaging = [[Packaging alloc] init];
     
+    __block NSURL *directoryURL;
+    __block NSURL *warURL;
+    __block NSURL *zipURL;
+    
     afterEach(^{
         [fs removeTemporaryFiles];
     });
     
-    it(@"should resolve to the given URL if given URL is a directory", ^ {
-        NSURL *directoryURL = [fs temporaryFileURLFromPath:@"some_directory"];
+    void (^createDirectory)() = ^ {
+        directoryURL = [fs temporaryFileURLFromPath:@"some_directory"];
         [fs createDirectory:directoryURL];
+    };
+    
+    void (^createWar)() = ^ {
+        createDirectory();
+        warURL = [fs temporaryFileURLFromPath:@"some_directory/some_war.war"];
+        [fs createFile:warURL withContents:[@"<WAR contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    };
+    
+    void (^createZip)() = ^ {
+        createDirectory();
+        zipURL = [fs temporaryFileURLFromPath:@"some_directory/some_zip.zip"];
+        [fs createFile:zipURL withContents:[@"<ZIP contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    };
+    
+    it(@"resolveURL: should resolve to the given URL if given URL is a directory", ^ {
+        createDirectory();
         
         NSURL *result = [packaging resolveURL:directoryURL];
         
         expect(result).to.equal(directoryURL);
     });
     
-    it(@"should resolve to the given URL if given URL is a WAR file", ^ {
-        [fs createDirectory:[fs temporaryFileURLFromPath:@"some_directory"]];
-        NSURL *warURL = [fs temporaryFileURLFromPath:@"some_directory/some_war.war"];
-        [fs createFile:warURL withContents:[@"<WAR contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    it(@"resolveURL: should resolve to the given URL if given URL is a WAR file", ^ {
+        createWar();
         
         NSURL *result = [packaging resolveURL:warURL];
         
         expect(result).to.equal(warURL);
     });
     
-    it(@"should resolve to the given URL if given URL is a ZIP file", ^ {
-        [fs createDirectory:[fs temporaryFileURLFromPath:@"some_directory"]];
-        NSURL *zipURL = [fs temporaryFileURLFromPath:@"some_directory/some_zip.zip"];
-        [fs createFile:zipURL withContents:[@"<ZIP contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    it(@"resolveURL: should resolve to the given URL if given URL is a ZIP file", ^ {
+        createZip();
         
         NSURL *result = [packaging resolveURL:zipURL];
         
@@ -73,28 +89,55 @@ describe(@"Packaging", ^{
         
     });
     
-    it(@"should resolve to the URL of a ZIP file if given URL is a directory containing a ZIP file", ^ {
-        NSURL *directoryURL = [fs temporaryFileURLFromPath:@"some_directory"];
-        [fs createDirectory:directoryURL];
-        NSURL *zipURL = [fs temporaryFileURLFromPath:@"some_directory/some_zip.zip"];
-        
-        [fs createFile:zipURL withContents:[@"<ZIP contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    it(@"resolveURL: should resolve to the URL of a ZIP file if given URL is a directory containing a ZIP file", ^ {
+        createZip();
         
         NSURL *result = [packaging resolveURL:directoryURL];
         
         expect(result).to.equal(zipURL);
     });
     
-    it(@"should resolve to the URL of a WAR file if given URL is a directory containing a WAR file", ^ {
-        NSURL *directoryURL = [fs temporaryFileURLFromPath:@"some_directory"];
-        [fs createDirectory:directoryURL];
-        NSURL *warURL = [fs temporaryFileURLFromPath:@"some_directory/some_war.war"];
-        
-        [fs createFile:warURL withContents:[@"<WAR contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+    it(@"resolveURL: should resolve to the URL of a WAR file if given URL is a directory containing a WAR file", ^ {
+        createWar();
         
         NSURL *result = [packaging resolveURL:directoryURL];
         
         expect(result).to.equal(warURL);
+    });
+    
+    it(@"shouldUnpackURL: should return YES if URL is war file", ^ {
+        createWar();
+        
+        BOOL result = [packaging shouldUnpackURL:warURL];
+        
+        expect(result).to.beTruthy();
+    });
+    
+    it(@"shouldUnpackURL: should return YES if URL is zip file", ^ {
+        createZip();
+        
+        BOOL result = [packaging shouldUnpackURL:zipURL];
+        
+        expect(result).to.beTruthy();
+        
+    });
+    
+    it(@"shouldUnpackURL: should return NO if URL is a directory", ^ {
+        createDirectory();
+        
+        BOOL result = [packaging shouldUnpackURL:directoryURL];
+        
+        expect(result).to.beFalsy();
+    });
+    
+    it(@"shouldUnpackURL: should return NO if URL is not a war or zip file", ^ {
+        createDirectory();
+        NSURL *otherFileURL = [fs temporaryFileURLFromPath:@"some_directory/some_other_file.txt"];
+        [fs createFile:zipURL withContents:[@"<ZIP contents>" dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        BOOL result = [packaging shouldUnpackURL:otherFileURL];
+        
+        expect(result).to.beFalsy();
     });
 });
 
