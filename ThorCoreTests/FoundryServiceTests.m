@@ -91,29 +91,6 @@
 
 @end
 
-@interface MockSlugService : NSObject <SlugService>
-
-@end
-
-@implementation MockSlugService
-
-- (id)createManifestFromPath:(NSURL *)rootURL {
-    return nil;
-}
-
-- (NSURL *)createSlugFromManifest:(id)manifest path:(NSURL *)rootURL {
-    return [NSURL URLWithString:@"file:///foo"];
-}
-
-- (BOOL)createMultipartMessageFromManifest:(id)manifest slug:(NSURL *)slugFile outMessagePath:(NSString **)outMessagePath outContentLength:(NSNumber **)outContentLength outBoundary:(NSString **)outBoundary error:(NSError **)error {
-    *outMessagePath = @"file:///tmp/blah";
-    *outBoundary = @"the_boundary";
-    *outContentLength = [NSNumber numberWithInt:0];
-    return YES;
-}
-
-@end
-
 SpecBegin(RestEndpoint)
 
 describe(@"verifyCredentials", ^{
@@ -648,63 +625,15 @@ describe(@"deleteAppWithName", ^ {
     });
 });
 
-describe(@"CreateMultipartMessage", ^ {
-    
-    __block MockEndpoint *endpoint;
-    __block FoundryClient *client;
-    
-    beforeEach(^ {
-        endpoint = [MockEndpoint new];
-        client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
-    });
-    
-    it(@"should write multipart message", ^ {
-        NSString *tempFilePath = [NSString pathWithComponents:@[ NSTemporaryDirectory(), @"TestUploadFile.txt" ]];
-        NSURL *tempFileURL = [NSURL fileURLWithPath:tempFilePath];
-        
-        [[NSFileManager defaultManager] createFileAtPath:tempFilePath contents:[@"this is some data in a file" dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
-        
-        NSArray *manifest = @[ @"a", @"b", @"c" ];
-        
-        NSString *messagePath, *boundary;
-        NSNumber *contentLength;
-        NSError *error;
-        
-        BOOL success = [[[SlugService alloc] init] createMultipartMessageFromManifest:manifest slug:tempFileURL outMessagePath:&messagePath outContentLength:&contentLength outBoundary:&boundary error:&error];
-        
-        NSString *message = [[NSString alloc] initWithData:[[NSFileManager defaultManager] contentsAtPath:messagePath] encoding:NSUTF8StringEncoding];
-        
-        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
-        
-        NSString *expectedMessage = @"--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-        "Content-Disposition: form-data; name=\"_method\"\r\n\r\n" \
-        "put\r\n" \
-        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-        "Content-Disposition: form-data; name=\"resources\"\r\n\r\n" \
-        "[\"a\",\"b\",\"c\"]\r\n" \
-        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL\r\n" \
-        "Content-Disposition: form-data; name=\"application\"\r\n" \
-        "Content-Type: application/zip\r\n\r\n" \
-        "this is some data in a file\r\n"
-        "--BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL--\r\n";
-        
-        expect(success).to.beTruthy();
-        expect(boundary).to.equal(@"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL");
-        expect(message).to.equal(expectedMessage);
-    });
-});
 
 describe(@"pushAppWithName:localRoot:", ^{
     
     __block MockEndpoint *endpoint;
-    __block MockSlugService *slugService;
     __block FoundryClient *client;
     
     beforeEach(^ {
         endpoint = [MockEndpoint new];
         client = [[FoundryClient alloc] initWithEndpoint:(FoundryEndpoint *)endpoint];
-        slugService = [MockSlugService new];
-        [client performSelector:@selector(setSlugService:) withObject:slugService];
     });
     
 
@@ -713,7 +642,7 @@ describe(@"pushAppWithName:localRoot:", ^{
         __block NSError *error = nil;
         __block BOOL completed = NO;
         
-        [[client pushAppWithName:@"" fromLocalPath:@"whatever"] subscribeNext:^(id x) {
+        [[client pushAppWithName:@"" fromLocalPath:@"whatever" packaging:[[Packaging alloc] init]] subscribeNext:^(id x) {
             results = [results arrayByAddingObject:x];
         } error:^(NSError *e) {
             error = e;
@@ -767,123 +696,6 @@ void (^removeCreatedFiles)(NSString *) = ^ (NSString *path) {
     NSError *error = nil;
     [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 };
-
-describe(@"CreateSlugManifestFromPath", ^ {
-    __block NSSet *intendedFiles;
-    void (^expectToBeIntendedFiles)(NSSet *) = ^ (NSSet *filenames) {
-        expect(filenames.count).to.equal(intendedFiles.count);
-        
-        NSArray *intendedFileNames = [intendedFiles.rac_sequence map:^id(id value) {
-            return value[@"name"];
-        }].array;
-        
-        for (NSString *filename in filenames) {
-            expect([intendedFileNames containsObject:filename]).to.beTruthy();
-        }
-        
-        for (NSString *filename in intendedFileNames) {
-            expect([filenames containsObject:filename]).to.beTruthy();
-        }
-    };
-    
-    id (^filesInManifest)(NSURL *) = ^ id (NSURL *rootURL) {
-        return [[[[SlugService alloc] init] createManifestFromPath:rootURL] map:^id(id r) {
-            return [r objectForKey:@"fn"];
-        }];
-    };
-    
-    NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
-    NSString *rootPath = [NSString pathWithComponents:root];
-    NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
-    
-    id includedTestFiles = @[
-                             @[ @[@"foo"], @"this is /foo" ],
-                             @[ @[@"bar"], @"this is /bar" ],
-                             @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
-                             @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
-                             @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
-                             @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
-                             @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
-                             @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                             ];
-    
-    id excludedTestFiles = @[
-                             @[ @[ @".DS_Store" ], @"stuff things" ],
-                             @[ @[ @"subdir1", @".DS_Store" ], @"stuff things" ],
-                             @[ @[ @".git", @"index-n-stuff"], @"blah blah blah" ],
-                             @[ @[ @".git", @"objects"], @"tree or whatever" ],
-                             @[ @[ @".git", @"whateverelse"], @"wish I understood git more" ]
-                             ];
-    
-    afterEach(^{
-        removeCreatedFiles(rootPath);
-    });
-
-    it(@"should list files recursively", ^{
-        intendedFiles = createFilesAtRoot(includedTestFiles, root);
-        
-        expectToBeIntendedFiles(filesInManifest(rootURL));
-    });
-    
-    it(@"should exclude .git directories, .DS_Store files", ^ {
-        intendedFiles = createFilesAtRoot(includedTestFiles, root);
-        
-        createFilesAtRoot(excludedTestFiles, root);
-        
-        expectToBeIntendedFiles(filesInManifest(rootURL));
-    });
-    
-    it(@"should prefer war files over everything else", ^ {
-        intendedFiles = createFilesAtRoot(includedTestFiles, root);
-        intendedFiles = createFilesAtRoot(@[
-                                          @[ @[@"thing.war"], @"blob" ]
-                                          ], root);
-        
-        expectToBeIntendedFiles(filesInManifest(rootURL));
-    });
-    
-    it(@"should be the contents of a war file if path is a war file", ^ {
-        createFilesAtRoot(@[
-                          @[ @[@"thing.war"], @"blob" ]
-                          ], root);
-        
-        NSURL *warURL = [NSURL URLWithString:[rootPath stringByAppendingString:@"/thing.war"]];
-                         
-        id x = @[ @"thing.war" ];
-        id inManifest = filesInManifest(warURL);
-        expect(inManifest).to.equal(x);
-    });
-    
-    it(@"should provide file sizes", ^ {
-        intendedFiles = createFilesAtRoot(includedTestFiles, root);
-        
-        NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
-        
-        NSMutableDictionary *nameToSizeDict = [manifest reduce:^id(id acc, id i) {
-            ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"size"];
-            return acc;
-        } seed:[NSMutableDictionary dictionary]];
-        
-        expect(nameToSizeDict[@"foo"]).to.equal(@"this is /foo".length);
-        expect(nameToSizeDict[@"subdir1/foo1"]).to.equal(@"this is /subdir1/foo1".length);
-        expect(nameToSizeDict[@"subdir2/subdir3/bar3"]).to.equal(@"this is /subdir2/subdir3/bar3".length);
-    });
-    
-    it(@"should calculate SHA1 digests", ^ {
-        intendedFiles = createFilesAtRoot(includedTestFiles, root);
-        
-        NSArray *manifest = [[[SlugService alloc] init] createManifestFromPath:rootURL];
-        
-        NSMutableDictionary *nameToHashDict = [manifest reduce:^id(id acc, id i) {
-            ((NSMutableDictionary *)acc)[[i objectForKey:@"fn"]] = [i objectForKey:@"sha1"];
-            return acc;
-        } seed:[NSMutableDictionary dictionary]];
-        
-        expect(nameToHashDict[@"foo"]).to.equal(@"02d93cc62a7f63b4e4bead55fff95176251d7cc7");
-        expect(nameToHashDict[@"subdir1/foo1"]).to.equal(@"1411e4e16e797bd23075cf9b4fc0611ea64402f2");
-        expect(nameToHashDict[@"subdir2/subdir3/bar3"]).to.equal(@"84fb57be8728b638cfa2b100fc6b8f82dc807e62");
-    });
-});
 
 void (^extractSlug)(NSURL *, NSURL *) = ^(NSURL *slug, NSURL *path) {
     NSTask *task = [NSTask new];
@@ -940,70 +752,6 @@ NSSet *(^filesUnderRoot)(NSURL *) = ^ NSSet * (NSURL *root) {
     [[NSFileManager defaultManager] removeItemAtPath:root.path error:&error];
     return result;
 };
-
-describe(@"CreateSlugFromManifest", ^{
-    __block NSSet *createdFiles;
-    
-    NSArray *root = @[NSTemporaryDirectory(), @"ThorScratchDir"];
-    __block NSString *rootPath = [NSString pathWithComponents:root];
-    __block NSURL *rootURL = [NSURL fileURLWithPath:rootPath];
-    NSArray *extractionRoot = @[NSTemporaryDirectory(), @"TestZipDirExtracted"];
-    NSURL *extractionRootPath = [NSURL fileURLWithPath:[NSString pathWithComponents:extractionRoot]];
-    
-    beforeEach(^{
-    });
-    
-    afterEach(^{
-        NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:rootPath error:&error];
-    });
-    
-    NSURL *(^createSlugFromURL)(NSURL *) = ^ NSURL * (NSURL *url) {
-        SlugService *service = [[SlugService alloc] init];
-        NSArray *manifest = [service createManifestFromPath:url];
-        NSURL *slug = [service createSlugFromManifest:manifest path:url];
-        return slug;
-    };
-    
-    it(@"should contain all of the files", ^{
-        createdFiles = createFilesAtRoot(@[
-                                         @[ @[@"foo"], @"this is /foo" ],
-                                         @[ @[@"bar"], @"this is /bar" ],
-                                         @[ @[@"subdir1", @"foo1"], @"this is /subdir1/foo1" ],
-                                         @[ @[@"subdir1", @"bar1"], @"this is /subdir1/bar1" ],
-                                         @[ @[@"subdir2", @"foo2"], @"this is /subdir2/foo2" ],
-                                         @[ @[@"subdir2", @"bar2"], @"this is /subdir2/bar2" ],
-                                         @[ @[@"subdir2", @"subdir3", @"foo3"], @"this is /subdir2/subdir3/foo3" ],
-                                         @[ @[@"subdir2", @"subdir3", @"bar3"], @"this is /subdir2/subdir3/bar3" ],
-                                         ], root);
-        
-        NSURL *slug = createSlugFromURL(rootURL);
-
-        extractSlug(slug, extractionRootPath);
-        NSSet *files = filesUnderRoot(extractionRootPath);
-        
-        expect(files).to.equal(createdFiles);
-    });
-    
-    it(@"should contain the war file if given path is a war file", ^ {
-        createdFiles = createFilesAtRoot(@[
-                                         @[ @[@"foo.war"], @"this is foo.war" ]
-                                         ], root);
-        
-        NSString *warPath = [NSString pathWithComponents:[root arrayByAddingObject:[createdFiles.allObjects objectAtIndex:0][@"name"]]];
-        NSURL *warURL = [NSURL fileURLWithPath:warPath];
-        
-        NSURL *slug = createSlugFromURL(warURL);
-        
-        extractSlug(slug, extractionRootPath);
-        NSSet *files = filesUnderRoot(extractionRootPath);
-        
-        expect(files).to.equal(createdFiles);
-        
-        NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:warPath error:&error];
-    });
-});
 
 void (^createZipFile)(NSArray *, NSArray *, NSArray *) = ^ void (NSArray *basePathComponents, NSArray *outputFileComponents, NSArray *manifest) {
     

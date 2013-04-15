@@ -154,7 +154,7 @@
     
     FoundryClient *client = [FoundryClient clientWithEndpoint:[FoundryEndpoint endpointWithTarget:deployment.target]];
     
-    RACSignal *signal = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot] subscribeOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] deliverOn:[RACScheduler mainThreadScheduler]] doCompleted:^ {
+    RACSignal *signal = [[[[[client pushAppWithName:deployment.name fromLocalPath:deployment.app.localRoot packaging:[[Packaging alloc] init]] subscribeOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] deliverOn:[RACScheduler mainThreadScheduler]] doCompleted:^ {
         button.enabled = YES;
     }] doError:^(NSError *error) {
         button.enabled = YES;

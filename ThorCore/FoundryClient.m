@@ -7,6 +7,7 @@
 #import "NSOutputStream+Writing.h"
 #import <ReactiveCocoa/EXTScope.h>
 #import "RACSignal+Extensions.h"
+#import "Packaging.h"
 
 NSString *FoundryClientErrorDomain = @"FoundryClientErrorDomain";
 NSInteger JsonParseError = 123;
@@ -440,12 +441,6 @@ NSString * FoundryAppMemoryAmountStringFromAmount(FoundryAppMemoryAmount amount)
 
 @end
 
-@implementation FoundrySlug
-
-@synthesize zipFile, manifiest;
-
-@end
-
 BOOL URLIsDirectory(NSURL *url) {
     NSError *error = nil;
     NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:url.path error:&error];
@@ -459,7 +454,7 @@ BOOL URLIsDirectory(NSURL *url) {
 NSString *StripBasePath(NSURL *baseUrl, NSURL *url) {
     if ([baseUrl isEqual:url])
         return [url.pathComponents lastObject];
-        
+    
     NSString *stripped = [url.path stringByReplacingOccurrencesOfString:baseUrl.path withString:@""];
     if ([[stripped substringToIndex:1] isEqual:@"/"])
         stripped = [stripped substringFromIndex:1];
@@ -634,99 +629,6 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
     }
 }
 
-@implementation SlugService
-
-- (id)createManifestFromPath:(NSURL *)rootURL {
-    NSArray *files;
-    
-    if (URLIsDirectory(rootURL)) {
-        files = [GetItemsOnPath(rootURL) filter:^BOOL(id url) {
-            return !URLIsDirectory(url);
-        }];
-        
-        BOOL (^warPredicate)(id) = ^ BOOL(id f) {
-            NSURL *u = (NSURL *)f;
-            return StringEndsWithString(u.path, @".war");
-        };
-        
-        if ([files any:warPredicate])
-            files = [files filter:warPredicate];
-    }
-    else {
-        files = @[ rootURL ];
-    }
-    
-    return [files map:^ id (id f) {
-        return @{
-        @"fn" : StripBasePath(rootURL, f),
-        @"size": SizeOfFile(f),
-        @"sha1": CalculateSHA1OfFileAtPath(f)
-        };
-    }];
-}
-
-- (NSURL *)createSlugFromManifest:(id)manifest path:(NSURL *)rootURL {
-    if (!URLIsDirectory(rootURL)) {
-        NSString *parentDirComponents = [NSString pathWithComponents:[rootURL.pathComponents.rac_sequence take:rootURL.pathComponents.count - 1].array];
-        rootURL = [NSURL fileURLWithPath:parentDirComponents];
-    }
-    
-    NSString *slugPath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorSlug.zip"]];
-    [[NSFileManager defaultManager] removeItemAtPath:slugPath error:nil];
-    NSURL *path = [NSURL fileURLWithPath:slugPath];
-    
-    NSTask *task = [NSTask new];
-    task.launchPath = @"/usr/bin/zip";
-    task.currentDirectoryPath = rootURL.path;
-    task.arguments = [@[path.path] concat:[manifest map:^id(id f) {
-        return f[@"fn"];
-    }]];
-    
-    [task launch];
-    [task waitUntilExit];
-    return path;
-}
-
-- (BOOL)createMultipartMessageFromManifest:(id)manifest slug:(NSURL *)slug outMessagePath:(NSString **)outMessagePath outContentLength:(NSNumber **)outContentLength outBoundary:(NSString **)outBoundary error:(NSError **)error {
-    *outBoundary = @"BVANDERVEEN_WAS_HERE_AND_IT_WAS_PRETTY_RADICAL";
-    
-    *outMessagePath = [NSString pathWithComponents:@[NSTemporaryDirectory(), @"ThorMultipartMessageBuffer"]];
-    NSOutputStream *tempFile = [NSOutputStream outputStreamToFileAtPath:*outMessagePath append:NO];
-    
-    [tempFile open];
-    
-    [tempFile writeString:[NSString stringWithFormat:@"--%@\r\n", *outBoundary]];
-    [tempFile writeString:@"Content-Disposition: form-data; name=\"_method\"\r\n\r\n"];
-    [tempFile writeString:@"put"];
-    [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", *outBoundary]];
-    [tempFile writeString:@"Content-Disposition: form-data; name=\"resources\"\r\n\r\n"];
-    [tempFile writeData:[manifest JSONDataRepresentation]];
-    [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@\r\n", *outBoundary]];
-    [tempFile writeString:@"Content-Disposition: form-data; name=\"application\"\r\n"];
-    [tempFile writeString:@"Content-Type: application/zip\r\n\r\n"];
-    
-    NSInputStream *slugFile = [NSInputStream inputStreamWithURL:slug];
-    [slugFile open];
-    
-    [tempFile writeStream:slugFile];
-    [slugFile close];
-    
-    [tempFile writeString:[NSString stringWithFormat:@"\r\n--%@--\r\n", *outBoundary]];
-    
-    [tempFile close];
-    
-    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:*outMessagePath error:error];
-    
-    if (!attributes) {
-        return NO;
-    }
-    
-    *outContentLength = (NSNumber *)attributes[NSFileSize];
-    return YES;
-}
-
-@end
-
 @implementation FoundryService
 
 @synthesize name, vendor, version, type;
@@ -782,7 +684,6 @@ NSString *FoundryPushStageString(FoundryPushStage stage) {
 @interface FoundryClient ()
 
 @property (nonatomic, copy) NSString *token;
-@property (nonatomic, strong) SlugService *slugService;
 
 @end
 
@@ -790,7 +691,7 @@ static NSMutableDictionary *clients;
 
 @implementation FoundryClient
 
-@synthesize endpoint, token, slugService;
+@synthesize endpoint, token;
 
 + (void)initialize {
     clients = [@{} mutableCopy];
@@ -806,7 +707,6 @@ static NSMutableDictionary *clients;
 - (id)initWithEndpoint:(FoundryEndpoint *)lEndpoint {
     if (self = [super init]) {
         self.endpoint = lEndpoint;
-        self.slugService = [[SlugService alloc] init];
     }
     return self;
 }
@@ -930,55 +830,79 @@ static NSMutableDictionary *clients;
     return [endpoint authenticatedRequestWithMethod:@"DELETE" path:[NSString stringWithFormat:@"/services/%@", name] headers:nil body:nil];
 }
 
-- (RACSignal *)pushAppWithName:(NSString *)name fromLocalPath:(NSString *)localPath {
+- (RACSignal *)pushAppWithName:(NSString *)name fromLocalPath:(NSString *)localPath packaging:(id<Packaging>)packaging {
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSURL *archiveFileURL = packaging.archiveFileURL;
+        NSURL *explodeDirectoryURL = packaging.explodeDirectoryURL;
+        NSURL *messageFileURL = packaging.messageFileURL;
+        
+        [archiveFileURL removeItem];
+        [explodeDirectoryURL removeItem];
+        [messageFileURL removeItem];
+        
         NSURL *rootURL = [NSURL fileURLWithPath:localPath];
+        NSURL *resolved = [packaging resolveURL:rootURL];
+        
+        BOOL shouldUnpack = [packaging shouldUnpackURL:resolved];
+        
+        if (shouldUnpack) {
+            [packaging unarchive:resolved toURL:explodeDirectoryURL];
+        }
+        else if (resolved && !resolved.isDirectory) {
+            [[NSFileManager defaultManager] copyItemAtURL:resolved toURL:explodeDirectoryURL error:nil];
+        }
+        else {
+            NSArray *includedFiles = [packaging includedFilesInDirectory:resolved];
+            [packaging copyFiles:includedFiles inDirectory:resolved toDirectory:explodeDirectoryURL];
+        }
         
         [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageBuildingManifest]];
-        id manifest = [slugService createManifestFromPath:rootURL];
+        NSArray *archiveFiles = [packaging includedFilesInDirectory:explodeDirectoryURL];
         
         [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageCompressingFiles]];
-        NSURL *slug = [slugService createSlugFromManifest:manifest path:rootURL];
+        [packaging archiveFiles:archiveFiles inDirectory:explodeDirectoryURL archiveURL:archiveFileURL];
         
-        NSString *messagePath, *boundary;
-        NSNumber *contentLength;
-        NSError *error;
+        __block BOOL deletedTempFiles = NO;
         
-        __block BOOL deletedTempFile = NO;
-        
-        void (^deleteTempFile)() = ^ {
-            if (deletedTempFile) return;
-            deletedTempFile = YES;
+        void (^deleteTempFiles)() = ^ {
+            if (deletedTempFiles) return;
+            deletedTempFiles = YES;
             NSError *error = nil;
-            [[NSFileManager defaultManager] removeItemAtPath:messagePath error:&error];
+            
+            [[NSFileManager defaultManager] removeItemAtURL:archiveFileURL error:&error];
+            [[NSFileManager defaultManager] removeItemAtURL:explodeDirectoryURL error:&error];
+            [[NSFileManager defaultManager] removeItemAtURL:messageFileURL error:&error];
         };
         
         [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageWritingPackage]];
         
-        if (![slugService createMultipartMessageFromManifest:manifest slug:slug outMessagePath:&messagePath outContentLength:&contentLength outBoundary:&boundary error:&error]) {
-            deleteTempFile();
-            [subscriber sendError:error];
-            return nil;
-        }
+        id manifest = [packaging manifestForFiles:archiveFiles inDirectory:explodeDirectoryURL];
+        
+        NSString *boundary = @"HelloFromThorMessageBoundaryTokenThing";
+        [packaging writeMultipartMessage:messageFileURL withManifest:manifest archive:archiveFileURL boundary:boundary];
         
         [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageUploadingPackage]];
+        
+        NSNumber *contentLength = messageFileURL ? messageFileURL.fileSize : @0;
+        
+        NSInputStream *body = messageFileURL ? [NSInputStream inputStreamWithFileAtPath:messageFileURL.path] : nil;
         
         RACSignal *upload = [endpoint authenticatedRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"/apps/%@/application", name] headers:@{
                                    @"Content-Type": [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary],
                                    @"Content-Length": [contentLength stringValue],
-                                    } body:[NSInputStream inputStreamWithFileAtPath:messagePath]];
+                                    } body:body];
         
         RACDisposable *inner = [upload subscribeNext:^(id x) {
             [subscriber sendNext:[NSNumber numberWithInt:FoundryPushStageFinished]];
         } error:^(NSError *error) {
             [subscriber sendError:error];
         } completed:^{
-            deleteTempFile();
+            deleteTempFiles();
             [subscriber sendCompleted];
         }];
         
         return [RACDisposable disposableWithBlock:^ {
-            deleteTempFile();
+            deleteTempFiles();
             [inner dispose];
         }];
     }];
